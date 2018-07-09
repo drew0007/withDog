@@ -65,9 +65,6 @@
 	 <div style="border: 2px solid; padding: 3px"  id="detail">
 	 상세 정보 출력 박스
 	 </div>
-	 <div style="border: 2px solid; padding: 3px"  id="youtube">
-	 유튜브영상
-	 </div>      
 	
 	<a href=""></a>
 	<a ></a>
@@ -207,7 +204,7 @@ function googleVision(a) {
 										///////자체번역
 										$.ajax(
 												{
-													url : "/dictionary/json/getTranslate",
+													url : "/dogBreedDic/json/getDogBreedKO",
 													method : "POST",
 													dataType : "json",
 													async: false,
@@ -216,7 +213,7 @@ function googleVision(a) {
 														"Content-Type" : "application/json"
 													},
 													data : JSON.stringify({
-														en : kind
+														dogBreedEN : kind
 													}),
 													success : function(data,status) {
 														if (data.key==null || data.key==""){
@@ -239,13 +236,11 @@ function googleVision(a) {
 									$("td:nth-child(1)").on("click", function () {
 										$("#detail").empty();
 										//$("#youtube").empty();
-										$("#youtube").html("")
-										$("#youtube").html("<div id='youtube2'></div>")
 										
 										var  index = $("td:nth-child(1)").index(this);
 										var name = $($("td:nth-child(1)")[index]).text();
 										$.ajax({
-										url : "/dictionary/json/getDetail",
+										url : "/dogBreedDic/json/getDogBreedInfoList",
 										method : "post",
 										dataType : "json",
 										headers : {
@@ -253,54 +248,14 @@ function googleVision(a) {
 											"Content-Type" :  "application/json"
 										},
 										data : JSON.stringify({
-											ko : name
+											dogBreedKO : name
 										}),
 										success : function (data) {
 											console.log(data)
-											var inputData = "이름 : "+data.detail[0].ko+"<br/> 신장 : " + data.detail[0].height + "<br/> 체중 : " + data.detail[0].weight
-											+ "색깔 : " + data.detail[0].color + "<br/> 출생지 : " + data.detail[0].placeOfBirth + "<br/> 성격 : " + data.detail[0].personality
-											+ "<br/> 링크 : " + "<a href="+data.detail[0].link+">" + data.detail[0].link+"</a>"
+											var inputData = "이름 : "+data.dogBreedInfo[0].dogBreedKO+"<br/> 신장 : " + data.dogBreedInfo[0].dogHeight + "<br/> 체중 : " + data.dogBreedInfo[0].dogWeight
+											+ "색깔 : " + data.dogBreedInfo[0].dogColor + "<br/> 출생지 : " + data.dogBreedInfo[0].dogPlace + "<br/> 성격 : " + data.dogBreedInfo[0].dogPersonality
+											+ "<br/> 링크 : " + "<a href="+data.dogBreedInfo[0].dogLink+">" + data.dogBreedInfo[0].dogLink+"</a>"
 											$("#detail").append(inputData)
-											
-											/////////////////유튜브
-											$.ajax(
-													{
-													  dataType: "json",
-													  url: 
-													    'https://www.googleapis.com/youtube/v3/search'+
-													    '?part=snippet'+
-													    '&maxResults=5'+
-													    '&order=viewCount'+
-													    '&q='+data.detail[0].en+"'"+
-											//		    '&q=태연'+
-													    '&type=video'+
-													    '&videoDefinition=high'+
-													    '&regionCode =ISO 3166-1 alpha-2'+
-													    '&key=AIzaSyDY67FTw3lBX8Xc3oIFei_nXw4vsTS6ib8',
-													success : function(data){
-														
-														console.log(data)
-														console.log(data.items[0].id.videoId)
-														var tag = document.createElement('script');
-														tag.src = "https://www.youtube.com/iframe_api";
-														var firstScriptTag = document.getElementsByTagName('script')[0];
-														firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-														var player;
-														onYouTubeIframeAPIReady = function(event){
-															   player = new YT.Player('youtube2', {
-															     height: '360',
-															     width: '640',
-															     videoId: data.items[0].id.videoId,
-															     events: {
-															       'onReady': onPlayerReady,
-															       //'onStateChange': onPlayerStateChange
-															     }
-															   });
-															 }
-													}
-													});
-											
-											/////////유튜브
 											
 										}
 										})
@@ -318,27 +273,8 @@ function googleVision(a) {
 }
 
 
- function onPlayerReady(event) {
-     event.target.playVideo();
-   }
-//  var done = false;
-//  function onPlayerStateChange(event) {
-//    if (event.data == YT.PlayerState.PLAYING && !done) {
-//      setTimeout(stopVideo, 6000);
-//      done = true;
-//    }
-//  }
- function stopVideo() {
-   player.stopVideo();
- }
-
 
 </script>
-
-
-
-
-
 
 </body>
 

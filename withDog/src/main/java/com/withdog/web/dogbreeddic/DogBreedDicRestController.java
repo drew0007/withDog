@@ -26,10 +26,10 @@ public class DogBreedDicRestController {
 		
 	}
 	@RequestMapping(value = "json/getDogBreedKO")
-	public JSONObject getDogBreedKO(@PathVariable String dogBreedEN) throws Exception{
+	public JSONObject getDogBreedKO(@RequestBody DogBreedDic dogBreedDic  ) throws Exception{
 		System.out.println("/dogBreedDic/json/getDogBreedKO");
 		
-		String dogBreedKO = dogBreedDicService.getDogBreedKO(dogBreedEN);
+		String dogBreedKO = dogBreedDicService.getDogBreedKO(dogBreedDic.getDogBreedEN());
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("key", dogBreedKO);
 		System.out.println(jsonObject.toJSONString());
