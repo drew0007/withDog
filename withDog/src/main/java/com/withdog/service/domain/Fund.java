@@ -13,18 +13,19 @@ public class Fund {
 	private Point point;
 	private int fundNo;
 	private String fundTitle;
-	private String fundImg;
+	private String fundImage;
 	private String fundCenter;
 	private String fundPhone;
 	private String fundTerm;
 	private int fundRaising;
 	private int fundPersonnel;
-	private int fundMyPriceNo;
-	private int fundPay;
 	private int fundResultPrice;
 	private String fundState;
 	private int fundMyPrice;
 	private Date fundMyDate;
+	private int fundMyPriceNo;
+	private int fundPay;
+	private String fundContent;
 	private String paymentOption;
 	private String reqName;
 	private String reqCenter;
@@ -54,11 +55,12 @@ public class Fund {
 	public void setFundTitle(String fundTitle) {
 		this.fundTitle = fundTitle;
 	}
-	public String getFundImg() {
-		return fundImg;
+	
+	public String getFundImage() {
+		return fundImage;
 	}
-	public void setFundImg(String fundImg) {
-		this.fundImg = fundImg;
+	public void setFundImage(String fundImage) {
+		this.fundImage = fundImage;
 	}
 	public String getFundCenter() {
 		return fundCenter;
@@ -168,18 +170,25 @@ public class Fund {
 	public void setPaymentOption(String paymentOption) {
 		this.paymentOption = paymentOption;
 	}
-	@Override
-	public String toString() {
-		return "Fund [point=" + point + ", fundNo=" + fundNo + ", fundTitle=" + fundTitle + ", fundImg=" + fundImg
-				+ ", fundCenter=" + fundCenter + ", fundPhone=" + fundPhone + ", fundTerm=" + fundTerm
-				+ ", fundRaising=" + fundRaising + ", fundPersonnel=" + fundPersonnel + ", fundMyPriceNo="
-				+ fundMyPriceNo + ", fundPay=" + fundPay + ", fundResultPrice=" + fundResultPrice + ", fundState="
-				+ fundState + ", fundMyPrice=" + fundMyPrice + ", fundMyDate=" + fundMyDate + ", paymentOption="
-				+ paymentOption + ", reqName=" + reqName + ", reqCenter=" + reqCenter + ", reqPhone=" + reqPhone
-				+ ", reqDetail=" + reqDetail + ", reqAccount=" + reqAccount + ", reqFile=" + reqFile + "]";
+	
+	public String getFundContent() {
+		return fundContent;
+	}
+	public void setFundContent(String fundContent) {
+		this.fundContent = fundContent;
 	}
 	
-	
-	
+	@Override
+	public String toString() {
+		return "Fund [point=" + point + ", fundNo=" + fundNo + ", fundTitle=" + fundTitle + ", fundImage=" + fundImage
+				+ ", fundCenter=" + fundCenter + ", fundPhone=" + fundPhone + ", fundTerm=" + fundTerm
+				+ ", fundRaising=" + fundRaising + ", fundPersonnel=" + fundPersonnel + ", fundResultPrice="
+				+ fundResultPrice + ", fundState=" + fundState + ", fundMyPrice=" + fundMyPrice + ", fundMyDate="
+				+ fundMyDate + ", fundMyPriceNo=" + fundMyPriceNo + ", fundPay=" + fundPay + ", fundContent="
+				+ fundContent + ", paymentOption=" + paymentOption + ", reqName=" + reqName + ", reqCenter=" + reqCenter
+				+ ", reqPhone=" + reqPhone + ", reqDetail=" + reqDetail + ", reqAccount=" + reqAccount + ", reqFile="
+				+ reqFile + "]";
+	}
+
 
 }
