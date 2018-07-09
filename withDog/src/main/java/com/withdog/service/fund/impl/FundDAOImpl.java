@@ -13,23 +13,33 @@ import org.springframework.stereotype.Repository;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.fund.FundDAO;
 
-//@Repository("fundDAOImpl")
+
+@Repository("fundDAOImpl")
 public class FundDAOImpl implements FundDAO{
 	
-//	@Autowired
-//	@Qualifier("sqlSessionTemplate")
+	@Autowired
+	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+	
+	public FundDAOImpl() {
+		// TODO Auto-generated constructor stub
+		System.out.println(this.getClass());
+	}
+	
 	@Override
 	public Fund getFund(int fundNo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("getFund", fundNo);
 	}
 
 	@Override
 	public int addFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("addFund",fund);
 	}
 
 	@Override
@@ -61,6 +71,13 @@ public class FundDAOImpl implements FundDAO{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<Fund> getFundList() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("getFundList");
+	}
+	
 	
 
 	

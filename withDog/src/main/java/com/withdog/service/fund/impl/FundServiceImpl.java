@@ -15,25 +15,30 @@ import com.withdog.service.fund.FundDAO;
 import com.withdog.service.fund.FundService;
 
 
-//@Service("fundServiceImpl")
+
+
+@Service("fundServiceImpl")
 public class FundServiceImpl implements FundService{
 	
 	
 	
-//	@Autowired
-//	@Qualifier("productDaoImpl")
+	@Autowired
+	@Qualifier("fundDAOImpl")
 	private FundDAO fundDAO;
 
+	
+	
+	
 	@Override
 	public Fund getFund(int fundNo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return fundDAO.getFund(fundNo);
 	}
 
 	@Override
 	public int addFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return fundDAO.addFund(fund);
 	}
 
 	@Override
@@ -65,6 +70,14 @@ public class FundServiceImpl implements FundService{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<Fund> getFundList() throws Exception {
+		// TODO Auto-generated method stub
+		return fundDAO.getFundList();
+	}
+
+	
 	
 	
 

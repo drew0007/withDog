@@ -1,11 +1,15 @@
 package com.withdog.service.fund;
 
+import java.util.List;
+
 import com.withdog.service.domain.Fund;
+
+
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition  
 public interface FundService {
 	
-	//public Map<String,Object> getFundList(Search search) throws Exception;
+	public List<Fund> getFundList() throws Exception;
 	
 	public Fund getFund(int fundNo) throws Exception;
 		
