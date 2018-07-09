@@ -69,7 +69,7 @@
    	<mvc:resources mapping="/common/**" location="/common/" />
    	<mvc:resources mapping="/fonts/**" location="/fonts/" />
    	
-
+  
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
 			:: Servlet 에서의 선언적 예외처리를 다시 생각하며....  -->
 	<bean id="exceptionResolver"
@@ -87,6 +87,7 @@
 	</bean>
 	
 
+	
 	 <!-- /////// Client 에서 전달되는 JSON Data 를 Domain Object 롤 변환 받기위한 설정 ///////-->
 	<bean id="jsonConverter"	class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />
