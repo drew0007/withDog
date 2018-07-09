@@ -1,0 +1,122 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<jsp:include page="/common/css.jsp" />
+<title>크라우드펀딩등록</title>
+
+<script type="text/javascript">
+	
+</script>
+</head>
+<style type="text/css">
+.calendar-icon { 	display: flex; align-items: center;}
+.calendar-icon i { margin-left:-30px; z-index:999; margin-right:10px;}
+</style>
+<body>
+
+	<jsp:include page="/layout/store-sub-header.jsp" />
+
+	<!-- head section -->
+	<section
+		class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
+	<img class="parallax-background-img" src="../images/sub/700_bg.jpg"
+		alt="" />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+				<!-- page title -->
+				<h1 class="white-text">CrowdFunding Registration</h1>
+				<!-- end page title -->
+				<!-- page title tagline -->
+				<span class="white-text xs-display-none">Register
+					crowdfunding information.</span>
+				<!-- end title tagline -->
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- end head section -->
+
+	<!-- content section -->
+	<section class="wow fadeIn">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
+				<form>
+
+					<div class="form-group no-margin-bottom">
+						<!-- label  -->
+						<label class>펀딩제목</label>
+						<!-- end label  -->
+						<!-- input  -->
+						<input type="text" name="fundTitle" id="fundTitle" class="big-input">
+						<!-- end input  -->
+					</div>
+
+					<div class="form-group no-margin-bottom">
+						<!-- label  -->
+						<label>펀딩요청기관</label>
+						<!-- end label  -->
+						<!-- input  -->
+						<input type="text" name="fundCenter" id="fundCenter" class="big-input">
+						<!-- end input  -->
+					</div>
+
+					<div class="form-group no-margin-bottom">
+						<!-- label  -->
+						<label>펀딩기간</label>
+						<!-- end label  -->
+					</div>
+
+					<div class="form-group calendar-icon no-margin-bottom" >
+						<!-- input  -->
+						<input type="text" placeholder="펀딩시작" class="big-input col-md-6" name="fundTerm">
+						<i class="fa fa-calendar small-icon form-group" style="padding-left:-20px;"></i>
+						<input type="text" placeholder="펀딩종료" class="big-input col-md-6" name="fundTerm">
+						<i class="fa fa-calendar small-icon form-group" ></i>
+						<!-- end input  -->
+					</div>
+
+					<div class="form-group margin margin-two-bottom">
+						<!-- label  -->
+						<label>펀딩이미지</label>
+						<!-- end label  -->
+						<!-- input  -->
+						<input type="file" name="fundImage" id="fundImage" class="big-input">
+						<!-- end input  -->
+					</div>
+
+					<div class="form-group no-margin-bottom">
+						<!-- label  -->
+						<label>펀딩상세내용</label>
+						<!-- end label  -->
+						<!-- input  -->
+						<textarea name="fundContent" placeholder="펀딩상세내용"></textarea>
+						<!-- end input  -->
+					</div>
+
+				</form>
+				<div class="text-center">
+					<a href="#" class="highlight-button btn btn-medium">펀딩등록</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- end content section -->
+
+
+
+
+
+	<jsp:include page="/layout/footer.jsp" />
+
+	<jsp:include page="/common/js.jsp" />
+
+</body>
+</html>
