@@ -15,13 +15,13 @@ import com.withdog.service.fund.FundDAO;
 import com.withdog.service.fund.FundService;
 
 
-@Service("fundServiceImpl")
+//@Service("fundServiceImpl")
 public class FundServiceImpl implements FundService{
 	
 	
 	
-	@Autowired
-	@Qualifier("productDaoImpl")
+//	@Autowired
+//	@Qualifier("productDaoImpl")
 	private FundDAO fundDAO;
 
 	@Override

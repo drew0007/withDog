@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-@Repository("purchaseDaoImpl")
+//@Repository("purchaseDaoImpl")
 public class PurchaseDaoImpl {
 	
-	@Autowired
-	@Qualifier("sqlSessionTemplate")
+//	@Autowired
+//	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 	
 	public void setSqlSession(SqlSession sqlSession) {

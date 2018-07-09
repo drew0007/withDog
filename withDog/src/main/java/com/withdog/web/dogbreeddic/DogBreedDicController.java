@@ -12,7 +12,7 @@ import com.withdog.service.dogbreeddic.DogBreedDicService;
 public class DogBreedDicController {
 	
 	@Autowired
-	@Qualifier("")
+	@Qualifier("dogBreedDicServiceImpl")
 	private DogBreedDicService dogBreedDicService;
 	
 	public DogBreedDicController() {

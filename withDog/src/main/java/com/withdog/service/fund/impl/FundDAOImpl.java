@@ -13,11 +13,11 @@ import org.springframework.stereotype.Repository;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.fund.FundDAO;
 
-@Repository("fundDAOImpl")
+//@Repository("fundDAOImpl")
 public class FundDAOImpl implements FundDAO{
 	
-	@Autowired
-	@Qualifier("sqlSessionTemplate")
+//	@Autowired
+//	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 
 	@Override

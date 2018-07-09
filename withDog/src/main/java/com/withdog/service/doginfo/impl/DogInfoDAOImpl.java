@@ -1,12 +1,12 @@
-package com.withdog.service.dogbreeddic.impl;
+package com.withdog.service.doginfo.impl;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-@Repository("dogBreedDicDaoImpl")
-public class DogBreedDicDaoImpl {
+@Repository("dogInfoDaoImpl")
+public class DogInfoDAOImpl {
 	
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
@@ -16,8 +16,7 @@ public class DogBreedDicDaoImpl {
 		this.sqlSession = sqlSession;
 	}
 	
-	public DogBreedDicDaoImpl() {
+	public DogInfoDAOImpl() {
 		System.out.println(this.getClass());
 	}
-
 }

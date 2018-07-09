@@ -2,38 +2,44 @@ package com.withdog.service.dogbreeddic.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.withdog.service.dogbreeddic.DogBreedDicDAO;
-import com.withdog.service.dogbreeddic.DogBreedDicService;
 import com.withdog.service.domain.DogBreedDic;
 
-@Service("dogBreedDicServiceImpl")
-public class DogBreedDicServiceImpl implements DogBreedDicService {
-
+@Repository("dogBreedDicDAOImpl")
+public class DogBreedDicDAOImpl implements DogBreedDicDAO {
+//
 	@Autowired
-	@Qualifier("dogBreedDicDAOImpl")
-	private DogBreedDicDAO dogBreedDicDAO;
+	@Qualifier("sqlSessionTemplate")
+	private SqlSession sqlSession;
 
-	public DogBreedDicServiceImpl() {
-		System.out.println(this.getClass());
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
 	}
 
-	public void setdogBreedDicDAO(DogBreedDicDAO dogBreedDicDAO) {
-		this.dogBreedDicDAO = dogBreedDicDAO;
+	public DogBreedDicDAOImpl() {
+		System.out.println(this.getClass());
 	}
 
 	@Override
 	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<DogBreedDic> getDogBreedInfoList(String dogBreedKo) throws Exception {
+	public String getDogBreedKO(String dogBreedEN) throws Exception {
+		return sqlSession.selectOne("DogBreedDicMapper.getDogBreedKO", dogBreedEN);
+	}
+
+	@Override
+	public List<DogBreedDic> getDogBreedInfoList(String dogBreedKO) throws Exception {
 		// TODO Auto-generated method stub
-		return dogBreedDicDAO.getDogBreedInfoList(dogBreedKo);
+		return sqlSession.selectList("DogBreedDicMapper.getDogBreedInfoList", dogBreedKO);
 	}
 
 	@Override
@@ -52,11 +58,6 @@ public class DogBreedDicServiceImpl implements DogBreedDicService {
 	public int deleteDogBreedInfo(int dogNo) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public String getDogBreedKO(String dogBreedEN) throws Exception {
-		return dogBreedDicDAO.getDogBreedKO(dogBreedEN);
 	}
 
 }

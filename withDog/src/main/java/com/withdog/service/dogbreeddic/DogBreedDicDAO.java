@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.withdog.service.domain.DogBreedDic;
 
-public interface DogBreedDicService {
+public interface DogBreedDicDAO {
 	
 	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception;
 

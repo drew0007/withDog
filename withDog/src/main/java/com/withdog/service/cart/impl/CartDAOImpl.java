@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 import com.withdog.service.chat.ChatDAO;
 import com.withdog.service.domain.Chat;
 
-@Repository("cartDAOImpl")
+//@Repository("cartDAOImpl")
 public class CartDAOImpl {
 
-	@Autowired
-	@Qualifier("sqlSessionTemplate")
+//	@Autowired
+//	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 
 	public void setSqlSession(SqlSession sqlSession) {

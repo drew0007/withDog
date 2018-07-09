@@ -15,12 +15,14 @@
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
 	<typeAliases>
 		<typeAlias alias="user" type="com.withdog.service.domain.User" />
+		<typeAlias alias="dogBreedDic" type="com.withdog.service.domain.DogBreedDic" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>
+		<mapper resource="sql/DogBreedDicMapper.xml"/>
 	</mappers>
 
 </configuration>
