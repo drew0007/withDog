@@ -12,6 +12,8 @@ public interface DogBreedDicService {
 	
 	public List<DogBreedDic> getDogBreedInfoList(String dogBreedKO) throws Exception;
 	
+	public List<DogBreedDic> getAllDogBreedInfoList() throws Exception;
+	
 	public int addDogBreedInfo(DogBreedDic dogBreedDic) throws Exception; // 包府磊
 	
 	public int updateDogBreedInfo(DogBreedDic dogBreedDic) throws Exception; // 包府磊

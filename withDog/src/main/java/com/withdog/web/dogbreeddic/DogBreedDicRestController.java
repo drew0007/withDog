@@ -46,5 +46,14 @@ public class DogBreedDicRestController {
 		System.out.println(jsonObject.toJSONString());
 		return jsonObject;
 	}
+	
+	public JSONObject getAllDogBreedInfoList() throws Exception{
+		System.out.println("/dogBreedDic/json/getAllDogBreedInfo");
+		List<DogBreedDic> allDogBreedInfo = dogBreedDicService.getAllDogBreedInfoList();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("allDogBreedInfo", allDogBreedInfo);
+		System.out.println(jsonObject.toJSONString());
+		return jsonObject;
+	}
 
 }

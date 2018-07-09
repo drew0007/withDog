@@ -35,6 +35,11 @@
 		FROM dog_breed_dic
 		WHERE dog_breed_ko = #{value}
 	</select>
+	
+	<select id="getAllDogBreedInfoList" resultMap="dogBreedDicSelectMap">
+		SELECT *
+		FROM dog_breed_dic
+	</select>
 
 
 </mapper>
