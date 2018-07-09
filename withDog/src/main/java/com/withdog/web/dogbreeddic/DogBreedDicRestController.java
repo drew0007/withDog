@@ -46,7 +46,7 @@ public class DogBreedDicRestController {
 		System.out.println(jsonObject.toJSONString());
 		return jsonObject;
 	}
-	
+	@RequestMapping(value = "json/getAllBreedInfoList")
 	public JSONObject getAllDogBreedInfoList() throws Exception{
 		System.out.println("/dogBreedDic/json/getAllDogBreedInfo");
 		List<DogBreedDic> allDogBreedInfo = dogBreedDicService.getAllDogBreedInfoList();
