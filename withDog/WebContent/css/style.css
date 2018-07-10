@@ -1535,6 +1535,7 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .input-round { border-radius:4px !important }
 .big-input, .big-textarea, .big-select { padding: 12px 25px 11px; border:1px solid rgba(0,0,0,.2);}
 .big-label {font-size:14px; letter-spacing:2px;}
+.big-input2 {padding: 20px 25px 11px;]}
 
 /* only ie7, ie9, ie10, ie11 */
 @media screen\0 { .big-input, .big-textarea, .big-select { /* ie7, ie9, ie10, ie11+ only */ padding-bottom: 20px; } }
