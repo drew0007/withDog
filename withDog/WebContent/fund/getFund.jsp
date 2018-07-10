@@ -126,7 +126,7 @@ $(function(){
 				                                <label class="pull-left">후원할 금액</label>
 				                                <!-- end label  -->
 				                                <!-- input  -->
-				                                <input type="text" name="fundMyPrice" id="fundMyPrice"  class="big-input">
+				                                <input type="text" name="fundMyPrice" id="fundMyPrice"  class="big-input" value=0>
 				                                <!-- end input  -->
 				                            </div>
 				                            
@@ -135,7 +135,7 @@ $(function(){
 				                                <label class="pull-left">사용할 포인트</label>
 				                                <!-- end label  -->
 				                                <!-- input  -->
-				                                <input type="text" name="usePoint" id="usePoint"  class="big-input no-margin-bottom">
+				                                <input type="text" name="usePoint" id="usePoint"  class="big-input no-margin-bottom" value=0>
 				                                <div class="pull-right">[현재 1000 point 보유]</div>
 				                                
 				                                <!-- end input  -->

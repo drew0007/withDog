@@ -161,11 +161,11 @@
                                     <!-- sub menu single -->
                                     <!-- sub menu item  -->
                                     <ul id="collapse6" class="dropdown-menu panel-collapse collapse" role="menu">
-                                        <li class="dropdown-header">크라우드펀딩</li>
-                                        <li><a href="../fund/fundGuid.jsp">크라우드펀딩이란?</a></li>
-                                        <li><a href="../fund/listFund.jsp">크라우드펀딩 목록</a></li>
-                                        <li><a href="../fund/listFund2.jsp">펀딩완료목록</a></li>
-                                        <li><a href="../fund/fundReq.jsp">크라우드펀딩 신청 문의</a></li>
+                                       <li class="dropdown-header">크라우드펀딩</li>
+                                        <li><a href="/fund/fundGuid">크라우드펀딩이란?</a></li>
+                                        <li><a href="/fund/getFundList">크라우드펀딩 목록</a></li>
+                                        <li><a href="/fund/getFundList">펀딩완료목록</a></li>
+                                        <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>>
                                     </ul>
                                     <!-- end sub menu item  -->
                                     <!-- end sub menu single -->

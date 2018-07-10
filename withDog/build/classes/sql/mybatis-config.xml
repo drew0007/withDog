@@ -17,14 +17,19 @@
 		<typeAlias alias="user" type="com.withdog.service.domain.User" />
 		<typeAlias alias="dogBreedDic" type="com.withdog.service.domain.DogBreedDic" />
 		<typeAlias alias="fund" type="com.withdog.service.domain.Fund" />
+		<typeAlias alias="point" type="com.withdog.service.domain.Point" />
+		<typeAlias alias="ash" type="com.withdog.service.domain.Ash" />
+		<typeAlias alias="purchase" type="com.withdog.service.domain.Purchase" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
+		<mapper resource="sql/CommonMapper.xml"/>
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/DogBreedDicMapper.xml"/>
 		<mapper resource="sql/FundMapper.xml"/>
+		
 	</mappers>
 
 </configuration>

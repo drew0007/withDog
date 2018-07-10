@@ -33,13 +33,13 @@ public class FundDAOImpl implements FundDAO{
 	@Override
 	public Fund getFund(int fundNo) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("getFund", fundNo);
+		return sqlSession.selectOne("FundMapper.getFund", fundNo);
 	}
 
 	@Override
 	public int addFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("addFund",fund);
+		return sqlSession.insert("FundMapper.addFund",fund);
 	}
 
 	@Override
@@ -75,7 +75,13 @@ public class FundDAOImpl implements FundDAO{
 	@Override
 	public List<Fund> getFundList() throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("getFundList");
+		return sqlSession.selectList("FundMapper.getFundList");
+	}
+
+	@Override
+	public void addFundRaising(Fund fund) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert("FundMapper.addFundRaising",fund);
 	}
 	
 	

@@ -9,7 +9,7 @@ public class Fund {
 		super();
 		
 	}
-	//private User user;
+	private User user;
 	private Point point;
 	private int fundNo;
 	private String fundTitle;
@@ -178,17 +178,28 @@ public class Fund {
 		this.fundContent = fundContent;
 	}
 	
+	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	@Override
 	public String toString() {
-		return "Fund [point=" + point + ", fundNo=" + fundNo + ", fundTitle=" + fundTitle + ", fundImage=" + fundImage
-				+ ", fundCenter=" + fundCenter + ", fundPhone=" + fundPhone + ", fundTerm=" + fundTerm
-				+ ", fundRaising=" + fundRaising + ", fundPersonnel=" + fundPersonnel + ", fundResultPrice="
+		return "Fund [user=" + user + ", point=" + point + ", fundNo=" + fundNo + ", fundTitle=" + fundTitle
+				+ ", fundImage=" + fundImage + ", fundCenter=" + fundCenter + ", fundPhone=" + fundPhone + ", fundTerm="
+				+ fundTerm + ", fundRaising=" + fundRaising + ", fundPersonnel=" + fundPersonnel + ", fundResultPrice="
 				+ fundResultPrice + ", fundState=" + fundState + ", fundMyPrice=" + fundMyPrice + ", fundMyDate="
 				+ fundMyDate + ", fundMyPriceNo=" + fundMyPriceNo + ", fundPay=" + fundPay + ", fundContent="
 				+ fundContent + ", paymentOption=" + paymentOption + ", reqName=" + reqName + ", reqCenter=" + reqCenter
 				+ ", reqPhone=" + reqPhone + ", reqDetail=" + reqDetail + ", reqAccount=" + reqAccount + ", reqFile="
 				+ reqFile + "]";
 	}
-
+	
+	
+	
+	
 
 }

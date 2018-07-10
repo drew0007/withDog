@@ -1,1 +1,69 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommonMapper">
+ 	
+ 	
+	<resultMap id="pointSelectMap" type="point">
+		<result property="pointNo"  column="POINT_NO" 				jdbcType="INTEGER"/>
+	 	<result property="pointDate" column="REG_DATE"	 		jdbcType="DATE" />
+		<result property="usePoint" 	column="USE_POINT" 		jdbcType="INTEGER" />
+		<result property="point" 		column="POINT" 					jdbcType="INTEGER" />
+		<result property="currentPoint" 				column="CURRENT_POINT" 					jdbcType="INTEGER" />
+		<result property="user.userId" 		column="USER_ID" 				jdbcType="VARCHAR"  />
+		<result property="fund.fundMyPrice" 		column="FUND_MY_PRICE_NO" 				jdbcType="INTEGER"  />
+		<result property="ash.ashReservationNo" 		column="ASH_RESERVATION_NO" 				jdbcType="INTEGER"  />
+		<result property="purchase.purchaseNo" 		column="PURCHASE_NO" 				jdbcType="INTEGER"  />
+		
+	</resultMap>
+	
+
+	
+	
+	<select id="currentPoint" parameterType="point"	resultType="int">
+		select p.CURRENT_POINT from  point p,(select Max(point_no) mp from  point where USER_ID = #{user.userId}) pn where point_no=pn.mp  group by CURRENT_POINT
+	</select>
+	<!-- SQL : INSERT -->
+	<insert id="addFundPoint"	parameterType="point" >
+	 	INSERT
+		 INTO point 
+		 VALUES (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+												
+	 </insert>
+	 
+	 <insert id="addAshPoint"	parameterType="point" >
+	 	INSERT
+		 INTO fund VALUES 
+		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+												
+	 </insert>
+	 
+	 <insert id="addPurchasePoint"	parameterType="point" >
+	 	INSERT
+		 INTO fund VALUES 
+		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+												
+	 </insert>
+	 
+	 <insert id="addAshSave"	parameterType="point" >
+	 	INSERT
+		 INTO fund VALUES 
+		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+												
+	 </insert>
+	 
+	 <insert id="addPurchaseSave"	parameterType="point" >
+	 	INSERT
+		 INTO fund VALUES 
+		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+												
+	 </insert>
+	 
+	
+	 
+
+	 
+</mapper>
