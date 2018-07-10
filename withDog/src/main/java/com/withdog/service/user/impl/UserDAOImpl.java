@@ -1,40 +1,45 @@
 package com.withdog.service.user.impl;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserDAO;
-import com.withdog.service.user.UserService;
 
-@Service("userServiceImpl")
-public class UserServiceImpl implements UserService {
+@Repository("userDAOImpl")
+public class UserDAOImpl implements UserDAO {
 	
 	///Field
 	@Autowired
-	@Qualifier("userDAOImpl")
-	private UserDAO userDAO;
+	@Qualifier("sqlSessionTemplate")
+	private SqlSession sqlSession;
 	
-	///Constructor
-	public UserServiceImpl() {
-		System.out.println(this.getClass());
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
 	}
 	
+	///Constructor
+	public UserDAOImpl() {
+		System.out.println(this.getClass());
+	}
+
 	///Method
 	@Override
 	public void addUser(User user) throws Exception {
-		
-		
+		sqlSession.insert("UserMapper.addUser", user);
 	}
 
 	@Override
 	public User getUser(String userId) throws Exception {
-			return userDAO.getUser(userId);
+		return sqlSession.selectOne("UserMapper.getUser", userId);
 	}
 	
+
 
 	@Override
 	public void updateUser(User user) throws Exception {
@@ -52,6 +57,18 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(User user) throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public List<User> getUserListAdmin1() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -92,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateRecentlyDate(String userId) throws Exception {
-		userDAO.updateRecentlyDate(userId);
+		sqlSession.update("UserMapper.updateRecentlyDate", userId);
+		
 	}
-
 }
