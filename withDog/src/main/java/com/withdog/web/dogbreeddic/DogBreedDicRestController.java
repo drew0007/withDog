@@ -25,13 +25,13 @@ public class DogBreedDicRestController {
 		System.out.println(this.getClass());
 		
 	}
-	@RequestMapping(value = "json/getDogBreedKO")
-	public JSONObject getDogBreedKO(@RequestBody DogBreedDic dogBreedDic  ) throws Exception{
-		System.out.println("/dogBreedDic/json/getDogBreedKO");
+	@RequestMapping(value = "json/getDogBreed")
+	public JSONObject getDogBreed(@RequestBody DogBreedDic dogBreedDic  ) throws Exception{
+		System.out.println("/dogBreedDic/json/getDogBreed");
 		
-		String dogBreedKO = dogBreedDicService.getDogBreedKO(dogBreedDic.getDogBreedEN());
+		DogBreedDic dogBreed = dogBreedDicService.getDogBreed(dogBreedDic.getDogBreedEN());
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("key", dogBreedKO);
+		jsonObject.put("key", dogBreed);
 		System.out.println(jsonObject.toJSONString());
 		
 		return jsonObject;
@@ -52,7 +52,15 @@ public class DogBreedDicRestController {
 		List<DogBreedDic> allDogBreedInfo = dogBreedDicService.getAllDogBreedInfoList();
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("allDogBreedInfo", allDogBreedInfo);
-		System.out.println(jsonObject.toJSONString());
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getAllBreedInfoListByKo")
+	public JSONObject getAllDogBreedInfoListByKo() throws Exception{
+		System.out.println("/dogBreedDic/json/getAllDogBreedInfo");
+		List<DogBreedDic> allDogBreedInfo = dogBreedDicService.getAllDogBreedInfoListByKo();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("allDogBreedInfo", allDogBreedInfo);
 		return jsonObject;
 	}
 

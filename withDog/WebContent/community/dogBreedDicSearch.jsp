@@ -4,16 +4,504 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <jsp:include page="/common/css.jsp" />
 
 <title>견종백과 일반검색</title>
+<style type="text/css">
+  .ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  * html .ui-autocomplete {
+    height: 100px;
+  }
+
+  #dropzone
+    {
+        border:2px dotted #3292A2;
+        width:1200px;
+        height:500px;
+        color:#92AAB0;
+        text-align:center;
+        vertical-align:middle;
+        font-size:18px;
+        margin-top:10px;
+        padding-left: 15px;
+		padding-right: 15px;
+        display: inline-block;
+        line-height: 300px;
+        
+    }
+  #result_image
+    {
+        width:600px;
+        height:400px;
+        color:#92AAB0;
+        text-align:center;
+        vertical-align:middle;
+        font-size:18px;
+        margin-top:10px;
+        display: inline-block;
+        line-height: 300px;
+        
+    }
+  #result_image2
+    {
+        width:500px;
+        height:400px;
+        color:#92AAB0;
+        text-align:center;
+        vertical-align:middle;
+        font-size:18px;
+        margin-top:10px;
+        display: inline-block;
+        line-height: 300px;
+        
+    }
+    </style>
 
 </head>
 
 
 <body>
+
+<script>
+
+$(function () {
+	
+    var obj = $("#dropzone");
+    var upload = $('input:file')[0]
+    
+    obj.on('dragenter', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+         $(this).css('border', '2px solid #5272A0');
+    });
+
+    obj.on('dragleave', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+         $(this).css('border', '2px dotted #8296C2');
+    });
+
+    obj.on('dragover', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+    });
+    
+    $(obj).on("click" , function name() {
+		$(upload).click();
+	})
+    
+    /////1. 터치해서 업로드/////
+    $(upload).on("change", function (e) {
+		e.preventDefault();  // 기본적인 서브밋 행동을 취소합니다
+		
+	
+		var file = upload.files[0]
+		
+		var reader = new FileReader();
+	
+		reader.onload = function (event) {
+			obj.text("");
+			var img = new Image();
+			img.src = event.target.result;
+			var a = (img.src).split(',');
+			
+			/////////
+			googleVisionByContent(a)
+			/////////
+			$(obj).attr("src", img.src);
+
+			
+			}
+		reader.readAsDataURL(file);// File에서 읽어 오는 역할
+		
+		return false;
+         
+         if(file.length < 1)
+              return;
+    });
+	////////////////////////////////////////////////
+	
+	
+	////2. 드래그앤 드롭 업로드 /////
+    obj.on('drop', function (e) {
+    	console.log(obj.text())
+    	obj.text("");
+         e.preventDefault();
+         $(this).css('border', '2px dotted #8296C2');
+
+         var file = e.originalEvent.dataTransfer.files[0];
+         var reader = new FileReader();
+         
+		reader.onload = function (event) {
+			var img = new Image();
+			img.src = event.target.result;
+			var a = (img.src).split(',');
+			console.log(a[1])
+			
+			//////////////
+			
+			googleVisionByContent(a)
+			
+			//////////////
+			$(obj).attr("src", img.src);
+			//obj.append(img);
+			
+		}
+         //})
+		reader.readAsDataURL(file);// File에서 읽어 오는 역할
+		
+		return false;
+         
+         if(file.length < 1)
+              return;
+
+    });
+
+});
+
+
+function googleVisionByContent(a) {
+	$("#result_image").attr('src',"/images/result_image.png")
+	$("#result_name").text("<분석 결과를 선택해보세요>")
+	$("#result_lifeSpan").text("")
+	$("#result_height").text("")
+	$("#result_weight").text("")
+	$("#result_place").text("")
+	$("#result_color").text("")
+	$("#result_personality").text("")
+	$("#result_link").html("")
+	var num = 0;
+	var API_KEY = "AIzaSyCpd2pSdt8bSgAda5GLaVjeL8xxv4-Ma9M"
+		//console.log("Base64 : " + result)
+			$(function () {
+				var p = {
+						"requests" : [ {
+							"image" : {
+								"content" : a[1]
+							},
+							"features" : [ {
+								"type" : "LABEL_DETECTION", //Web detection 어떨지
+								"maxResults" : 20
+							} ]
+						} ]
+					}
+				$.ajax(
+						{
+							url : "https://vision.googleapis.com/v1/images:annotate?key="+API_KEY,
+							method : "POST",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							data : JSON.stringify(p),
+							success : function(data,status) {
+								$(".percent").text("0");
+								$(".dog_nameKO").text("일치하는 견종이 없습니다");
+								$(".dog_nameEN").text("-");
+								console.log(data)
+								$("#breed").empty();
+								for (var i = 0; i < data.responses[0].labelAnnotations.length; i++) {
+									var kind = data.responses[0].labelAnnotations[i].description
+									var rate = Math.floor((data.responses[0].labelAnnotations[i].score)*100)
+									console.log(kind)
+									console.log(rate)
+									console.log((kind.indexOf("dog")))
+	
+										///////자체번역
+										$.ajax(
+												{
+													url : "/dogBreedDic/json/getDogBreed",
+													method : "POST",
+													dataType : "json",
+													async: false,
+													headers : {
+														"Accept" : "application/json",
+														"Content-Type" : "application/json"
+													},
+													data : JSON.stringify({
+														dogBreedEN : kind
+													}),
+													success : function(data,status) {
+														console.log(data)
+														
+														if (data.key==null || data.key==""){
+														}else{
+															$("#dog_nameKO"+num).text(data.key.dogBreedKO)
+															$("#dog_nameEN"+num).text(data.key.dogBreedEN)
+															$("#result"+num).text(rate)
+															num++;
+														}
+													},//end success function
+													fail : function (error) {
+														alert(error)
+													}
+												});
+										//자체번역
+								} //end for
+							}//end success function
+						}); // end ajax
+			})
+}
+
+function googleVisionByImageURI(a) {
+	var num = 0;
+	var API_KEY = "AIzaSyCpd2pSdt8bSgAda5GLaVjeL8xxv4-Ma9M"
+		//console.log("Base64 : " + result)
+			$(function () {
+				var p = {
+						"requests" : [ {
+							"image" : {
+								"source" : {
+							          "imageUri": a
+								}
+							},
+							"features" : [ {
+								"type" : "LABEL_DETECTION", //Web detection 어떨지
+								"maxResults" : 3
+							} ]
+						} ]
+					}
+				$.ajax(
+						{
+							url : "https://vision.googleapis.com/v1/images:annotate?key="+API_KEY,
+							method : "POST",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							data : JSON.stringify(p),
+							success : function(data,status) {
+								var b = 0;
+								for(var i= 0 ; i<data.responses[0].labelAnnotations.length; i++){
+									 if((data.responses[0].labelAnnotations[i].description).indexOf("dog")==0){
+										 b++;
+									}
+								}
+								if(b==0){
+									$("#result_image").attr('src','/images/noresult_image.png')
+								}else{
+									$("#result_image").attr('src',a)
+								}
+								
+							}//end success function
+						}); // end ajax
+			})
+}
+function googleVisionByImageURI2(a) {
+	var num = 0;
+	var API_KEY = "AIzaSyCpd2pSdt8bSgAda5GLaVjeL8xxv4-Ma9M"
+		//console.log("Base64 : " + result)
+			$(function () {
+				var p = {
+						"requests" : [ {
+							"image" : {
+								"source" : {
+							          "imageUri": a
+								}
+							},
+							"features" : [ {
+								"type" : "LABEL_DETECTION", //Web detection 어떨지
+								"maxResults" : 3
+							} ]
+						} ]
+					}
+				$.ajax(
+						{
+							url : "https://vision.googleapis.com/v1/images:annotate?key="+API_KEY,
+							method : "POST",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							data : JSON.stringify(p),
+							success : function(data,status) {
+								var b = 0;
+								for(var i= 0 ; i<data.responses[0].labelAnnotations.length; i++){
+									 if((data.responses[0].labelAnnotations[i].description).indexOf("dog")==0){
+										 b++;
+									}
+								}
+								if(b==0){
+									$("#result_image2").attr('src','/images/noresult_image.png')
+								}else{
+									$("#result_image2").attr('src',a)
+								}
+								
+							}//end success function
+						}); // end ajax
+			})
+}
+
+$(function () {
+	$(".getInfo").on("click", function () {
+		$("#ddddd").css('display',"")
+		if($(".percent",this).text()=="0"){
+			alert("이미지분석 결과가 없습니다.")
+			$("#ddddd").css('display',"none")
+			return;
+		}
+			//$("#result_image").attr('src',"/images/result_image.png")
+			//$("#result_image").attr('src','')
+			$("#result_image").attr('src','/images/loading2.gif');
+		var name = $(".dog_nameKO",this).text()
+		$.ajax({
+			url : "/dogBreedDic/json/getDogBreedInfoList",
+			method : "POST",
+			dataType : "json",
+			headers :{
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},	
+			data : JSON.stringify({
+				dogBreedKO : name
+			}),
+			success : function (data) {
+				$("#result_name").text(data.dogBreedInfo[0].dogBreedKO+" ("+data.dogBreedInfo[0].dogBreedEN+")")
+				$("#result_lifeSpan").text("수명 : " + data.dogBreedInfo[0].dogLifeSpan)
+				$("#result_height").text("신장 : " + data.dogBreedInfo[0].dogHeight)
+				$("#result_weight").text("체중 : " + data.dogBreedInfo[0].dogWeight)
+				$("#result_place").text("출생지 : " + data.dogBreedInfo[0].dogPlace)
+				$("#result_color").text("색상 : " + data.dogBreedInfo[0].dogColor)
+				$("#result_personality").text("성격 : " + data.dogBreedInfo[0].dogPersonality)
+				$("#result_link").html("관련 링크 : <a href="+data.dogBreedInfo[0].dogLink+">" + data.dogBreedInfo[0].dogLink+"</a>")
+				imageSearch(data.dogBreedInfo[0].dogBreedEN);
+		
+			}
+			
+		})
+	
+	})
+})
+	///////구글 이미지 서치
+			function imageSearch(keyword) {
+					$.ajax({
+						url : 'https://www.googleapis.com/customsearch/v1?key=AIzaSyDY67FTw3lBX8Xc3oIFei_nXw4vsTS6ib8&cx=011598789325596039313:yaj05uya8oc&q='+keyword,
+						method : "GET" ,
+						dataType : "json",
+						success : function (data) {
+							 googleVisionByImageURI(data.items[0].pagemap.cse_image[0].src)
+							 
+						}
+				})
+			}
+			function imageSearch2(keyword) {
+					$.ajax({
+						url : 'https://www.googleapis.com/customsearch/v1?key=AIzaSyDY67FTw3lBX8Xc3oIFei_nXw4vsTS6ib8&cx=011598789325596039313:yaj05uya8oc&q='+keyword,
+						method : "GET" ,
+						dataType : "json",
+						success : function (data) {
+							 googleVisionByImageURI2(data.items[0].pagemap.cse_image[0].src)
+							 
+						}
+				})
+			}
+			///////
+
+
+////////////////////오토컴플릿
+
+// $(function autoComplet() {
+// 	$.ajax({
+// 		url : "/dogBreedDic/json/getAllBreedInfoList",
+// 		method : "POST",
+// 		datatype : "json",
+// 		headers : {
+// 			"Accept" : "application/json",
+// 			"Content-Type" : "application/json"
+// 		},
+// 		success : function (data) {
+// 			var displayValue = new Array();
+// 			for(var i = 0; i<data.allDogBreedInfo.length; i++){
+// 				displayValue.push(data.allDogBreedInfo[i].dogBreedKO)
+// 			}
+// 			$("input:text.input-round").autocomplete({
+// 			      source: displayValue
+// 			    });
+// 		}
+// 	})
+// })
+////////////////////오토컴플릿
+
+////////////////////검색버튼 눌렀을 시
+$(function () {
+	
+});
+
+			
+			
+// function getDogList() {
+// 	$("#normalSearch").attr("method" , "POST").attr("action" , "/dogBreedDic/getDogBreedInfo").submit();
+// }
+//////////////////////
+// $(function () {
+// 	alert($("#result_height2").html())
+// })
+
+$(function () {
+	$.ajax({
+		url : "/dogBreedDic/json/getAllBreedInfoListByKo",
+		method : "GET",
+		datatype : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		success : function (data) {
+			console.log(data)
+			for(var i = 0; i<data.allDogBreedInfo.length; i++){
+				$("#selecttt").append($('<option value=>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
+			}
+			
+			$("button:contains('검색')").on("click",function () {
+				$("#jumpingDog").css('display','none')
+				$("#result_image2").attr('src','/images/loading2.gif');
+				$.ajax({
+					url : "/dogBreedDic/json/getDogBreedInfoList",
+					method : "POST",
+					dataType : "json",
+					headers :{
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},	
+					data : JSON.stringify({
+						dogBreedKO : $("#selecttt option:selected").text()
+					}),
+					success : function (data) {
+						console.log(data)
+						$("#result_name2").text(data.dogBreedInfo[0].dogBreedKO+" ("+data.dogBreedInfo[0].dogBreedEN+")")
+						$("#result_lifeSpan2").text("수명 : " + data.dogBreedInfo[0].dogLifeSpan)
+						$("#result_height2").text("신장 : " + data.dogBreedInfo[0].dogHeight)
+						$("#result_weight2").text("체중 : " + data.dogBreedInfo[0].dogWeight)
+						$("#result_place2").text("출생지 : " + data.dogBreedInfo[0].dogPlace)
+						$("#result_color2").text("색상 : " + data.dogBreedInfo[0].dogColor)
+						$("#result_personality2").text("성격 : " + data.dogBreedInfo[0].dogPersonality)
+						$("#result_link2").html("관련 링크 : <a href="+data.dogBreedInfo[0].dogLink+">" + data.dogBreedInfo[0].dogLink+"</a>")
+						imageSearch2(data.dogBreedInfo[0].dogBreedEN);
+					}
+				})
+			})	
+			
+			
+		}
+	})
+	
+	
+})
+
+</script>
+
+
 
 	<jsp:include page="/layout/common-header.jsp" />
 		
@@ -47,7 +535,7 @@
 								<div class="row">
 									<div class="col-md-12 col-sm-12">
 										<!-- tab navigation -->
-										<ul class="nav nav-tabs nav-tabs-light text-left center-col">
+										<ul class="nav nav-tabs nav-tabs-light text-center center-col">
 											<li class="active"><a href="#tab3_sec1" data-toggle="tab">견종 검색</a></li>
 											<li><a href="#tab3_sec2" data-toggle="tab">이미지 검색</a></li>
 										</ul>
@@ -64,40 +552,41 @@
                                     
                                         <!-- 검색 버튼 -->   
 										<div class="col-md-8 col-sm-10 center-col text-center">
-										<form>
-											<div class="form-group">
+<!-- 										<form id="normalSearch"> -->
+											<div class="form-group" style="white-space: nowrap;">
 												<!-- select -->
 												<div class="col-md-10 col-sm-12 no-margin-right">
-													<div class="select-style input-round big-input">
-														<select>
-															<option value="">골든리트리버 Golden Retriever</option>
-															<option value="">그레이트 데인 Great Dane</option>
-															<option value="">닥스훈트 Dachshund</option>
-															<option value="">도베르만 핀셔 Doberman Pinschers</option>
-															<option value="">래브라도 리트리버 Labrador dog</option>
-															<option value="">로트 바일러 Rottweiler</option>
-															<option value="">말티즈 Maltese</option>
-														</select>
+													<div>
+														<div id="searchKeyword" class="select-style input-round big-input">
+															<select id="selecttt">
+															
+															</select>
+														</div>
 													</div>
 												</div>
 												<!-- end select -->
-												<button class="btn btn-black no-margin-bottom btn-large2 btn-round no-margin-top" type="submit">검색</button>
+												<button class="btn btn-black no-margin-bottom btn-large2 btn-round no-margin-top">검색</button>
 											</div>
-										</form>
+												<img id="jumpingDog" alt="" src="/images/jumpingdog.gif">
+<!-- 										</form> -->
 										</div>
 										<!-- end 검색 버튼 --> 
 					
 										<!-- 검색 후 나오는 이미지 및 정보  -->  
-						                <div class="row">
+						                <div class="row" >
 						                    <!-- content  -->
 						                    <div class="col-md-6 col-sm-12 sm-margin-bottom-four">
-						                        <img src="http://placehold.it/600x400" alt=""/>
+						                        <img id="result_image2" src="" alt="" /> <!-- adfsdfasfsafsadfdsafds -->
 						                    </div>
-						                    <div class="col-md-6 col-sm-12">
-						                        <p class="text-large font-weight-600 text-black margin-three no-margin-top">그레이트 데인 	GREAT DANE</p>
-						                        <p class="text-large text-black margin-three no-margin-top">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
-						                        <p class="text-med">Lorem Ipsum</p>
-						                        <p class="text-med">Lorem Ipsum</p>
+						                    <div style="padding-top: 10px" class="col-md-6 col-sm-12">
+						                        <p id="result_name2" class="text-large font-weight-600 text-black margin-three no-margin-top"></p>
+						                        <p id="result_height2" class="text-med"></p>
+						                        <p id="result_weight2" class="text-med"></p>
+						                        <p id="result_lifeSpan2" class="text-med"></p>
+						                        <p id="result_place2" class="text-med"></p>
+						                        <p id="result_color2" class="text-med"></p>
+						                        <p id="result_personality2" class="text-med"></p>
+						                        <p id="result_link2" class="text-med"></p>
 						                    </div>
 						                    <!-- end content  -->
 						                </div>
@@ -110,16 +599,17 @@
 				            
 				            <!-- tab content 02 -->
                                 <div class="tab-pane fade in" id="tab3_sec2">
-                                    <div class="row">
+                                    <div class="row" >
                                     	
                                     	<div class="col-md-12 text-center">
 											<h3 class="title-large font-weight-400 margin-three">이미지를 드래그 또는 파일선택을 클릭해주세요</h3>
 										</div>
                                     
                                     	<!-- 유저가 올린 이미지 나오는 영역 -->
-                                        <div class="col-md-8 col-sm-12 wow fadeIn center-col">
+                                        <div  class="col-md-8 col-sm-12 wow fadeIn center-col">
+                                        <input style="display: none;" type="file" id="testfile" name="testfile" >
 					                        <!-- photo item -->
-					                        <img src="http://placehold.it/1200x800" alt="" class="project-img-gallery">
+					                        <img id="dropzone" alt="" class="project-img-gallery">
 					                        <!-- end photo item -->
 					                    </div>
 					                    <!-- end 유저가 올린 이미지 나오는 영역-->
@@ -127,52 +617,54 @@
 					                    <!--일치율 결과 영역 시작-->
 					                    
 				                    	<!--  title -->
-						            	<div class="col-md-12 text-center">
-											<h3 class="title-large font-weight-400 margin-five">해당 이미지와 강아지의 일치율입니다.</h3>
+						            	<div class="col-md-12 text-center" al	>
+											<h3 class="title-large font-weight-400" style="margin-top: 50px">해당 이미지와 강아지의 일치율입니다.</h3>
+											<h6 class="font-weight-400" style="margin-top: 20px;margin-bottom: 50px;"><분석 결과를 선택해보세요></h6>
 										</div>
 										<!--  end title -->
 											
-							                    <div class="text-center center-col">
+							                    <div  id="ddd" class="text-center center-col">
 							                        <!-- pie charts -->
 							                        <div class="col-md-3 col-sm-3 chart-style2 wow zoomIn xs-margin-bottom-ten">
-							                        	<a href=""><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
-							                            <div class="chart-percent"><span class="chart2 black-text" data-percent="90"><span class="percent"></span> </span></div>
+							                        	<a style="cursor:pointer" class="getInfo" ><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
+							                            <div class="chart-percent"><span   class="chart2 black-text" data-percent="0" ><span  id="result0" class="percent"></span></span></div>
 							                            <div class="chart-text">
-							                                <h5 class="black-text text-extra-large">골든리트리버</h5>
-							                                <p>Golden Retriever</p>
+							                                <h5 id="dog_nameKO0" style="white-space: nowrap;" class="dog_nameKO black-text text-extra-large"></h5>
+							                                <p id="dog_nameEN0" style="white-space: nowrap;" class="dog_nameEN"></p>
 							                            </div>
 							                            </a>
 							                        </div>
 							                        <!-- end pie charts -->
 							                        <!-- pie charts -->
 							                        <div class="col-md-3 col-sm-3 chart-style2 wow zoomIn xs-margin-bottom-ten">
-							                        	<a href=""><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
-							                            <div class="chart-percent"><span class="chart2 black-text" data-percent="75"><span class="percent"></span></span></div>
+							                        	<a style="cursor:pointer" class="getInfo" ><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
+							                            <div class="chart-percent"><span class="chart2 black-text" data-percent="0"><span id="result1" class="percent"></span></span></div>
+							                            
 							                            <div class="chart-text">
-							                                <h5 class="black-text text-extra-large">그레이트 데인</h5>
-							                                <p>Great Dane</p>
+							                                <h5 id="dog_nameKO1" style="white-space: nowrap;" class="dog_nameKO black-text text-extra-large"></h5>
+							                                <p id="dog_nameEN1" style="white-space: nowrap;" class="dog_nameEN"></p>
 							                            </div>
 							                            </a>
 							                        </div>
 							                        <!-- end pie charts -->
 							                        <!-- pie charts -->
 							                        <div class="col-md-3 col-sm-3 chart-style2 wow zoomIn xs-margin-bottom-ten">
-							                        	<a href=""><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
-							                            <div class="chart-percent"><span class="chart2 black-text" data-percent="95"><span class="percent"></span> </span></div>
+							                        	<a style="cursor:pointer" class="getInfo" ><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
+							                            <div class="chart-percent"><span class="chart2 black-rtext" data-percent="0" ><span id="result2"  class="percent"></span> </span></div>
 							                            <div class="chart-text">
-							                            	<h5 class="black-text text-extra-large">닥스훈트</h5>
-							                                <p>Dachshund</p>
+							                            	<h5 id="dog_nameKO2"  style="white-space: nowrap;"class="dog_nameKO black-text text-extra-large"></h5>
+							                                <p id="dog_nameEN2" style="white-space: nowrap;" class="dog_nameEN"></p>
 							                            </div>
 							                            </a>
 							                        </div>
 							                        <!-- end pie charts -->
 							                        <!-- pie charts -->
 							                        <div class="col-md-3 col-sm-3 chart-style2 wow zoomIn">
-							                        	<a href=""><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
-							                            <div class="chart-percent"><span class="chart2 black-text" data-percent="98"><span class="percent"></span> </span></div>
+							                        	<a style="cursor:pointer" class="getInfo" ><!-- 일치율 클릭시 해당 강아지 결과 오징어씨 맘대로 링크 걸기  -->
+							                            <div class="chart-percent"><span   class="chart2 black-text" data-percent="0"><span id="result3" class="percent"></span> </span></div>
 							                            <div class="chart-text">
-							                                <h5 class="black-text text-extra-large">도베르만 핀셔</h5>
-							                                <p>Doberman Pinschers</p>
+							                                <h5 id="dog_nameKO3"   style="white-space: nowrap;"class="dog_nameKO black-text text-extra-large"></h5>
+							                                <p id="dog_nameEN3" style="white-space: nowrap;" class="dog_nameEN"></p>
 							                            </div>
 							                            </a>
 							                        </div>
@@ -181,20 +673,26 @@
 										<!--일치율 결과 영역 끝-->
 										
 										<!-- 검색 후 나오는 이미지 및 정보  -->  
-						                <div class="row">
+						                <div id="ddddd" class="row" style="display: none;">
 						                    <!-- content  -->
 						                    <div class="col-md-6 col-sm-12 sm-margin-bottom-four">
-						                        <img src="http://placehold.it/600x400" alt=""/>
-						                    </div>
-						                    <div class="col-md-6 col-sm-12">
-						                        <p class="text-large font-weight-600 text-black margin-three no-margin-top">그레이트 데인 	GREAT DANE</p>
-						                        <p class="text-large text-black margin-three no-margin-top">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
-						                        <p class="text-med">Lorem Ipsum</p>
-						                        <p class="text-med">Lorem Ipsum</p>
+										<img id="result_image" src="/images/result_image.png" alt="" />
+									</div>
+						                    <div style="padding-top: 10px" class="col-md-6 col-sm-12">
+						                        <p id="result_name" class="text-large font-weight-600 text-black margin-three no-margin-top"> <분석 결과를 선택해보세요></p>
+						                        <!-- <p id="result_height"  class="text-large text-black margin-three no-margin-top">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p> -->
+						                        <p id="result_height" class="text-med"></p>
+						                        <p id="result_weight" class="text-med"></p>
+						                        <p id="result_lifeSpan" class="text-med"></p>
+						                        <p id="result_place" class="text-med"></p>
+						                        <p id="result_color" class="text-med"></p>
+						                        <p id="result_personality" class="text-med"></p>
+						                        <p id="result_link" class="text-med"> </p>
 						                    </div>
 						                    <!-- end content  -->
 						                </div>
 			                             <!-- end 검색 후 나오는 이미지 및 정보-->  
+			                             
 			                             
 			                             	
                                         

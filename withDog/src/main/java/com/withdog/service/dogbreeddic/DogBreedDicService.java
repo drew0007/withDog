@@ -8,11 +8,13 @@ public interface DogBreedDicService {
 	
 	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception;
 
-	public String getDogBreedKO(String dogBreedEN) throws Exception;
+	public DogBreedDic getDogBreed(String dogBreedEN) throws Exception;
 	
 	public List<DogBreedDic> getDogBreedInfoList(String dogBreedKO) throws Exception;
 	
 	public List<DogBreedDic> getAllDogBreedInfoList() throws Exception;
+	
+	public List<DogBreedDic> getAllDogBreedInfoListByKo() throws Exception;
 	
 	public int addDogBreedInfo(DogBreedDic dogBreedDic) throws Exception; // °ü¸®ÀÚ
 	
