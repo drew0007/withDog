@@ -3,13 +3,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <jsp:include page="/common/css.jsp" />
+
 <title>크라우드펀딩등록</title>
 
-<script type="text/javascript">
+
+<script>
+function getFund(){
+	document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;
+	
+	console.log(document.getElementById("fundTerm").value);
+	document.detailForm.submit();
+	//$("form").attr("method","POST").attr("action","/fund/addFund").submit();
+}
+$(function(){
+console.log(2);
+	$("span:contains('펀딩등록')").on("click",function(){
+		getFund();
+	});
+	
+	
+});
+	
+	
+
+
+
 	
 </script>
 </head>
@@ -17,6 +40,7 @@
 .calendar-icon { 	display: flex; align-items: center;}
 .calendar-icon i { margin-left:-30px; z-index:999; margin-right:10px;}
 </style>
+ 
 <body>
 
 	<jsp:include page="/layout/store-sub-header.jsp" />
@@ -47,7 +71,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
-				<form>
+				<form name="detailForm" method="post" action="/fund/addFund" enctype="multipart/form-data">
 
 					<div class="form-group no-margin-bottom">
 						<!-- label  -->
@@ -66,6 +90,15 @@
 						<input type="text" name="fundCenter" id="fundCenter" class="big-input">
 						<!-- end input  -->
 					</div>
+					
+					<div class="form-group no-margin-bottom">
+						<!-- label  -->
+						<label>전화번호</label>
+						<!-- end label  -->
+						<!-- input  -->
+						<input type="text" name="fundPhone" id="fundPhone" class="big-input">
+						<!-- end input  -->
+					</div>
 
 					<div class="form-group no-margin-bottom">
 						<!-- label  -->
@@ -75,10 +108,12 @@
 
 					<div class="form-group calendar-icon no-margin-bottom" >
 						<!-- input  -->
-						<input type="text" placeholder="펀딩시작" class="big-input col-md-6" name="fundTerm">
+						<input type="text" placeholder="펀딩시작" class="big-input col-md-6" id="fundTerm1">
 						<i class="fa fa-calendar small-icon form-group" style="padding-left:-20px;"></i>
-						<input type="text" placeholder="펀딩종료" class="big-input col-md-6" name="fundTerm">
+						<input type="text" placeholder="펀딩종료" class="big-input col-md-6" id="fundTerm2">
 						<i class="fa fa-calendar small-icon form-group" ></i>
+						
+						<input type="hidden" name="fundTerm" id="fundTerm"> 
 						<!-- end input  -->
 					</div>
 
@@ -87,7 +122,7 @@
 						<label>펀딩이미지</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="file" name="fundImage" id="fundImage" class="big-input">
+						<input type="file" name="fundImagePath" id="fundImagePath" class="big-input">
 						<!-- end input  -->
 					</div>
 
@@ -102,7 +137,7 @@
 
 				</form>
 				<div class="text-center">
-					<a href="#" class="highlight-button btn btn-medium">펀딩등록</a>
+					<span class="highlight-button btn btn-medium">펀딩등록</span>
 				</div>
 			</div>
 		</div>

@@ -16,6 +16,7 @@
 	<typeAliases>
 		<typeAlias alias="user" type="com.withdog.service.domain.User" />
 		<typeAlias alias="dogBreedDic" type="com.withdog.service.domain.DogBreedDic" />
+		<typeAlias alias="fund" type="com.withdog.service.domain.Fund" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
 	</typeAliases>
 	
@@ -23,6 +24,7 @@
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/DogBreedDicMapper.xml"/>
+		<mapper resource="sql/FundMapper.xml"/>
 	</mappers>
 
 </configuration>

@@ -2,6 +2,8 @@ package com.withdog.web.fund;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
@@ -16,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.withdog.service.domain.Fund;
@@ -86,37 +90,139 @@ public class FundController {
 	int pageSize;*/
 	
 	
-	/*@RequestMapping(value="/addFund", method=RequestMethod.GET)
+	@RequestMapping(value="/addFundView", method=RequestMethod.GET)
 	public String addFundView() throws Exception {
 
-		System.out.println("/addFund :GET Start");
+		System.out.println("/addFundView :GET Start");
+		
 					
 		return "forward:/fund/addFund.jsp";
 	}
 	
 	@RequestMapping(value="/addFund",method=RequestMethod.POST)
-	public String addFund(@RequestBody  Fund fund) throws Exception {
+	public String addFund(@ModelAttribute("fund") Fund fund,HttpServletRequest request,@RequestParam("fundImagePath") MultipartFile fileName ) throws Exception {
 
 		System.out.println("/addFund : POST Start");
 		//Business Logic
+		
+		Properties properties = new Properties();
+		properties.load(new FileInputStream("C:/common.properties"));
+		
+		String path = properties.getProperty("filepath");
+		String filetemp = fileName.getOriginalFilename();
+		
+		File file = new File(path+filetemp);
+		fileName.transferTo(file);
+		
+		
+		fund.setFundImage(filetemp);
+		
+		System.out.println(fund.toString());
 		
 		fundService.addFund(fund);
 						
 		
-		return "forward:/fund/getFund?fundNo="+fund.getFundNo();
+		return "forward:/fund/getFundList";
+		
 	}
 	
-	@RequestMapping(value="/getFund",method=RequestMethod.POST)
-	public String getFund(@RequestParam("fundNo")  int fundNo) throws Exception {
+	@RequestMapping(value="/getFund")
+	public String getFund(@RequestParam("fundNo")  int fundNo,HttpServletRequest request) throws Exception {
 
-		System.out.println("/addFund : POST Start");
+		System.out.println("/getFund : Start");
 		//Business Logic
 		
 		Fund fund = fundService.getFund(fundNo);
-						
+		
+		request.setAttribute("fund", fund);
 		
 		return "forward:/fund/getFund.jsp";
-	}*/
+	}
+	
+	
+	@RequestMapping(value="/getFundList")
+	public String getFundList(HttpServletRequest request) throws Exception{
+		 
+	 	
+	 	System.out.println("/FundList : Start");
+		
+		List<Fund> list = fundService.getFundList(); 	
+		
+		for (int i = 0; i < list.size(); i++) {
+		
+			System.out.println(list.get(i).toString());
+		}
+				
+		request.setAttribute("list", list);
+		
+		
+		return "forward:/fund/listFund.jsp";
+		
+		
+	 }
+	
+	
+	@RequestMapping(value="kakaoPay")
+	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpSession session,HttpServletRequest req) throws Exception{
+		
+		System.out.println("kakaoPay Start==================================");
+		System.out.println(req.getParameter("usePoint"));
+		System.out.println(fund.toString());
+		
+		String HOST = "https://kapi.kakao.com";
+	    RestTemplate restTemplate = new RestTemplate();
+	    
+	    // 서버로 요청할 내용 (Body)
+	    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	    params.add("cid", "TC0ONETIME");
+	    params.add("partner_order_id","admin");
+	    params.add("partner_user_id","user01");
+	    params.add("item_name",fund.getFundTitle());
+	    params.add("quantity", "1");//수량
+	    params.add("total_amount", new String(fund.getFundMyPrice()+"").trim());
+	    params.add("tax_free_amount", "0");//세금
+	    params.add("approval_url", "http://192.168.0.42:8080/fund/getFundList");
+	    params.add("cancel_url", "http://127.0.0.1:8080/purchase/json/paycancel");
+	    params.add("fail_url", "http://127.0.0.1:8080/purchase/json/fail");
+	
+	    // 서버로 요청할 Header
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Authorization", "KakaoAK " + "e429428556e2835e02b9dcd4f7f55174");
+	    //headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+	    headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+	    headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+
+	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+	    String response = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), request, String.class);
+	    System.out.println("여기까지");
+	    System.out.println(response);
+	    System.out.println("여기부터다시");
+	    ObjectMapper obj = new ObjectMapper();
+	    JSONObject jobj = (JSONObject)JSONValue.parse(response);
+	    System.out.println(jobj.get("tid"));
+	    String url = (String)jobj.get("next_redirect_pc_url");
+	    System.out.println(url);
+	    session.setAttribute("url", url);
+	    params.add("cid", "TC0ONETIME");
+	    params.add("tid", (String)jobj.get("tid"));
+	    params.add("partner_order_id", "1001");
+	    params.add("partner_user_id", "test@koitt.com");
+	    params.add("item_name", "갤럭시S9");
+	    
+	    
+	    ///addPurchase.jsp로 callback 되는지
+	    session.setAttribute("fund", fund);
+	    
+	    //구매완료 되면 add시키고 이동시키기
+	    
+	    //fundService.addFund(fund);
+	    
+	    
+	  return "forward:/sns/kakaoPay.jsp";
+	    
+    }
+	
+	
 	
 	
 	/*@RequestMapping(value="/addFund", method=RequestMethod.GET)
@@ -127,7 +233,7 @@ public class FundController {
 		return "forward:/fund/addFund.jsp";
 	}*/
 	
-	@RequestMapping(value="/addFund")
+	/*@RequestMapping(value="/addFund")
 	public String addFund() throws Exception {
 
 		System.out.println("/addFund : POST Start");
@@ -139,10 +245,10 @@ public class FundController {
 	    fund.setFundCenter("테스트센터1");
 	    fund.setFundPhone("031-434-4158");
 	    fund.setFundTerm("2018/07/09~2018/08/09");
-	    fund.setFundRaising(1000);
-	    fund.setFundPersonnel(10);
+	    fund.setFundRaising(0);
+	    fund.setFundPersonnel(0);
 	    fund.setFundState("0");
-	    fund.setFundResultPrice(1000);
+	    fund.setFundResultPrice(0);
 	    fund.setFundContent("테스트하고 있음 이거 들어갔나 확인해보자");
 	    
 		
@@ -184,7 +290,7 @@ public class FundController {
 		
 		
 		
-	 }
+	 }*/
 	/*
 	@RequestMapping(value="/getPurchase", method=RequestMethod.GET)
 	public ModelAndView getPurchase( @RequestParam("tranNo")int tranNo) throws Exception {
