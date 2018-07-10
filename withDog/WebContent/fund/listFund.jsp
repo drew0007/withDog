@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="/common/css.jsp" />
 
 
@@ -45,104 +46,27 @@
                     <!-- content  -->
                     
                     <!-- 펀딩 item 01 -->
+                    <c:forEach var="list" items="${list}">
                     <div class="col-md-4 col-sm-4">
                         <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund.jsp"><img src="http://placehold.it/800x500" alt=""></a></div>
+                            <div class="blog-post-images"><a href="getFund?fundNo=${list.fundNo}"><img src="../images/fund/${list.fundImage}" alt=""></a></div>
                             <div class="post-details">
-                                <a href="" class="fund-title">크라우드펀딩 제목</a>
-                                <span class="fund-center">펀딩요청기관명</span>
+                                <a href="" class="fund-title">${list.fundTitle}</a>
+                                <span class="fund-center">${list.fundCenter}</span>
                                 <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : 2018.07.09~2018.08.17</span><br/>
-                                <span class="fund-raising">모인금액 : 800,000원</span>
+                                <span class="fund-term">후원모집기간 : ${list.fundTerm}</span><br/>
+                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
+                                
                             </div>
-                                <a class="highlight-button btn-medium button margin-five" href="getFund.jsp">후원하기</a>
+                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>
                         </div>
                     </div>
-                    <!-- end 펀딩 item -->
-                    
-                    <!-- 펀딩 item 02 -->
-                    <div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund.jsp"><img src="http://placehold.it/800x500" alt=""></a></div>
-                            <div class="post-details">
-                                <a href="" class="fund-title">크라우드펀딩 제목</a>
-                                <span class="fund-center">펀딩요청기관명</span>
-                                <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : 2018.07.09~2018.08.17</span><br/>
-                                <span class="fund-raising">모인금액 : 800,000원</span>
-                            </div>
-                                <a class="highlight-button btn-medium button margin-five" href="blog-single-full-width.html">후원하기</a>
-                        </div>
-                    </div>
-                    <!-- end 펀딩 item -->
-                    
-                    <!-- 펀딩 item 03 -->
-                    <div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund.jsp"><img src="http://placehold.it/800x500" alt=""></a></div>
-                            <div class="post-details">
-                                <a href="" class="fund-title">크라우드펀딩 제목</a>
-                                <span class="fund-center">펀딩요청기관명</span>
-                                <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : 2018.07.09~2018.08.17</span><br/>
-                                <span class="fund-raising">모인금액 : 800,000원</span>
-                            </div>
-                                <a class="highlight-button btn-medium button margin-five" href="blog-single-full-width.html">후원하기</a>
-                        </div>
-                    </div>
-                    <!-- end 펀딩 item -->
-                    
-                    <!-- 펀딩 item 04 -->
-                    <div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund.jsp"><img src="http://placehold.it/800x500" alt=""></a></div>
-                            <div class="post-details">
-                                <a href="" class="fund-title">크라우드펀딩 제목</a>
-                                <span class="fund-center">펀딩요청기관명</span>
-                                <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : 2018.07.09~2018.08.17</span><br/>
-                                <span class="fund-raising">모인금액 : 800,000원</span>
-                            </div>
-                                <a class="highlight-button btn-medium button margin-five" href="blog-single-full-width.html">후원하기</a>
-                        </div>
-                    </div>
-                    <!-- end 펀딩 item -->
-                    
-                    <!-- 펀딩 item 05 -->
-                    <div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund.jsp"><img src="http://placehold.it/800x500" alt=""></a></div>
-                            <div class="post-details">
-                                <a href="" class="fund-title">크라우드펀딩 제목</a>
-                                <span class="fund-center">펀딩요청기관명</span>
-                                <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : 2018.07.09~2018.08.17</span><br/>
-                                <span class="fund-raising">모인금액 : 800,000원</span>
-                            </div>
-                                <a class="highlight-button btn-medium button margin-five" href="blog-single-full-width.html">후원하기</a>
-                        </div>
-                    </div>
-                    <!-- end 펀딩 item -->
-                    
-                    <!-- 펀딩 item 06 -->
-                    <div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund.jsp"><img src="http://placehold.it/800x500" alt=""></a></div>
-                            <div class="post-details">
-                                <a href="" class="fund-title">크라우드펀딩 제목</a>
-                                <span class="fund-center">펀딩요청기관명</span>
-                                <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : 2018.07.09~2018.08.17</span><br/>
-                                <span class="fund-raising">모인금액 : 800,000원</span>
-                            </div>
-                                <a class="highlight-button btn-medium button margin-five" href="blog-single-full-width.html">후원하기</a>
-                        </div>
-                    </div>
-                    <!-- end 펀딩 item -->
-                    
-                    <!-- end content  -->
+                    </c:forEach>
+                   
                 </div>
-                
+        		<div align="right">
+        		     <a class="highlight-button btn-medium button margin-five" href="addFundView">등록하기</a>
+        		</div>        
             </div>
         </section>
         <!-- end content section -->

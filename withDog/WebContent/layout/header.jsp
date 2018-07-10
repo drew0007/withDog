@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,25 +19,22 @@
                     </div>
                     <!-- end logo -->                
                     
-                    <!-- login and mypage  -->
+                    <!-- 로그인, 마이페이지  -->
                     <div class="col-md-2 no-padding-left search-cart-header pull-right">
-
                         <div class="top-cart">
-                            <!-- nav login -->
-                            <a href="#" class="shopping-cart">
-                                <div class="subtitle">로그인</div>
-                            </a>
-                            <!-- end nav login -->
-                            
-                            <!-- nav mypage -->
-                            <a href="#" class="shopping-cart">
-                                <i class="fa  fa-user"></i>
-                                <div class="subtitle">마이페이지</div>
-                            </a>
-                            <!-- end mypage -->
+                            <c:choose>
+                            	<c:when test="${sessionScope.user==null}">
+                             		<a href="/user/loginUser"><div class="subtitle">로그인</div></a>
+                             	</c:when>
+                            	<c:when test="${sessionScope.user!=null}">
+                             		<a href="/user/logoutUser"><div class="subtitle">로그아웃</div></a>
+                             		<a href="../mypage/myPageMain.jsp"><i class="fa  fa-user" ></i><div class="subtitle">마이페이지</div></a>
+                             	</c:when>
+                            </c:choose>
                         </div>
                     </div>
-                    <!-- end login and mypage  -->
+                    <!-- end 로그인,마이페이지  -->
+                    
                     <!-- toggle navigation -->
                     <div class="navbar-header col-sm-8 col-xs-2 pull-right">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -162,10 +160,10 @@
                                     <!-- sub menu item  -->
                                     <ul id="collapse6" class="dropdown-menu panel-collapse collapse" role="menu">
                                         <li class="dropdown-header">크라우드펀딩</li>
-                                        <li><a href="../fund/fundGuid.jsp">크라우드펀딩이란?</a></li>
-                                        <li><a href="../fund/listFund.jsp">크라우드펀딩 목록</a></li>
-                                        <li><a href="../fund/listFund2.jsp">펀딩완료목록</a></li>
-                                        <li><a href="../fund/fundReq.jsp">크라우드펀딩 신청 문의</a></li>
+                                        <li><a href="/fund/fundGuid">크라우드펀딩이란?</a></li>
+                                        <li><a href="/fund/getFundList">크라우드펀딩 목록</a></li>
+                                        <li><a href="/fund/getFundResultList">펀딩완료목록</a></li>
+                                        <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>
                                     </ul>
                                     <!-- end sub menu item  -->
                                     <!-- end sub menu single -->

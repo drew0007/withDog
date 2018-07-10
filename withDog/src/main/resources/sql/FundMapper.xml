@@ -1,1 +1,62 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FundMapper">
+ 	
+ 	
+	<resultMap id="fundSelectMap" type="fund">
+		<result property="fundNo"  column="fund_no" 				jdbcType="INTEGER"/>
+	 	<result property="fundTitle" column="fund_title"	 		jdbcType="VARCHAR" />
+		<result property="fundImage" 	column="fund_image" 		jdbcType="VARCHAR" />
+		<result property="fundCenter" 		column="FUND_CENTER" 					jdbcType="VARCHAR" />
+		<result property="fundPhone" 				column="FUND_PHONE" 					jdbcType="VARCHAR" />
+		<result property="fundTerm" 			column="FUND_TERM" 		jdbcType="VARCHAR" />
+		<result property="fundRaising" 				column="FUND_RAISING" 					jdbcType="INTEGER" />
+		<result property="fundPersonnel" 			column="FUND_PERSONNEL" 				jdbcType="INTEGER"  />
+		<result property="fundState" 		column="FUND_STATE" 			jdbcType="VARCHAR" />
+		<result property="fundResultPrice" 		column="FUND_RESULT_PRICE" 			jdbcType="INTEGER" />
+		<result property="fundContent" 		column="FUND_CONTENT" 			jdbcType="VARCHAR" />
+		<result property="fundMyPrice"    column="FUND_MY_PRICE" jdbcType="INTEGER"/>
+		<result property="fundMyDate"    column="PURCHASE_DATE" jdbcType="DATE"/>
+		<result property="fundMyPriceNo" 		column="FUND_MY_PRICE_NO" 				jdbcType="INTEGER"  />
+		<!-- <result property="fundPay" 		column="" 			jdbcType="VARCHAR" /> -->
+		<result property="user.userId" 		column="USER_ID" 				jdbcType="VARCHAR"  />
+	</resultMap>
+	
+
+	
+	
+	
+	<!-- SQL : INSERT -->
+	<insert id="addFund"	parameterType="fund" >
+	 	INSERT
+		 INTO fund VALUES ( seq_fund_fund_no.nextval,'${fundTitle}','${fundImage}' ,'${fundCenter}' ,'${fundPhone}' ,'${fundTerm}' , 0,0,'0',0,'${fundContent}',SYSDATE,0 )
+												
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	<select id="getFund"	parameterType="int"	resultMap="fundSelectMap">
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel 
+		from  fund
+		where fund_no=#{value}
+		
+	 </select>
+	 
+	 <select id="getFundList"	resultMap="fundSelectMap">
+		select fund_no,fund_Title,fund_image,fund_term,fund_Raising 
+		from  fund
+		
+	 </select>
+	 
+	 <insert id="addFundRaising"	parameterType="fund" >
+	 	INSERT
+		 INTO fund_info VALUES ( seq_fund_info_fund_my_price_no.nextval,#{fundNo},#{user.userId} ,'0' ,#{fundMyPrice} ,SYSDATE)
+												
+	 </insert>
+	 
+	
+	 
+</mapper>

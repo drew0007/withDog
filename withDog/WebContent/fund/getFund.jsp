@@ -6,8 +6,40 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <jsp:include page="/common/css.jsp" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <title>펀딩상세정보</title>
 </head>
+
+<script>
+$(function(){
+	
+	$("span:contains('후원금결제')").on("click",function(){
+		
+		var Title = '${fund.fundTitle}';
+		console.log(Title);
+		
+		if(document.getElementById("usePoint").value !=null){
+			
+			var usePoint = document.getElementById("usePoint").value;
+			console.log(usePoint);
+		}
+		
+		if(document.getElementById("fundMyPrice").value !=null){
+			
+			var price = document.getElementById("fundMyPrice").value;
+			console.log(price);
+		}
+		
+		
+		/* self.location.href="/fund/kakaoPay?fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price; */
+		popWin 
+		= window.open("/fund/kakaoPay?fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price,"popWin", "left=300,width=500,height=300,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+	});
+});
+
+
+</script>
+
 
 <body>
 
@@ -37,38 +69,40 @@
             <div class="container">
             
             	<!-- fund title -->
-            	<p class="col-md-10 col-sm-8 col-xs-11 text-center center-col fund-detail-title black-text">크라우드펀딩 제목</p>
+            	<p class="col-md-10 col-sm-8 col-xs-11 text-center center-col fund-detail-title black-text">${fund.fundTitle}</p>
             	<!-- end fund title -->
             	
                 <div class="row">
                 
                     <!-- product images -->
                     <div class="col-md-6 col-sm-12 zoom-gallery sm-margin-bottom-ten">
-                        <a href="http://placehold.it/700x583"><img src="http://placehold.it/700x583" alt=""/></a>
+                        <a href=""><img src="../images/fund/${fund.fundImage}" alt=""/></a>
                     </div>
                     <!-- end product images -->
                     
                     <div class="col-md-5 col-sm-12 col-md-offset-1">
                     
                         <!-- fund No -->
-                         <span class="rating-text text-uppercase pull-right">펀딩번호: <span class="black-text">10000</span></span>
+                         <%-- <span class="rating-text text-uppercase pull-right">펀딩번호: <span class="black-text">${fund.fundNo}</span></span> --%>
                         <div class="separator-line bg-black no-margin-lr margin-five no-margin-top"></div>
                         <!-- end fund No -->
+                        <p class="no-margin-bottom">펀딩번호:</p>
+                        <div class="fund-sub-title ">${fund.fundNo}</div>
                         <!-- fund detail 01 -->
                         <p class="no-margin-bottom">펀딩요청기관</p>
-                        <div class="fund-sub-title ">WithDog</div>
+                        <div class="fund-sub-title ">${fund.fundCenter}</div>
                         <!-- end detail  -->
                         <!-- fund detail 02 -->
                         <p class="no-margin-bottom">펀딩기간</p>
-                        <div class="fund-sub-title">2018.7.9 ~ 2018.8.20</div>
+                        <div class="fund-sub-title">${fund.fundTerm}</div>
                         <!-- end detail  -->
                         <!-- fund detail 03 -->
                         <p class="no-margin-bottom">현재후원금액</p>
-                        <div class="fund-sub-title">800,000<span class="fund-small">원</span></div>
+                        <div class="fund-sub-title">${fund.fundRaising}<span class="fund-small">원</span></div>
                         <!-- end detail  -->
                         <!-- fund detail 03 -->
                         <p class="no-margin-bottom">후원자수</p>
-                        <div class="fund-sub-title">146<span class="fund-small">명</span></div>
+                        <div class="fund-sub-title">${fund.fundPersonnel}<span class="fund-small">명</span></div>
                         <!-- end detail  -->
                         
                         <!-- 후원하기 모달팝업 -->
@@ -92,7 +126,7 @@
 				                                <label class="pull-left">후원할 금액</label>
 				                                <!-- end label  -->
 				                                <!-- input  -->
-				                                <input type="text" name="fundPrice"  class="big-input">
+				                                <input type="text" name="fundMyPrice" id="fundMyPrice"  class="big-input" value=0>
 				                                <!-- end input  -->
 				                            </div>
 				                            
@@ -101,7 +135,7 @@
 				                                <label class="pull-left">사용할 포인트</label>
 				                                <!-- end label  -->
 				                                <!-- input  -->
-				                                <input type="text" name="usePoint"  class="big-input no-margin-bottom">
+				                                <input type="text" name="usePoint" id="usePoint"  class="big-input no-margin-bottom" value=0>
 				                                <div class="pull-right">[현재 1000 point 보유]</div>
 				                                
 				                                <!-- end input  -->
@@ -116,7 +150,7 @@
 				                            
 				                       </form>
 				                       	
-				                            <a class="highlight-button btn-small button center-col" href="#">후원금결제</a>
+				                            <span id="abc" class="highlight-button btn-small button center-col">후원금결제</span>
 				                       
 			                        </div>
 			                        <!-- end modal popup -->

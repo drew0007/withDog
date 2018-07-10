@@ -28,5 +28,7 @@ public interface FundService {
 	public void listMyFund() throws Exception;
 	
 	public void kakaoPay() throws Exception;
+	
+	public void addFundRaising(Fund fund) throws Exception;
 		
 }

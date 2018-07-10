@@ -9,43 +9,63 @@
  	
 	<resultMap id="userSelectMap" type="user">
 		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
-		<result property="userName"	column="user_name" 		jdbcType="VARCHAR" />
-		<result property="password" 	column="password" 		jdbcType="VARCHAR" />
-		<result property="role" 				column="role" 					jdbcType="VARCHAR" />
-		<result property="ssn" 				column="ssn" 					jdbcType="VARCHAR" />
-		<result property="phone" 			column="cell_phone" 		jdbcType="VARCHAR" />
-		<result property="addr" 				column="addr" 					jdbcType="VARCHAR" />
-		<result property="email" 			column="email" 				jdbcType="NUMERIC"  />
-		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
+		<result property="userName"			column="user_name" 			jdbcType="VARCHAR" />
+		<result property="birth"			column="birth" 				jdbcType="VARCHAR" />
+		<result property="email"			column="email" 				jdbcType="VARCHAR" />
+		<result property="phone"			column="phone" 				jdbcType="VARCHAR" />
+		<result property="address"			column="address" 			jdbcType="VARCHAR" />
+		<result property="dogNo"			column="dog_no" 			jdbcType="INTEGER" />
+		<result property="userCondition"	column="user_condition" 	jdbcType="VARCHAR" />
+		<result property="recentlyDate"		column="recently_date" 		jdbcType="DATE" />
+		<result property="joinDate"			column="join_date" 			jdbcType="DATE" />
+		<result property="leaveDate"		column="leave_date" 		jdbcType="DATE" />
+		<result property="leaveReason"		column="leave_reason" 		jdbcType="VARCHAR" />
+		<result property="role"				column="role" 				jdbcType="VARCHAR" />
+		<result property="snsNaverId"		column="sns_naver_id" 		jdbcType="VARCHAR" />
+		<result property="snsKakaoId"		column="sns_kakao_id" 		jdbcType="VARCHAR" />
+		<result property="snsGoogleId"		column="sns_google_id" 		jdbcType="VARCHAR" />
+		<result property="snsFacebookId"	column="sns_facebook_id" 	jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
-		VALUES	 (	#{userId} , #{userName} , #{password:VARCHAR} , 'user' , #{ssn:VARCHAR} , 
-							#{phone:VARCHAR} , #{addr:VARCHAR} , #{email:VARCHAR} , SYSDATE )
+		INTO users( user_id, password, user_name, birth, email, phone, address, 
+					dog_no, user_condition, recently_date, join_date, role) 
+		VALUES	 (	#{userId}, #{password}, #{userName}, #{birth}, #{email}, #{phone}, #{address}, 
+					#{dogNo}, '1', SYSDATE, SYSDATE, 'user') 
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date 		
+		user_id, password, user_name, birth, email, phone, address,
+		dog_no	
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>
 	 
-	 <!-- SQL : UPDATE -->
+	 <!-- 회원정보 업데이트 SQL : UPDATE -->
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE users
 	   	<set>
-	   		user_name = #{userName} ,
-	   		password = #{password},
-			cell_phone	= #{phone},
-			addr = #{addr} ,
-			email = #{email}
+	   		birth = #{birth},
+	   		email = #{email},
+			phone = #{phone},
+			address = #{address},
+			dog_no = #{dogNo}
 	   	</set>
 	   	WHERE user_id = #{userId}
+	 </update>
+	 
+	 <!-- 최근 접속일  업데이트 SQL : UPDATE -->
+	 <update	id="updateRecentlyDate"	parameterType="string" >
+	   	UPDATE users
+	   	<set>
+	   		recently_date = SYSDATE,
+	   	</set>
+	   		WHERE user_id = #{value}
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->

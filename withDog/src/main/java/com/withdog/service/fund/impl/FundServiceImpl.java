@@ -77,6 +77,14 @@ public class FundServiceImpl implements FundService{
 		return fundDAO.getFundList();
 	}
 
+	@Override
+	public void addFundRaising(Fund fund) throws Exception {
+		// TODO Auto-generated method stub
+		
+		fundDAO.addFundRaising(fund);
+	}
+
+	
 	
 	
 	
