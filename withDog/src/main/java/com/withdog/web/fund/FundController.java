@@ -137,6 +137,15 @@ public class FundController {
 		
 		Fund fund = fundService.getFund(fundNo);
 		
+		//임시
+		Point point = new Point();
+		User user = new User();
+		user.setUserId("user01");
+		point.setUser(user);
+		
+		int currentPoint=commonService.getCurrentPoint(point);
+		
+		request.setAttribute("currentPoint", currentPoint);
 		request.setAttribute("fund", fund);
 		
 		return "forward:/fund/getFund.jsp";
@@ -242,33 +251,23 @@ public class FundController {
 	    user.setUserId("user01");
 	    
 	    
+	    
+	    //포인트 이것만 긁기
 	    fund.setUser(user);
-	    point.setUser(user);
-	    point.setFund(fund);
+	    point.setUser(user);//userid
+	    point.setFund(fund);//후원,구매,예약 구분을 위해
+	    
 	    //후원완료 되면 add시키고 이동시키기
-	    if(fund.getFundMyPrice()!=0&&usePoint==0) {	
-	    	System.out.println(1);	
-	    fundService.addFundRaising(fund);
-	    }
-	    else if(usePoint!=0&&fund.getFundMyPrice()==0) {
-	    	System.out.println(2);
-	    
-	    point.setUsePoint(usePoint);
-	    commonService.addPointinfo(point);	
-	    }
-	    else {
-	    	System.out.println(3);
 	    fundService.addFundRaising(fund);
 	    
+	    double savePoint = price*0.01;
+	    System.out.println("적립포인트"+savePoint);
+	    int resultpoint = (int)savePoint;
+	    point.setPoint(resultpoint);
 	    point.setUsePoint(usePoint);
-	    commonService.addPointinfo(point);
-	    }
-	    
-	    
-	    
-	    
-	    
-	    
+	   	commonService.addPointinfo(point);
+	    	    
+	 
 	  return forwardUri;
 	    
     }

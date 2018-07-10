@@ -136,7 +136,7 @@ $(function(){
 				                                <!-- end label  -->
 				                                <!-- input  -->
 				                                <input type="text" name="usePoint" id="usePoint"  class="big-input no-margin-bottom" value=0>
-				                                <div class="pull-right">[현재 1000 point 보유]</div>
+				                                <div class="pull-right">[현재 ${currentPoint} point 보유]</div>
 				                                
 				                                <!-- end input  -->
 				                            </div>

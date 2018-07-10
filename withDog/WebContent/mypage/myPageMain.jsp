@@ -125,7 +125,7 @@
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="">나의 포인트 내역</a></li>
+                                    <li><a href="/common/getMyPointList">나의 포인트 내역</a></li>
                                 </ul>
                             </div>
                         </div>
