@@ -91,7 +91,7 @@
                             
                          <button class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit" id="login">Login</button>
                         
-                         <a href="#" class="display-block text-uppercase"> >> 아이디 비빌번호 찾기</a> 
+                         <a href="#" class="display-block text-uppercase"> >> 아이디 비밀번호 찾기</a> 
                          
                          <div>
                          

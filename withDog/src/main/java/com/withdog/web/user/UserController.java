@@ -1,5 +1,9 @@
 package com.withdog.web.user;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +88,12 @@ public class UserController {
 	
 	//회원가입 POST (회원가입창에서 가입하기 눌러서 전송)
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser (@ModelAttribute("user") User user)  throws Exception {
+	public String addUser(@ModelAttribute("user") User user )  throws Exception {
 
 		System.out.println("회원가입 :: /user/addUser : POST");
 		
 		//Business Logic
-		userService.addUser(user);
+		//userService.addUser(user);
 		
 		return "redirect:/user/getUser.jsp";
 	}
@@ -127,7 +131,6 @@ public class UserController {
 		return "forward:/user/updateUser.jsp";
 	}
 	
-	
 
 	//비밀번호 수정 화면 GET
 	@RequestMapping( value="updatePassword", method=RequestMethod.GET )
@@ -140,12 +143,18 @@ public class UserController {
 	
 	//비밀번호 수정 POST
 	@RequestMapping( value="updatePassword", method=RequestMethod.POST )
-	public String updatePassword (User user)  throws Exception {
+	public String updatePassword (User user, HttpServletResponse response)  throws Exception {
 
 		System.out.println("비밀번호 수정 /user/updatePassword : POST");
+		System.out.println("유저확인"+user);
 		
 		//Business Logic
-		
+		userService.updateUser(user);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('비밀번호 변경 완료 되었습니다'); </script>");
+		out.flush();
+
 		return "forward:/mypage/myPageMain.jsp";
 	} 
 	
