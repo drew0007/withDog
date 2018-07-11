@@ -48,7 +48,7 @@
 	 <select id="getFundList"	resultMap="fundSelectMap">
 		select fund_no,fund_Title,fund_image,fund_term,fund_Raising 
 		from  fund
-		
+		where DELETE_FLAG ='0'
 	 </select>
 	 
 	 <insert id="addFundRaising"	parameterType="fund" >

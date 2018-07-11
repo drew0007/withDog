@@ -122,6 +122,8 @@ public class FundController {
 		
 		System.out.println(fund.toString());
 		
+
+				
 		fundService.addFund(fund);
 						
 		
@@ -135,15 +137,26 @@ public class FundController {
 		System.out.println("/getFund : Start");
 		//Business Logic
 		
+		
+		
+		HttpSession session = request.getSession(false);
+		User user = new User();
+		
+		
+		if(session.getAttribute("user")!=null) {
+			user = (User)session.getAttribute("user");
+			System.out.println(user.getUserId());
+		}
+		
+		
 		Fund fund = fundService.getFund(fundNo);
 		
 		//임시
 		Point point = new Point();
-		User user = new User();
-		user.setUserId("user01");
 		point.setUser(user);
 		
 		int currentPoint=commonService.getCurrentPoint(point);
+		
 		
 		request.setAttribute("currentPoint", currentPoint);
 		request.setAttribute("fund", fund);
@@ -175,11 +188,16 @@ public class FundController {
 	
 	
 	@RequestMapping(value="kakaoPay")
-	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpSession session,HttpServletRequest req) throws Exception{
+	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpServletRequest req) throws Exception{
 		
 		System.out.println("kakaoPay Start==================================");
 		System.out.println(req.getParameter("usePoint"));
-		
+		HttpSession session = req.getSession(false);
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		System.out.println(user.getUserId());
+		}
 		
 		///영수증.jsp로 callback 되는지
 	    String forwardUri="forward:/sns/kakaoPay.jsp";
@@ -204,7 +222,7 @@ public class FundController {
 	    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	    params.add("cid", "TC0ONETIME");
 	    params.add("partner_order_id","admin");
-	    params.add("partner_user_id","user01");
+	    params.add("partner_user_id",user.getUserId());
 	    params.add("item_name",fund.getFundTitle());
 	    params.add("quantity", "1");//수량
 	    params.add("total_amount", new String(fund.getFundMyPrice()+"").trim());
@@ -245,13 +263,9 @@ public class FundController {
 	    
 	    
 	    //임시처리
-	    User user = new User();
+	    
 	    Point point = new Point();
-	    
-	    user.setUserId("user01");
-	    
-	    
-	    
+	        
 	    //포인트 이것만 긁기
 	    fund.setUser(user);
 	    point.setUser(user);//userid

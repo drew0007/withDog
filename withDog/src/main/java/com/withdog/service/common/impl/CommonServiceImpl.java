@@ -47,8 +47,10 @@ public class CommonServiceImpl implements CommonService{
 		}
 		//현금결제+포인트 사용 으로 적립및 사용 전부 있는경우
 		else {
-			System.out.println("현금+포인트");
+			System.out.println("현금+포인트 둘다 사용");
 			commonDAO.savePoint(point);
+			System.out.println("왜안될까?");
+			System.out.println(point.toString());
 			commonDAO.usePoint(point);
 			
 		}

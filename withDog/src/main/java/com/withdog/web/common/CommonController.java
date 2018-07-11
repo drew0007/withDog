@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,20 +28,28 @@ public class CommonController {
 		System.out.println(this.getClass());
 	}
 	
+	@RequestMapping(value="/mainPage")
+	public String getMainPage() throws Exception {
+		
+		return "forward:/common/index.jsp";
+	}
+	
+	
+	
 	@RequestMapping(value="/getMyPointList")
-	public String getMyPointList(HttpServletRequest request)throws Exception{
+	public String getMyPointList(HttpServletRequest request,HttpSession session)throws Exception{
 		
 		System.out.println("MyPointList : Start");
 		Search search = new Search();
-		String userId = "user01";
+		
 		
 		Point point = new Point();
-		User user = new User();
-		user.setUserId(userId);
+		User user = (User)session.getAttribute("user");
+		
 		point.setUser(user);
 		
 		int currentPoint = commonService.getCurrentPoint(point);
-		List<Point> list = commonService.getMyPointList(search,userId);
+		List<Point> list = commonService.getMyPointList(search,user.getUserId());
 		
 		List<Point> resultList = new ArrayList<Point>(); 
 		for (int i = 0; i <list.size(); i++) {
