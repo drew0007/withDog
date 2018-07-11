@@ -30,9 +30,26 @@
 		});//end 이메일 입력방식
 		
 		
+		//좋아하는 견종 선택
+		$.ajax({
+		url : "/dogBreedDic/json/getAllBreedInfoListByKo",
+		method : "GET",
+		datatype : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		success : function (data) {
+			console.log(data)
+			for(var i = 0; i<data.allDogBreedInfo.length; i++){
+				$("#selecttt").append($('<option value=>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
+			}
+			
+		}		
+		});// end of ajax
+		
 		//회원가입 연결
 		$("#join").on("click" , function() {
-			
 		
 			$("form").attr("method","POST").attr("action","/user/addUser").submit();
 			
@@ -112,6 +129,12 @@
                                 <button class="highlight-button btn no-margin pull-right post-search">우편번호 검색</button>
                                 <!-- <input type="text" name="address2">-->
                             </div>
+                            
+                          	<div id="searchKeyword" class="select-style input-round big-input">
+								<select id="selecttt">
+															
+								</select>
+							</div>
                           
                         </form> 
                         
