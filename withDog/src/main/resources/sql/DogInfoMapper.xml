@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DogInfoMapper">
+
+	<resultMap id="dogInfoSelectMap" type="dogInfo">
+		<result property="dogInfoNo" column="dog_info_no" jdbcType="NUMERIC" />
+		<result property="dogInfoTitle" column="dog_info_title" jdbcType="VARCHAR" />
+		<result property="dogInfoContent" column="dog_info_content" jdbcType="VARCHAR" />
+		<result property="dogInfoTopic" column="dog_info_topic" jdbcType="VARCHAR" />
+		<result property="viewCount" column="dog_info_view_count" jdbcType="VARCHAR" />
+		<result property="recommended" column="dog_info_recommend" jdbcType="VARCHAR" />
+		<result property="notRecommended" column="dog_info_not_recommend" jdbcType="VARCHAR" />
+		<result property="regDate" column="reg_date" jdbcType="DATE" />
+		<result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR" />
+		<result property="dogInfoImage" column="dog_info_image" jdbcType="VARCHAR" />
+		<association property="user" javaType="user"> 
+	 		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+		</association>   
+	</resultMap>
+
+
+	<!-- SQL : SELECT ONE -->
+	<select id="addDogInfo" parameterType="string" resultMap="dogInfoSelectMap">
+		INSERT INTO 
+		dog_info (dog_info_no,dog_info_title,dog_info_content,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id)
+		VALUES (
+		seq_dog_info_dog_info_no.nextval,
+		#{dogInfoTitle},
+		#{dogInfoContent},
+		#{dogInfoTopic},
+		SYSDATE,
+		'0',
+		#{dogInfoImage},
+		'user05')
+	</select>
+
+	<select id="getDogBreedInfoList" parameterType="string" resultMap="dogBreedDicSelectMap">
+		SELECT *
+		FROM dog_breed_dic
+		WHERE dog_breed_ko = #{value}
+	</select>
+	
+	<select id="getAllDogBreedInfoList" resultMap="dogBreedDicSelectMap">
+		SELECT *
+		FROM dog_breed_dic
+		ORDER BY dog_no
+	</select>
+	
+	<select id="getAllDogBreedInfoListByKo" resultMap="dogBreedDicSelectMap">
+		SELECT *
+		FROM dog_breed_dic
+		ORDER BY dog_breed_Ko
+	</select>
+
+
+</mapper>
