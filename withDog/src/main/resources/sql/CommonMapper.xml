@@ -26,44 +26,56 @@
 	<select id="currentPoint" parameterType="point"	resultType="int">
 		select p.CURRENT_POINT from  point p,(select Max(point_no) mp from  point where USER_ID = #{user.userId}) pn where point_no=pn.mp  group by CURRENT_POINT
 	</select>
+	
+	<select id="myPointList" parameterType="map"	resultMap="pointSelectMap">
+		select  REG_DATE,CURRENT_POINT,FUND_MY_PRICE_NO,ASH_RESERVATION_NO,PURCHASE_NO,USE_POINT,POINT
+		from  point where user_Id = #{userId}
+	 </select>
+	
+	
 	<!-- SQL : INSERT -->
-	<insert id="addFundPoint"	parameterType="point" >
+	<insert id="addPointUse"	parameterType="point" >
 	 	INSERT
-		 INTO point 
-		 VALUES (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
+		 <if test="fund.fundTitle != null">seq_fund_fund_no.nextval</if>
+		 ,0,0,SYSDATE,#{usePoint},0,#{currentPoint})
+		 
 												
 	 </insert>
 	 
-	 <insert id="addAshPoint"	parameterType="point" >
+	 <insert id="addPointSave"	parameterType="point" >
 	 	INSERT
-		 INTO fund VALUES 
-		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
+		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
+		 <if test="fund.fundTitle!=null">seq_fund_fund_no.nextval</if>
+		 ,0,0,SYSDATE,0,#{point},#{currentPoint})
+		 										
+	 </insert>
+	
+	
+	
+	
+	<!-- <insert id="addPointUse"	parameterType="point" >
+	 	INSERT
+		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
+		 <if test="fund.fundTitle != null">seq_fund_fund_no.nextval</if>
+		 <if test="ash.ashReservationName != null">seq_ash_ash_no.nextval</if>
+		 <if test="purchase.product.prodName != null">seq_purchase_purchase_no.nextval</if> 
+		 ,0,0,SYSDATE,#{usePoint},0,#{currentPoint})
+		 
 												
 	 </insert>
 	 
-	 <insert id="addPurchasePoint"	parameterType="point" >
+	 <insert id="addPointSave"	parameterType="point" >
 	 	INSERT
-		 INTO fund VALUES 
-		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
-												
-	 </insert>
-	 
-	 <insert id="addAshSave"	parameterType="point" >
-	 	INSERT
-		 INTO fund VALUES 
-		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
-												
-	 </insert>
-	 
-	 <insert id="addPurchaseSave"	parameterType="point" >
-	 	INSERT
-		 INTO fund VALUES 
-		 (seq_point_no.nextval,#{user.userId},seq_fund_fund_no.nextval,0,0,SYSDATE,#{usePoint},#{point},#{currentPoint})
-												
-	 </insert>
+		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
+		 <if test="fund.fundTitle!=null">seq_fund_fund_no.nextval</if>
+		 <if test="ash.ashReservationName!=null">seq_ash_ash_no.nextval</if>
+		 <if test="purchase.product.prodName !=null">seq_purchase_purchase_no.nextval</if>
+		 ,0,0,SYSDATE,0,#{point},#{currentPoint})
+		 										
+	 </insert> -->
 	 
 	
-	 
 
 	 
 </mapper>

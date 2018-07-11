@@ -122,6 +122,8 @@ public class FundController {
 		
 		System.out.println(fund.toString());
 		
+
+				
 		fundService.addFund(fund);
 						
 		
@@ -135,8 +137,28 @@ public class FundController {
 		System.out.println("/getFund : Start");
 		//Business Logic
 		
+		
+		
+		HttpSession session = request.getSession(false);
+		User user = new User();
+		
+		
+		if(session.getAttribute("user")!=null) {
+			user = (User)session.getAttribute("user");
+			System.out.println(user.getUserId());
+		}
+		
+		
 		Fund fund = fundService.getFund(fundNo);
 		
+		//임시
+		Point point = new Point();
+		point.setUser(user);
+		
+		int currentPoint=commonService.getCurrentPoint(point);
+		
+		
+		request.setAttribute("currentPoint", currentPoint);
 		request.setAttribute("fund", fund);
 		
 		return "forward:/fund/getFund.jsp";
@@ -166,11 +188,16 @@ public class FundController {
 	
 	
 	@RequestMapping(value="kakaoPay")
-	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpSession session,HttpServletRequest req) throws Exception{
+	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpServletRequest req) throws Exception{
 		
 		System.out.println("kakaoPay Start==================================");
 		System.out.println(req.getParameter("usePoint"));
-		
+		HttpSession session = req.getSession(false);
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		System.out.println(user.getUserId());
+		}
 		
 		///영수증.jsp로 callback 되는지
 	    String forwardUri="forward:/sns/kakaoPay.jsp";
@@ -195,7 +222,7 @@ public class FundController {
 	    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	    params.add("cid", "TC0ONETIME");
 	    params.add("partner_order_id","admin");
-	    params.add("partner_user_id","user01");
+	    params.add("partner_user_id",user.getUserId());
 	    params.add("item_name",fund.getFundTitle());
 	    params.add("quantity", "1");//수량
 	    params.add("total_amount", new String(fund.getFundMyPrice()+"").trim());
@@ -236,39 +263,25 @@ public class FundController {
 	    
 	    
 	    //임시처리
-	    User user = new User();
+	    
 	    Point point = new Point();
-	    
-	    user.setUserId("user01");
-	    
-	    
+	        
+	    //포인트 이것만 긁기
 	    fund.setUser(user);
-	    point.setUser(user);
-	    point.setFund(fund);
+	    point.setUser(user);//userid
+	    point.setFund(fund);//후원,구매,예약 구분을 위해
+	    
 	    //후원완료 되면 add시키고 이동시키기
-	    if(fund.getFundMyPrice()!=0&&usePoint==0) {	
-	    	System.out.println(1);	
-	    fundService.addFundRaising(fund);
-	    }
-	    else if(usePoint!=0&&fund.getFundMyPrice()==0) {
-	    	System.out.println(2);
-	    
-	    point.setUsePoint(usePoint);
-	    commonService.addPointinfo(point);	
-	    }
-	    else {
-	    	System.out.println(3);
 	    fundService.addFundRaising(fund);
 	    
+	    double savePoint = price*0.01;
+	    System.out.println("적립포인트"+savePoint);
+	    int resultpoint = (int)savePoint;
+	    point.setPoint(resultpoint);
 	    point.setUsePoint(usePoint);
-	    commonService.addPointinfo(point);
-	    }
-	    
-	    
-	    
-	    
-	    
-	    
+	   	commonService.addPointinfo(point);
+	    	    
+	 
 	  return forwardUri;
 	    
     }
