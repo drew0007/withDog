@@ -1,5 +1,8 @@
 /com/
 /config/
+<<<<<<< HEAD
 /log4j.properties
 /sql/
 /withDog/
+=======
+>>>>>>> refs/remotes/origin/master

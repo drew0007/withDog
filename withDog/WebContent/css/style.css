@@ -48,7 +48,11 @@ Table of contents
 /* ===================================
     Google font
 ====================================== */
+<<<<<<< HEAD
 /*@import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);*/
+=======
+/* @import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css); */
+>>>>>>> refs/remotes/origin/master
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800);
 @import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700);
@@ -56,7 +60,11 @@ Table of contents
 /* ===================================
     Reset
 ====================================== */
+<<<<<<< HEAD
 /**{font-family: 'Spoqa Han Sans', 'Sans-serif';}*/
+=======
+/* *{font-family: 'Spoqa Han Sans', 'Sans-serif';} */
+>>>>>>> refs/remotes/origin/master
 body{ font-family: 'Open Sans', sans-serif; -webkit-font-smoothing: antialiased; font-size:14px; color:#626262; line-height:23px; letter-spacing: 0.02em }
 a{ color: #000; }
 a:hover{ color: #575757; }
@@ -1535,6 +1543,7 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .input-round { border-radius:4px !important }
 .big-input, .big-textarea, .big-select { padding: 12px 25px 11px; border:1px solid rgba(0,0,0,.2);}
 .big-label {font-size:14px; letter-spacing:2px;}
+.big-input2 {padding: 20px 25px 11px;]}
 
 /* only ie7, ie9, ie10, ie11 */
 @media screen\0 { .big-input, .big-textarea, .big-select { /* ie7, ie9, ie10, ie11+ only */ padding-bottom: 20px; } }

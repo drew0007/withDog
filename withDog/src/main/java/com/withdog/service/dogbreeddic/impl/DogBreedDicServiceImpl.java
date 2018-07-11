@@ -55,13 +55,18 @@ public class DogBreedDicServiceImpl implements DogBreedDicService {
 	}
 
 	@Override
-	public String getDogBreedKO(String dogBreedEN) throws Exception {
-		return dogBreedDicDAO.getDogBreedKO(dogBreedEN);
+	public DogBreedDic getDogBreed(String dogBreedEN) throws Exception {
+		return dogBreedDicDAO.getDogBreed(dogBreedEN);
 	}
 
 	@Override
 	public List<DogBreedDic> getAllDogBreedInfoList() throws Exception {
 		return dogBreedDicDAO.getAllDogBreedInfoList();
+	}
+
+	@Override
+	public List<DogBreedDic> getAllDogBreedInfoListByKo() throws Exception {
+		return dogBreedDicDAO.getAllDogBreedInfoListByKo();
 	}
 
 }
