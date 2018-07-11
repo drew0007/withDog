@@ -24,37 +24,56 @@
 
 
 	<!-- SQL : SELECT ONE -->
-	<select id="addDogInfo" parameterType="string" resultMap="dogInfoSelectMap">
+	<select id="addDogInfo" parameterType="dogInfo" resultMap="dogInfoSelectMap">
 		INSERT INTO 
-		dog_info (dog_info_no,dog_info_title,dog_info_content,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id)
+		dog_info (dog_info_no,dog_info_title,dog_info_content,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id,dog_info_recommend,dog_info_not_recommend,dog_info_view_count)
 		VALUES (
 		seq_dog_info_dog_info_no.nextval,
-		#{dogInfoTitle},
-		#{dogInfoContent},
-		#{dogInfoTopic},
+		#{dogInfoTitle:VARCHAR},
+		#{dogInfoContent:VARCHAR},
+		#{dogInfoTopic:VARCHAR},
 		SYSDATE,
 		'0',
-		#{dogInfoImage},
-		'user05')
+		#{dogInfoImage:VARCHAR},
+		#{user.userId},
+		'0',
+		'0',
+		'0')
+	</select>
+	
+	<select id="getDogInfo" parameterType="int" resultMap="dogInfoSelectMap">
+		SELECT *
+		FROM dog_info
+		where dog_info_no = #{value}
+	</select>
+	
+	<select id="getDogInfoList" parameterType="search" resultMap="dogInfoSelectMap">
+		SELECT *
+		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
+					FROM( SELECT * 
+									FROM dog_info
+									ORDER BY dog_info_recommend) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+<!-- 	<select id="getDogInfoList" parameterType="java.util.List" resultMap="dogInfoSelectMap"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM(SELECT inner_table.* , ROWNUM AS row_seq  -->
+<!-- 					FROM( SELECT *  -->
+<!-- 									FROM dog_info -->
+<!-- 									ORDER BY dog_info_recommend) inner_table -->
+<!-- 						WHERE ROWNUM &lt;= #{search.endRowNum} ) -->
+<!-- 					WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} -->
+<!-- 	</select> -->
+	
+	<select id="getTotalCount" resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(	SELECT * 
+						FROM dog_info
+						ORDER BY dog_info_recommend) countTable					
 	</select>
 
-	<select id="getDogBreedInfoList" parameterType="string" resultMap="dogBreedDicSelectMap">
-		SELECT *
-		FROM dog_breed_dic
-		WHERE dog_breed_ko = #{value}
-	</select>
-	
-	<select id="getAllDogBreedInfoList" resultMap="dogBreedDicSelectMap">
-		SELECT *
-		FROM dog_breed_dic
-		ORDER BY dog_no
-	</select>
-	
-	<select id="getAllDogBreedInfoListByKo" resultMap="dogBreedDicSelectMap">
-		SELECT *
-		FROM dog_breed_dic
-		ORDER BY dog_breed_Ko
-	</select>
 
 
 </mapper>

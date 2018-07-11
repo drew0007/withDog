@@ -123,6 +123,10 @@ public class DogInfo {
 	public void setDeleteFlag(String deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
+	public List<String> getDogInfoImageList() {
+		return dogInfoImageList;
+	}
+
 
 	@Override
 	public String toString() {

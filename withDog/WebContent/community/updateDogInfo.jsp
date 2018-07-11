@@ -30,13 +30,13 @@ function fncAddDogInfo(){
 		return;
 	}
 
-	$("form").attr("method","post").attr("action","/dogInfo/addDogInfo").attr("enctype","multipart/form-data").submit();
+	$("form").attr("method","post").attr("action","/dogInfo/updateDogInfo").attr("enctype","multipart/form-data").submit();
 }
 
 
 $(function () {
 	$("#asdf").on("click", function () {
-		if (confirm("등록하시겠습니까?") == true){    //확인
+		if (confirm("수정하시겠습니까?") == true){    //확인
 			fncAddDogInfo();
 		  }else{   //취소
 		      return;
@@ -84,20 +84,21 @@ $(function () {
                             	<!-- select -->
                                 <select id="dogInfoTopic" name="dogInfoTopic" class="big-input col-md-4" style="padding-bottom:13px; padding-right:10px;">
                                     <option value="" selected="selected">주제 선택</option>
-                                    <option value="1" >훈련</option>
-                                    <option value="2" >번식</option>
-                                    <option value="3" >위생</option>
-                                    <option value="4" >음식</option>
-                                    <option value="5" >행동</option>
-                                    <option value="6" >미용</option>
-                                    <option value="7" >기타</option>
+                                    <option value="1" ${dogInfo.dogInfoTopic=='1'?'selected':''}>훈련</option>
+                                    <option value="2" ${dogInfo.dogInfoTopic=='2'?'selected':''}>번식</option>
+                                    <option value="3" ${dogInfo.dogInfoTopic=='3'?'selected':''}>위생</option>
+                                    <option value="4" ${dogInfo.dogInfoTopic=='4'?'selected':''}>음식</option>
+                                    <option value="5" ${dogInfo.dogInfoTopic=='5'?'selected':''}>행동</option>
+                                    <option value="6" ${dogInfo.dogInfoTopic=='6'?'selected':''}>미용</option>
+                                    <option value="7" ${dogInfo.dogInfoTopic=='7'?'selected':''}>기타</option>
                                 </select>
                                 <!-- end select -->
                                 <!-- input  -->
-                                <input type="text" name="dogInfoTitle" placeholder="애견상식제목" class="big-input col-md-8 pull-right">
+                                <input type="text" name="dogInfoTitle" placeholder="애견상식제목" class="big-input col-md-8 pull-right" value="${dogInfo.dogInfoTitle}">
                                 <!-- end input -->
                                 <!-- textarea  -->
-                                <textarea name="dogInfoContent" placeholder="애견상식내용" class="info-textarea" ></textarea>
+								<p class="text-large" style="padding-top:60px;"><img  src = "/images/uploadFiles/dogInfo/${dogInfo.dogInfoImageList[0]}" width="400px" height="200px" alt=""/></p>
+                                <textarea name="dogInfoContent" placeholder="애견상식내용" class="info-textarea">${dogInfo.dogInfoContent}</textarea>
                                 <!-- end textarea  -->
                                 <!-- input  -->
                                 <input type="file"  id="file" name="file" class="big-input">
@@ -111,7 +112,7 @@ $(function () {
                             </form>
                             
                             <!-- button  -->
-                            <input id="asdf" type="submit" name="send" value="등록하기" class="highlight-button-dark btn btn-medium no-margin-bottom">
+                            <input id="asdf" type="submit" name="send" value="수정하기" class="highlight-button-dark btn btn-medium no-margin-bottom">
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
                         </div>

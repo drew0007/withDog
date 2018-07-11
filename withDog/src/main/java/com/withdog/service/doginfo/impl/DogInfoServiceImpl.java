@@ -1,6 +1,8 @@
 package com.withdog.service.doginfo.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,8 +32,7 @@ public class DogInfoServiceImpl implements DogInfoService {
 
 	@Override
 	public DogInfo getDogInfo(int dogInfoNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dogInfoDAO.getDogInfo(dogInfoNo);
 	}
 
 	@Override
@@ -41,9 +42,16 @@ public class DogInfoServiceImpl implements DogInfoService {
 	}
 
 	@Override
-	public List<DogInfo> getDogInfoList(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String,Object> getDogInfoList(Search search) throws Exception {
+		Map<String, Object> map = new HashMap<String,Object>();
+		List<DogInfo> list = dogInfoDAO.getDogInfoList(search);
+		int totalCount = dogInfoDAO.getTotalCount();
+		
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		System.out.println("서비스 끝");
+		
+		return map;
 	}
 
 	@Override

@@ -33,8 +33,7 @@ public class DogInfoDAOImpl implements DogInfoDAO {
 
 	@Override
 	public DogInfo getDogInfo(int dogInfoNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("DogInfoMapper.getDogInfo",dogInfoNo);
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class DogInfoDAOImpl implements DogInfoDAO {
 	@Override
 	public List<DogInfo> getDogInfoList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("DogInfoMapper.getDogInfoList",search);
 	}
 
 	@Override
@@ -65,5 +64,10 @@ public class DogInfoDAOImpl implements DogInfoDAO {
 	public void updateRecommendInfo(int dogInfoNo) throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		return sqlSession.selectOne("DogInfoMapper.getTotalCount");
 	}
 }
