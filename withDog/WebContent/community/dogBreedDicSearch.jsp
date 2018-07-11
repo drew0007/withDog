@@ -59,6 +59,7 @@
         vertical-align:middle;
         font-size:18px;
         margin-top:10px;
+        margin-left:60px;
         display: inline-block;
         line-height: 300px;
         
@@ -345,7 +346,7 @@ function googleVisionByImageURI2(a) {
 
 $(function () {
 	$(".getInfo").on("click", function () {
-		$("#ddddd").css('display',"")
+		$("#imageSearchResult").css('display',"")
 		if($(".percent",this).text()=="0"){
 			alert("이미지분석 결과가 없습니다.")
 			$("#ddddd").css('display',"none")
@@ -465,6 +466,7 @@ $(function () {
 			
 			$("button:contains('검색')").on("click",function () {
 				$("#jumpingDog").css('display','none')
+				$("#normalSearchResult").css('display','');
 				$("#result_image2").attr('src','/images/loading2.gif');
 				$.ajax({
 					url : "/dogBreedDic/json/getDogBreedInfoList",
@@ -479,6 +481,7 @@ $(function () {
 					}),
 					success : function (data) {
 						console.log(data)
+						
 						$("#result_name2").text(data.dogBreedInfo[0].dogBreedKO+" ("+data.dogBreedInfo[0].dogBreedEN+")")
 						$("#result_lifeSpan2").text("수명 : " + data.dogBreedInfo[0].dogLifeSpan)
 						$("#result_height2").text("신장 : " + data.dogBreedInfo[0].dogHeight)
@@ -567,13 +570,13 @@ $(function () {
 												<!-- end select -->
 												<button class="btn btn-black no-margin-bottom btn-large2 btn-round no-margin-top">검색</button>
 											</div>
-												<img id="jumpingDog" alt="" src="/images/jumpingdog.gif">
+												<img id="jumpingDog" alt="" src="/images/jumpingdog.gif" style="width: 80%;height: 80%">
 <!-- 										</form> -->
 										</div>
 										<!-- end 검색 버튼 --> 
 					
 										<!-- 검색 후 나오는 이미지 및 정보  -->  
-						                <div class="row" >
+						                <div id="normalSearchResult" class="row" style="display: none;margin-top: 80px;">
 						                    <!-- content  -->
 						                    <div class="col-md-6 col-sm-12 sm-margin-bottom-four">
 						                        <img id="result_image2" src="" alt="" /> <!-- adfsdfasfsafsadfdsafds -->
@@ -673,7 +676,7 @@ $(function () {
 										<!--일치율 결과 영역 끝-->
 										
 										<!-- 검색 후 나오는 이미지 및 정보  -->  
-						                <div id="ddddd" class="row" style="display: none;">
+						                <div id="imageSearchResult" class="row" style="display: none;">
 						                    <!-- content  -->
 						                    <div class="col-md-6 col-sm-12 sm-margin-bottom-four">
 										<img id="result_image" src="/images/result_image.png" alt="" />
