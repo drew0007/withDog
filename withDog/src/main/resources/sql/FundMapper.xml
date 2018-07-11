@@ -39,7 +39,7 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	<select id="getFund"	parameterType="int"	resultMap="fundSelectMap">
-		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel 
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
 		from  fund
 		where fund_no=#{value}
 		
@@ -48,14 +48,42 @@
 	 <select id="getFundList"	resultMap="fundSelectMap">
 		select fund_no,fund_Title,fund_image,fund_term,fund_Raising 
 		from  fund
-		where DELETE_FLAG ='0'
+		where DELETE_FLAG ='0' and FUND_STATE='0'
 	 </select>
+	 
+	 <select id="getMinFund"	resultMap="fundSelectMap">
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
+        from 
+        (select rownum rm ,fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
+        from 
+        (select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
+        from fund order by fund_raising)
+        )
+        where rm=1
+	</select>
 	 
 	 <insert id="addFundRaising"	parameterType="fund" >
 	 	INSERT
 		 INTO fund_info VALUES ( seq_fund_info_fund_my_price_no.nextval,#{fundNo},#{user.userId} ,'0' ,#{fundMyPrice} ,SYSDATE)
 												
 	 </insert>
+	 
+	 <update id="updateRaising" parameterType="fund">
+		UPDATE fund SET FUND_RAISING = #{fundRaising}
+		WHERE
+		fund_title = #{fundTitle}	
+	  </update>
+	
+	  <update id="updateFund" parameterType="fund">
+		UPDATE fund SET 
+		fund_title = #{fundTitle},
+		fund_image = #{fundImage},
+		FUND_CENTER = #{fundCenter},
+		FUND_PHONE = #{fundPhone},
+		FUND_TERM = #{fundTerm},
+		FUND_CONTENT = #{fundContent}
+		where fund_no = #{fundNo}
+	  </update>
 	 
 	
 	 

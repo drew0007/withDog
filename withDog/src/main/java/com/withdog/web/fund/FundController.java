@@ -48,6 +48,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.withdog.common.Search;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
@@ -131,6 +132,71 @@ public class FundController {
 		
 	}
 	
+	@RequestMapping(value="/updateFund", method=RequestMethod.GET)
+	public String updateFundView(@RequestParam("fundNo") int fundNo,HttpServletRequest request) throws Exception {
+
+		System.out.println("/updateFundView :GET Start");
+		
+	    Fund fund = fundService.getFund(fundNo);
+	    
+	    request.setAttribute("fund", fund);
+	    
+	    String Term = fund.getFundTerm();
+	    String[] temp = new String[2]; 
+	    temp = Term.split("~");
+	    
+	    request.setAttribute("temp", temp);
+		
+		
+		
+					
+		return "forward:/fund/updateFund.jsp";
+	}
+	
+	@RequestMapping(value="/updateFund",method=RequestMethod.POST)
+	public String updateFund(@ModelAttribute("fund") Fund fund,HttpServletRequest request,@RequestParam("fundImagePath") MultipartFile fileName ) throws Exception {
+
+		System.out.println("/updateFund : POST Start");
+		//Business Logic
+		
+		Properties properties = new Properties();
+		properties.load(new FileInputStream("C:/common.properties"));
+		
+		String path="";
+		String filetemp="";
+		System.out.println(1);
+		
+		if(fileName.getSize() != 0) {
+		System.out.println(2);
+		path = properties.getProperty("filepath");
+		filetemp = fileName.getOriginalFilename();
+		
+		
+		File file = new File(path+filetemp);
+		fileName.transferTo(file);
+		}
+		else {
+		System.out.println(3);
+		Fund before=fundService.getFund(fund.getFundNo());
+			
+		filetemp = before.getFundImage();	
+		}
+		
+		fund.setFundImage(filetemp);
+		
+		System.out.println(fund.toString());
+		
+
+				
+		fundService.updateFund(fund);
+						
+		
+		return "forward:/fund/getFund?fundNo="+fund.getFundNo();
+		
+	}
+	
+	
+	
 	@RequestMapping(value="/getFund")
 	public String getFund(@RequestParam("fundNo")  int fundNo,HttpServletRequest request) throws Exception {
 
@@ -142,23 +208,24 @@ public class FundController {
 		HttpSession session = request.getSession(false);
 		User user = new User();
 		
+		Fund fund = fundService.getFund(fundNo);
 		
 		if(session.getAttribute("user")!=null) {
 			user = (User)session.getAttribute("user");
 			System.out.println(user.getUserId());
+			
+			//임시
+			Point point = new Point();
+			point.setUser(user);
+			
+			int currentPoint=commonService.getCurrentPoint(point);
+			
+			
+			request.setAttribute("currentPoint", currentPoint);
 		}
 		
 		
-		Fund fund = fundService.getFund(fundNo);
 		
-		//임시
-		Point point = new Point();
-		point.setUser(user);
-		
-		int currentPoint=commonService.getCurrentPoint(point);
-		
-		
-		request.setAttribute("currentPoint", currentPoint);
 		request.setAttribute("fund", fund);
 		
 		return "forward:/fund/getFund.jsp";
@@ -180,6 +247,38 @@ public class FundController {
 				
 		request.setAttribute("list", list);
 		
+		Fund fund = new Fund();
+		fund=fundService.getMinFund();
+		System.out.println(fund.toString());
+		
+		request.setAttribute("fund", fund);
+		
+		return "forward:/fund/listFund.jsp";
+		
+		
+	 }
+	
+	@RequestMapping(value="/getFundResultList")
+	public String getFundResultList(@ModelAttribute("search") Search search,HttpServletRequest request) throws Exception{
+		 
+	 	
+	 	System.out.println("/FundList : Start");
+		
+	 		 	
+		List<Fund> list = fundService.getFundResultList(search); 	
+		
+		for (int i = 0; i < list.size(); i++) {
+		
+			System.out.println(list.get(i).toString());
+		}
+				
+		request.setAttribute("list", list);
+		
+		Fund fund = new Fund();
+		fund=fundService.getMinFund();
+		System.out.println(fund.toString());
+		
+		request.setAttribute("fund", fund);
 		
 		return "forward:/fund/listFund.jsp";
 		
@@ -197,6 +296,8 @@ public class FundController {
 		if(session.getAttribute("user")!=null) {
 		user = (User)session.getAttribute("user");
 		System.out.println(user.getUserId());
+		}else {
+		user.setUserId("temp");	
 		}
 		
 		///영수증.jsp로 callback 되는지
@@ -272,7 +373,13 @@ public class FundController {
 	    point.setFund(fund);//후원,구매,예약 구분을 위해
 	    
 	    //후원완료 되면 add시키고 이동시키기
+	    //fund테이블에 후원금액 추가
+	    int raising = price+usePoint;
+	    fund.setFundRaising(raising);
+	    System.out.println("후원금액 : "+raising);
 	    fundService.addFundRaising(fund);
+	    
+	    
 	    
 	    double savePoint = price*0.01;
 	    System.out.println("적립포인트"+savePoint);

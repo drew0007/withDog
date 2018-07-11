@@ -2,6 +2,7 @@ package com.withdog.service.fund;
 
 import java.util.List;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
 
 
@@ -13,7 +14,7 @@ public interface FundService {
 	
 	public Fund getFund(int fundNo) throws Exception;
 		
-	//public Map<String,Object> getFundResultList() throws Exception;
+	public List<Fund> getFundResultList(Search search) throws Exception;
 	
 	//public Map<String,Object> getFundUserList() throws Exception;
 	
@@ -21,9 +22,11 @@ public interface FundService {
 	
 	public void updateFund(Fund fund) throws Exception;
 	
+	public Fund getMinFund() throws Exception;
+	
 	public void deleteFund() throws Exception;
 		
-	public void fundPay() throws Exception;
+	public void updateFundRaising() throws Exception;
 	
 	public void listMyFund() throws Exception;
 	

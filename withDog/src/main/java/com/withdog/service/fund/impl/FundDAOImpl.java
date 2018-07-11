@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.fund.FundDAO;
 
@@ -39,13 +40,16 @@ public class FundDAOImpl implements FundDAO{
 	@Override
 	public int addFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("FundMapper.addFund",fund);
+		
+		int temp =sqlSession.insert("FundMapper.addFund",fund);
+		return temp;
 	}
 
 	@Override
 	public void updateFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
 		
+		sqlSession.update("FundMapper.updateFund",fund);
 	}
 
 	@Override
@@ -55,7 +59,7 @@ public class FundDAOImpl implements FundDAO{
 	}
 
 	@Override
-	public void fundPay() throws Exception {
+	public void updateFundRaising() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -81,7 +85,23 @@ public class FundDAOImpl implements FundDAO{
 	@Override
 	public void addFundRaising(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("펀딩에 정보넣기"+fund.toString());
+		sqlSession.update("FundMapper.updateRaising",fund);
+		System.out.println("펀딩에 정보넣기 성공?");
 		sqlSession.insert("FundMapper.addFundRaising",fund);
+	}
+
+	@Override
+	public Fund getMinFund() throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("MinFund Start");
+		return sqlSession.selectOne("FundMapper.getMinFund");
+	}
+
+	@Override
+	public List<Fund> getFundResultList(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("FundMapper.getFundResultList",search);
 	}
 	
 	

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.fund.FundDAO;
 import com.withdog.service.fund.FundService;
@@ -44,6 +45,7 @@ public class FundServiceImpl implements FundService{
 	@Override
 	public void updateFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
+	    fundDAO.updateFund(fund);
 		
 	}
 
@@ -54,7 +56,7 @@ public class FundServiceImpl implements FundService{
 	}
 
 	@Override
-	public void fundPay() throws Exception {
+	public void updateFundRaising() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -84,6 +86,19 @@ public class FundServiceImpl implements FundService{
 		fundDAO.addFundRaising(fund);
 	}
 
+	@Override
+	public Fund getMinFund() throws Exception {
+		// TODO Auto-generated method stub
+		return fundDAO.getMinFund();
+	}
+
+	@Override
+	public List<Fund> getFundResultList(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return fundDAO.getFundResultList(search);
+	}
+
+	
 	
 	
 	
