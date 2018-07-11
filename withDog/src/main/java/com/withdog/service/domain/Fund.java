@@ -26,6 +26,7 @@ public class Fund {
 	private int fundMyPriceNo;
 	private int fundPay;
 	private String fundContent;
+	private String deleteFlag;
 	private String paymentOption;
 	private String reqName;
 	private String reqCenter;
@@ -178,8 +179,12 @@ public class Fund {
 		this.fundContent = fundContent;
 	}
 	
-	
-	
+	public String getDeleteFlag() {
+		return deleteFlag;
+	}
+	public void setDeleteFlag(String deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -193,10 +198,12 @@ public class Fund {
 				+ fundTerm + ", fundRaising=" + fundRaising + ", fundPersonnel=" + fundPersonnel + ", fundResultPrice="
 				+ fundResultPrice + ", fundState=" + fundState + ", fundMyPrice=" + fundMyPrice + ", fundMyDate="
 				+ fundMyDate + ", fundMyPriceNo=" + fundMyPriceNo + ", fundPay=" + fundPay + ", fundContent="
-				+ fundContent + ", paymentOption=" + paymentOption + ", reqName=" + reqName + ", reqCenter=" + reqCenter
-				+ ", reqPhone=" + reqPhone + ", reqDetail=" + reqDetail + ", reqAccount=" + reqAccount + ", reqFile="
-				+ reqFile + "]";
+				+ fundContent + ", deleteFlag=" + deleteFlag + ", paymentOption=" + paymentOption + ", reqName="
+				+ reqName + ", reqCenter=" + reqCenter + ", reqPhone=" + reqPhone + ", reqDetail=" + reqDetail
+				+ ", reqAccount=" + reqAccount + ", reqFile=" + reqFile + "]";
 	}
+	
+	
 	
 	
 	

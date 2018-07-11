@@ -49,13 +49,14 @@
 	 <!-- 회원정보 업데이트 SQL : UPDATE -->
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE users
-	   	<set>
-	   		birth = #{birth},
-	   		email = #{email},
-			phone = #{phone},
-			address = #{address},
-			dog_no = #{dogNo}
-	   	</set>
+	   		<trim prefix="SET" suffixOverrides=",">
+	   			<if test="password != null">password = #{password},</if>
+	   			<if test="birth != null">birth = #{birth},</if>
+	   			<if test="email != null">email = #{email},</if>
+	   			<if test="phone != null">phone =  #{phone},</if>
+	   			<if test="address != null">address = #{address},</if>
+				<if test="dogNo != 0">dog_no = #{dogNo},</if>
+			</trim>
 	   	WHERE user_id = #{userId}
 	 </update>
 	 
