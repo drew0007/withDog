@@ -21,6 +21,7 @@
 		<typeAlias alias="ash" type="com.withdog.service.domain.Ash" />
 		<typeAlias alias="dogInfo" type="com.withdog.service.domain.DogInfo" />
 		<typeAlias alias="purchase" type="com.withdog.service.domain.Purchase" />
+		<typeAlias alias="recommendInfo" type="com.withdog.service.domain.RecommendInfo" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
 	</typeAliases>
 	
