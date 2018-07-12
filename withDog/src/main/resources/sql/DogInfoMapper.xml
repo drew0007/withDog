@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DogInfoMapper">
+
+	<resultMap id="dogInfoSelectMap" type="dogInfo">
+		<result property="dogInfoNo" column="dog_info_no" jdbcType="NUMERIC" />
+		<result property="dogInfoTitle" column="dog_info_title" jdbcType="VARCHAR" />
+		<result property="dogInfoContent" column="dog_info_content" jdbcType="VARCHAR" />
+		<result property="dogInfoTopic" column="dog_info_topic" jdbcType="VARCHAR" />
+		<result property="viewCount" column="dog_info_view_count" jdbcType="VARCHAR" />
+		<result property="recommended" column="dog_info_recommend" jdbcType="VARCHAR" />
+		<result property="notRecommended" column="dog_info_not_recommend" jdbcType="VARCHAR" />
+		<result property="regDate" column="reg_date" jdbcType="DATE" />
+		<result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR" />
+		<result property="dogInfoImage" column="dog_info_image" jdbcType="VARCHAR" />
+		<association property="user" javaType="user"> 
+	 		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+		</association>   
+	</resultMap>
+
+
+	<!-- SQL : SELECT ONE -->
+	<select id="addDogInfo" parameterType="dogInfo" resultMap="dogInfoSelectMap">
+		INSERT INTO 
+		dog_info (dog_info_no,dog_info_title,dog_info_content,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id,dog_info_recommend,dog_info_not_recommend,dog_info_view_count)
+		VALUES (
+		seq_dog_info_dog_info_no.nextval,
+		#{dogInfoTitle:VARCHAR},
+		#{dogInfoContent:VARCHAR},
+		#{dogInfoTopic:VARCHAR},
+		SYSDATE,
+		'0',
+		#{dogInfoImage:VARCHAR},
+		#{user.userId},
+		'0',
+		'0',
+		'0')
+	</select>
+	
+	<select id="getDogInfo" parameterType="int" resultMap="dogInfoSelectMap">
+		SELECT *
+		FROM dog_info
+		where dog_info_no = #{value}
+	</select>
+	
+	<select id="getDogInfoList" parameterType="search" resultMap="dogInfoSelectMap">
+		SELECT *
+		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
+					FROM( SELECT * 
+									FROM dog_info
+									ORDER BY dog_info_recommend) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+<!-- 	<select id="getDogInfoList" parameterType="java.util.List" resultMap="dogInfoSelectMap"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM(SELECT inner_table.* , ROWNUM AS row_seq  -->
+<!-- 					FROM( SELECT *  -->
+<!-- 									FROM dog_info -->
+<!-- 									ORDER BY dog_info_recommend) inner_table -->
+<!-- 						WHERE ROWNUM &lt;= #{search.endRowNum} ) -->
+<!-- 					WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} -->
+<!-- 	</select> -->
+	
+	<select id="getTotalCount" resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(	SELECT * 
+						FROM dog_info
+						ORDER BY dog_info_recommend) countTable					
+	</select>
+
+
+
+</mapper>

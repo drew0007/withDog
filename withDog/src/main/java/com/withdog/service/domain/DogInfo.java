@@ -1,5 +1,9 @@
 package com.withdog.service.domain;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 public class DogInfo {
 	private User user;
 	private int dogInfoNo;
@@ -11,6 +15,9 @@ public class DogInfo {
 	private String notRecommended;
 	private String viewCount;
 	private String recommendCondition;
+	private Date regDate;
+	private String deleteFlag;
+	private List<String> dogInfoImageList = new ArrayList<String>();
 
 	public User getUser() {
 		return user;
@@ -58,6 +65,15 @@ public class DogInfo {
 
 	public void setDogInfoImage(String dogInfoImage) {
 		this.dogInfoImage = dogInfoImage;
+
+		if (dogInfoImage.contains(",")) {
+			String[] file = dogInfoImage.split(",");
+			for (String string : file) {
+				dogInfoImageList.add(string);
+			}
+		} else {
+			dogInfoImageList.add(dogInfoImage);
+		}
 	}
 
 	public String getRecommended() {
@@ -92,12 +108,33 @@ public class DogInfo {
 		this.recommendCondition = recommendCondition;
 	}
 
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date reg_Date) {
+		this.regDate = reg_Date;
+	}
+
+	public String getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(String deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+	public List<String> getDogInfoImageList() {
+		return dogInfoImageList;
+	}
+
+
 	@Override
 	public String toString() {
-		return "DogInfo [dogInfoNo=" + dogInfoNo + ", dogInfoTitle=" + dogInfoTitle + ", dogInfoContent="
-				+ dogInfoContent + ", dogInfoTopic=" + dogInfoTopic + ", dogInfoImage=" + dogInfoImage
-				+ ", recommended=" + recommended + ", notRecommended=" + notRecommended + ", viewCount=" + viewCount
-				+ ", recommendCondition=" + recommendCondition + "]";
+		return "DogInfo [user=" + user + ", dogInfoNo=" + dogInfoNo + ", dogInfoTitle=" + dogInfoTitle
+				+ ", dogInfoContent=" + dogInfoContent + ", dogInfoTopic=" + dogInfoTopic + ", dogInfoImage="
+				+ dogInfoImage + ", recommended=" + recommended + ", notRecommended=" + notRecommended + ", viewCount="
+				+ viewCount + ", recommendCondition=" + recommendCondition + ", regDate=" + regDate + ", deleteFlag="
+				+ deleteFlag + ", dogInfoImageList=" + dogInfoImageList + "]";
 	}
 
 }
