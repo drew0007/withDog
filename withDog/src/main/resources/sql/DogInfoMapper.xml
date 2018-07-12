@@ -20,11 +20,27 @@
 		<association property="user" javaType="user"> 
 	 		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
 		</association>   
+		<association property="recommendCondition" javaType="recommendInfo"> 
+	 		<result property="recommendCondition" column="recommend_condition" jdbcType="VARCHAR"/>
+		</association>   
 	</resultMap>
+	
+	<resultMap id="recommendInfoSelectMap" type="dogInfo">
+		<result property="recommendCondition" column="recommend_condition" jdbcType="VARCHAR" />
+		<association property="dogInfo" javaType="dogInfo"> 
+	 		<result property="dogInfoNo" column="dog_info_no" jdbcType="NUMERIC"/>
+		</association>   
+		<association property="user" javaType="user"> 
+	 		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+		</association>   
+	</resultMap>
+	
+
+	
 
 
 	<!-- SQL : SELECT ONE -->
-	<select id="addDogInfo" parameterType="dogInfo" resultMap="dogInfoSelectMap">
+	<insert id="addDogInfo" parameterType="dogInfo" >
 		INSERT INTO 
 		dog_info (dog_info_no,dog_info_title,dog_info_content,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id,dog_info_recommend,dog_info_not_recommend,dog_info_view_count)
 		VALUES (
@@ -39,12 +55,18 @@
 		'0',
 		'0',
 		'0')
+	</insert>
+	
+	<select id="getDogInfoByRecommend" parameterType="java.util.Map" resultMap="dogInfoSelectMap">
+		SELECT di.* , NVL(ri.recommend_condition,'3')  as recommend_condition
+		FROM dog_info di, recommend_info ri
+		where di.dog_info_no = ri.dog_info_no AND ri.user_id = #{user.userId}  AND di.dog_info_no= #{dogInfoNo}
 	</select>
 	
 	<select id="getDogInfo" parameterType="int" resultMap="dogInfoSelectMap">
 		SELECT *
 		FROM dog_info
-		where dog_info_no = #{value}
+		WHERE dog_info_no = #{value}
 	</select>
 	
 	<select id="getDogInfoList" parameterType="search" resultMap="dogInfoSelectMap">
@@ -52,26 +74,113 @@
 		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
 					FROM( SELECT * 
 									FROM dog_info
-									ORDER BY dog_info_recommend) inner_table
+										<if test="searchCondition != null and  searchCondition !='' and searchCondition !=8">
+												<where>
+													dog_info_topic = #{searchCondition}
+												</where>
+										</if>
+										<if test="sorting == 10">
+												ORDER BY TO_NUMBER(dog_info_view_count) DESC
+										</if>
+										<if test="sorting == 11">
+												ORDER BY TO_NUMBER(dog_info_recommend) DESC
+										</if>
+										<if test= "searchKeyword !=null and searchKeyword !='' ">
+												<where>
+													user_id LIKE  '%'||#{searchKeyword}||'%' OR dog_info_title LIKE  '%'||#{searchKeyword}||'%'
+												</where>
+										</if>
+									) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	
-<!-- 	<select id="getDogInfoList" parameterType="java.util.List" resultMap="dogInfoSelectMap"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM(SELECT inner_table.* , ROWNUM AS row_seq  -->
-<!-- 					FROM( SELECT *  -->
-<!-- 									FROM dog_info -->
-<!-- 									ORDER BY dog_info_recommend) inner_table -->
-<!-- 						WHERE ROWNUM &lt;= #{search.endRowNum} ) -->
-<!-- 					WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} -->
-<!-- 	</select> -->
-	
-	<select id="getTotalCount" resultType="int" >
+	<select id="getTotalCount" parameterType="search" resultType="int" >
 		SELECT COUNT(*)
 	  	FROM(	SELECT * 
 						FROM dog_info
-						ORDER BY dog_info_recommend) countTable					
+						<if test="searchCondition != null and  searchCondition !='' and searchCondition !=8" >
+							<where>
+								dog_info_topic = #{searchCondition}
+							</where>
+						</if>
+						<if test="searchKeyword !=null and searchKeyword !='' ">
+							<where>
+								user_id LIKE  '%'||#{searchKeyword}||'%'
+							</where>
+						</if>
+						) countTable					
+	</select>
+	
+	<update id="updateDogInfo" parameterType="doginfo">
+		UPDATE dog_info
+			<set>
+			dog_info_title = #{dogInfoTitle},
+			dog_info_content = #{dogInfoContent},
+			dog_info_topic = #{dogInfoTopic},
+			dog_info_image=#{dogInfoImage}
+			</set>
+			<where> 
+			dog_info_no = #{dogInfoNo}
+			</where>
+	</update>
+	
+	<update id="updateViewCount" parameterType="doginfo">
+		UPDATE dog_info
+			<set>
+			dog_info_view_count = #{viewCount}
+			</set>
+			<where> 
+			dog_info_no = #{dogInfoNo}
+			</where>
+	</update>
+	
+	<update id="updateRecommend" parameterType="doginfo">
+		UPDATE dog_info
+			<set>
+			dog_info_recommend = #{recommended},
+			dog_info_not_recommend = #{notRecommended}
+			</set>
+			<where> 
+			dog_info_no = #{dogInfoNo}
+			</where>
+	</update>
+	
+	<insert id="addRecommendInfo" parameterType="recommendInfo">
+		INSERT 
+		INTO recommend_info
+		VALUES (#{user.userId},#{dogInfo.dogInfoNo},#{recommendCondition})
+	</insert>
+	
+	<select id="getRecommendInfo" parameterType="dogInfo" resultType="int">
+		SELECT recommend_condition
+		FROM recommend_info
+		where dog_info_no = #{dogInfoNo} AND user_id = #{user.userId}
+	</select>
+	
+	<update id="updateRecommendInfo" parameterType="dogInfo">
+		UPDATE recommend_info
+			<set>
+			recommend_condition = #{recommendCondition},
+			</set>
+			<where> 
+			dog_info_no = #{dogInfoNo}
+			</where>
+	</update>
+	
+	<delete id="deleteRecommendInfo" parameterType="java.util.Map">
+		DELETE FROM recommend_info
+		WHERE user_id = #{user.userId}  AND dog_info_no= #{dogInfoNo}
+	</delete>
+	
+	<select id="countDogInfoTopic" parameterType="string" resultType="int">
+		SELECT COUNT(dog_info_topic)
+		FROM dog_info
+		<if test="_parameter != 8">
+			<where>
+				dog_info_topic = #{_parameter}
+			</where>
+		</if>
 	</select>
 
 

@@ -11,7 +11,7 @@
 <title>애견상식 등록</title>
 
 <script type="text/javascript">
-function fncAddDogInfo(){
+function fncUpdateDogInfo(){
 	//Form 유효성 검증
  	var dogInfoTopic = $('#dogInfoTopic option:selected').val();
 	var dogInfoTitle = $('input[name=dogInfoTitle]').val();
@@ -37,7 +37,7 @@ function fncAddDogInfo(){
 $(function () {
 	$("#asdf").on("click", function () {
 		if (confirm("수정하시겠습니까?") == true){    //확인
-			fncAddDogInfo();
+			fncUpdateDogInfo();
 		  }else{   //취소
 		      return;
 		  }
@@ -94,10 +94,15 @@ $(function () {
                                 </select>
                                 <!-- end select -->
                                 <!-- input  -->
+                                <input type="hidden" name="dogInfoNo"  value="${dogInfo.dogInfoNo}">
                                 <input type="text" name="dogInfoTitle" placeholder="애견상식제목" class="big-input col-md-8 pull-right" value="${dogInfo.dogInfoTitle}">
                                 <!-- end input -->
                                 <!-- textarea  -->
-								<p class="text-large" style="padding-top:60px;"><img  src = "/images/uploadFiles/dogInfo/${dogInfo.dogInfoImageList[0]}" width="400px" height="200px" alt=""/></p>
+								<p class="text-large" style="padding-top:60px;">
+								<c:forEach var="a" items="${dogInfo.dogInfoImageList}">
+								<img  src = "/images/uploadFiles/dogInfo/${a}" width="400px" height="200px" alt=""/>
+								</c:forEach>
+								</p>
                                 <textarea name="dogInfoContent" placeholder="애견상식내용" class="info-textarea">${dogInfo.dogInfoContent}</textarea>
                                 <!-- end textarea  -->
                                 <!-- input  -->
