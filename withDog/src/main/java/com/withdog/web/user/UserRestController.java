@@ -31,22 +31,20 @@ public class UserRestController {
 	}
 	
 	///Method
-//비밀번호 변경 페이지에서 기존 비밀번호 확인
+	//비밀번호 변경 페이지에서 기존 비밀번호 확인
 	@RequestMapping( value="json/checkPassword/", method=RequestMethod.POST )
-	public boolean login(	@RequestBody User user,
+	public boolean checkPassword(	@RequestBody User user,
 									HttpSession session ) throws Exception{
 	
 		System.out.println("제이슨으로 /user/json/checkPassword");
-		System.out.println("user 확인"+user);
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
 		boolean check = false;
 		if( user.getPassword().equals(dbUser.getPassword())){
 			check = true;
 		}
-		System.out.println("체크확인"+check);
 		return check;
-	}
+	}//end of 
 
 }
 		

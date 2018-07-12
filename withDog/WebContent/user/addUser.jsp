@@ -15,6 +15,27 @@
 	
 	$( function() {
 		
+		//아이디 중복검사
+		$("#userId").change(function(){ 
+			
+			$.ajax({
+				url : "/dogBreedDic/json/getAllBreedInfoListByKo",
+				method : "GET",
+				datatype : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function (data) {
+	
+				}		
+			});
+			
+
+			}); 
+			
+		});//end 아이디 중복 검사
+		
 		//이메일 입력방식 선택 
 		$("#email2").change(function(){ 
 			$("#email2 option:selected").each(function () { 
