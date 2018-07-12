@@ -21,15 +21,28 @@
 	</resultMap>
 	
 
-	
+	<select id="getTotalCount" parameterType="string" resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(	SELECT * 
+						FROM point
+						where user_Id=#{value}
+						ORDER BY reg_date desc) countTable					
+	</select>
 	
 	<select id="currentPoint" parameterType="point"	resultType="int">
 		select p.CURRENT_POINT from  point p,(select Max(point_no) mp from  point where USER_ID = #{user.userId}) pn where point_no=pn.mp  group by CURRENT_POINT
 	</select>
 	
 	<select id="myPointList" parameterType="map"	resultMap="pointSelectMap">
-		select  REG_DATE,CURRENT_POINT,FUND_MY_PRICE_NO,ASH_RESERVATION_NO,PURCHASE_NO,USE_POINT,POINT
-		from  point where user_Id = #{userId}
+		select REG_DATE,CURRENT_POINT,FUND_MY_PRICE_NO,ASH_RESERVATION_NO,PURCHASE_NO,USE_POINT,POINT
+		from  (SELECT if.REG_DATE,if.CURRENT_POINT,if.FUND_MY_PRICE_NO,if.ASH_RESERVATION_NO,if.PURCHASE_NO,if.USE_POINT,POINT,ROWNUM AS row_seq 
+					FROM( SELECT REG_DATE,CURRENT_POINT,FUND_MY_PRICE_NO,ASH_RESERVATION_NO,PURCHASE_NO,USE_POINT,POINT
+									FROM point 
+									where 
+									USER_ID=#{userId}
+									ORDER BY reg_date) if
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		 where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	 </select>
 	
 	

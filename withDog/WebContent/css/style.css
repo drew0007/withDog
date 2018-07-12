@@ -706,7 +706,7 @@ nav .container{ display: table-cell; vertical-align: middle; height: 80px; posit
 .case-study-detials{ display: block; margin-bottom: 25px; }
 .case-study-img { min-height: 500px;}
 .case-study-details { min-height: 500px; padding: 6.3% 6%;}
-.case-study-details2 { min-height: 389px; padding: 4.3% 6%;}
+.case-study-details2 { min-height: 444px; padding: 4.3% 6%;}
 
 /* new project */
 #new-project h5 { font-size: 14px; font-weight: 400;}

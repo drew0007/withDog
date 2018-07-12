@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,10 +30,6 @@
 	 	$( "a:contains('회원탈퇴')" ).on("click" , function() {
 			$(self.location).attr("href","/user/deleteUser");
 		});
-	 		 	
-	 	$("a:contains('나의 포인트 내역')").on("click",function(){
-	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
-	 	});
 	});
 	
 	</script>
@@ -107,7 +103,7 @@
                             <div class="widget-body">
                                 <ul class="category-list">
                                     <li><a href="">나의 예약내역</a></li>
-                                    <li><a href="">나의 영상상담신청내역</a></li>
+                                    <li><a href="">영상상담신청내역</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -133,20 +129,21 @@
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="#">나의 포인트 내역</a></li>
+                                    <li><a href="/common/getMyPointList">나의 포인트 내역</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!-- end widget  -->
-                        </div>
+                        
+					   </div>
+					  
 					</div>
-					<input type="hidden" id="myPageState" name="myPageState" value="">
-					<c:if test="${!empty myPageState || myPageState =='point'}">
-						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../mypage/listMyPoint.jsp" />
-						</div>
-					</c:if>
+					
+					 <div class="col-md-3 col-sm-4 ">
+					   <jsp:include page="../mypage/listMyPoint.jsp" />
 					</div>
+					
+				</div>
 					<!-- end sidebar  -->
 		</section>			
         <!-- end content section -->

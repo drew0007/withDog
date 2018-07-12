@@ -60,7 +60,7 @@
         (select  ROWNUM  ,fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE,delete_flag 
         from   
         (select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE,delete_flag 
-        from   fund  order  by  fund_raising)
+        from   fund where fund_state='0'  order  by  fund_raising)
         )
         where ROWNUM=1
 	</select>
