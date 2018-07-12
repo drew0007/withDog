@@ -9,7 +9,7 @@
 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <jsp:include page="/common/css.jsp" />
 
-<title>크라우드펀딩등록</title>
+<title>크라우드펀딩수정</title>
 
 
 <script>

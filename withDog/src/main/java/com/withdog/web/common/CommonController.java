@@ -32,7 +32,7 @@ public class CommonController {
 		System.out.println(this.getClass());
 	}
 	
-	@Value("#{commonProperties['pointpageUnit']}")
+	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	
 	@Value("#{commonProperties['pointpageSize']}")
@@ -46,6 +46,62 @@ public class CommonController {
 		return "forward:/common/index.jsp";
 	}
 	
+	@RequestMapping(value="/myPageMain")
+	public String getMyPageMain(HttpServletRequest request,HttpSession session) throws Exception {
+		
+		String uri = "";
+		int myPageState;
+		User user = (User)session.getAttribute("user");
+
+		if(request.getParameter("myPageState")==null ) {
+			uri="/common/getMyPointList";
+		}
+		/*else {
+			myPageState=Integer.parseInt(request.getParameter("myPageState"));
+			
+			switch(myPageState) {
+				case 1 :
+					uri="";
+				break;	
+				case 2 :
+					uri="";
+				break;
+				case 3 :
+					uri="";
+				break;
+				case 4 :
+					uri="";
+				break;
+				case 5 :
+					uri="";
+				break;	
+				case 6 :
+					uri="";
+				break;
+				case 7 :
+					uri="";
+				break;
+				case 8 :
+					uri="";
+				break;
+				case 9 :
+					uri="";
+				break;
+				case 10 :
+					uri="";
+				break;
+				case 11 :
+					uri="/common/getMyPointList";
+				break;
+			
+			}
+		}*/
+		
+		
+		
+		
+		return "forward:"+uri;
+	}
 	
 	
 	@RequestMapping(value="/getMyPointList")
@@ -89,7 +145,7 @@ public class CommonController {
 		request.setAttribute("resultList", resultList);
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
-		request.setAttribute("myPageState", "point");
+		request.setAttribute("myPageState", "11");
 		
 		
 		return "forward:/mypage/myPageMain.jsp";

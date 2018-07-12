@@ -80,6 +80,18 @@ public class FundDAOImpl implements FundDAO{
 		System.out.println("check");
 		return sqlSession.selectList("FundMapper.getFundList",user);
 	}
+	
+	
+
+	@Override
+	public Fund getMyFundNo(Fund fund, User user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("fund", fund);
+		map.put("user", user);
+		
+		return sqlSession.selectOne("FundMapper.getMyFundNo",map);
+	}
 
 	@Override
 	public void addFundRaising(Fund fund) throws Exception {
@@ -116,10 +128,22 @@ public class FundDAOImpl implements FundDAO{
 	}
 	
 	
+	
 	@Override
-	public List<Fund> listMyFund(Search search, User user) throws Exception {
+	public int getMyTotalCount(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println(123);
+		return sqlSession.selectOne("FundMapper.getMyTotalCount",user);
+	}
+
+	@Override
+	public List<Fund> getMyFundList(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search",search);
+		map.put("user", user);
+		System.out.println(456);		
+		return sqlSession.selectList("FundMapper.getMyFundList",map);
 	}
 
 	@Override

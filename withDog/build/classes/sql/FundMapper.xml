@@ -25,6 +25,9 @@
 		<result property="deleteFlag" 		column="DELETE_FLAG" 				jdbcType="VARCHAR"  />
 		<!-- <result property="fundPay" 		column="" 			jdbcType="VARCHAR" /> -->
 		<result property="user.userId" 		column="USER_ID" 				jdbcType="VARCHAR"  />
+		
+		<result property="point.usePoint" 		column="use_point" 				jdbcType="INTEGER"  />
+		<result property="point.point" 		column="point" 				jdbcType="INTEGER"  />
 	</resultMap>
 	
 
@@ -39,12 +42,26 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
+	 
+	 
 	<select id="getFund"	parameterType="int"	resultMap="fundSelectMap">
 		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,delete_flag
 		from  fund
 		where fund_no=#{value}
 		
 	 </select>
+	 
+	 <select id="getMyFundNo" parameterType="map"	resultMap="fundSelectMap">
+		select FUND_MY_PRICE_NO ,purchase_date , fund_my_price
+	 	 from(select rownum ,FUND_MY_PRICE_NO ,purchase_date , fund_my_price 
+		 from (select FUND_MY_PRICE_NO ,purchase_date , fund_my_price
+				 from  fund_info
+				 where fund_no=#{fund.fundNo} and user_id=#{user.userId}
+				 order by purchase_date desc))
+		 where rownum=1
+		 
+	 </select>
+	 
 	 
 	 <select id="getFundList" parameterType="user"	resultMap="fundSelectMap">
 		select fund_no,fund_Title,fund_image,fund_term,fund_Raising,delete_flag 
@@ -71,8 +88,10 @@
 												
 	 </insert>
 	 
+	 
+	 
 	 <update id="updateRaising" parameterType="fund">
-		UPDATE fund SET FUND_RAISING = #{fundRaising}
+		UPDATE fund SET FUND_RAISING = FUND_RAISING + #{fundRaising}
 		WHERE
 		fund_title = #{fundTitle}	
 	  </update>
@@ -87,6 +106,9 @@
 		FUND_CONTENT = #{fundContent}
 		where fund_no = #{fundNo}
 	  </update>
+	  
+	
+	 
 	 
 	 
 	 <select id="getFundResultList" parameterType="map"	resultMap="fundSelectMap">
@@ -102,7 +124,60 @@
 		 where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	 </select>
 	 
-	 <select id="getTotalCount" resultType="int" >
+	 <!-- <select id="getMyFundList" parameterType="map"	resultMap="fundSelectMap">
+		select purchase_date,fund_Title,fund_term,fund_My_Price,fund_state,use_point,point,fund_my_price_no
+		from  (SELECT if.purchase_date,if.fund_Title,if.fund_term,if.fund_My_Price,if.fund_state,if.use_point,if.point,if.fund_my_price_no , ROWNUM AS row_seq
+					FROM( SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,p.point,fi.fund_my_price_no
+									FROM fund_info fi,fund f,point p
+									where 
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no
+									ORDER BY fi.purchase_date desc) if
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		 where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select> -->
+	 
+	 <select id="getMyFundList" parameterType="map"	resultMap="fundSelectMap">
+		select purchase_date,fund_Title,fund_term,fund_My_Price,fund_state,use_point,point,fund_my_price_no 
+		from  (SELECT if.purchase_date,if.fund_Title,if.fund_term,if.fund_My_Price,if.fund_state,if.use_point,if.point,if.fund_my_price_no , ROWNUM AS row_seq 
+					FROM(select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no  
+					 from 
+					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin 					
+									FROM fund_info fi,fund f,point p 
+									where  
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									ORDER BY fi.purchase_date desc) up, 
+
+			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin 
+								    FROM fund_info fi,fund f,point p 
+								    where  
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+    								ORDER BY fi.purchase_date desc) sp  
+	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) if  
+   	    WHERE ROWNUM &lt;= #{search.endRowNum} )  
+	    where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 
+	 <select id="getMyTotalCount" parameterType="user" resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no  
+					 from 
+					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin 					
+									FROM fund_info fi,fund f,point p 
+									where  
+									fi.user_Id=#{userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									ORDER BY fi.purchase_date desc) up, 
+
+			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin 
+								    FROM fund_info fi,fund f,point p 
+								    where  
+									fi.user_Id=#{userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+    								ORDER BY fi.purchase_date desc) sp  
+	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) countTable					
+	</select>
+	 
+	 
+	 <select id="getTotalCount"  resultType="int" >
 		SELECT COUNT(*)
 	  	FROM(	SELECT * 
 						FROM fund

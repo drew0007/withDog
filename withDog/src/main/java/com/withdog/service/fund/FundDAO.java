@@ -20,6 +20,8 @@ public interface FundDAO {
 	
 	public int getTotalCount() throws Exception;
 	
+	public int getMyTotalCount(User user) throws Exception;
+	
 	public List<Fund> getFundUserList(Search search,User user) throws Exception;
 	
 	public int addFund(Fund fund) throws Exception;
@@ -29,14 +31,17 @@ public interface FundDAO {
 	public Fund getMinFund() throws Exception;
 	
 	public void deleteFund(Fund fund) throws Exception;
-		
+	
+	public Fund getMyFundNo(Fund fund,User user)throws Exception;
+	
 	public void updateFundRaising() throws Exception;
 	
-	public List<Fund> listMyFund(Search search,User user) throws Exception;
+	public List<Fund> getMyFundList(Search search,User user) throws Exception;
 	
 	public void kakaoPay() throws Exception;
 	
 	public void addFundRaising(Fund fund) throws Exception;
+	
 	
 	
 		
