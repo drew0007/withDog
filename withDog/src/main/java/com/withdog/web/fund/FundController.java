@@ -270,9 +270,10 @@ public class FundController {
 	 	
 	 	System.out.println("/FundResultList : Start");
 		System.out.println(search.toString());
-		
-		User user = (User)session.getAttribute("user");
-		
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
 	 	if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -285,24 +286,7 @@ public class FundController {
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
-		//Delete Flag trim 처리를 위한 로직
-		/*List<Fund> list = (List<Fund>)map.get("list");
-		System.out.println(1);
-		System.out.println(list);
-		List<Fund> resultList = new ArrayList<Fund>();
-		Fund fund = new Fund();
 		
-		for (int i = 0; i < list.size(); i++) {
-			String deleteFlag = list.get(i).getDeleteFlag();
-			System.out.println("변환전:"+deleteFlag);
-			fund = list.get(i);
-			fund.setDeleteFlag(deleteFlag.trim());
-			System.out.println("변환:"+fund.getDeleteFlag());
-			resultList.add(fund);
-		}*/
-		////////
-	
-		//System.out.println(resultList);
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
