@@ -27,6 +27,14 @@
 		FROM dog_breed_dic	
 		WHERE dog_breed_en = #{value}
 	</select>
+	
+	<!-- SQL : SELECT ONE -->
+	<select id="getDogBreed2" parameterType="int" resultMap="dogBreedDicSelectMap">
+		SELECT
+		dog_breed_ko
+		FROM dog_breed_dic	
+		WHERE dog_no = #{value}
+	</select>
 
 	<select id="getDogBreedInfoList" parameterType="string" resultMap="dogBreedDicSelectMap">
 		SELECT *

@@ -104,7 +104,7 @@
                 	<!-- 내용 -->
             		<!-- button  -->
             		<div class="text-center">
-                    	<button class="btn btn-black no-margin-bottom btn-small" type="submit" id="delete">회원탈퇴</button>
+						<button class="highlight-button btn post-search" id="change">회원탈퇴</button>
                     </div>
                     <!-- end button  -->
             </div><!-- container -->

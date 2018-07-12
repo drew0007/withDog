@@ -65,7 +65,7 @@ public class CommonDAOImpl implements CommonDAO {
 	public void usePoint(Point point) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("addPointDAO STart");
-		if(point.getFund()!=null) {
+		
 		System.out.println("FundPoint");
 				
 		System.out.println("check:"+point.getUser().getUserId());
@@ -81,15 +81,7 @@ public class CommonDAOImpl implements CommonDAO {
 		System.out.println(point.toString());
 		sqlsession.insert("CommonMapper.addPointUse",point);
 		
-		}
-		else if(point.getAsh()!=null) {
-			System.out.println("AshPoint");
-		sqlsession.insert("CommonMapper.addAshPoint",point);
-		}
-		else if(point.getPurchase()!=null) {
-			System.out.println("PurchasePoint");
-		sqlsession.insert("CommonMapper.addPurchasePoint",point);
-		}
+
 	}
 
 	

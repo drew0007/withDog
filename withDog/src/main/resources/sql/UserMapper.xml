@@ -12,9 +12,12 @@
 		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
 		<result property="userName"			column="user_name" 			jdbcType="VARCHAR" />
 		<result property="birth"			column="birth" 				jdbcType="VARCHAR" />
-		<result property="email"			column="email" 				jdbcType="VARCHAR" />
+		<result property="email1"			column="email1" 				jdbcType="VARCHAR" />
+		<result property="email2"			column="email2" 				jdbcType="VARCHAR" />
 		<result property="phone"			column="phone" 				jdbcType="VARCHAR" />
-		<result property="address"			column="address" 			jdbcType="VARCHAR" />
+		<result property="postNo"			column="post_No" 				jdbcType="VARCHAR" />
+		<result property="address1"			column="address" 			jdbcType="VARCHAR" />
+		<result property="address2"			column="address" 			jdbcType="VARCHAR" />
 		<result property="dogNo"			column="dog_no" 			jdbcType="INTEGER" />
 		<result property="userCondition"	column="user_condition" 	jdbcType="VARCHAR" />
 		<result property="recentlyDate"		column="recently_date" 		jdbcType="DATE" />
@@ -31,17 +34,18 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO users( user_id, password, user_name, birth, email, phone, address, 
+		INTO users( user_id, password, user_name, birth, email1, email2, post_No, phone, address1, address2, 
 					dog_no, user_condition, recently_date, join_date, role) 
-		VALUES	 (	#{userId}, #{password}, #{userName}, #{birth}, #{email}, #{phone}, #{address}, 
+		VALUES	 (	#{userId}, #{password}, #{userName}, #{birth:VARCHAR}, #{email1:VARCHAR}, #{email2:VARCHAR},
+					#{phone:VARCHAR}, #{postNo:VARCHAR}, #{address1:VARCHAR}, #{address2:VARCHAR}, 
 					#{dogNo}, '1', SYSDATE, SYSDATE, 'user') 
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id, password, user_name, birth, email, phone, address,
-		dog_no,role	
+		user_id, password, user_name, birth, phone, email1, email2, post_No, phone, address1, address2, 
+		dog_no, user_condition, recently_date, join_date, role
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>
@@ -52,9 +56,11 @@
 	   		<trim prefix="SET" suffixOverrides=",">
 	   			<if test="password != null">password = #{password},</if>
 	   			<if test="birth != null">birth = #{birth},</if>
-	   			<if test="email != null">email = #{email},</if>
+	   			<if test="email1 != null">email1 = #{email1},</if>
+	   			<if test="email2 != null">email2 = #{email2},</if>
 	   			<if test="phone != null">phone =  #{phone},</if>
-	   			<if test="address != null">address = #{address},</if>
+	   			<if test="address1 != null">address = #{address1},</if>
+	   			<if test="address2 != null">address = #{address2},</if>
 				<if test="dogNo != 0">dog_no = #{dogNo},</if>
 			</trim>
 	   	WHERE user_id = #{userId}

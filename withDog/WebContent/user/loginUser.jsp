@@ -51,24 +51,28 @@
 
 <body>
 
-		<jsp:include page="../layout/header.jsp" />
-<!-- head section -->
-         <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" />
+	<jsp:include page="/layout/common-header.jsp" />
+		
+	 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/login_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
-                        <h1 class="white-text">login page </h1>
+                        <h1 class="white-text tit_png"><img src="../images/sub/login_tit.png"></h1>
                         <!-- end page title -->
                         <!-- page title tagline -->
-                        <span class="white-text xs-display-none">with Dog</span>
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
                         <!-- end title tagline -->
                     </div>
                 </div>
             </div>
         </section>
         <!-- end head section -->
+        
       	<!-- content section -->
         <section class="wow fadeIn">
             <div class="container">
@@ -91,7 +95,7 @@
                             
                          <button class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit" id="login">Login</button>
                         
-                         <a href="#" class="display-block text-uppercase"> >> 아이디 비빌번호 찾기</a> 
+                         <a href="#" class="display-block text-uppercase"> >> 아이디 비밀번호 찾기</a> 
                          
                          <div>
                          

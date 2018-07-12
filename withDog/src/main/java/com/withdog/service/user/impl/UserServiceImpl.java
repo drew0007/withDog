@@ -26,8 +26,7 @@ public class UserServiceImpl implements UserService {
 	///Method
 	@Override
 	public void addUser(User user) throws Exception {
-		
-		
+		userDAO.addUser(user);
 	}
 
 	@Override
@@ -38,8 +37,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUser(User user) throws Exception {
-		// TODO Auto-generated method stub
-
+		 userDAO.updateUser(user);
 	}
 
 	@Override

@@ -37,25 +37,28 @@
 
 <body>
 		
-		<jsp:include page="../layout/header.jsp" />
+	<jsp:include page="/layout/common-header.jsp" />
 		
-		<!-- head section -->
-         <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/604_bg.jpg" alt="" />
+	 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/304_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
-                        <h1 class="white-text">My page</h1>
+                        <h1 class="white-text tit_png"><img src="../images/sub/myPage_tit.png"></h1>
                         <!-- end page title -->
                         <!-- page title tagline -->
-                        <span class="white-text xs-display-none">Register and modify user information.</span>
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
                         <!-- end title tagline -->
                     </div>
                 </div>
             </div>
         </section>
         <!-- end head section -->
+
         
         <!-- content section -->
         <section class="wow fadeIn">
@@ -133,6 +136,7 @@
                         
 					</div>
 					<!-- end sidebar  -->
+		</section>			
         <!-- end content section -->
         
 		<jsp:include page="../layout/footer.jsp" />
