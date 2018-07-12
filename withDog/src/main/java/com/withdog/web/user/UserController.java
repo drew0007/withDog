@@ -62,7 +62,7 @@ public class UserController {
 		
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
-		
+
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
 			userService.updateRecentlyDate(dbUser.getUserId());

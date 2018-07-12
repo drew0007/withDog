@@ -49,11 +49,11 @@ dog_info_image VARCHAR2(20) UNIQUE,
 dog_info_content VARCHAR2(1000),
 dog_info_title VARCHAR2(200) NOT NULL,
 dog_info_topic VARCHAR2(20),
-dog_info_view_count VARCHAR2(10),
-dog_info_recommend VARCHAR2(10),
-dog_info_not_recommend VARCHAR2(10),
+dog_info_view_count VARCHAR2(10) DEFAULT '0',
+dog_info_recommend VARCHAR2(10) DEFAULT '0',
+dog_info_not_recommend VARCHAR2(10) DEFAULT '0',
 reg_date DATE,
-delete_flag VARCHAR2(3) DEFAULT 0,
+delete_flag VARCHAR2(3) DEFAULT '0',
 PRIMARY KEY (dog_info_no)
 );
 

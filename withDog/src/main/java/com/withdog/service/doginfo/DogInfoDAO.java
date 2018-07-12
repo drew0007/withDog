@@ -19,5 +19,7 @@ public interface DogInfoDAO {
 	public void updateRecommend(DogInfo dogInfo) throws Exception;
 
 	public void updateRecommendInfo(int dogInfoNo) throws Exception;
+	
+	public int getTotalCount() throws Exception;
 
 }
