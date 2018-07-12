@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.withdog.service.dogbreeddic.DogBreedDicService;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserService;
 
@@ -27,6 +28,10 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("dogBreedDicServiceImpl")
+	private DogBreedDicService dogBreedDicService;
 	
 	///Page 
 	@Value("#{commonProperties['pageUnit']}")
@@ -58,15 +63,12 @@ public class UserController {
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
 		
-		
-		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
-			
 			userService.updateRecentlyDate(dbUser.getUserId());
 		}
 		
-		return "redirect:/common/index.jsp";
+		return "redirect:/mypage/myPageMain.jsp";
 	}
 	
 	///로그아웃 GET
@@ -91,14 +93,19 @@ public class UserController {
 	
 	//회원가입 POST (회원가입창에서 가입하기 눌러서 전송)
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser(@ModelAttribute("user") User user )  throws Exception {
+	public String addUser(@ModelAttribute("user") User user, HttpSession session)
+														throws Exception {
 
 		System.out.println("회원가입 :: /user/addUser : POST");
-		
+
 		//Business Logic
-		//userService.addUser(user);
 		
-		return "redirect:/user/getUser.jsp";
+		userService.addUser(user);
+		
+		user = userService.getUser(user.getUserId());
+		session.setAttribute("user", user);
+		
+		return "forward:/user/getUser.jsp";
 	}
 
 	//회원정보 조회 GET 
@@ -108,18 +115,13 @@ public class UserController {
 		System.out.println("회원정보 조회 :: /user/getUser : GET");
 	
 		User user =  (User) session.getAttribute("user");
-	
-		String userId;
+		String userId  = user.getUserId();
 		
-		if(user==null) {
-			userId  ="aaa";
-		}else {
-			userId  = user.getUserId();
-		}
 		
 		//Business Logic
 		 user = userService.getUser(userId);
-		// Model 과 View 연결
+		 
+		 // Model 과 View 연결
 		model.addAttribute("user", user);
 		
 		return "forward:/user/getUser.jsp";

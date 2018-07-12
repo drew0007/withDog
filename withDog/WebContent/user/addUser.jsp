@@ -16,68 +16,78 @@
 	$( function() {
 		
 		//이메일 입력방식 선택 
-		$("#selectEmail").change(function(){ 
-			$("#selectEmail option:selected").each(function () { 
+		$("#email2").change(function(){ 
+			$("#email2 option:selected").each(function () { 
 				if($(this).val()== '1'){ //직접입력일 경우 
-					$("#email02").val(''); //값 초기화
-					$("#email02").attr("disabled",false); //활성화 
-					}else{ //직접입력이 아닐경우 
-						$("#email02").val($(this).text()); //선택값 입력
-						$("#email02").attr("disabled",true); //비활성화 
-				} 
+					$("#emailText").val(''); //값 초기화
+					$("#emailText").attr("disabled",false); //활성화 
+				}else{ //직접입력이 아닐경우 
+					$("#emailText").val($(this).text()); //선택값 입력
+					$("#emailText").attr("disabled",true); //비활성화
+				} 		
+				
 			}); 
 			
 		});//end 이메일 입력방식
 		
-		
 		//좋아하는 견종 선택
 		$.ajax({
-		url : "/dogBreedDic/json/getAllBreedInfoListByKo",
-		method : "GET",
-		datatype : "json",
-		headers : {
-			"Accept" : "application/json",
-			"Content-Type" : "application/json"
-		},
-		success : function (data) {
-			console.log(data)
-			for(var i = 0; i<data.allDogBreedInfo.length; i++){
-				$("#selecttt").append($('<option value=>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
-			}
-			
-		}		
+			url : "/dogBreedDic/json/getAllBreedInfoListByKo",
+			method : "GET",
+			datatype : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			success : function (data) {
+				console.log(data)
+				for(var i = 0; i<data.allDogBreedInfo.length; i++){
+					$("#selecttt").append($('<option value='+data.allDogBreedInfo[i].dogNo+'>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
+				}
+			}		
 		});// end of ajax
 		
 		//회원가입 연결
 		$("#join").on("click" , function() {
-		
-			$("form").attr("method","POST").attr("action","/user/addUser").submit();
 			
+			//가입으로 넘기기전 체크사항 
+			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 
+			if($("#email2").val()=='1' ){
+				var email2= '@'+$("#emailText").val();
+				$("#email2 option:selected").val(email2);
+			}
+			
+			///2.좋아하는 견종 :: option value값이 String => 도메인이 int 이므로 바꿔서
+			var dogNo = $("#selecttt").val()*1;
+			$("#selecttt option:selected").val(dogNo);
+			
+			$("form").attr("method","POST").attr("action","/user/addUser").submit();
 			
 		});
 		
+		
 	});//end 제이쿼리
-	
 
 	</script>
 
-
 </head>
 <body>
+
+	<jsp:include page="/layout/common-header.jsp" />
 		
-		<jsp:include page="../layout/header.jsp" />
-		
-		<!-- head section -->
-         <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/100_bg.jpg" alt="" />
+	 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/join_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
-                        <h1 class="white-text">User Registration</h1>
+                        <h1 class="white-text tit_png"><img src="../images/sub/join_tit.png"></h1>
                         <!-- end page title -->
                         <!-- page title tagline -->
-                        <span class="white-text xs-display-none">Register and modify user information.</span>
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
                         <!-- end title tagline -->
                     </div>
                 </div>
@@ -104,6 +114,11 @@
                                 <label>비밀번호:</label>
                                 <input type="password" name="password">
                             </div>
+                            
+                            <div class="col-md-12 no-padding">
+                                <label>비밀번호 확인:</label>
+                                <input type="password" name="passwordCheck">
+                            </div>
               				
               				 <div class="col-md-12 no-padding">
                                 <label>이름:</label>
@@ -121,19 +136,38 @@
                             </div>
                             
                             <div class="col-md-12 no-padding">
+                                <p style="margin-bottom:10px">이메일:</p>
+                                <input type="text" name="email1" class="col-md-4" id="email1">
+                                 <input type="text" name="emailText"class="col-md-4" id="emailText">
+                             	<div class="col-md-4 input-round">
+									<select name="email2" id="email2">
+										<option value="1">직접입력</option>
+										<option value="naver.com">@naver.com</option>
+										<option value="daum.net">@daum.net</option>
+										<option value="gmail.com">@gmail.com</option>
+										<option value="hotmail.com">@hotmail.com</option>
+										<option value="nate.com">@nate.com</option>
+									</select>
+                            	 </div>
+                            </div> 
+                            
+                            <div class="col-md-12 no-padding">
                                 <label>주소:</label>
                             </div>
                             
                             <div class="col-md-12 no-padding">
-                                <input type="text" name="address" class="col-md-8">
+                             	<input type="text" name="postNo" class="col-md-8">
+                                <input type="text" name="address1" class="col-md-8">
                                 <button class="highlight-button btn no-margin pull-right post-search">우편번호 검색</button>
-                                <!-- <input type="text" name="address2">-->
+                                <input type="text" name="address2">
                             </div>
                             
-                          	<div id="searchKeyword" class="select-style input-round big-input">
-								<select id="selecttt">
-															
-								</select>
+                            <div class="col-md-12 no-padding">
+                            	 <label>좋아하는 견종:</label>
+	                          	<div id="searchKeyword" class="select-style input-round big-input">
+									<select id="selecttt" name="dogNo">
+									</select>
+								</div>
 							</div>
                           
                         </form> 
