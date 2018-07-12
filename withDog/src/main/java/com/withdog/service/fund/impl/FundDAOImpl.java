@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
+import com.withdog.service.domain.User;
 import com.withdog.service.fund.FundDAO;
 
 
@@ -53,19 +54,16 @@ public class FundDAOImpl implements FundDAO{
 	}
 
 	@Override
-	public String deleteFund() throws Exception {
+	public void deleteFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateFundRaising() throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("delete Start=======================");
+		System.out.println(fund.getFundNo());
+		sqlSession.update("FundMapper.deleteFund",fund);
 		
 	}
 
 	@Override
-	public void listMyFund() throws Exception {
+	public void updateFundRaising() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -77,9 +75,10 @@ public class FundDAOImpl implements FundDAO{
 	}
 
 	@Override
-	public List<Fund> getFundList() throws Exception {
+	public List<Fund> getFundList(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("FundMapper.getFundList");
+		System.out.println("check");
+		return sqlSession.selectList("FundMapper.getFundList",user);
 	}
 
 	@Override
@@ -94,14 +93,39 @@ public class FundDAOImpl implements FundDAO{
 	@Override
 	public Fund getMinFund() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("MinFund Start");
 		return sqlSession.selectOne("FundMapper.getMinFund");
 	}
 
 	@Override
-	public List<Fund> getFundResultList(Search search) throws Exception {
+	public List<Fund> getFundResultList(Search search,User user) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("FundMapper.getFundResultList",search);
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search",search);
+		map.put("user", user);
+		
+		System.out.println(user.getRole());
+		
+		return sqlSession.selectList("FundMapper.getFundResultList",map);
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("FundMapper.getTotalCount");
+	}
+	
+	
+	@Override
+	public List<Fund> listMyFund(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Fund> getFundUserList(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

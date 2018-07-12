@@ -54,12 +54,12 @@
                             <div class="col-lg-6 col-md-6 case-study-img cover-background no-padding">
                             <img alt="" src="../images/fund/${fund.fundImage}">
                             </div>
-                            <div class="col-lg-6 col-md-6 case-study-details no-margin-top" style="border: 5px solid #d7d7d7;">	
-                               <!--  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                    <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">당신의 후원을</span>
-                                </div> -->
+                            <div class="col-lg-6 col-md-6 case-study-details2 no-margin-top" style="border: 5px solid #d7d7d7;">	
+                             <%--  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                    <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">${fund.fundTitle}</span>
+                                </div> --%>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 about-text position-relative xs-text-center">
-                                    <p class="fund-title" style="margin-top:30px;" align="center">${fund.fundTitle}</p>
+                                    <p class="fund-title2" style="margin-top:30px;" align="center">${fund.fundTitle}</p>
                                     <div class="borderline"></div>
                                     <span class="fund-center">모집기관 : ${fund.fundCenter}</span><br>
                                     <span class="fund-center">모집기간 : ${fund.fundTerm}</span><br>

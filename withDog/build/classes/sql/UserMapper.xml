@@ -41,7 +41,7 @@
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
 		user_id, password, user_name, birth, email, phone, address,
-		dog_no	
+		dog_no,role	
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>

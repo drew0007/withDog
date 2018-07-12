@@ -12,6 +12,17 @@
 
 <title>펀딩 리스트</title>
 
+<script type="text/javascript">
+
+function fncGetList(currentPage) {
+ 	$("#currentPage").val(currentPage)
+	$("form").attr("method","POST").attr("action","/fund/getFundResultList").submit();
+}
+
+
+</script>
+
+
 </head>
 
 
@@ -22,6 +33,10 @@
 	
 	
 	 <!-- head section -->
+	 <form>
+	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
+     <input type="hidden" id="currentPage" name="currentPage" value=""/>
+     </form>
          <section class="page-title parallax3 parallax-fix page-title-blog">
             <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
             <img class="parallax-background-img" src="../images/sub/700_bg.jpg" alt="" />
@@ -51,26 +66,33 @@
                                        
                     <!-- 펀딩 item 01 -->
                     <c:forEach var="list" items="${list}">
-                    <div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="getFund?fundNo=${list.fundNo}"><img src="../images/fund/${list.fundImage}" alt=""></a></div>
-                            <div class="post-details">
-                                <a href="" class="fund-title">${list.fundTitle}</a>
-                                <span class="fund-center">${list.fundCenter}</span>
-                                <div class="borderline"></div>
-                                <span class="fund-term">후원모집기간 : ${list.fundTerm}</span><br/>
-                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
-                                
-                            </div>
-                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>
-                        </div>
-                    </div>
+                     
+	                    <div class="col-md-4 col-sm-4">
+	                        <div class="blog-post">
+	                            <div class="blog-post-images"><a href="getFund?fundNo=${list.fundNo}"><img src="../images/fund/${list.fundImage}" alt=""></a></div>
+	                            <div class="post-details">
+	                                <a href="" class="fund-title">${list.fundTitle}</a>
+	                                <span class="fund-center">${list.fundCenter}</span>
+	                                <div class="borderline"></div>
+	                                <span class="fund-term">후원모집기간 : ${list.fundTerm}</span><br/>
+	                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
+	                                
+	                            </div>
+	                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>
+	                        </div>
+	                    </div>
+	                    
                     </c:forEach>
                    
                 </div>
-        		<div align="right">
+        		<!-- <div align="right">
         		     <a class="highlight-button btn-medium button margin-five" href="addFundView">등록하기</a>
-        		</div>        
+        		</div> -->
+        		<div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp">
+                        <!-- pagination -->
+						<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
+                        <!-- end pagination -->
+                    </div>        
             </div>
         </section>
         <!-- end content section -->

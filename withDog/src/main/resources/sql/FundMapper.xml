@@ -22,6 +22,7 @@
 		<result property="fundMyPrice"    column="FUND_MY_PRICE" jdbcType="INTEGER"/>
 		<result property="fundMyDate"    column="PURCHASE_DATE" jdbcType="DATE"/>
 		<result property="fundMyPriceNo" 		column="FUND_MY_PRICE_NO" 				jdbcType="INTEGER"  />
+		<result property="deleteFlag" 		column="DELETE_FLAG" 				jdbcType="VARCHAR"  />
 		<!-- <result property="fundPay" 		column="" 			jdbcType="VARCHAR" /> -->
 		<result property="user.userId" 		column="USER_ID" 				jdbcType="VARCHAR"  />
 	</resultMap>
@@ -39,27 +40,29 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	<select id="getFund"	parameterType="int"	resultMap="fundSelectMap">
-		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,delete_flag
 		from  fund
 		where fund_no=#{value}
 		
 	 </select>
 	 
-	 <select id="getFundList"	resultMap="fundSelectMap">
-		select fund_no,fund_Title,fund_image,fund_term,fund_Raising 
+	 <select id="getFundList" parameterType="user"	resultMap="fundSelectMap">
+		select fund_no,fund_Title,fund_image,fund_term,fund_Raising,delete_flag 
 		from  fund
-		where DELETE_FLAG ='0' and FUND_STATE='0'
+		where 
+		<if test="role == 'user'">delete_flag='0'and</if>
+		FUND_STATE='0'
 	 </select>
 	 
 	 <select id="getMinFund"	resultMap="fundSelectMap">
-		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
-        from 
-        (select rownum rm ,fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
-        from 
-        (select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE
-        from fund order by fund_raising)
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE,delete_flag   
+		from  
+        (select  ROWNUM  ,fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE,delete_flag 
+        from   
+        (select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Raising,fund_personnel,FUND_PHONE,FUND_STATE,delete_flag 
+        from   fund  order  by  fund_raising)
         )
-        where rm=1
+        where ROWNUM=1
 	</select>
 	 
 	 <insert id="addFundRaising"	parameterType="fund" >
@@ -85,6 +88,33 @@
 		where fund_no = #{fundNo}
 	  </update>
 	 
+	 
+	 <select id="getFundResultList" parameterType="map"	resultMap="fundSelectMap">
+		select fund_no,fund_Title,fund_image,fund_term,fund_Raising  ,delete_flag
+		from  (SELECT if.fund_no,if.fund_Title,if.fund_image,if.fund_term,if.fund_Raising ,if.delete_flag, ROWNUM AS row_seq 
+					FROM( SELECT fund_no,fund_Title,fund_image,fund_term,fund_Raising ,delete_flag
+									FROM fund 
+									where 
+									<if test="user.role == 'user'">delete_flag='0'and</if>
+									FUND_STATE='1'
+									ORDER BY reg_date) if
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		 where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 <select id="getTotalCount" resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(	SELECT * 
+						FROM fund
+						where FUND_STATE='1'
+						ORDER BY reg_date desc) countTable					
+	</select>
+	
+	<update id="deleteFund" parameterType="fund">
+		UPDATE fund SET delete_flag = '1'
+		WHERE
+		fund_No = #{fundNo}	
+	  </update>
 	
 	 
 </mapper>

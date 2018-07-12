@@ -165,8 +165,8 @@
                                        <li class="dropdown-header">크라우드펀딩</li>
                                         <li><a href="/fund/fundGuid">크라우드펀딩이란?</a></li>
                                         <li><a href="/fund/getFundList">크라우드펀딩 목록</a></li>
-                                        <li><a href="/fund/getFundList">펀딩완료목록</a></li>
-                                        <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>>
+                                        <li><a href="/fund/getFundResultList">완료된펀딩목록</a></li>
+                                        <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>
                                     </ul>
                                     <!-- end sub menu item  -->
                                     <!-- end sub menu single -->

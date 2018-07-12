@@ -42,6 +42,9 @@ $(function(){
 	$("span:contains('펀딩수정')").on("click",function(){
 		self.location.href="/fund/updateFund?fundNo=${fund.fundNo}";
 	});
+	$("span:contains('펀딩삭제')").on("click",function(){
+		self.location.href="/fund/deleteFund?fundNo=${fund.fundNo}";
+	});
 });
 
 
@@ -210,6 +213,9 @@ $(function(){
                 </div>
                 <div class="text-center">
 					<span class="highlight-button btn btn-medium">펀딩수정</span>
+				</div>
+				<div class="text-center">
+					<span class="highlight-button btn btn-medium">펀딩삭제</span>
 				</div>
             </div>
         </section>

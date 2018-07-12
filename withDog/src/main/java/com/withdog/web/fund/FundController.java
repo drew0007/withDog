@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.withdog.common.Page;
 import com.withdog.common.Search;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Fund;
@@ -85,14 +87,14 @@ public class FundController {
 	
 	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
 	//==> 아래의 두개를 주석을 풀어 의미를 확인 할것
-/*	@Value("#{commonProperties['pageUnit']}")
-	//@Value("#{commonProperties['pageUnit'] ?: 3}")
+	@Value("#{commonProperties['fundpageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
-	//@Value("#{commonProperties['pageSize'] ?: 2}")
-	int pageSize;*/
+	@Value("#{commonProperties['fundpageSize']}")
+	int pageSize;
 	
+	@Value("#{commonProperties['fundfilePath']}")
+	String path;
 	
 	@RequestMapping(value="/addFundView", method=RequestMethod.GET)
 	public String addFundView() throws Exception {
@@ -109,10 +111,10 @@ public class FundController {
 		System.out.println("/addFund : POST Start");
 		//Business Logic
 		
-		Properties properties = new Properties();
-		properties.load(new FileInputStream("C:/common.properties"));
+		/*Properties properties = new Properties();
+		properties.load(new FileInputStream("C:/common.properties"));*/
 		
-		String path = properties.getProperty("filepath");
+		/*String path = properties.getProperty("filepath");*/
 		String filetemp = fileName.getOriginalFilename();
 		
 		File file = new File(path+filetemp);
@@ -233,12 +235,14 @@ public class FundController {
 	
 	
 	@RequestMapping(value="/getFundList")
-	public String getFundList(HttpServletRequest request) throws Exception{
+	public String getFundList(HttpServletRequest request,HttpSession session) throws Exception{
 		 
 	 	
 	 	System.out.println("/FundList : Start");
+	 	
+	 	User user = (User)session.getAttribute("user");
 		
-		List<Fund> list = fundService.getFundList(); 	
+	 	List<Fund> list = fundService.getFundList(user); 	
 		
 		for (int i = 0; i < list.size(); i++) {
 		
@@ -252,6 +256,8 @@ public class FundController {
 		System.out.println(fund.toString());
 		
 		request.setAttribute("fund", fund);
+		
+		System.out.println("FundList End=================================");
 		
 		return "forward:/fund/listFund.jsp";
 		
@@ -259,35 +265,57 @@ public class FundController {
 	 }
 	
 	@RequestMapping(value="/getFundResultList")
-	public String getFundResultList(@ModelAttribute("search") Search search,HttpServletRequest request) throws Exception{
+	public String getFundResultList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception{
 		 
 	 	
-	 	System.out.println("/FundList : Start");
+	 	System.out.println("/FundResultList : Start");
+		System.out.println(search.toString());
 		
+		User user = (User)session.getAttribute("user");
+		
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
 	 		 	
-		List<Fund> list = fundService.getFundResultList(search); 	
+		Map<String,Object> map = fundService.getFundResultList(search,user); 	
+		
+		System.out.println("MAP 체크 ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		//Delete Flag trim 처리를 위한 로직
+		/*List<Fund> list = (List<Fund>)map.get("list");
+		System.out.println(1);
+		System.out.println(list);
+		List<Fund> resultList = new ArrayList<Fund>();
+		Fund fund = new Fund();
 		
 		for (int i = 0; i < list.size(); i++) {
-		
-			System.out.println(list.get(i).toString());
-		}
+			String deleteFlag = list.get(i).getDeleteFlag();
+			System.out.println("변환전:"+deleteFlag);
+			fund = list.get(i);
+			fund.setDeleteFlag(deleteFlag.trim());
+			System.out.println("변환:"+fund.getDeleteFlag());
+			resultList.add(fund);
+		}*/
+		////////
+	
+		//System.out.println(resultList);
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
 				
-		request.setAttribute("list", list);
 		
-		Fund fund = new Fund();
-		fund=fundService.getMinFund();
-		System.out.println(fund.toString());
-		
-		request.setAttribute("fund", fund);
-		
-		return "forward:/fund/listFund.jsp";
+		return "forward:/fund/listFundResult.jsp";
 		
 		
 	 }
 	
 	
 	@RequestMapping(value="kakaoPay")
-	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpServletRequest req) throws Exception{
+	private String kakaoPay(@ModelAttribute("fund") Fund fund,HttpServletRequest req) throws Exception{
 		
 		System.out.println("kakaoPay Start==================================");
 		System.out.println(req.getParameter("usePoint"));
@@ -409,6 +437,18 @@ public class FundController {
 		
 		
 		return "forward:/fund/fundReceipt.jsp";
+	}
+	
+	@RequestMapping(value="/deleteFund")
+	public String deleteFund(@ModelAttribute("fund") Fund fund) throws Exception {
+
+		System.out.println("/deleteFUnd : Start");
+	
+		/*Fund ofund = fundService.getFund(fund.getFundNo());*/
+		
+		fundService.deleteFund(fund);
+					
+		return "forward:/fund/getFundList";
 	}
 	
 	

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
+import com.withdog.service.domain.User;
 import com.withdog.service.fund.FundDAO;
 import com.withdog.service.fund.FundService;
 
@@ -50,9 +51,9 @@ public class FundServiceImpl implements FundService{
 	}
 
 	@Override
-	public void deleteFund() throws Exception {
+	public void deleteFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		
+		fundDAO.deleteFund(fund);
 	}
 
 	@Override
@@ -61,11 +62,7 @@ public class FundServiceImpl implements FundService{
 		
 	}
 
-	@Override
-	public void listMyFund() throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void kakaoPay() throws Exception {
@@ -74,9 +71,9 @@ public class FundServiceImpl implements FundService{
 	}
 
 	@Override
-	public List<Fund> getFundList() throws Exception {
+	public List<Fund> getFundList(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return fundDAO.getFundList();
+		return fundDAO.getFundList(user);
 	}
 
 	@Override
@@ -93,9 +90,27 @@ public class FundServiceImpl implements FundService{
 	}
 
 	@Override
-	public List<Fund> getFundResultList(Search search) throws Exception {
+	public Map<String,Object> getFundResultList(Search search,User user) throws Exception {
 		// TODO Auto-generated method stub
-		return fundDAO.getFundResultList(search);
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Fund> list = fundDAO.getFundResultList(search,user);
+		int totalCount = fundDAO.getTotalCount();
+		map.put("list", list);
+		map.put("totalCount",totalCount);
+				
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getFundUserList(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Fund> listMyFund(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
