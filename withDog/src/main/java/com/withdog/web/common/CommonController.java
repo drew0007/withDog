@@ -2,15 +2,19 @@ package com.withdog.web.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.withdog.common.Page;
 import com.withdog.common.Search;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Point;
@@ -28,6 +32,14 @@ public class CommonController {
 		System.out.println(this.getClass());
 	}
 	
+	@Value("#{commonProperties['pointpageUnit']}")
+	int pageUnit;
+	
+	@Value("#{commonProperties['pointpageSize']}")
+	int pageSize;
+	
+	
+	
 	@RequestMapping(value="/mainPage")
 	public String getMainPage() throws Exception {
 		
@@ -37,11 +49,14 @@ public class CommonController {
 	
 	
 	@RequestMapping(value="/getMyPointList")
-	public String getMyPointList(HttpServletRequest request,HttpSession session)throws Exception{
+	public String getMyPointList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session)throws Exception{
 		
 		System.out.println("MyPointList : Start");
-		Search search = new Search();
 		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}		
+		search.setPageSize(pageSize);
 		
 		Point point = new Point();
 		User user = (User)session.getAttribute("user");
@@ -49,8 +64,8 @@ public class CommonController {
 		point.setUser(user);
 		
 		int currentPoint = commonService.getCurrentPoint(point);
-		List<Point> list = commonService.getMyPointList(search,user.getUserId());
-		
+		Map<String,Object> map = commonService.getMyPointList(search,user.getUserId());
+		List<Point> list = (List<Point>)map.get("list");
 		List<Point> resultList = new ArrayList<Point>(); 
 		for (int i = 0; i <list.size(); i++) {
 			System.out.println(list.get(i).toString());
@@ -68,11 +83,16 @@ public class CommonController {
 			resultList.add(point);
 		}
 		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
 		request.setAttribute("currentPoint", currentPoint);
 		request.setAttribute("resultList", resultList);
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		request.setAttribute("myPageState", "point");
 		
 		
-		return "forward:/mypage/listMyPoint.jsp";
+		return "forward:/mypage/myPageMain.jsp";
 	}
 
 }

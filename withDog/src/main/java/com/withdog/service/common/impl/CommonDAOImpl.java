@@ -20,7 +20,7 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
-	private SqlSession sqlsession;
+	private SqlSession sqlSession;
 	
 	
 	
@@ -43,8 +43,8 @@ public class CommonDAOImpl implements CommonDAO {
 			//현재포인트가 없는 사람도 적립은 되야함
 			int currentPoint=0;
 			
-			if(sqlsession.selectOne("CommonMapper.currentPoint", point)!=null) {
-				currentPoint=sqlsession.selectOne("CommonMapper.currentPoint", point);
+			if(sqlSession.selectOne("CommonMapper.currentPoint", point)!=null) {
+				currentPoint=sqlSession.selectOne("CommonMapper.currentPoint", point);
 			}
 			
 			System.out.println(":::::"+currentPoint);
@@ -54,7 +54,7 @@ public class CommonDAOImpl implements CommonDAO {
 			
 			
 			System.out.println(point.toString());
-			sqlsession.insert("CommonMapper.addPointSave",point);
+			sqlSession.insert("CommonMapper.addPointSave",point);
 			System.out.println("FundPointSAVE END");
 		
 	}
@@ -70,7 +70,7 @@ public class CommonDAOImpl implements CommonDAO {
 				
 		System.out.println("check:"+point.getUser().getUserId());
 						
-		int currentPoint=sqlsession.selectOne("CommonMapper.currentPoint", point);
+		int currentPoint=sqlSession.selectOne("CommonMapper.currentPoint", point);
 		
 		System.out.println(":::::"+currentPoint);
 		int resultPoint = currentPoint - point.getUsePoint();
@@ -79,7 +79,7 @@ public class CommonDAOImpl implements CommonDAO {
 		
 		
 		System.out.println(point.toString());
-		sqlsession.insert("CommonMapper.addPointUse",point);
+		sqlSession.insert("CommonMapper.addPointUse",point);
 		
 
 	}
@@ -91,7 +91,7 @@ public class CommonDAOImpl implements CommonDAO {
 	@Override
 	public int getCurrentPoint(Point point) throws Exception {
 		// TODO Auto-generated method stub
-		int currentPoint =(sqlsession.selectOne("CommonMapper.currentPoint", point)!=null? sqlsession.selectOne("CommonMapper.currentPoint", point) : 0); 
+		int currentPoint =(sqlSession.selectOne("CommonMapper.currentPoint", point)!=null? sqlSession.selectOne("CommonMapper.currentPoint", point) : 0); 
 		return currentPoint;
 	}
 
@@ -104,11 +104,20 @@ public class CommonDAOImpl implements CommonDAO {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("userId", userId);
 		map.put("search", search);
-		return sqlsession.selectList("CommonMapper.myPointList",map);
+		return sqlSession.selectList("CommonMapper.myPointList",map);
 	}
 
 
 
+	@Override
+	public int getTotalCount(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("CommonMapper.getTotalCount",userId);
+	}
+
+
+
+	
 	
 	
 	

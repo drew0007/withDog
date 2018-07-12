@@ -14,20 +14,35 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	  
- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   
+   
+   <!-- jQuery UI toolTip 사용 CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- jQuery UI toolTip 사용 JS-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <script type="text/javascript">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-function fncGetList(currentPage) {
- 	$("#currentPage").val(currentPage)
-	$("form").attr("method","POST").attr("action","/common/getMyPointList").submit();
-}
-
-
-</script>
-<!-- 숫자증가 스크립트 -->
+  </style> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 
+  <!-- 숫자증가 스크립트 -->
   <script>
   jQuery(document).ready(function( $ ) {
         $('.counter').counterUp({
@@ -37,14 +52,10 @@ function fncGetList(currentPage) {
     });
   </script>
   <!--  -->
-   
+  
 </head>
 
 <body>
-	<form>
-	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
-     <input type="hidden" id="currentPage" name="currentPage" value=""/>
-     </form>
 	<!-- 숫자증가 스크립트 -->
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
     <script src="/js/jquery.counterup.min.js"></script>
@@ -54,16 +65,14 @@ function fncGetList(currentPage) {
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<!-- <div class="container" style="width: 921px;"> -->
-	<div class="container" style="width: 921px;">
+	<div class="container">
 	
-		
-	       <h1 align="center">나의포인트내역</h1>
-	    <hr/>
-	    <div >
-	       <h2 align="center">현재포인트 : <div class="counter" style="display:inline;"> ${currentPoint}</div> Point</h2>
+		<div class="page-header text-info">
+	       <h3>나의포인트내역</h3>
 	    </div>
-	    <hr/>
+	    <div class="row">
+	       <h3>현재포인트 : <div class="counter" style="display:inline;">${currentPoint}</div> Point</h3>
+	    </div>
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	  <%--   <div class="row">
 	    
@@ -136,11 +145,7 @@ function fncGetList(currentPage) {
       
       </table>
 	  <!--  table End /////////////////////////////////////-->
-	  <div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
-                        <!-- pagination -->
-						<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
-                        <!-- end pagination -->
-                    </div> 
+	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
