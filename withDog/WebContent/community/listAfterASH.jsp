@@ -129,12 +129,26 @@
                         </div>
                     </div>  
                     
-                   </div><!-- end row -->
+                   <!-- pagination -->
+	               <div class="pagination margin-ten no-margin-bottom">
+	                  <a href="#"><img src="../images/arrow-pre-small.png" alt=""/></a>
+	                  <a href="#">1</a>
+	                  <a href="#">2</a>
+	                  <a href="#" class="active">3</a>
+	                  <a href="#">4</a>
+	                  <a href="#">5</a>
+	                  <a href="#"><img src="../images/arrow-next-small.png" alt=""/></a>
+	               </div>
+               	  <!-- end pagination -->   
+                    
+                </div><!-- end row -->
                    
                  <div class="text-center">
 					<a href="addAfterASH.jsp"><span class="highlight-button btn btn-medium pull-right">후기 등록하기 </span></a>
 				</div>
-              </div><!-- end container -->            
+				
+              </div><!-- end container -->       
+
          </section>
     	 <!-- end 리스트 -->
 	
