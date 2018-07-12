@@ -127,12 +127,12 @@
                             
                             <div class="col-md-12 no-padding">
                                 <label>생년월일:</label>
-                                <input type="text" name="birth" placeholder="예)1995.10.02">
+                                <input type="text" name="birth" placeholder="예)1995-10-02">
                             </div>
                             
                             <div class="col-md-12 no-padding">
                                 <label>휴대전화:</label> 
-                                <input type="text" name="phone">
+                                <input type="text" name="phone" placeholder="예)010-1234-5678">
                             </div>
                             
                             <div class="col-md-12 no-padding">
