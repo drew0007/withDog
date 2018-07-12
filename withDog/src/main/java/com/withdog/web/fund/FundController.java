@@ -476,6 +476,45 @@ public class FundController {
 	}
 	
 	
+	
+	@RequestMapping(value="/getFundUserListAdmin")
+	public String getFundUserListAdmin(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/getFundUserListAdmin : Start");
+		//Business Logic
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+	 	System.out.println(111111111+user.getUserId());	 	
+		Map<String,Object> map = fundService.getFundUserList(search, user); 	
+		
+		System.out.println("MAP üũ ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		request.setAttribute("list", map.get("list"));
+		
+		System.out.println(map.get("list"));
+		
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		request.setAttribute("myPageState", 11);
+		
+		return "forward:/mypage/adminPageMain.jsp";
+	}
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value="/fundGuid")
 	public String getFundGuid() throws Exception {
 

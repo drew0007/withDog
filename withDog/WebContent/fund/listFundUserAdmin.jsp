@@ -23,7 +23,7 @@
 
 function fncGetList(currentPage) {
  	$("#currentPage").val(currentPage)
-	$("#myFund").attr("method","POST").attr("action","/fund/getMyFundList").submit();
+	$("#myFund").attr("method","POST").attr("action","/fund/getFundUserListAdmin").submit();
 }
 
 
@@ -49,7 +49,7 @@ function fncGetList(currentPage) {
 	<div class="container" style="width: 980px;">
 	
 		
-	       <h1 align="center">나의후원내역</h1>
+	       <h1 align="center">회원별후원내역</h1>
 	    <hr/>
 	    
 	    
@@ -67,8 +67,8 @@ function fncGetList(currentPage) {
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>펀딩제목</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>펀딩기관</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>펀딩제목</option>
 					</select>
 				  </div>
 				  
@@ -95,13 +95,12 @@ function fncGetList(currentPage) {
       
         <thead>
           <tr>
+            <td align="center">회원ID</td>
             <td align="center">후원날짜</td>
             <td align="center">펀딩제목</td>
-            <td align="center">펀딩기간</td>
             <td align="center">결제금액</td>
             <td align="center">포인트</td>
-            <td align="center" style="white-space: nowrap;">진행현황</td>
-          </tr>
+         </tr>
         </thead>
        
 		<tbody>
@@ -109,13 +108,12 @@ function fncGetList(currentPage) {
 		  
 		  <c:forEach var="list" items="${list}">
 			<tr>
+			  <td align="center" style="white-space: nowrap;">${list.user.userId}</td>
 			  <td align="center" style="white-space: nowrap;">${list.fundMyDate}</td>
 			  <td align="center" style="white-space: nowrap;">${list.fundTitle}</td>
-			  <td align="center" style="white-space: nowrap;">${list.fundTerm}</td>
 			  <td align="center" style="white-space: nowrap;">${list.fundMyPrice}원</td>
-			  <td align="center" style="white-space: nowrap;"><p>+${list.point.point} Point</p>-${list.point.usePoint} Point</td>
-			  <td align="center" style="white-space: nowrap;">${list.fundState=='0'?"진행중":"완료"}</td>
-			 
+			  <td align="center" style="white-space: nowrap;">${list.point.usePoint} Point 사용</td>
+			  			 
 			</tr>
           </c:forEach>
         

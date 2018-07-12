@@ -161,11 +161,11 @@
 						</div>
 					</c:if>
 										
-					<%-- <c:if test="${empty myPageState || myPageState =='11'}">
+					<c:if test="${empty myPageState || myPageState =='11'}">
 						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../mypage/listMyPoint.jsp" />
+					   		<jsp:include page="../fund/listFundUserAdmin.jsp" />
 						</div>
-					</c:if> --%>
+					</c:if>
 					
 					</div>
 					<!-- end sidebar  -->

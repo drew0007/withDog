@@ -133,7 +133,18 @@ public class FundServiceImpl implements FundService{
 	@Override
 	public Map<String, Object> getFundUserList(Search search, User user) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Fund> list = fundDAO.getFundUserList(search,user);
+		
+		System.out.println("MyFundlist 받음"+list.size());
+		
+		int totalCount = fundDAO.getFundUserTotalCount(user);
+		System.out.println("MyFundlist Count 받음"+totalCount);
+		map.put("list", list);
+		map.put("totalCount",totalCount);
+		
+		
+		return map;
 	}
 
 	

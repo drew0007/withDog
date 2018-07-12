@@ -68,7 +68,7 @@ public class UserController {
 			userService.updateRecentlyDate(dbUser.getUserId());
 		}
 		
-		return "redirect:/common/myPageMain";
+		return "redirect:/common/index.jsp";
 	}
 	
 	///·Î±×¾Æ¿ô GET

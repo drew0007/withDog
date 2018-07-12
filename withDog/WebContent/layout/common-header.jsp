@@ -31,8 +31,7 @@
                              	</c:when>
                             	<c:when test="${sessionScope.user!=null}">
                              		<a href="/user/logoutUser"><div class="subtitle">로그아웃</div></a>
-                             		<a href="/common/myPageMain"><i class="fa  fa-user" ></i><div class="subtitle">${user.role != 'admin'?"마이페이지":"관리자페이지"}</div></a>
-                             		
+                             		<a href="/common/myPageMain?role=${user.role}"><i class="fa  fa-user" ></i><div class="subtitle">${user.role != 'admin'?"마이페이지":"관리자페이지"}</div></a>
                              	</c:when>
                             </c:choose>
                         </div>

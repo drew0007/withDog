@@ -52,55 +52,30 @@ public class CommonController {
 		String uri = "";
 		int myPageState;
 		User user = (User)session.getAttribute("user");
-
-		if(request.getParameter("myPageState")==null ) {
-			uri="/common/getMyPointList";
+		
+		String myState="";
+        System.out.println("111111111111111111");
+		System.out.println(request.getParameter("role"));
+		if(request.getParameter("role")!=null) {
+			myState = request.getParameter("role");
 		}
-		/*else {
-			myPageState=Integer.parseInt(request.getParameter("myPageState"));
-			
-			switch(myPageState) {
-				case 1 :
-					uri="";
-				break;	
-				case 2 :
-					uri="";
-				break;
-				case 3 :
-					uri="";
-				break;
-				case 4 :
-					uri="";
-				break;
-				case 5 :
-					uri="";
-				break;	
-				case 6 :
-					uri="";
-				break;
-				case 7 :
-					uri="";
-				break;
-				case 8 :
-					uri="";
-				break;
-				case 9 :
-					uri="";
-				break;
-				case 10 :
-					uri="";
-				break;
-				case 11 :
-					uri="/common/getMyPointList";
-				break;
-			
-			}
-		}*/
 		
+		System.out.println(myState);
 		
-		
-		
+		if(myState.equals("user")) {
+			uri="/common/getMyPointList";
+		}else {
+			uri="/common/getAdminPageMain";
+		}
+		System.out.println(uri);
 		return "forward:"+uri;
+	}
+	
+	@RequestMapping(value="/getAdminPageMain")
+	public String getAdminPageMain(HttpServletRequest request,HttpSession session) throws Exception {
+		
+				
+		return "forward:/fund/getFundUserListAdmin";
 	}
 	
 	

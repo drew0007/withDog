@@ -158,6 +158,28 @@
 	 </select>
 	 
 	 
+	 <select id="getFundUserList" parameterType="map"	resultMap="fundSelectMap">
+		select purchase_date,fund_Title,fund_term,fund_My_Price,fund_state,use_point,point,fund_my_price_no ,user_id
+		from  (SELECT if.purchase_date,if.fund_Title,if.fund_term,if.fund_My_Price,if.fund_state,if.use_point,if.point,if.fund_my_price_no , ROWNUM AS row_seq ,if.user_id
+					FROM(select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no,sp.user_id  
+					 from 
+					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin,fi.user_Id 					
+									FROM fund_info fi,fund f,point p 
+									where  
+									fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									ORDER BY fi.purchase_date desc) up, 
+
+			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin,fi.user_Id  
+								    FROM fund_info fi,fund f,point p 
+								    where  
+								fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+    								ORDER BY fi.purchase_date desc) sp  
+	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) if  
+   	    WHERE ROWNUM &lt;= #{search.endRowNum} )  
+	    where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 
 	 <select id="getMyTotalCount" parameterType="user" resultType="int" >
 		SELECT COUNT(*)
 	  	FROM(select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no  
@@ -184,6 +206,26 @@
 						where FUND_STATE='1'
 						ORDER BY reg_date desc) countTable					
 	</select>
+	
+	<select id="getFundUserTotalCount"  resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(	select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no  
+					 from 
+					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin 					
+									FROM fund_info fi,fund f,point p 
+									where  
+									fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									ORDER BY fi.purchase_date desc) up, 
+
+			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin 
+								    FROM fund_info fi,fund f,point p 
+								    where  
+								fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+    								ORDER BY fi.purchase_date desc) sp  
+	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) countTable					
+	</select>
+	
+	
 	
 	<update id="deleteFund" parameterType="fund">
 		UPDATE fund SET delete_flag = '1'
