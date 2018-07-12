@@ -1,6 +1,9 @@
 package com.withdog.web.doginfo;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -58,9 +61,13 @@ public class DogInfoController {
 	@RequestMapping(value = "addDogInfo", method = RequestMethod.POST)
 	public String addDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo, @RequestParam("file") MultipartFile[] file, HttpSession session) throws Exception{
 		System.out.println("/addDogInfo : POST");
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		System.out.println(dateFormat.format(date));
+		
 		String a = "";
 		
-		if(file==null || file.equals("")) {
+		if(file[0].getSize()==0) {
 			System.out.println("파일비었음");
 			dogInfo.setDogInfoImage("");
 		}else {
@@ -68,10 +75,10 @@ public class DogInfoController {
 				if (multipartFile.getOriginalFilename().equals("") || multipartFile == null) {
 					break;
 				}
-				a += multipartFile.getOriginalFilename() + (multipartFile.getOriginalFilename().equals("") ? "" : ",");
+				a += (dateFormat.format(date)+multipartFile.getOriginalFilename()) + (multipartFile.getOriginalFilename().equals("") ? "" : ",");
 			
 				System.out.println("저장된 파일들 : " + multipartFile.getOriginalFilename());
-				File f = new File(dogInfofilePath + multipartFile.getOriginalFilename().toString());
+				File f = new File(dogInfofilePath + (dateFormat.format(date)+multipartFile.getOriginalFilename()).toString());
 				System.out.println(dogInfofilePath);
 				
 				multipartFile.transferTo(f); // 위의 경로에 파일 저장
@@ -87,33 +94,18 @@ public class DogInfoController {
 		dogInfoService.addDogInfo(dogInfo);
 		System.out.println("add 완료");
 		
-		return "forward:/community/getDogInfo.jsp";
+		return "forward:/community/addDogInfoView.jsp";
 	}
 	
 	@RequestMapping(value = "listDogInfo")
-	public String getDogInfoList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
+	public String getDogInfoList(@ModelAttribute("search") Search search, Model model, HttpSession session) throws Exception {
 		System.out.println("/listDogInfo");
+		User sessionUser = (User)session.getAttribute("user");
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-
-//		if (request.getParameter("radio") != null) {
-//			System.out.println("체크박스 값은? " + request.getParameter("radio"));
-//			if (request.getParameter("radio").equals("1")) {
-//				search.setPriceUpDown(1);
-//			}
-//			if (request.getParameter("radio").equals("2")) {
-//				search.setPriceUpDown(2);
-//			}
-//			if (request.getParameter("radio").equals("3")) {
-//				search.setRecently(1);
-//			}
-//			if (request.getParameter("radio").equals("4")) {
-//				search.setRecently(2);
-//			}
-//		}
 
 		Map<String, Object> map = dogInfoService.getDogInfoList(search);
 		System.out.println("맵확인 : " + map);
@@ -123,6 +115,8 @@ public class DogInfoController {
 		System.out.println("리스트 넘기기전 리스트 확인 : " + map.get("list"));
 
 		model.addAttribute("list", map.get("list"));
+		model.addAttribute("sessionUser", sessionUser);
+		model.addAttribute("topicCount", map.get("topicCount"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search); // 생략가능
 		
@@ -131,11 +125,20 @@ public class DogInfoController {
 	}
 	
 	@RequestMapping(value = "getDogInfo", method = RequestMethod.GET)
-	public String getProduct(@RequestParam("dogInfoNo") int dogInfoNo, Model model, HttpServletResponse response,
-			HttpServletRequest request) throws Exception {
+	public String getDogInfo(@RequestParam("dogInfoNo") int dogInfoNo, Model model, HttpServletResponse response,
+			HttpSession session) throws Exception {
 		System.out.println("/getDogInfo.do");
 		// Business Logic
-		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo);
+		User sessionUser = (User)session.getAttribute("user");
+		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo,sessionUser);
+		System.out.println("조회 시 도그인포 : " + dogInfoNo);
+		////조회수 증가
+		int viewCount = Integer.parseInt(dogInfo.getViewCount());
+		viewCount++;
+		String viewCount2 = Integer.toString(viewCount);
+		dogInfo.setViewCount(viewCount2);
+		dogInfoService.updateViewCount(dogInfo);
+		////// end 조회수 증가
 
 		model.addAttribute("dogInfo", dogInfo);
 		System.out.println("get하기전 도메인확인 : " + dogInfo);
@@ -144,26 +147,52 @@ public class DogInfoController {
 	}
 	
 	@RequestMapping(value = "updateDogInfo", method = RequestMethod.GET)
-	public String updateProductView(@RequestParam("dogInfoNo") int dogInfoNo, Model model) throws Exception {
+	public String updateDogInfo(@RequestParam("dogInfoNo") int dogInfoNo, Model model,HttpSession session) throws Exception {
 
 		System.out.println("/updateDogInfoView.do");
 		// Business Logic
-		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo);
+		User sessionUser = (User)session.getAttribute("user");
+		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo,sessionUser);
 		// Model 과 View 연결
 		model.addAttribute("dogInfo", dogInfo);
 
 		return "forward:/community/updateDogInfo.jsp";
 	}
 
-//	@RequestMapping(value = "updateDogInfo", method = RequestMethod.POST)
-//	public String updateProduct(@ModelAttribute("product") Product product, Model model, HttpSession session)
-//			throws Exception {
-//
-//		System.out.println("/updateProduct.do");
-//		// Business Logic
-//		productService.updateProduct(product);
-//
-//		return "redirect:/product/getProduct?prodNo=" + product.getProdNo() + "&menu=manage";
-//	}
+	@RequestMapping(value = "updateDogInfo", method = RequestMethod.POST)
+	public String updateDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo,HttpSession session, Model model, @RequestParam("file") MultipartFile[] file) throws Exception {
+		System.out.println("/updateDogInfo.do");
+		System.out.println("업데이트 도그인포 : " + dogInfo);
+		User sessionUser = (User)session.getAttribute("user");
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		System.out.println(dateFormat.format(date));
+		String a = ""; 
+		
+		if (file[0].getSize()!=0) {
+			System.out.println("업데이트 시 이미지 수정 함");
+			for (MultipartFile multipartFile : file) {
+				if (multipartFile.getOriginalFilename().equals("") || multipartFile == null) {
+					break;
+				}
+				a += (dateFormat.format(date)+multipartFile.getOriginalFilename()) + (multipartFile.getOriginalFilename().equals("") ? "" : ",");
+			
+				System.out.println("저장된 파일들 : " + multipartFile.getOriginalFilename());
+				File f = new File(dogInfofilePath + (dateFormat.format(date)+multipartFile.getOriginalFilename()).toString());
+				System.out.println(dogInfofilePath);
+				
+				multipartFile.transferTo(f); // 위의 경로에 파일 저장
+			}
+			dogInfo.setDogInfoImage(a);
+		}else {
+			System.out.println("업데이트 시 이미지 수정 안함");
+			dogInfo.setDogInfoImage((dogInfoService.getDogInfo(dogInfo.getDogInfoNo(),sessionUser)).getDogInfoImage());
+		}
+		System.out.println("업데이트 전 dog Info : " + dogInfo);
+		
+		dogInfoService.updateDogInfo(dogInfo);
+
+		return "redirect:/dogInfo/getDogInfo?dogInfoNo=" + dogInfo.getDogInfoNo();
+	}
 
 }

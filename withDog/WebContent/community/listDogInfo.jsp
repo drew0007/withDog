@@ -19,8 +19,49 @@
 <script type="text/javascript">
 $(function () {
 	$("#addDogInfoButton").on("click", function () {
+		var userId = $("input[name=userId]").val()
+		if(userId==null || userId=="" || userId==" "){
+			alert("로그인 하세요")
+		}
+		else{
 		self.location="/dogInfo/addDogInfo";
+		}
 	})
+})
+
+$(function () {
+	$(".topic").on("click", function () {
+		$("input[name=searchKeyword]").val("")
+		$("input[name=searchCondition]").val($(this).val())
+		fncGetList(1)
+	})
+	
+	$("#sortingByView").on("click", function () {
+		$("input[name=searchKeyword]").val("")
+		$("input[name=sorting]").val(10)
+		fncGetList(1)
+	})
+	
+	$("#sortingByRecom").on("click", function () {
+		$("input[name=searchKeyword]").val("")
+		$("input[name=sorting]").val(11)
+		fncGetList(1)
+	})
+	
+	$("#searchButton").on("click", function () {
+		$("input[name=searchCondition]").val("")
+		$("input[name=sorting]").val(0)	
+		fncGetList(1)
+	})
+	
+	$("input[name=searchKeyword]").keydown(function (key) {				
+		if(key.keyCode ==13){
+			$("input[name=searchCondition]").val("")
+			$("input[name=sorting]").val(0)	
+			fncGetList(1);
+		}
+	});			
+	
 })
 
 
@@ -35,7 +76,7 @@ function fncGetList(currentPage) {
 
 	<jsp:include page="/layout/common-header.jsp" />
 	
-	
+	<input type="hidden" name="userId" value="${!empty sessionUser.userId?sessionUser.userId:''}">
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">
             <img class="parallax-background-img" src="../images/sub/602_bg.jpg" alt="" />
@@ -70,7 +111,7 @@ function fncGetList(currentPage) {
                         
                             <!-- post image -->
                             <div class="blog-image">
-                            <a href="blog-single-right-sidebar.html">
+                            <a href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">
                              <c:if test="${empty list.dogInfoImage}">
                             	<img  src="http://placehold.it/600x450" alt=""/>
                             </c:if>
@@ -109,7 +150,7 @@ function fncGetList(currentPage) {
                             	</c:when> 
                             </c:choose>
                                  |  조회수 ${list.viewCount}</div>
-                                <div class="info-title">${list.dogInfoTitle}</div>
+                                <div class="info-title">${list.dogInfoTitle}</div>작성자ID : ${list.user.userId}
                                 <div>${list.dogInfoContent}</div>
                                 <div class="separator-line bg-black no-margin-lr margin-four"></div>
                                 <div><a href="#" class="info-like"><i class="fa fa-thumbs-o-up small-icon"></i>${list.recommended}</a><a href="#" class="info-dislike"><i class="fa fa-thumbs-o-down small-icon"></i>${list.notRecommended}</a></div>
@@ -125,14 +166,17 @@ function fncGetList(currentPage) {
                     
                     
                     <!-- sidebar  -->
+                    <form>
+                    <input type="hidden" id="searchCondition" name="searchCondition" value="${!empty search.searchCondition?search.searchCondition:''}"/>
+                    <input type="hidden" id="sorting" name="sorting" value="${!empty search.sorting?search.sorting:''}"/>
                     <div class="col-md-3 col-sm-4 col-md-offset-1 xs-margin-top-ten sidebar">
                         <!-- widget  -->
                         <div class="widget">
-                            <form>
-                                <i class="fa fa-search close-search search-button"></i>
-                                <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" >
+                            
+                                <i id="searchButton" class="fa fa-search close-search search-button"></i>
+                                <input type="text" placeholder="아이디 또는 제목 입력" class="search-input" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" >
                                 <input type="hidden" id="currentPage" name="currentPage" value=""/>
-                            </form>
+                            
                         </div>
                         <!-- end widget  -->
                         <!-- widget  -->
@@ -141,14 +185,15 @@ function fncGetList(currentPage) {
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="">훈련<span><!-- 건수  -->48</span></a></li>
-                                    <li><a href="">번식<span>25</span></a></li>
-                                    <li><a href="">위생<span>32</span></a></li>
-                                    <li><a href="">음식<span>38</span></a></li>
-                                    <li><a href="">오징어이장원<span>40</span></a></li>
-                                    <li><a href="">행동<span>28</span></a></li>
-                                    <li><a href="">미용<span>28</span></a></li>
-                                    <li><a href="">기타<span>28</span></a></li>
+                                    <li class="topic" value="8" style="cursor:pointer"><a>전체보기<span ><!-- 건수  -->${topicCount[7]}</span></a></li>
+                                    <li class="topic" value="1" style="cursor:pointer"><a>훈련<span ><!-- 건수  -->${topicCount[0]}</span></a></li>
+                                    <li class="topic" value="2" style="cursor:pointer"><a>번식<span>${topicCount[1]}</span></a></li>
+                                    <li class="topic" value="3" style="cursor:pointer"><a>위생<span>${topicCount[2]}</span></a></li>
+                                    <li class="topic" value="4" style="cursor:pointer"><a>음식<span>${topicCount[3]}</span></a></li>
+                                    <li class="topic" value="5" style="cursor:pointer"><a>행동<span>${topicCount[4]}</span></a></li>
+                                    <li class="topic" value="6" style="cursor:pointer"><a>미용<span>${topicCount[5]}</span></a></li>
+                                    <li class="topic" value="7" style="cursor:pointer"><a>기타<span>${topicCount[6]}</span></a></li>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -158,15 +203,15 @@ function fncGetList(currentPage) {
                             <h5 class="info-sidebar-title font-weight-200">검색조건</h5>
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body tags">
-                                <a href="blog-masonry-3columns.html">조회순</a>
-                                <a href="blog-masonry-3columns.html">추천순</a>
-                                <a id="addDogInfoButton">애견상식등록</a>
+                                <a style="cursor: pointer;" id="sortingByView">조회순</a>
+                                <a style="cursor: pointer;" id="sortingByRecom">추천순</a>
+                                <a style="cursor: pointer;" id="addDogInfoButton">애견상식등록</a>
                             </div>
                         </div>
                         <!-- end widget  -->
                     </div>
                     <!-- end sidebar  -->
-                    
+                    </form>
                     
                 </div>
                 <div class="row">
