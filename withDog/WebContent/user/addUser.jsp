@@ -15,6 +15,38 @@
 	
 	$( function() {
 		
+	
+		$("#userId").focus();
+		
+		//아이디 중복검사 
+		$("input[name=userId]").on("keyup", function(){
+			
+			var userId = $("input[name=userId]").val();
+			
+			if(userId == ""){
+				$("#userId").focus();
+			}else{
+				$.ajax(
+						{
+							url : "/user/json/checkUserId/"+userId,
+							method : "GET",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+						success : function(JSONData , status){
+							var check = JSONData;
+							if(check){
+								$(".spanId").html("사용 가능한 아이디입니다.").css('color','blue');
+							}else{
+								$(".spanId").html("중복 아이디입니다.").css('color','red');
+							}
+						}
+					});
+			}//end 아이디 중복 검사
+		});
+		
 		//이메일 입력방식 선택 
 		$("#email2").change(function(){ 
 			$("#email2 option:selected").each(function () { 
@@ -49,8 +81,8 @@
 		
 		//회원가입 연결
 		$("#join").on("click" , function() {
-			
-			//가입으로 넘기기전 체크사항 
+			 
+			//가입으로 넘기기전 체크사항   email
 			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 
 			if($("#email2").val()=='1' ){
 				var email2= '@'+$("#emailText").val();
@@ -108,6 +140,7 @@
                             <div class="col-md-12 no-padding">
                                 <label>아이디:</label>
                                 <input type="text" name="userId" id="userId">
+                                <span class="spanId"></span>
                             </div>
                             
                             <div class="col-md-12 no-padding">
@@ -127,26 +160,26 @@
                             
                             <div class="col-md-12 no-padding">
                                 <label>생년월일:</label>
-                                <input type="text" name="birth" placeholder="예)1995.10.02">
+                                <input type="text" name="birth" placeholder="예)1995-10-02">
                             </div>
                             
                             <div class="col-md-12 no-padding">
                                 <label>휴대전화:</label> 
-                                <input type="text" name="phone">
+                                <input type="text" name="phone" placeholder="예)010-1234-5678">
                             </div>
                             
                             <div class="col-md-12 no-padding">
                                 <p style="margin-bottom:10px">이메일:</p>
                                 <input type="text" name="email1" class="col-md-4" id="email1">
-                                 <input type="text" name="emailText"class="col-md-4" id="emailText">
+                                <input type="text" name="emailText"class="col-md-4" id="emailText">
                              	<div class="col-md-4 input-round">
 									<select name="email2" id="email2">
 										<option value="1">직접입력</option>
-										<option value="naver.com">@naver.com</option>
-										<option value="daum.net">@daum.net</option>
-										<option value="gmail.com">@gmail.com</option>
-										<option value="hotmail.com">@hotmail.com</option>
-										<option value="nate.com">@nate.com</option>
+										<option value="@naver.com">@naver.com</option>
+										<option value="@daum.net">@daum.net</option>
+										<option value="@gmail.com">@gmail.com</option>
+										<option value="@hotmail.com">@hotmail.com</option>
+										<option value="@nate.com">@nate.com</option>
 									</select>
                             	 </div>
                             </div> 

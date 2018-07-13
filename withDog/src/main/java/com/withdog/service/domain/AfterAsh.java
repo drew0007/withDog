@@ -1,7 +1,12 @@
 package com.withdog.service.domain;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AfterAsh {
 	private HealingDog healingDog;
+	private User user;
 	private int afterASHNo;
 	private String afterASHTitle;
 	private String afterASHContent;
@@ -9,6 +14,9 @@ public class AfterAsh {
 	private String afterASHVideo;
 	private String afterASHDate;
 	private String afterASHTime;
+	private Date regDate;
+	private String deleteFlag;
+	private List<String> afterASHImageList = new ArrayList<String>();
 
 	public HealingDog getHealingDog() {
 		return healingDog;
@@ -16,6 +24,14 @@ public class AfterAsh {
 
 	public void setHealingDog(HealingDog healingDog) {
 		this.healingDog = healingDog;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getAfterASHNo() {
@@ -48,6 +64,14 @@ public class AfterAsh {
 
 	public void setAfterASHImage(String afterASHImage) {
 		this.afterASHImage = afterASHImage;
+		if (afterASHImage.contains(",")) {
+			String[] file = afterASHImage.split(",");
+			for (String string : file) {
+				afterASHImageList.add(string);
+			}
+		} else {
+			afterASHImageList.add(afterASHImage);
+		}
 	}
 
 	public String getAfterASHVideo() {
@@ -74,10 +98,35 @@ public class AfterAsh {
 		this.afterASHTime = afterASHTime;
 	}
 
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
+	public String getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(String deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+	
+	public List<String> afterASHImageList() {
+		return afterASHImageList;
+	}
+
 	@Override
 	public String toString() {
-		return "AfterASH [afterASHNo=" + afterASHNo + ", afterASHTitle=" + afterASHTitle + ", afterASHContent="
-				+ afterASHContent + ", afterASHImage=" + afterASHImage + ", afterASHVideo=" + afterASHVideo
-				+ ", afterASHDate=" + afterASHDate + ", afterASHTime=" + afterASHTime + "]";
+		return "AfterAsh [healingDog=" + healingDog + ", user=" + user + ", afterASHNo=" + afterASHNo
+				+ ", afterASHTitle=" + afterASHTitle + ", afterASHContent=" + afterASHContent + ", afterASHImage="
+				+ afterASHImage + ", afterASHVideo=" + afterASHVideo + ", afterASHDate=" + afterASHDate
+				+ ", afterASHTime=" + afterASHTime + ", regDate=" + regDate + ", deleteFlag=" + deleteFlag
+				+ ", afterASHImageList=" + afterASHImageList + "]";
 	}
+
+
+
 }

@@ -5,11 +5,63 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<jsp:include page="/common/css.jsp" />
 
 	<title>동물교감 치유 후기 게시판</title>
 </head>
+
+<script type="text/javascript">
+function changeSelect () {
+	$.ajax({
+		url : "/ash/json/getAllHealingDogList",
+		method : "GET",
+		datatype : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		success : function (data) {
+			console.log(data)
+			for(var i = 0; i<data.healingDogs.length; i++){
+				if($("select[name=checkSelect]").val()==0){
+					$("select[name=resultSelect]").append($('<option value=>'+data.healingDogs[i].healingDogName+'</option>'));
+				}
+				if($("select[name=checkSelect]").val()==1){
+					$.ajax({
+						url : "/dogBreedDic/json/getDogBreed2",
+						method : "POST",
+						datatype : "json",
+						data : JSON.stringify({
+							dogNo : data.healingDogs[i].healingDogBreed.dogNo
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function (data) {
+							console.log(data)
+							$("select[name=resultSelect]").append($('<option value=>'+data.key.dogBreedKO+'</option>'));
+						}
+					})
+				}
+				if($("select[name=checkSelect]").val()==2){
+					$("select[name=resultSelect]").append($('<option value=>'+data.healingDogs[i].healingDogHealer+'</option>'));
+				}
+			}
+		}
+	})
+}
+
+$(function () {
+	changeSelect();
+	$("select[name=checkSelect]").on("change", function () {
+		$("select[name=resultSelect]").empty();
+		changeSelect();
+	})
+})
+
+</script>
 
 <body>
 
@@ -41,16 +93,14 @@
 	            <div class="blog-comment-form">
 	                <form>
 	                	<!-- select -->
-	                    <select class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
-	                        <option value="" selected="selected">주제 선택</option>
-	                        <option value="message1" >ㅇㅇ</option>
-	                        <option value="message2" >ㅇㅇㅇㅇ</option>
+	                    <select name="checkSelect" class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
+	                        <option value="0" selected="selected">치유견이름</option>
+	                        <option value="1" >치유견종</option>
+	                        <option value="2" >담당치유사</option>
 	                     </select>   
                     	<!-- end select -->
-	                    <select class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
-	                        <option value="" selected="selected">치유견 선택</option>
-	                        <option value="message1" >치유견 ㅇㅇ</option>
-	                        <option value="message2" >치유견ㅇㅇㅇㅇ</option>
+	                    <select name="resultSelect" class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
+	                    		<!-- 옵션 넣어라 -->
 	                     </select>   
                     	<!-- end select -->
                         <!-- button  -->
@@ -144,7 +194,7 @@
                 </div><!-- end row -->
                    
                  <div class="text-center">
-					<a href="addAfterASH.jsp"><span class="highlight-button btn btn-medium pull-right">후기 등록하기 </span></a>
+					<a href="/afterAsh/addAfterAsh"><span class="highlight-button btn btn-medium pull-right">후기 등록하기 </span></a>
 				</div>
 				
               </div><!-- end container -->       

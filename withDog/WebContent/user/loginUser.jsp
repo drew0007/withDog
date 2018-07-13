@@ -21,28 +21,41 @@
 				self.location = "/user/addUser"
 			});
 			
-			//로그인 연결
-			$("#login").on("click" , function() {
-				/*
-				var userId=$("#userId").val();
-				var passWord=$("#password").val();
-				
-				if(id == null || id.length <1) {
-					alert('ID 를 입력하지 않으셨습니다.');
-					$("#userId").focus();
-					return;
-				}
-				
-				if(pw == null || pw.length <1) {
-					alert('패스워드를 입력하지 않으셨습니다.');
-					$("#password").focus();
-					return;
-				}
-				*/
-				$("form").attr("method","POST").attr("action","/user/loginUser").submit();
+			//아이디/비밀번호찾기 연결 			
+			$("#findUser").on("click" , function() {
+				self.location = "/user/findUser"
 			});
 			
 			
+			//로그인 연결
+			$("#login").on("click" , function() {
+					/*
+					var userId=$("#userId").val();
+					var passWord=$("#password").val();
+					
+					if(id == null || id.length <1) {
+						alert('ID 를 입력하지 않으셨습니다.');
+						$("#userId").focus();
+						return;
+					}
+					
+					if(pw == null || pw.length <1) {
+						alert('패스워드를 입력하지 않으셨습니다.');
+						$("#password").focus();
+						return;
+					}
+					*/
+					
+					$("form").attr("method","POST").attr("action","/user/loginUser").submit();
+			 });
+	
+			//엔터키 이벤트 ( 로그인 클릭한것처럼)
+			$("#password").keydown(function(event){
+		       if(event.keyCode==13){
+		    	   $('#login').trigger('click');
+		        }
+		    });
+
 		});
 
 	</script>	
@@ -92,10 +105,10 @@
 	                        </div>
                             
                          </form> 
-                            
-                         <button class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit" id="login">Login</button>
+                                                  
+                         <button class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit" id="login"}">Login</button>
                         
-                         <a href="#" class="display-block text-uppercase"> >> 아이디 비밀번호 찾기</a> 
+                         <a href="#" class="display-block text-uppercase" id="findUser"> >> 아이디 비밀번호 찾기</a> 
                          
                          <div>
                          

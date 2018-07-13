@@ -38,6 +38,7 @@ public class UserController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+
 	
 	///Constructor
 	public UserController(){
@@ -56,19 +57,33 @@ public class UserController {
 	
 	//로그인 POST
 	@RequestMapping( value="loginUser", method=RequestMethod.POST )
-	public String loginUser (@ModelAttribute("user") User user , HttpSession session)  throws Exception {
+	public String loginUser (@ModelAttribute("user") User user , HttpSession session, HttpServletResponse response)  throws Exception {
 
 		System.out.println("로그인 /user/loginUser : POST");
 		
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
-
-		if( user.getPassword().equals(dbUser.getPassword())){
-			session.setAttribute("user", dbUser);
-			userService.updateRecentlyDate(dbUser.getUserId());
+		System.out.println("아이디 체크"+user.getUserId());
+		if(dbUser==null){
+			
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('아이디 혹은 비밀번호를 잘못 입력하셨습니다.'); </script>");
+			out.flush();
+			return "/user/loginUser.jsp";
+			
+		}else {
+			
+			if( user.getPassword().equals(dbUser.getPassword())){
+				session.setAttribute("user", dbUser);
+				userService.updateRecentlyDate(dbUser.getUserId());
+			}
+			
 		}
 		
 		return "redirect:/common/index.jsp";
+
 	}
 	
 	///로그아웃 GET
@@ -191,6 +206,15 @@ public class UserController {
 		System.out.println("User 정보 확인"+user.getLeaveReason());
 		return "redirect:/common/index.jsp";
 	}
+	
+	//ID 찾기 GET (로그인 클릭했을 때 단순네비게이션)
+		@RequestMapping( value="findUser", method=RequestMethod.GET )
+		public String findUser() throws Exception{
+			
+			System.out.println("아이디찾기 화면으로 /user/findUser : GET");
+			
+			return "forward:/user/findUser.jsp";
+		}
 	
 
 }//end of class

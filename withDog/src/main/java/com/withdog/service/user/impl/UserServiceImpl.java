@@ -65,20 +65,25 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean duplicationUserId(String userId) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean checkUserId(String userId) throws Exception {
+		
+			boolean result=true;
+			User user=userDAO.getUser(userId);
+			
+			if(user != null) {
+				result=false;
+			}
+			return result;
 	}
 
 	@Override
 	public User findUserId(User user) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return 	userDAO.findUserId(user);
 	}
 
 	@Override
 	public void findUserPassword(User user) throws Exception {
-		// TODO Auto-generated method stub
+		 
 
 	}
 

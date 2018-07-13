@@ -42,6 +42,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void updateUser(User user) throws Exception {
+		System.out.println("다오임플에서 확인중 "+user);
 		sqlSession.update("UserMapper.updateUser", user);
 
 	}
@@ -82,16 +83,10 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	@Override
-	public boolean duplicationUserId(String userId) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public User findUserId(User user) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("UserMapper.findUserId", user);
 	}
 
 	@Override

@@ -24,6 +24,7 @@
 					var pwd = $("#password").val();
 					var pwd1 = $("#passwordCheck").val();
 					if( pwd != pwd1 ) {	//	비밀번호 와 비밀번호 확인이 다르다면 ... 
+						spanId
 						
 						$("#lastDiv").append("<p style='color:red;' id='message'>비밀번호를 다르게 입력하였습니다.</p>");
 						$("input").on("click",function(){
@@ -44,6 +45,7 @@
 					
 				}
 				
+				
 			});// end 
 			
 		});// end 제이쿼리 
@@ -57,7 +59,7 @@
 			$.ajax(
 					{
 						async : false, 
-						url : "/user/json/checkPassword/",
+						url : "/user/json/checkPassword",
 						method : "POST",
 						dataType : "json",
 						data: JSON.stringify({
@@ -131,6 +133,7 @@
                             <div class="col-md-12 no-padding" id="lastDiv">
                                 <label>새 비밀번호 확인:</label>
                                 <input type="password" name="passwordCheck" id="passwordCheck">
+                                <span class="spanId"></span>
                             </div>
                             
                             <input type="hidden" name="userId" value="${sessionScope.user.userId}" id="userId">
