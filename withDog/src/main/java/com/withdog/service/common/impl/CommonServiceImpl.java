@@ -1,5 +1,6 @@
 package com.withdog.service.common.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.withdog.common.Search;
 import com.withdog.service.common.CommonDAO;
 import com.withdog.service.common.CommonService;
+import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition  
@@ -69,9 +71,15 @@ public class CommonServiceImpl implements CommonService{
 
 
 	@Override
-	public List<Point> getMyPointList(Search search, String userId) throws Exception {
+	public Map<String, Object> getMyPointList(Search search, String userId) throws Exception {
 		// TODO Auto-generated method stub
-		return commonDAO.getMyPointList(search , userId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Point> list = commonDAO.getMyPointList(search , userId);
+		int totalCount = commonDAO.getTotalCount(userId);
+		map.put("list", list);
+		map.put("totalCount",totalCount);
+		
+		return map;
 	}
 	
 	

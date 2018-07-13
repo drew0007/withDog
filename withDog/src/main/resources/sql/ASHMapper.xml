@@ -1,1 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AshMapper">
+ 	
+ 	
+	<resultMap id="healingDogSelectMap" type="healingDog">
+		<result property="healingDogNo"  column="healing_dog_no" 				jdbcType="NUMERIC"/>
+		<result property="healingDogName" 	column="healing_dog_name" 		jdbcType="VARCHAR" />
+		<result property="healingDogBirth" 		column="healing_dog_birth" 					jdbcType="VARCHAR" />
+		<result property="healingDogimage" 				column="healing_dog_image" 					jdbcType="VARCHAR" />
+		<result property="healingDogChar" 		column="healing_dog_char" 				jdbcType="VARCHAR"  />
+		<result property="healingDogGender" 		column="healing_dog_gender" 				jdbcType="VARCHAR"  />
+		<result property="healingDogHealer" 		column="healing_dog_healer" 				jdbcType="VARCHAR"  />
+		<association property="healingDogBreed" javaType="dogBreedDic" >
+		 	<result property="dogNo" column="dog_no"	 		jdbcType="NUMERIC" />
+		</association>
+	</resultMap>
+	
+	<select id="getAllHealingDog" resultMap="healingDogSelectMap">
+		SELECT *
+		FROM healing_dog
+	</select>
+	
+	<select id="getHealingDog" parameterType="int" resultMap="healingDogSelectMap">
+		SELECT *
+		FROM healing_dog
+		WHERE healing_dog_no= #{value}
+	</select>
+	
+	
+	
+	</mapper>

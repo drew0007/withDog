@@ -20,6 +20,7 @@ public class Search {
 	
 	//상품정렬
 	private int prodSort;
+	private int sorting;
 
 	
 	///Constructor
@@ -63,20 +64,13 @@ public class Search {
 	public int getStartRowNum() {
 		return (getCurrentPage()-1)*getPageSize()+1;
 	}
-	public int getPriceUpDown() {
-		return priceUpDown;
+
+	public int getSorting() {
+		return sorting;
 	}
 
-	public void setPriceUpDown(int priceUpDown) {
-		this.priceUpDown = priceUpDown;
-	}
-
-	public int getRecently() {
-		return recently;
-	}
-
-	public void setRecently(int recently) {
-		this.recently = recently;
+	public void setSorting(int sorting) {
+		this.sorting = sorting;
 	}
 
 	public int getProdSort() {
@@ -89,9 +83,10 @@ public class Search {
 
 	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition="
-				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
+				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ ", sorting=" + sorting + "]";
 	}
+
+
 }

@@ -9,10 +9,13 @@ public class User {
 	private String password;
 	private String userName;
 	private String birth;
-	private String email;
+	private String email1;
+	private String email2;
 	private String phone;
-	private String address;
-	private int dogNo; // 좋아하는 견종
+	private String postNo;
+	private String address1;
+	private String address2;
+	private int  dogNo; // 좋아하는 견종
 	private String userCondition; // 계정상태 : 정상, 휴면, 탈퇴
 	private Date recentlyDate;
 	private Date joinDate;
@@ -32,10 +35,6 @@ public class User {
 	/// Method
 	public String getUserId() {
 		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getPassword() {
@@ -62,12 +61,20 @@ public class User {
 		this.birth = birth;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getEmail1() {
+		return email1;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
 	}
 
 	public String getPhone() {
@@ -78,12 +85,28 @@ public class User {
 		this.phone = phone;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getPostNo() {
+		return postNo;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setPostNo(String postNo) {
+		this.postNo = postNo;
+	}
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 
 	public int getDogNo() {
@@ -182,14 +205,21 @@ public class User {
 		this.snsFacebookId = snsFacebookId;
 	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password + ", userName=" + userName + ", birth=" + birth
-				+ ", email=" + email + ", phone=" + phone + ", address=" + address + ", dogNo=" + dogNo
-				+ ", userCondition=" + userCondition + ", recentlyDate=" + recentlyDate + ", joinDate=" + joinDate
-				+ ", leaveDate=" + leaveDate + ", leaveReason=" + leaveReason + ", role=" + role + ", currentPoint="
-				+ currentPoint + ", snsNaverId=" + snsNaverId + ", snsKakaoId=" + snsKakaoId + ", snsGoogleId="
-				+ snsGoogleId + ", snsFacebookId=" + snsFacebookId + "]";
+				+ ", email1=" + email1 + ", email2=" + email2 + ", phone=" + phone + ", postNo=" + postNo
+				+ ", address1=" + address1 + ", address2=" + address2 + ", dogNo=" + dogNo + ", userCondition="
+				+ userCondition + ", recentlyDate=" + recentlyDate + ", joinDate=" + joinDate + ", leaveDate="
+				+ leaveDate + ", leaveReason=" + leaveReason + ", role=" + role + ", currentPoint=" + currentPoint
+				+ ", snsNaverId=" + snsNaverId + ", snsKakaoId=" + snsKakaoId + ", snsGoogleId=" + snsGoogleId
+				+ ", snsFacebookId=" + snsFacebookId + "]";
 	}
+
+	
 
 }

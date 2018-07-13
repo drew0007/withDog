@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
+import com.withdog.service.domain.User;
 import com.withdog.service.fund.FundDAO;
 
 
@@ -39,29 +41,29 @@ public class FundDAOImpl implements FundDAO{
 	@Override
 	public int addFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("FundMapper.addFund",fund);
+		
+		int temp =sqlSession.insert("FundMapper.addFund",fund);
+		return temp;
 	}
 
 	@Override
 	public void updateFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
 		
+		sqlSession.update("FundMapper.updateFund",fund);
 	}
 
 	@Override
-	public String deleteFund() throws Exception {
+	public void deleteFund(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void fundPay() throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("delete Start=======================");
+		System.out.println(fund.getFundNo());
+		sqlSession.update("FundMapper.deleteFund",fund);
 		
 	}
 
 	@Override
-	public void listMyFund() throws Exception {
+	public void updateFundRaising() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -73,15 +75,93 @@ public class FundDAOImpl implements FundDAO{
 	}
 
 	@Override
-	public List<Fund> getFundList() throws Exception {
+	public List<Fund> getFundList(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("FundMapper.getFundList");
+		System.out.println("check");
+		return sqlSession.selectList("FundMapper.getFundList",user);
+	}
+	
+	
+
+	@Override
+	public Fund getMyFundNo(Fund fund, User user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("fund", fund);
+		map.put("user", user);
+		
+		return sqlSession.selectOne("FundMapper.getMyFundNo",map);
 	}
 
 	@Override
 	public void addFundRaising(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("펀딩에 정보넣기"+fund.toString());
+		sqlSession.update("FundMapper.updateRaising",fund);
+		System.out.println("펀딩에 정보넣기 성공?");
 		sqlSession.insert("FundMapper.addFundRaising",fund);
+	}
+
+	@Override
+	public Fund getMinFund() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("FundMapper.getMinFund");
+	}
+
+	@Override
+	public List<Fund> getFundResultList(Search search,User user) throws Exception {
+		// TODO Auto-generated method stub
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search",search);
+		map.put("user", user);
+		
+		System.out.println(user.getRole());
+		
+		return sqlSession.selectList("FundMapper.getFundResultList",map);
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("FundMapper.getTotalCount");
+	}
+	
+	
+	
+	@Override
+	public int getMyTotalCount(User user) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println(123);
+		return sqlSession.selectOne("FundMapper.getMyTotalCount",user);
+	}
+	
+	
+
+	@Override
+	public int getFundUserTotalCount(User user) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("FundMapper.getFundUserTotalCount",user);
+	}
+
+	@Override
+	public List<Fund> getMyFundList(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search",search);
+		map.put("user", user);
+		System.out.println(456);		
+		return sqlSession.selectList("FundMapper.getMyFundList",map);
+	}
+
+	@Override
+	public List<Fund> getFundUserList(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search",search);
+		map.put("user", user);
+		System.out.println(789);		
+		return sqlSession.selectList("FundMapper.getFundUserList",map);
 	}
 	
 	

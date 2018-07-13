@@ -28,7 +28,7 @@ public interface UserService {
 	public void logoutUser(User user) throws Exception;
 
 	// 회원 ID 중복 확인
-	public boolean duplicationUserId(String userId) throws Exception;
+	public boolean checkUserId(String userId) throws Exception;
 
 	// 회원 ID 찾기
 	public User findUserId(User user) throws Exception;

@@ -37,13 +37,39 @@
             </div>
         </section>
         <!-- end head section -->
-        
+   <!--    <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">당신의 후원을 기다립니다.</span> -->  
         
         <!-- content section -->
         <section class="wow fadeIn">
+        
+                          
+        
             <div class="container">
                 <div class="row">
                     <!-- content  -->
+                   
+                    <div class="col-md-12 col-sm-12 margin-bottom center-col">
+						<div class="row">
+                            <!-- <div class="col-lg-6 col-md-6 case-study-img cover-background no-padding" style="background-image:url('http://placehold.it/800x400');"> --> 
+                            <div class="col-lg-6 col-md-6 case-study-img cover-background no-padding">
+                            <img alt="" src="../images/fund/${fund.fundImage}">
+                            </div>
+                            <div class="col-lg-6 col-md-6 case-study-details2 no-margin-top" style="border: 5px solid #d7d7d7;">	
+                             <%--  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                    <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">${fund.fundTitle}</span>
+                                </div> --%>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 about-text position-relative xs-text-center">
+                                    <p class="fund-title2" style="margin-top:30px;" align="center">${fund.fundTitle}</p>
+                                    <div class="borderline"></div>
+                                    <span class="fund-center">모집기관 : ${fund.fundCenter}</span><br>
+                                    <span class="fund-center">모집기간 : ${fund.fundTerm}</span><br>
+                                    <span class="fund-center">모집금액 : ${fund.fundRaising} 원</span>
+                                    <p class="width-100 xs-width-100"></p>
+                                    <a href="getFund?fundNo=${fund.fundNo}"  class="highlight-button btn btn-medium no-margin sm-no-margin">후원하기</a>
+                                </div>
+                            </div>
+                          </div>
+                         </div>
                     
                     <!-- 펀딩 item 01 -->
                     <c:forEach var="list" items="${list}">
@@ -55,7 +81,7 @@
                                 <span class="fund-center">${list.fundCenter}</span>
                                 <div class="borderline"></div>
                                 <span class="fund-term">후원모집기간 : ${list.fundTerm}</span><br/>
-                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
+                                <span class="fund-raising">모인금액 : ${list.fundRaising} 원</span>
                                 
                             </div>
                                 <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>

@@ -14,7 +14,7 @@ public class DogInfo {
 	private String recommended;
 	private String notRecommended;
 	private String viewCount;
-	private String recommendCondition;
+	private RecommendInfo recommendCondition;
 	private Date regDate;
 	private String deleteFlag;
 	private List<String> dogInfoImageList = new ArrayList<String>();
@@ -100,11 +100,11 @@ public class DogInfo {
 		this.viewCount = viewCount;
 	}
 
-	public String getRecommendCondition() {
+	public RecommendInfo getRecommendCondition() {
 		return recommendCondition;
 	}
 
-	public void setRecommendCondition(String recommendCondition) {
+	public void setRecommendCondition(RecommendInfo recommendCondition) {
 		this.recommendCondition = recommendCondition;
 	}
 
@@ -127,7 +127,6 @@ public class DogInfo {
 		return dogInfoImageList;
 	}
 
-
 	@Override
 	public String toString() {
 		return "DogInfo [user=" + user + ", dogInfoNo=" + dogInfoNo + ", dogInfoTitle=" + dogInfoTitle
@@ -136,5 +135,6 @@ public class DogInfo {
 				+ viewCount + ", recommendCondition=" + recommendCondition + ", regDate=" + regDate + ", deleteFlag="
 				+ deleteFlag + ", dogInfoImageList=" + dogInfoImageList + "]";
 	}
+
 
 }
