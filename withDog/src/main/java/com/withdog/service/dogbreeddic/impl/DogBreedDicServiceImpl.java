@@ -26,8 +26,8 @@ public class DogBreedDicServiceImpl implements DogBreedDicService {
 	}
 
 	@Override
-	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception {
-		return null;
+	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception { //¼ÒÇö´©³ª²¨
+		return dogBreedDicDAO.getDogBreedInfo(dogNo);
 	}
 
 	@Override
@@ -68,5 +68,7 @@ public class DogBreedDicServiceImpl implements DogBreedDicService {
 	public List<DogBreedDic> getAllDogBreedInfoListByKo() throws Exception {
 		return dogBreedDicDAO.getAllDogBreedInfoListByKo();
 	}
+
+
 
 }

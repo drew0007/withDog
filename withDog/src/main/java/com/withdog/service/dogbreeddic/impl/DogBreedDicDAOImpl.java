@@ -26,16 +26,15 @@ public class DogBreedDicDAOImpl implements DogBreedDicDAO {
 	}
 
 	@Override
-	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public DogBreedDic getDogBreedInfo(int dogNo) throws Exception { //¼ÒÇö´©³ª²¨
+		return sqlSession.selectOne("DogBreedDicMapper.getDogBreed2", dogNo);
 	}
 
 	@Override
 	public DogBreedDic getDogBreed(String dogBreedEN) throws Exception {
 		return sqlSession.selectOne("DogBreedDicMapper.getDogBreed", dogBreedEN);
 	}
-
+	
 	@Override
 	public List<DogBreedDic> getDogBreedInfoList(String dogBreedKO) throws Exception {
 		// TODO Auto-generated method stub
@@ -70,5 +69,7 @@ public class DogBreedDicDAOImpl implements DogBreedDicDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("DogBreedDicMapper.getAllDogBreedInfoListByKo");
 	}
+
+
 
 }

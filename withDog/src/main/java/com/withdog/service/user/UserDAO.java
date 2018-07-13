@@ -34,9 +34,6 @@ public interface UserDAO {
 	// 로그아웃 
 	public void logoutUser(User user) throws Exception;
 	
-	// 회원 ID 중복 확인  SELECT 
-	public boolean duplicationUserId(String userId) throws Exception;
-	
 	// 회원 ID 찾기 SELECT ONE
 	public User findUserId(User user) throws Exception;
 	

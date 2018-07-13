@@ -27,9 +27,23 @@ public class DogBreedDicRestController {
 	}
 	@RequestMapping(value = "json/getDogBreed")
 	public JSONObject getDogBreed(@RequestBody DogBreedDic dogBreedDic  ) throws Exception{
-		System.out.println("/dogBreedDic/json/getDogBreed");
 		
+		System.out.println("/dogBreedDic/json/getDogBreed");
+		System.out.println("확인중"+dogBreedDic);
 		DogBreedDic dogBreed = dogBreedDicService.getDogBreed(dogBreedDic.getDogBreedEN());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("key", dogBreed);
+		System.out.println(jsonObject.toJSONString());
+		
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getDogBreed2") //소현누나꺼
+	public JSONObject getDogBreed2(@RequestBody DogBreedDic dogBreedDic  ) throws Exception{
+		
+		System.out.println("/dogBreedDic/json/getDogBreed");
+		System.out.println("확인중"+dogBreedDic);
+		DogBreedDic dogBreed = dogBreedDicService.getDogBreedInfo(dogBreedDic.getDogNo());
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("key", dogBreed);
 		System.out.println(jsonObject.toJSONString());
