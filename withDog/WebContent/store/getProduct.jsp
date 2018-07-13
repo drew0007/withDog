@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+
+</script>
 <jsp:include page="../common/css.jsp" />
 <title>상품상세정보</title>
 </head>
@@ -20,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
                         <!-- page title -->
-                        <h1 class="white-text">Product Detail</h1>
+                        <h1 class="white-text">Product Content</h1>
                         <!-- end page title -->
                         <!-- page title tagline -->
                         <span class="white-text xs-display-none">Lorem Ipsum is simply dummy text of the printing.</span>
@@ -36,8 +41,8 @@
             <div class="container">
                 <div class="row">
                     <!-- product images -->
-                    <div class="col-md-6 col-sm-12 zoom-gallery sm-margin-bottom-ten">
-                        <a href="http://placehold.it/700x583"><img src="http://placehold.it/700x583" alt=""/></a>
+                    <div class="col-md-6 col-sm-12 sm-margin-bottom-ten">
+                        <a><img src = "/images/uploadFiles/store/${product.prodImage}" id="prodImage" class="gallery-img"/></a>
                     </div>
                     <!-- end product images -->
                     <div class="col-md-5 col-sm-12 col-md-offset-1">
@@ -45,43 +50,42 @@
                         <div class="rating margin-five no-margin-top">
                             <i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star-o black-text"></i>
                             <span class="rating-text text-uppercase">5 Reviews</span>
-                            <span class="rating-text text-uppercase pull-right">상품번호: <span class="black-text">290397</span></span>
+                            <span class="rating-text text-uppercase pull-right">상품번호: <span class="black-text">${product.prodNo}</span></span>
                         </div>
                         <!-- end product rating -->
                         <!-- product name -->
-                        <span class="product-name-details text-uppercase font-weight-600 letter-spacing-2 black-text">상품명</span>
+                        <span class="product-sub-title text-uppercase font-weight-600 letter-spacing-1 black-text">${product.prodName}</span>
                         <!-- end product name -->
                         <!-- product stock -->
-                        <p class="text-uppercase letter-spacing-2 margin-two">In Stock / Shipping Available</p>
+                        <p class="text-uppercase margin-two"><span class="light-gray-text">배송비</span> 무료</p>
                         <!-- end product stock -->
                         <div class="separator-line bg-black no-margin-lr margin-five"></div>
                         <!-- end product short description -->
-                        <span class="price black-text title-small"><del>25,000원</del>20,000원</span>
+                        <span class="price black-text title-large price-text"><del class="price-del-text">${product.price+5000}원</del>${product.price}원</span>
                         <div class="col-md-3 col-sm-3 no-padding-left margin-five">
                             <div class="select-style med-input xs-med-input shop-shorting-details no-border-round">
                                 <!-- product qty -->
                                 <select>
-                                    <option value="">수량</option>
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                    <option value="">4</option>
-                                    <option value="">5</option>
+                                    <option selected>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
                                 </select>
                                 <!-- end product qty -->
                             </div>
                         </div>
-                        <div class="col-md-9 col-sm-9 no-padding margin-five">
+                        <div class="col-md-12 col-sm-9 no-padding">
                             <!-- add to bag button -->
-                            <a class="highlight-button btn btn-medium button" href="listCart.jsp"><i class="icon-basket"></i>장바구니 담기</a>
+                            <a class="highlight-button btn btn-medium button" href="#" ><i class="icon-basket"></i>장바구니 담기</a>
                             <!-- end add to bag button -->
                             <!-- add to purchase button -->
-                            <a class="highlight-button-dark btn btn-medium button" href="addPurchase.jsp]">바로구매</a>
+                            <a class="highlight-button-dark btn btn-medium button" href="addPurchase.jsp">바로구매</a>
                             <!-- end add to purchase button -->
                         </div>
-                        <div class="col-md-8 col-sm-9 product-details-social no-padding-left">
+                        <div class="col-md-9 col-sm-9 product-details-social no-padding-left margin-five" style="display:block;">
                             <!-- social media sharing -->
-                            <span class="black-text text-uppercase text-small vertical-align-middle margin-right-five">Share on</span>
+                            <span class="black-text text-uppercase text-small margin-right-five">Share on</span>
                             <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
                             <a href="https://twitter.com/" target="_blank"><i class="fa fa-comment"></i></a>
                             <a href="https://naver.com/" target="_blank"><i class="fa fa-coffee"></i></a>
@@ -100,7 +104,7 @@
                         <div class="tab-style1">
                             <div class="col-md-12 col-sm-12 no-padding">
                                 <!-- tab navigation -->
-                                <ul class="nav nav-tabs nav-tabs-light text-left">
+                                <ul class="nav nav-tabs nav-tabs-light text-center">
                                     <li class="active"><a href="#tab_sec1" data-toggle="tab">상품상세정보</a></li>
                                     <li><a href="#tab_sec2" data-toggle="tab">상품후기 (10)</a></li>
                                     <li><a href="#tab_sec3" data-toggle="tab">상품문의 (10)</a></li>
@@ -112,15 +116,10 @@
                             
                             
                                 <!-- tab content -->
-                                <div class="tab-pane med-text fade in active" id="tab_sec1">
+                                <div class="tab-pane med-text fade in active text-center" id="tab_sec1">
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                        <div class="col-md-10 col-sm-12 center-col overflow-hidden">
+                                            <img src = "/images/uploadFiles/store/${product.prodContent}"/>
                                         </div>
                                     </div>
                                 </div>

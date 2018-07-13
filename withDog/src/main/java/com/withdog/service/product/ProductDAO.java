@@ -12,7 +12,6 @@ public interface ProductDAO{
 	
 	// INSERT 상품수정
 	public void updateProductAdmin(Product  product) throws Exception ;
-
 	// SELECT ONE 상품조회 
 	public Product  getProduct(int prodNo) throws Exception ;
 
@@ -20,7 +19,7 @@ public interface ProductDAO{
 	public List<Product> getProductList(Search search) throws Exception ;
 
 	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
-	public int getTotalCount(Search search) throws Exception ;
+	public int getTotalCount(Search search, String prodType) throws Exception ;
 
 }//end of class
 

@@ -17,12 +17,12 @@
             <div id="owl-demo" class="owl-carousel owl-theme light-pagination square-pagination dark-pagination-without-next-prev-arrow main-slider">
                 <!-- slider item -->
                 <div class="item owl-bg-img" style="background-image:url('../images/main-visual1.jpg')">
-                    <div class="opacity-full bg-dark-gray"></div>
+                    <div class="bg-dark-gray"></div>
                     <div class="container full-screen position-relative">
                         <div class="slider-typography text-center">
                             <div class="slider-text-middle-main">
                                 <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp">
-                                    <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">experiences</span>
+                                    <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">withdog</span>
                                     <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block xs-letter-spacing-6">we craft experiences that help brands</span>
                                 </div>
                             </div>

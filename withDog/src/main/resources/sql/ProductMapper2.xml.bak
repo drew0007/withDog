@@ -81,26 +81,17 @@
 
 	
  	<!-- SQL : SELECT ROW Count -->
-	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	 	SELECT COUNT(*)
-	 	FROM ( SELECT prod_no, prod_type, prod_image, prod_name, price
+	 	FROM ( SELECT prod_no, prod_image, prod_name, price
 	  				 FROM product
 	  				 <where>
-	  				 	<if test='prodType=="0" '>
-	  				 		prod_type = '0'
-	  				 	</if>
-	  				 	<if test='prodType=="1" '>
-	  				 		prod_type = '1'
-	  				 	</if>
-		  				 <if test="a.searchCondition != null">
-		  				 	<if test="a.searchKeyword !='' ">
+		  				 <if test="searchCondition != null">
+		  				 	<if test="searchKeyword !='' ">
 		  				 		prod_name LIKE '%'||#{searchKeyword}||'%'
 		  				 	</if>
 		  				 </if>
 	  				 </where> ) countTable				
 	 </select>
-	 
-	 
-	 
 	 
 </mapper>
