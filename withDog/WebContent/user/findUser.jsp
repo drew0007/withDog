@@ -12,78 +12,93 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript">
 	
-		$( function() {
+	$( function() {
+		
+		$("#userName").focus();
+		
+		//아이디 중복검사 
+		$("#findUserId").on("click", function(){
 			
-			//비밀번호 수정 연결
-			$("#change").on("click" , function() {
-				
-				//기존 비밀번호 일치여부
-				if(chk_pw()){
-				
-					//새 비밀번호 일치 여부
-					var pwd = $("#password").val();
-					var pwd1 = $("#passwordCheck").val();
-					if( pwd != pwd1 ) {	//	비밀번호 와 비밀번호 확인이 다르다면 ... 
-						
-						$("#lastDiv").append("<p style='color:red;' id='message'>비밀번호를 다르게 입력하였습니다.</p>");
-						$("input").on("click",function(){
-							$("#message").remove();
-						});
-						
-						return;
+			$.ajax({
+				url : "/user/json/findUserId",
+				method : "POST",
+				dataType : "json",
+				data: JSON.stringify({
+					userName:$("#userName").val(),
+					birth:$("#birth").val(),
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status){
+					
+					var check = JSONData.userId;
+					
+					if(check==null){
+						$(".spanId").html("해당 정보 확인이 되지 않습니다.").css('color','red');
+					}else{
+						$(".spanId").html("고객님의 ID는 "+check+"입니다.").css('color','blue');	
 					}
-					
-					$("#updateform").attr("method","POST").attr("action","/user/updatePassword").submit();
-
-				}else{
-					
-					$("#lastDiv").append("<p style='color:red;' id='message'>기존 비밀번호를 잘못입력하였습니다.</p>");
-					$("input").on("click",function(){
-						$("#message").remove();
-					});
-					
 				}
-				
-			});// end 
-			
-		});// end 제이쿼리 
+			});// end ajax
+			 
+		 });//end 아이디 중복검사
+	
 		
-		//기존 비밀번호 맞는지 Ajax 확인
-		function chk_pw() { 
+		//이메일 입력방식 선택 
+		$("#email2").change(function(){ 
+			$("#email2 option:selected").each(function () { 
+				if($(this).val()== '1'){ //직접입력일 경우 
+					$("#emailText").val(''); //값 초기화
+					$("#emailText").attr("disabled",false); //활성화 
+				}else{ //직접입력이 아닐경우 
+					$("#emailText").val($(this).text()); //선택값 입력
+					$("#emailText").attr("disabled",true); //비활성화
+				} 		
+				
+			}); 
 			
-			//var param = $("form").serialize();
-			//var userId = $("#userId").val();
-			var pwcheck = false;
-			$.ajax(
-					{
-						async : false, 
-						url : "/user/json/checkPassword/",
-						method : "POST",
-						dataType : "json",
-						data: JSON.stringify({
-							userId:$("#userId").val(),
-							password:$("#beforePassword").val()
-						}),
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-					success : function(JSONData , status){
-						var check = JSONData;
-						if(check){
-							pwcheck = true;
-						}else{
-							pwcheck = false;
-						}
+		});//end 이메일 입력방식
+		
+		//비밀번호 찾기 연결
+		$("#findPW").on("click" , function() {
+			
+			//가입으로 넘기기전 체크사항   email
+			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 
+			if($("#email2").val()=='1' ){
+				var email2= '@'+$("#emailText").val();
+				$("#email2 option:selected").val(email2);
+			}
+			
+			$.ajax({
+				url : "/user/json/findUserPW",
+				method : "POST",
+				dataType : "json",
+				data: JSON.stringify({
+					userId:$("#userId").val(),
+					email1:$("#email1").val(),
+					email2:$("#email2").val(),
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status){
+					
+					var check = JSONData;
+					
+					if(!check){
+						$(".spanId2").html("해당 정보 확인이 되지 않습니다.").css('color','red');
+					}else{
+						$(".spanId2").html("고객님의 이메일로 임시 비밀번호가 전송되었습니다.").css('color','blue');	
 					}
-						
-						
-				}); //end of .ajax
-				
-			return pwcheck;
-		} //end of  chk_pw()
-		
+				}
+			});// end ajax
+			
+		});//end 비밀번호 찾기 연결
 
+	});	
 	</script>	
 
 
@@ -117,46 +132,68 @@
                 <div class="row margin-five no-margin-top"><!-- row1 -->
                     <div class="col-md-6 col-sm-12 center-col sm-margin-bottom-seven">
                         <p class="black-text font-weight-600 text-uppercase text-large">아이디 찾기</p>
-                        <form id="updateform">
+                        
+                        <form id="findIdForm">
+                        
                             <div class="col-md-12 no-padding">
                                 <label>이름 :</label>
                                 <input type="text" name="userName" id="userName">
                             </div>
                             
-                            <div class="col-md-12 no-padding">
+                             <div class="col-md-12 no-padding">
                                 <label>생년월일 :</label>
-                                <input type="text" name="birth" id="birth" placeholder="예)1995.10.02">
+                                <input type="text" name="birth" id="birth">
+                                <span class="spanId"></span>
                             </div>
- 
-                          </form> 
-                          
-                          <div class="text-center">
-                          <button class="highlight-button btn no-margin post-search" id="change">아이디 찾기</button>
-                          </div>
+                             
+                             
+                         </form> 
+                         
+                         <div class="text-center">
+                         	<button class="highlight-button btn no-margin post-search" id="findUserId">아이디 찾기</button>
+                         </div>
+                         
                     </div>
                 </div><!-- row1 -->
                 
                 <div class="row margin-five no-margin-top"><!-- row1 -->
                     <div class="col-md-6 col-sm-12 center-col sm-margin-bottom-seven">
                         <p class="black-text font-weight-600 text-uppercase text-large">비밀번호 찾기</p>
-                        <form id="updateform">
+                        
+                        <form id="findPWForm">
+                           
                             <div class="col-md-12 no-padding">
                                 <label>아이디 :</label>
                                 <input type="text" name="userId" id="userId">
                             </div>
                             
                             <div class="col-md-12 no-padding">
-                                <label>이메일 :</label>
-                                <input type="text" name="email" id="email">
+                                <p style="margin-bottom:10px">이메일:</p>
+                                <input type="text" name="email1" class="col-md-4" id="email1">
+                                <input type="text" name="emailText"class="col-md-4" id="emailText">
+                             	<div class="col-md-4 input-round">
+									<select name="email2" id="email2">
+										<option value="1">직접입력</option>
+										<option value="@naver.com">@naver.com</option>
+										<option value="@daum.net">@daum.net</option>
+										<option value="@gmail.com">@gmail.com</option>
+										<option value="@hotmail.com">@hotmail.com</option>
+										<option value="@nate.com">@nate.com</option>
+									</select>
+                            	</div>
+                            <span class="spanId2"></span>	
                             </div>
- 
-                          </form> 
-                          
-                          <div class="text-center">
-                          <button class="highlight-button btn no-margin post-search" id="getPW">비밀번호 찾기</button>
-                          </div>
+                            
+                        </form> 
+                        
+                        <div class="text-center">
+                       		<button class="highlight-button btn no-margin post-search" id="findPW">비밀번호 찾기</button>
+                        </div>
+                        
                     </div>
                 </div><!-- row1 -->
+                
+                
             </div><!-- container1 -->
             
         </section>

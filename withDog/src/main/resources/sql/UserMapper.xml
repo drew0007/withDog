@@ -50,6 +50,17 @@
 		WHERE user_id = #{value}
 	 </select>
 	 
+	 
+	<!-- 아이디 찾기 SQL : SELECT ONE -->
+	 <select 	id="findUserId"	parameterType="user"	resultMap="userSelectMap">
+		SELECT
+		user_id, password, user_name, birth, phone, email1, email2, post_No, phone, address1, address2, 
+		dog_no, user_condition, recently_date, join_date, role
+		FROM users 
+		WHERE user_name = #{userName} AND birth = #{birth}
+	 </select>
+	 
+	 
 	 <!-- 회원정보 업데이트 SQL : UPDATE -->
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE users

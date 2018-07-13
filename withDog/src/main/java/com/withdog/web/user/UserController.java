@@ -38,6 +38,7 @@ public class UserController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+
 	
 	///Constructor
 	public UserController(){
@@ -194,6 +195,15 @@ public class UserController {
 		System.out.println("User 정보 확인"+user.getLeaveReason());
 		return "redirect:/common/index.jsp";
 	}
+	
+	//ID 찾기 GET (로그인 클릭했을 때 단순네비게이션)
+		@RequestMapping( value="findUser", method=RequestMethod.GET )
+		public String findUser() throws Exception{
+			
+			System.out.println("아이디찾기 화면으로 /user/findUser : GET");
+			
+			return "forward:/user/findUser.jsp";
+		}
 	
 
 }//end of class
