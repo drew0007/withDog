@@ -65,7 +65,7 @@
 	
 	function getFund(){
 		document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;
-		document.getElementById("fundContent").value= content;
+		documetn.getElementById("fundContent").value= content
 		console.log(document.getElementById("fundTerm").value);
 		document.detailForm.submit();
 		//$("form").attr("method","POST").attr("action","/fund/addFund").submit();
@@ -176,7 +176,7 @@
 						<label>펀딩상세내용</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="hidden" name="fundContent" id="fundContent" value="">
+						
 						<jsp:include page="/common/sommernote.jsp"></jsp:include>
 						<!-- end input  -->
 					</div>
@@ -186,7 +186,7 @@
 					<div align="right">
         		     <span class="highlight-button btn-medium button margin-five">펀딩등록</span>
         		</div>			
-				
+				<textarea name="fundContent" id="fundContent"/>
 			</div>
 		</div>
 	</div>
