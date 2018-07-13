@@ -17,6 +17,9 @@ public class Search {
 	private int startRowNum;
 	private int priceUpDown;
 	private int recently;
+	
+	//상품정렬
+	private int prodSort;
 
 	
 	///Constructor
@@ -74,6 +77,14 @@ public class Search {
 
 	public void setRecently(int recently) {
 		this.recently = recently;
+	}
+
+	public int getProdSort() {
+		return prodSort;
+	}
+
+	public void setProdSort(int prodSort) {
+		this.prodSort = prodSort;
 	}
 
 	@Override
