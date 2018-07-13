@@ -5,7 +5,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpRequest;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -523,6 +526,74 @@ public class FundController {
 		
 					
 		return "forward:/fund/fundGuid.jsp";
+	}
+	
+	@RequestMapping(value="/fundReqFile")
+	public String getfundReqFile(HttpServletRequest request,HttpServletResponse response) throws Exception {
+
+		System.out.println("/getFundReqFileDownLoad : Start");
+		
+		String path = "C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\fundreq\\";
+		
+		String sendfileName = "FundRequset.";
+		String sendfileExe=request.getParameter("sendfileExe");
+		String sendfile= sendfileName+sendfileExe;
+		String client = "";
+		
+		InputStream in = null;
+		OutputStream out = null;
+		File file = null;
+		boolean skip = false;
+		String revUser = "";
+		
+		if(sendfile!=null) {
+			file = new File(path+sendfile);
+			in = new FileInputStream(file);
+		}else {
+			skip=true;
+		}
+		
+		//웹브라우저 확인
+		revUser = request.getHeader("User-Agent");
+		
+		System.out.println(revUser);
+		
+		response.reset();
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Description", "JSP Generated Data");
+		
+		if(!skip) {
+			
+			if(revUser.indexOf("MSIE")!=-1) {
+				response.setHeader("Content-Description","attachment; filename=\""+new String(sendfile.getBytes("KSC5601"),"ISO8859_1"));
+				
+						
+			}else{
+                // 한글 파일명 처리
+				sendfile = new String(sendfile.getBytes("utf-8"),"iso-8859-1");
+ 
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + sendfile + "\"");
+                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
+            }
+			
+			response.setHeader ("Content-Length", ""+file.length() );
+			 
+			 
+		       
+            out = response.getOutputStream();
+            byte b[] = new byte[(int)file.length()];
+            int leng = 0;
+             
+            while( (leng = in.read(b)) > 0 ){
+                out.write(b,0,leng);
+            }
+ 
+        }else{
+            response.setContentType("text/html;charset=UTF-8");
+            System.out.println("<script language='javascript'>alert('파일을 찾을 수 없습니다');history.back();</script>");
+ 
+        }
+			return "forward:/fund/fundReq.jsp";
 	}
 	
 	@RequestMapping(value="/fundReq")
