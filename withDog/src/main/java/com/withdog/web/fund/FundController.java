@@ -344,7 +344,8 @@ public class FundController {
 		user = (User)session.getAttribute("user");
 		System.out.println(user.getUserId());
 		}else {
-		user.setUserId("temp");	
+		user.setUserId("temp");
+		user.setRole("temp");
 		}
 		
 		///영수증.jsp로 callback 되는지
