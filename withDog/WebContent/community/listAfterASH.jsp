@@ -3,22 +3,69 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<jsp:include page="/common/css.jsp" />
 
-<jsp:include page="/common/css.jsp" />
-
-
-<title>동물교감 치유 후기 게시판</title>
-
+	<title>동물교감 치유 후기 게시판</title>
 </head>
 
+<script type="text/javascript">
+function changeSelect () {
+	$.ajax({
+		url : "/ash/json/getAllHealingDogList",
+		method : "GET",
+		datatype : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		success : function (data) {
+			console.log(data)
+			for(var i = 0; i<data.healingDogs.length; i++){
+				if($("select[name=checkSelect]").val()==0){
+					$("select[name=resultSelect]").append($('<option value=>'+data.healingDogs[i].healingDogName+'</option>'));
+				}
+				if($("select[name=checkSelect]").val()==1){
+					$.ajax({
+						url : "/dogBreedDic/json/getDogBreed2",
+						method : "POST",
+						datatype : "json",
+						data : JSON.stringify({
+							dogNo : data.healingDogs[i].healingDogBreed.dogNo
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function (data) {
+							console.log(data)
+							$("select[name=resultSelect]").append($('<option value=>'+data.key.dogBreedKO+'</option>'));
+						}
+					})
+				}
+				if($("select[name=checkSelect]").val()==2){
+					$("select[name=resultSelect]").append($('<option value=>'+data.healingDogs[i].healingDogHealer+'</option>'));
+				}
+			}
+		}
+	})
+}
+
+$(function () {
+	changeSelect();
+	$("select[name=checkSelect]").on("change", function () {
+		$("select[name=resultSelect]").empty();
+		changeSelect();
+	})
+})
+
+</script>
 
 <body>
 
-
-		<jsp:include page="/layout/common-header.jsp" />
-	
+	<jsp:include page="/layout/common-header.jsp" />
 	
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">
@@ -40,178 +87,120 @@
         </section>
         <!-- end head section -->
         
+        <!-- 검색 영역 시작 -->
+        <div class="row">
+	        <div id="addcomment" class="col-md-6 col-sm-12 blog-comment-form-main center-col text-center">
+	            <div class="blog-comment-form">
+	                <form>
+	                	<!-- select -->
+	                    <select name="checkSelect" class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
+	                        <option value="0" selected="selected">치유견이름</option>
+	                        <option value="1" >치유견종</option>
+	                        <option value="2" >담당치유사</option>
+	                     </select>   
+                    	<!-- end select -->
+	                    <select name="resultSelect" class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
+	                    		<!-- 옵션 넣어라 -->
+	                     </select>   
+                    	<!-- end select -->
+                        <!-- button  -->
+                        	<a href="#" class="highlight-button-dark btn btn-medium btn-round button xs-margin-bottom-five">검색</a>
+                        <!-- end button  -->
+                     </form>
+                 </div>
+              </div>
+          </div>
+        <!-- end 검색 영역  -->
         
-		<!-- 리스트 시작 content section /// blog-grid-3columns.html-->
-        <section class="wow fadeIn">
-            <div class="container">
-                <div class="row blog-3col">
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="300ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Paul Scrivens</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Minimum Usable Design</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="600ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Paul Scrivens</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">You Design It, They Do It</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="900ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Nathan Ford</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">For A More Readable Web Page</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="300ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Aarron Walter</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Redesigning With Personality</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="600ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Colin Powell</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">User Experience Be Beautiful?</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="900ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Shoko Mugikura</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">A Beautifully Complex System</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="300ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Jeremy Girard</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Creating Successful Websites</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="600ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Francisco</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Designing for the Mind</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="900ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Paul Scrivens</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Easier Is Better Than Better</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="300ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Paul Boag</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Ready For A Design Challenge?</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="600ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Simon Schmid</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">Elements Of A Launch Page</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                    <!-- post item -->
-                    <div class="col-md-4 col-sm-6 col-xs-6 blog-listing wow fadeInUp" data-wow-duration="900ms">
-                        <div class="blog-image"><a href="blog-single-right-sidebar.html"><img src="http://placehold.it/599x449" alt=""/></a></div>
-                        <div class="blog-details">
-                            <div class="blog-date">Posted by <a href="blog-masonry-2columns.html">Dan Rose</a> | 02 January 2015</div>
-                            <div class="blog-title"><a href="blog-single-right-sidebar.html">The Art Of Design Etiquette</a></div>
-                            <div class="blog-short-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div class="separator-line bg-black no-margin-lr"></div>
-                            <div><a href="#" class="blog-like"><i class="fa fa-heart-o"></i>Likes</a><a href="#" class="blog-share"><i class="fa fa-share-alt"></i>Share</a><a href="#" class="comment"><i class="fa fa-comment-o"></i>3 comment(s)</a></div>
-                        </div>
-                    </div>
-                    <!-- end post item -->
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp">
-                        <!-- pagination -->
-                        <div class="pagination">
-                            <a href="#"><img src="images/arrow-pre-small.png" alt=""/></a>
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#" class="active">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#"><img src="images/arrow-next-small.png" alt=""/></a>
-                        </div>
-                        <!-- end pagination -->
+        <!-- 슬라이드 영역 시작 -->
+            <div class="container padding-four">
+                <div class="row text-center">
+                    <div id="owl-demo" class="owl-carousel owl-theme dark-pagination dark-pagination-without-next-prev-arrow">
+                        <div class="item"><img src="http://placehold.it/800x500" alt=""/></div>
+                        <div class="item"><img src="http://placehold.it/800x500" alt=""/></div>
+                        <div class="item"><img src="http://placehold.it/800x500" alt=""/></div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- end content section -->
+        <!-- end 슬라이드 영역  -->
+        
+		<!-- 리스트 시작 -->
+        <section class="wow fadeIn no-padding">
+            <div class="container">
+                <div class="row">
+                
+                   	<div class="col-md-4 col-sm-4">
+                        <div class="blog-post">
+                            <div class="blog-post-images"><a href="getAfterASH.jsp"><img src="http://placehold.it/800x500"" alt=""></a></div>
+                            <a href="getAfterASH.jsp" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목1<i class="fa fa-heart-o pull-right" >15</i></a><br/>
+	                       <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                        </div>
+                    </div> 
+                    
+                   	<div class="col-md-4 col-sm-4">
+                        <div class="blog-post">
+                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
+                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목2<i class="fa fa-heart-o pull-right" >15</i></a><br/>
+	                       <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                        </div>
+                    </div>  
+                    
+                   	<div class="col-md-4 col-sm-4">
+                        <div class="blog-post">
+                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
+                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
+	                        <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                        </div>
+                    </div>  
+                   </div><!-- end row -->
+                                 <div class="row">
+                
+                	<div class="col-md-4 col-sm-4">
+                        <div class="blog-post">
+                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
+                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
+	                        <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                        </div>
+                    </div>  
+                    
+                   	<div class="col-md-4 col-sm-4">
+                        <div class="blog-post">
+                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
+                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
+	                       	<span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                        </div>
+                    </div>  
+                    
+                   	<div class="col-md-4 col-sm-4">
+                        <div class="blog-post">
+                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
+                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
+	                      	<span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                        </div>
+                    </div>  
+                    
+                   <!-- pagination -->
+	               <div class="pagination margin-ten no-margin-bottom">
+	                  <a href="#"><img src="../images/arrow-pre-small.png" alt=""/></a>
+	                  <a href="#">1</a>
+	                  <a href="#">2</a>
+	                  <a href="#" class="active">3</a>
+	                  <a href="#">4</a>
+	                  <a href="#">5</a>
+	                  <a href="#"><img src="../images/arrow-next-small.png" alt=""/></a>
+	               </div>
+               	  <!-- end pagination -->   
+                    
+                </div><!-- end row -->
+                   
+                 <div class="text-center">
+					<a href="/afterAsh/addAfterAsh"><span class="highlight-button btn btn-medium pull-right">후기 등록하기 </span></a>
+				</div>
+				
+              </div><!-- end container -->       
 
-        
-        
-        
+         </section>
+    	 <!-- end 리스트 -->
 	
 	<jsp:include page="/layout/footer.jsp" />
 	

@@ -11,11 +11,14 @@
 </head>
 
 <script>
+
+
 $(function(){
 	
 	$("span:contains('후원금결제')").on("click",function(){
 		
 		var Title = '${fund.fundTitle}';
+		var No = '${fund.fundNo}'
 		console.log(Title);
 		
 		if(document.getElementById("usePoint").value !=null){
@@ -33,7 +36,14 @@ $(function(){
 		
 		/* self.location.href="/fund/kakaoPay?fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price; */
 		popWin 
-		= window.open("/fund/kakaoPay?fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price,"popWin", "left=300,width=500,height=300,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		= window.open("/fund/kakaoPay?fundNo="+No+"&fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price,"popWin", "left=300,width=500,height=300,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+	});
+	
+	$("span:contains('펀딩수정')").on("click",function(){
+		self.location.href="/fund/updateFund?fundNo=${fund.fundNo}";
+	});
+	$("span:contains('펀딩삭제')").on("click",function(){
+		self.location.href="/fund/deleteFund?fundNo=${fund.fundNo}";
 	});
 });
 
@@ -187,7 +197,7 @@ $(function(){
                                 <div class="tab-pane med-text fade in active" id="tab_sec1">
                                     <div class="row">
                                         <div class="col-md-11 col-sm-12 center-col">
-                                            <p>펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명펀딩설명</p>
+                                            <p>${fund.fundContent}</p>
                                             <img src="http://placehold.it/1200x800" alt="" />
                                         </div>
                                     </div>
@@ -201,6 +211,12 @@ $(function(){
                         <!-- end tab -->
                     </div>
                 </div>
+                <div class="text-center">
+					<span class="highlight-button btn btn-medium">펀딩수정</span>
+				</div>
+				<div class="text-center">
+					<span class="highlight-button btn btn-medium">펀딩삭제</span>
+				</div>
             </div>
         </section>
 

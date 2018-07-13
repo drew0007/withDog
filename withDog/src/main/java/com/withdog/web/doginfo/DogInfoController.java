@@ -54,7 +54,7 @@ public class DogInfoController {
 
 	@RequestMapping(value = "addDogInfo", method = RequestMethod.GET)
 	public String addDogInfo() throws Exception {
-
+		System.out.println("/addDogInfo : GET");
 		return "forward:/community/addDogInfo.jsp";
 	}
 

@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.withdog.common.Page;
+import com.withdog.common.Search;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
@@ -84,14 +87,14 @@ public class FundController {
 	
 	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
 	//==> 아래의 두개를 주석을 풀어 의미를 확인 할것
-/*	@Value("#{commonProperties['pageUnit']}")
-	//@Value("#{commonProperties['pageUnit'] ?: 3}")
+	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
-	//@Value("#{commonProperties['pageSize'] ?: 2}")
-	int pageSize;*/
+	@Value("#{commonProperties['fundpageSize']}")
+	int pageSize;
 	
+	@Value("#{commonProperties['fundfilePath']}")
+	String path;
 	
 	@RequestMapping(value="/addFundView", method=RequestMethod.GET)
 	public String addFundView() throws Exception {
@@ -108,10 +111,10 @@ public class FundController {
 		System.out.println("/addFund : POST Start");
 		//Business Logic
 		
-		Properties properties = new Properties();
-		properties.load(new FileInputStream("C:/common.properties"));
+		/*Properties properties = new Properties();
+		properties.load(new FileInputStream("C:/common.properties"));*/
 		
-		String path = properties.getProperty("filepath");
+		/*String path = properties.getProperty("filepath");*/
 		String filetemp = fileName.getOriginalFilename();
 		
 		File file = new File(path+filetemp);
@@ -131,6 +134,71 @@ public class FundController {
 		
 	}
 	
+	@RequestMapping(value="/updateFund", method=RequestMethod.GET)
+	public String updateFundView(@RequestParam("fundNo") int fundNo,HttpServletRequest request) throws Exception {
+
+		System.out.println("/updateFundView :GET Start");
+		
+	    Fund fund = fundService.getFund(fundNo);
+	    
+	    request.setAttribute("fund", fund);
+	    
+	    String Term = fund.getFundTerm();
+	    String[] temp = new String[2]; 
+	    temp = Term.split("~");
+	    
+	    request.setAttribute("temp", temp);
+		
+		
+		
+					
+		return "forward:/fund/updateFund.jsp";
+	}
+	
+	@RequestMapping(value="/updateFund",method=RequestMethod.POST)
+	public String updateFund(@ModelAttribute("fund") Fund fund,HttpServletRequest request,@RequestParam("fundImagePath") MultipartFile fileName ) throws Exception {
+
+		System.out.println("/updateFund : POST Start");
+		//Business Logic
+		
+		Properties properties = new Properties();
+		properties.load(new FileInputStream("C:/common.properties"));
+		
+		String path="";
+		String filetemp="";
+		System.out.println(1);
+		
+		if(fileName.getSize() != 0) {
+		System.out.println(2);
+		path = properties.getProperty("filepath");
+		filetemp = fileName.getOriginalFilename();
+		
+		
+		File file = new File(path+filetemp);
+		fileName.transferTo(file);
+		}
+		else {
+		System.out.println(3);
+		Fund before=fundService.getFund(fund.getFundNo());
+			
+		filetemp = before.getFundImage();	
+		}
+		
+		fund.setFundImage(filetemp);
+		
+		System.out.println(fund.toString());
+		
+
+				
+		fundService.updateFund(fund);
+						
+		
+		return "forward:/fund/getFund?fundNo="+fund.getFundNo();
+		
+	}
+	
+	
+	
 	@RequestMapping(value="/getFund")
 	public String getFund(@RequestParam("fundNo")  int fundNo,HttpServletRequest request) throws Exception {
 
@@ -142,23 +210,24 @@ public class FundController {
 		HttpSession session = request.getSession(false);
 		User user = new User();
 		
+		Fund fund = fundService.getFund(fundNo);
 		
 		if(session.getAttribute("user")!=null) {
 			user = (User)session.getAttribute("user");
 			System.out.println(user.getUserId());
+			
+			//임시
+			Point point = new Point();
+			point.setUser(user);
+			
+			int currentPoint=commonService.getCurrentPoint(point);
+			
+			
+			request.setAttribute("currentPoint", currentPoint);
 		}
 		
 		
-		Fund fund = fundService.getFund(fundNo);
 		
-		//임시
-		Point point = new Point();
-		point.setUser(user);
-		
-		int currentPoint=commonService.getCurrentPoint(point);
-		
-		
-		request.setAttribute("currentPoint", currentPoint);
 		request.setAttribute("fund", fund);
 		
 		return "forward:/fund/getFund.jsp";
@@ -166,12 +235,14 @@ public class FundController {
 	
 	
 	@RequestMapping(value="/getFundList")
-	public String getFundList(HttpServletRequest request) throws Exception{
+	public String getFundList(HttpServletRequest request,HttpSession session) throws Exception{
 		 
 	 	
 	 	System.out.println("/FundList : Start");
+	 	
+	 	User user = (User)session.getAttribute("user");
 		
-		List<Fund> list = fundService.getFundList(); 	
+	 	List<Fund> list = fundService.getFundList(user); 	
 		
 		for (int i = 0; i < list.size(); i++) {
 		
@@ -180,15 +251,90 @@ public class FundController {
 				
 		request.setAttribute("list", list);
 		
+		Fund fund = new Fund();
+		fund=fundService.getMinFund();
+		System.out.println(fund.toString());
+		
+		request.setAttribute("fund", fund);
+		
+		System.out.println("FundList End=================================");
 		
 		return "forward:/fund/listFund.jsp";
 		
 		
 	 }
 	
+	@RequestMapping(value="/getMyFundList")
+	public String getMyFundList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/getMyFundList : Start");
+		//Business Logic
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+	 	System.out.println(1);	 	
+		Map<String,Object> map = fundService.getMyFundList(search, user); 	
+		
+		System.out.println("MAP 체크 ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		request.setAttribute("list", map.get("list"));
+		
+		System.out.println(map.get("list"));
+		
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		request.setAttribute("myPageState", 5);
+		
+		return "forward:/mypage/myPageMain.jsp";
+	}
+	
+	
+	
+	@RequestMapping(value="/getFundResultList")
+	public String getFundResultList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception{
+		 
+	 	
+	 	System.out.println("/FundResultList : Start");
+		System.out.println(search.toString());
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+	 		 	
+		Map<String,Object> map = fundService.getFundResultList(search,user); 	
+		
+		System.out.println("MAP 체크 ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+				
+		
+		return "forward:/fund/listFundResult.jsp";
+		
+		
+	 }
+	
 	
 	@RequestMapping(value="kakaoPay")
-	private String kakaoPay(@ModelAttribute("Fund") Fund fund,HttpServletRequest req) throws Exception{
+	private String kakaoPay(@ModelAttribute("fund") Fund fund,HttpServletRequest req) throws Exception{
 		
 		System.out.println("kakaoPay Start==================================");
 		System.out.println(req.getParameter("usePoint"));
@@ -197,6 +343,8 @@ public class FundController {
 		if(session.getAttribute("user")!=null) {
 		user = (User)session.getAttribute("user");
 		System.out.println(user.getUserId());
+		}else {
+		user.setUserId("temp");	
 		}
 		
 		///영수증.jsp로 callback 되는지
@@ -269,10 +417,21 @@ public class FundController {
 	    //포인트 이것만 긁기
 	    fund.setUser(user);
 	    point.setUser(user);//userid
-	    point.setFund(fund);//후원,구매,예약 구분을 위해
+	    
 	    
 	    //후원완료 되면 add시키고 이동시키기
+	    //fund테이블에 후원금액 추가
+	    int raising = price+usePoint;
+	    fund.setFundRaising(raising);
+	    System.out.println("후원금액 : "+raising);
 	    fundService.addFundRaising(fund);
+	    
+	    //펀드 구매 번호 가져오기
+	    Fund resultFund = fundService.getMyFundNo(fund,user);
+	    
+	    fund.setFundMyPriceNo(resultFund.getFundMyPriceNo());
+	    
+	    point.setFund(fund);//후원,구매,예약 구분을 위해
 	    
 	    double savePoint = price*0.01;
 	    System.out.println("적립포인트"+savePoint);
@@ -303,6 +462,57 @@ public class FundController {
 		
 		return "forward:/fund/fundReceipt.jsp";
 	}
+	
+	@RequestMapping(value="/deleteFund")
+	public String deleteFund(@ModelAttribute("fund") Fund fund) throws Exception {
+
+		System.out.println("/deleteFUnd : Start");
+	
+		/*Fund ofund = fundService.getFund(fund.getFundNo());*/
+		
+		fundService.deleteFund(fund);
+					
+		return "forward:/fund/getFundList";
+	}
+	
+	
+	
+	@RequestMapping(value="/getFundUserListAdmin")
+	public String getFundUserListAdmin(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/getFundUserListAdmin : Start");
+		//Business Logic
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+	 	System.out.println(111111111+user.getUserId());	 	
+		Map<String,Object> map = fundService.getFundUserList(search, user); 	
+		
+		System.out.println("MAP 체크 ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		request.setAttribute("list", map.get("list"));
+		
+		System.out.println(map.get("list"));
+		
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		request.setAttribute("myPageState", 11);
+		
+		return "forward:/mypage/adminPageMain.jsp";
+	}
+	
+	
+	
+	
 	
 	
 	@RequestMapping(value="/fundGuid")

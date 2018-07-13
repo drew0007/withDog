@@ -31,7 +31,7 @@
                              	</c:when>
                             	<c:when test="${sessionScope.user!=null}">
                              		<a href="/user/logoutUser"><div class="subtitle">로그아웃</div></a>
-                             		<a href="../mypage/myPageMain.jsp"><i class="fa  fa-user" ></i><div class="subtitle">마이페이지</div></a>
+                             		<a href="/common/myPageMain?role=${user.role}"><i class="fa  fa-user" ></i><div class="subtitle">${user.role != 'admin'?"마이페이지":"관리자페이지"}</div></a>
                              	</c:when>
                             </c:choose>
                         </div>
@@ -165,8 +165,8 @@
                                        <li class="dropdown-header">크라우드펀딩</li>
                                         <li><a href="/fund/fundGuid">크라우드펀딩이란?</a></li>
                                         <li><a href="/fund/getFundList">크라우드펀딩 목록</a></li>
-                                        <li><a href="/fund/getFundList">펀딩완료목록</a></li>
-                                        <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>>
+                                        <li><a href="/fund/getFundResultList">완료된펀딩목록</a></li>
+                                        <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>
                                     </ul>
                                     <!-- end sub menu item  -->
                                     <!-- end sub menu single -->

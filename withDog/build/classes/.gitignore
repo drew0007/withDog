@@ -1,7 +1,5 @@
 /com/
-/withDog/
-/sql/
-<<<<<<< HEAD
 /config/
-=======
->>>>>>> refs/heads/new/blacktturtle
+/log4j.properties
+/sql/
+/withDog/

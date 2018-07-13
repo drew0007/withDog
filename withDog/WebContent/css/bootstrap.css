@@ -766,6 +766,8 @@ pre code {
     margin-right: auto;
     margin-left: auto;
 }
+
+
 @media (min-width: 768px) {
     .wide-container {
         margin: 0;

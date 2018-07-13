@@ -14,186 +14,56 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<!-- <style>
-	  body {
-            padding-top : 50px;
-        }
-    </style> -->
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<!-- <script type="text/javascript">
-	
-		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
-		function fncGetList(currentPage) {
-			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
-		}
-		
-		
-		//============= "검색"  Event  처리 =============	
-		 $(function() {
-			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 //$( "button.btn.btn-default" ).on("click" , function() {
-			//	fncGetUserList(1);
-			//});
-		 });
-		
-		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============	
-		 $(function() {
-		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userId="+$(this).text().trim();
-			});
-						
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
-			
-		});	
-		
-		
-		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
-		 $(function() {
-			 
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5) > i" ).on("click" , function() {
-
-					var userId = $(this).next().val();
-				
-					$.ajax( 
-							{
-								url : "/user/json/getUser/"+userId ,
-								method : "GET" ,
-								dataType : "json" ,
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
-
-									var displayValue = "<h6>"
-																+"아이디 : "+JSONData.userId+"<br/>"
-																+"이  름 : "+JSONData.userName+"<br/>"
-																+"이메일 : "+JSONData.email+"<br/>"
-																+"ROLE : "+JSONData.role+"<br/>"
-																+"등록일 : "+JSONData.regDate+"<br/>"
-																+"</h6>";
-									$("h6").remove();
-									$( "#"+userId+"" ).html(displayValue);
-								}
-						});
-						////////////////////////////////////////////////////////////////////////////////////////////
-					
-			});
-			
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-			$("h7").css("color" , "red");
-			
-			//==> 아래와 같이 정의한 이유는 ??
-			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-		});	
-	
-	</script> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
   
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
- <!--  <style>
-  .ui-autocomplete {
-    max-height: 100px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-  }
-  /* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-  * html .ui-autocomplete {
-    height: 100px;
-  }
-  </style> -->
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <!-- <script>
-  $( function() {
-	  var availableTags;
-	  $("#tags").on("keyup",function(){
-			$.ajax(
-		  			{
-				 url:"/user/json/getUserSearch", 
-		  		 method:"POST",
-		  		 data:JSON.stringify({
-		  			searchCondition:$(".form-control").val(),
-		  		    searchKeyword:$("#tags").val()
-		  			
-		  		 }),
-		  		 dataType:"json",
-		  		 headers:{
-		  			 "Accept" : "application/json",
-		  			 "Content-Type" : "application/json"
-		  		 },
-		  		 success:function(prodSearch,status){
-		  		 	availableTags=prodSearch;
-		  		 	$( "#tags" ).autocomplete({
-		  		      source: availableTags
-		  		    });
-		  		  }
-		  		 }
-		  		);//ajax end
-		  
-	    	  });
-    
-    
-  } );
-  </script>
-  클릭시 열리고 닫히는 이벤트
+  <script type="text/javascript">
+
+function fncGetList(currentPage) {
+ 	$("#currentPage").val(currentPage)
+	$("form").attr("method","POST").attr("action","/common/getMyPointList").submit();
+}
+
+
+</script>
+<!-- 숫자증가 스크립트 -->
   <script>
-  $( function() {
-    $( "#accordion" ).accordion({
-      collapsible: true
+  jQuery(document).ready(function( $ ) {
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
     });
-  } );
-  </script> -->
+  </script>
+  <!--  -->
+   
 </head>
 
 <body>
-	
+	<form>
+	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
+     <input type="hidden" id="currentPage" name="currentPage" value=""/>
+     </form>
+	<!-- 숫자증가 스크립트 -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="/js/jquery.counterup.min.js"></script>
+    <!--end  -->
 	<!-- ToolBar Start /////////////////////////////////////-->
 	
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<!-- <div class="container" style="width: 921px;"> -->
+	<div class="container" style="width: 921px;">
 	
-		<div class="page-header text-info">
-	       <h3>나의포인트내역</h3>
+		
+	       <h1 align="center">나의포인트내역</h1>
+	    <hr/>
+	    <div >
+	       <h2 align="center">현재포인트 : <div class="counter" style="display:inline;"> ${currentPoint}</div> Point</h2>
 	    </div>
-	    <div class="row">
-	       <h3>현재포인트 : ${currentPoint}</h3>
-	    </div>
+	    <hr/>
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	  <%--   <div class="row">
 	    
@@ -266,7 +136,11 @@
       
       </table>
 	  <!--  table End /////////////////////////////////////-->
-	  
+	  <div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
+                        <!-- pagination -->
+						<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
+                        <!-- end pagination -->
+                    </div> 
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
