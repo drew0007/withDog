@@ -2,8 +2,8 @@ package com.withdog.service.domain;
 
 public class HealingDog {
 	private int healingDogNo;
+	private DogBreedDic healingDogBreed;
 	private String healingDogName;
-	private String healingDogBreed;
 	private String healingDogBirth;
 	private String healingDogGender;
 	private String healingDogChar;
@@ -18,20 +18,20 @@ public class HealingDog {
 		this.healingDogNo = healingDogNo;
 	}
 
+	public DogBreedDic getHealingDogBreed() {
+		return healingDogBreed;
+	}
+
+	public void setHealingDogBreed(DogBreedDic healingDogBreed) {
+		this.healingDogBreed = healingDogBreed;
+	}
+
 	public String getHealingDogName() {
 		return healingDogName;
 	}
 
 	public void setHealingDogName(String healingDogName) {
 		this.healingDogName = healingDogName;
-	}
-
-	public String getHealingDogBreed() {
-		return healingDogBreed;
-	}
-
-	public void setHealingDogBreed(String healingDogBreed) {
-		this.healingDogBreed = healingDogBreed;
 	}
 
 	public String getHealingDogBirth() {
@@ -76,10 +76,9 @@ public class HealingDog {
 
 	@Override
 	public String toString() {
-		return "HealingDog [healingDogNo=" + healingDogNo + ", healingDogName=" + healingDogName + ", healingDogBreed="
-				+ healingDogBreed + ", healingDogBirth=" + healingDogBirth + ", healingDogGender=" + healingDogGender
+		return "HealingDog [healingDogNo=" + healingDogNo + ", healingDogBreed=" + healingDogBreed + ", healingDogName="
+				+ healingDogName + ", healingDogBirth=" + healingDogBirth + ", healingDogGender=" + healingDogGender
 				+ ", healingDogChar=" + healingDogChar + ", healingDogimage=" + healingDogimage + ", healingDogHealer="
 				+ healingDogHealer + "]";
 	}
-
 }

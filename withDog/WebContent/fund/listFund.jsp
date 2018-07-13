@@ -63,7 +63,7 @@
                                     <div class="borderline"></div>
                                     <span class="fund-center">모집기관 : ${fund.fundCenter}</span><br>
                                     <span class="fund-center">모집기간 : ${fund.fundTerm}</span><br>
-                                    <span class="fund-center">모집금액 : ${fund.fundRaising}</span>
+                                    <span class="fund-center">모집금액 : ${fund.fundRaising} 원</span>
                                     <p class="width-100 xs-width-100"></p>
                                     <a href="getFund?fundNo=${fund.fundNo}"  class="highlight-button btn btn-medium no-margin sm-no-margin">후원하기</a>
                                 </div>
@@ -81,7 +81,7 @@
                                 <span class="fund-center">${list.fundCenter}</span>
                                 <div class="borderline"></div>
                                 <span class="fund-term">후원모집기간 : ${list.fundTerm}</span><br/>
-                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
+                                <span class="fund-raising">모인금액 : ${list.fundRaising} 원</span>
                                 
                             </div>
                                 <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>

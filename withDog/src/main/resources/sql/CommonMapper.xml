@@ -50,7 +50,7 @@
 	<insert id="addPointUse"	parameterType="point" >
 	 	INSERT
 		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
-		 <if test="fund.fundTitle != null">seq_fund_fund_no.nextval</if>
+		 <if test="fund.fundMyPriceNo != null">#{fund.fundMyPriceNo}</if>
 		 ,0,0,SYSDATE,#{usePoint},0,#{currentPoint})
 		 
 												
@@ -59,7 +59,7 @@
 	 <insert id="addPointSave"	parameterType="point" >
 	 	INSERT
 		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
-		 <if test="fund.fundTitle!=null">seq_fund_fund_no.nextval</if>
+		 <if test="fund.fundTitle!=null">#{fund.fundMyPriceNo}</if>
 		 ,0,0,SYSDATE,0,#{point},#{currentPoint})
 		 										
 	 </insert>

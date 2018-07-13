@@ -87,7 +87,7 @@ public class FundController {
 	
 	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
 	//==> 아래의 두개를 주석을 풀어 의미를 확인 할것
-	@Value("#{commonProperties['fundpageUnit']}")
+	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	
 	@Value("#{commonProperties['fundpageSize']}")
@@ -264,6 +264,41 @@ public class FundController {
 		
 	 }
 	
+	@RequestMapping(value="/getMyFundList")
+	public String getMyFundList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/getMyFundList : Start");
+		//Business Logic
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+	 	System.out.println(1);	 	
+		Map<String,Object> map = fundService.getMyFundList(search, user); 	
+		
+		System.out.println("MAP 체크 ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		request.setAttribute("list", map.get("list"));
+		
+		System.out.println(map.get("list"));
+		
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		request.setAttribute("myPageState", 5);
+		
+		return "forward:/mypage/myPageMain.jsp";
+	}
+	
+	
+	
 	@RequestMapping(value="/getFundResultList")
 	public String getFundResultList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception{
 		 
@@ -382,7 +417,7 @@ public class FundController {
 	    //포인트 이것만 긁기
 	    fund.setUser(user);
 	    point.setUser(user);//userid
-	    point.setFund(fund);//후원,구매,예약 구분을 위해
+	    
 	    
 	    //후원완료 되면 add시키고 이동시키기
 	    //fund테이블에 후원금액 추가
@@ -391,7 +426,12 @@ public class FundController {
 	    System.out.println("후원금액 : "+raising);
 	    fundService.addFundRaising(fund);
 	    
+	    //펀드 구매 번호 가져오기
+	    Fund resultFund = fundService.getMyFundNo(fund,user);
 	    
+	    fund.setFundMyPriceNo(resultFund.getFundMyPriceNo());
+	    
+	    point.setFund(fund);//후원,구매,예약 구분을 위해
 	    
 	    double savePoint = price*0.01;
 	    System.out.println("적립포인트"+savePoint);
@@ -434,6 +474,45 @@ public class FundController {
 					
 		return "forward:/fund/getFundList";
 	}
+	
+	
+	
+	@RequestMapping(value="/getFundUserListAdmin")
+	public String getFundUserListAdmin(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/getFundUserListAdmin : Start");
+		//Business Logic
+		User user = new User();
+		if(session.getAttribute("user")!=null) {
+		user = (User)session.getAttribute("user");
+		}
+	 	if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+	 	System.out.println(111111111+user.getUserId());	 	
+		Map<String,Object> map = fundService.getFundUserList(search, user); 	
+		
+		System.out.println("MAP 체크 ===========================");
+		System.out.println(map);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		request.setAttribute("list", map.get("list"));
+		
+		System.out.println(map.get("list"));
+		
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		request.setAttribute("myPageState", 11);
+		
+		return "forward:/mypage/adminPageMain.jsp";
+	}
+	
+	
+	
+	
 	
 	
 	@RequestMapping(value="/fundGuid")

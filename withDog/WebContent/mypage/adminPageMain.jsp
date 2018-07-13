@@ -7,7 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 	<jsp:include page="../common/css.jsp" />
-	<title>My page</title>
+	<title>Admin page</title>
 	
 	
 	 <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -79,7 +79,7 @@
                        
                         <!-- widget  -->
                         <div class="widget">
-                            <h5 class="widget-title font-alt">My 쇼핑</h5>
+                            <h5 class="widget-title font-alt">스토어</h5>
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
@@ -94,11 +94,11 @@
                         
                          <!-- widget  -->
                         <div class="widget">
-                            <h5 class="widget-title font-alt">My 후원</h5>
+                            <h5 class="widget-title font-alt">크라우드펀딩</h5>
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="#">나의 후원내역</a></li>
+                                    <li><a href="#">회원별 후원내역</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                         
                         <!-- widget  -->
                         <div class="widget">
-                            <h5 class="widget-title font-alt">My 예약</h5>
+                            <h5 class="widget-title font-alt">동물교감치유</h5>
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
@@ -119,7 +119,7 @@
                         
                         <!-- widget  -->
                         <div class="widget">
-                            <h5 class="widget-title font-alt">My 정보</h5>
+                            <h5 class="widget-title font-alt">회원</h5>
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
@@ -130,18 +130,8 @@
                             </div>
                         </div>
                         <!-- end widget  -->
-                        
-                        <!-- widget  -->
-                        <div class="widget">
-                            <h5 class="widget-title font-alt">My 포인트</h5>
-                            <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-                            <div class="widget-body">
-                                <ul class="category-list">
-                                    <li><a href="#">나의 포인트 내역</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end widget  -->
+                       
+                       
                         </div>
 					</div>
 					<input type="hidden" id="myPageState" name="myPageState" value="">
@@ -173,7 +163,7 @@
 										
 					<c:if test="${empty myPageState || myPageState =='11'}">
 						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../mypage/listMyPoint.jsp" />
+					   		<jsp:include page="../fund/listFundUserAdmin.jsp" />
 						</div>
 					</c:if>
 					

@@ -2,28 +2,32 @@ package com.withdog.service.ash.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.withdog.common.Search;
 import com.withdog.service.ash.AshDAO;
-import com.withdog.service.ash.AshService;
 import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Consulting;
 import com.withdog.service.domain.HealingDog;
 
-@Service("ashServiceImpl")
-public class AshServiceImpl implements AshService{
-
+@Repository("ashDAOImpl")
+public class AshDAOImpl implements AshDAO {
+	
 	@Autowired
-	@Qualifier("ashDAOImpl")
-	private AshDAO ashDAO;
-
-	public AshServiceImpl() {
-		System.out.println(this.getClass());
+	@Qualifier("sqlSessionTemplate")
+	private SqlSession sqlSession;
+	
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
 	}
 	
+	public AshDAOImpl() {
+		System.out.println(this.getClass());
+	}
+
 	@Override
 	public void addHealingDog(HealingDog healingDog) throws Exception {
 		// TODO Auto-generated method stub
@@ -32,7 +36,7 @@ public class AshServiceImpl implements AshService{
 
 	@Override
 	public HealingDog getHealingDog(int healingDogNo) throws Exception {
-		return ashDAO.getHealingDog(healingDogNo);
+		return sqlSession.selectOne("AshMapper.getHealingDog",healingDogNo);
 	}
 
 	@Override
@@ -43,7 +47,7 @@ public class AshServiceImpl implements AshService{
 
 	@Override
 	public List<HealingDog> getHealingDogList() throws Exception {
-		return ashDAO.getHealingDogList();
+		return sqlSession.selectList("AshMapper.getAllHealingDog");
 	}
 
 	@Override

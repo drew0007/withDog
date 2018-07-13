@@ -76,6 +76,15 @@ public class FundServiceImpl implements FundService{
 		return fundDAO.getFundList(user);
 	}
 
+	
+	
+	
+	@Override
+	public Fund getMyFundNo(Fund fund, User user) throws Exception {
+		// TODO Auto-generated method stub
+		return fundDAO.getMyFundNo(fund, user);
+	}
+
 	@Override
 	public void addFundRaising(Fund fund) throws Exception {
 		// TODO Auto-generated method stub
@@ -101,18 +110,44 @@ public class FundServiceImpl implements FundService{
 		return map;
 	}
 
+	
+	
+	@Override
+	public Map<String, Object> getMyFundList(Search search, User user) throws Exception {
+		// TODO Auto-generated method stub
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Fund> list = fundDAO.getMyFundList(search,user);
+		
+		System.out.println("MyFundlist 받음"+list.size());
+		
+		int totalCount = fundDAO.getMyTotalCount(user);
+		System.out.println("MyFundlist Count 받음"+totalCount);
+		map.put("list", list);
+		map.put("totalCount",totalCount);
+		
+		
+		return map;
+	}
+
 	@Override
 	public Map<String, Object> getFundUserList(Search search, User user) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Fund> list = fundDAO.getFundUserList(search,user);
+		
+		System.out.println("MyFundlist 받음"+list.size());
+		
+		int totalCount = fundDAO.getFundUserTotalCount(user);
+		System.out.println("MyFundlist Count 받음"+totalCount);
+		map.put("list", list);
+		map.put("totalCount",totalCount);
+		
+		
+		return map;
 	}
 
-	@Override
-	public List<Fund> listMyFund(Search search, User user) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	
 	
 	

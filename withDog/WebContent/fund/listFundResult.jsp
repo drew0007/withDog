@@ -10,7 +10,7 @@
 <jsp:include page="/common/css.jsp" />
 
 
-<title>펀딩 리스트</title>
+<title>완료된펀딩 리스트</title>
 
 <script type="text/javascript">
 

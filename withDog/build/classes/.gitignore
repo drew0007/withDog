@@ -1,5 +1,14 @@
 /com/
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> refs/remotes/origin/master
 /config/
+<<<<<<< HEAD
 =======
 >>>>>>> refs/heads/new/hyuny
+=======
+/log4j.properties
+/sql/
+/withDog/
+>>>>>>> refs/remotes/origin/master

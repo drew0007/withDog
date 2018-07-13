@@ -8,8 +8,64 @@
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <jsp:include page="/common/css.jsp" />
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <title>동물 교감 후기 등록</title>
+
+<script type="text/javascript">
+function fncAddAfterAsh(){
+	//Form 유효성 검증
+ 	var healingDog = $('#healingDog option:selected').val();
+	var afterASHTitle = $('input[name=afterASHTitle]').val();
+	var afterASHContent = $('textarea[name=afterASHContent]').val();	
+
+
+	if(afterASHTitle == null || afterASHTitle.length<1){
+		alert("제목을 작성하세요.");
+		return;
+	}
+// 	if(healingDog == null || healingDog.length<1){
+// 		alert("치유견을 선택하세요.");
+// 		return;
+// 	}
+	if(afterASHContent == null || afterASHContent.length<1){
+		alert("내용을 입력하세요.");
+		return;
+	}
+
+	$("form").attr("method","post").attr("action","/afterAsh/addAfterAsh").attr("enctype","multipart/form-data").submit();
+}
+
+$(function () {
+	$("#submit").on("click", function () {
+		if (confirm("등록하시겠습니까?") == true){    //확인
+			fncAddAfterAsh();
+		  }else{   //취소
+		      return;
+		  }
+	});
+})
+
+
+$(function () {
+	$.ajax({
+		url : "/ash/json/getAllHealingDogList",
+		method : "GET",
+		datatype : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		success : function (data) {
+			console.log(data)
+			for(var i = 0; i<data.healingDogs.length; i++){
+				$("#healingDog").append($('<option value='+data.healingDogs[i].healingDogNo+'>'+data.healingDogs[i].healingDogName+'</option>'));
+				}
+		}
+	})
+})
+
+</script>
 
 
 </head>
@@ -56,21 +112,25 @@
 						<label class>후기제목</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="text" name="fundTitle" id="fundTitle" class="big-input">
+						<input type="text" name="afterASHTitle" id="afterASHTitle" class="big-input">
 						<!-- end input  -->
 					</div>
 					
 					<!-- 이용날짜 -->
 					<div class="form-group no-margin-bottom">
 						<!-- label  -->
-						<label>이용일</label>
+						<label>이용기간</label>
+						
 						<!-- end label  -->
 					</div>
 					<div class="form-group calendar-icon no-margin-bottom" >
 						<!-- input  -->
-						<input type="text" class="big-input" id="fundTerm1">
+						<input type="text" class="big-input" name="afterASHDate" id="afterASHDate">
 						<i class="fa fa-calendar small-icon form-group" style="padding-left:-20px;"></i>
-						<input type="hidden" name="fundTerm" id="fundTerm"> 
+						<select class="big-input" name="afterASHTime" id="afterASHTime">
+							<option value="0" selected="selected">오전 [10:00~13:00]</option>
+                         	 <option value="1" >오후 [14:00~17:00]</option>
+						</select>
 						<!-- end input  -->
 					</div>
 
@@ -79,10 +139,7 @@
 						<!-- label  -->
 						<label>치유견 선택</label>
 						<div class="select-style">
-							<select>
-								<option value="" selected="selected">치유견 이름1</option>
-			                          <option value="" >치유견 이름2</option>
-			                          <option value="" >치유견 이름3</option>
+							<select name="healingDog.healingDogNo" id="healingDog">
 							</select>
 						<!-- end input  -->
 					</div>
@@ -93,7 +150,7 @@
 						<label>후기상세내용</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<textarea placeholder="상세내용을 입력해주세요"></textarea>
+						<textarea name="afterASHContent" id="afterASHContent" placeholder="상세내용을 입력해주세요"></textarea>
 						<!-- end input  -->
 					</div>
 
@@ -102,7 +159,7 @@
 						<label>이미지 1</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="file"class="big-input">
+						<input type="file"  id="file" name="file" class="big-input">
 						<!-- end input  -->
 					</div>
 					
@@ -111,7 +168,7 @@
 						<label>이미지2</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="file"class="big-input">
+						<input type="file"   id="file" name="file" class="big-input">
 						<!-- end input  -->
 					</div>
 					
@@ -120,7 +177,7 @@
 						<label>이미지3</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="file" class="big-input">
+						<input type="file"   id="file" name="file"  class="big-input">
 						<!-- end input  -->
 					</div>
 					
@@ -129,7 +186,7 @@
 						<label>동영상</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<input type="file" class="big-input">
+						<input type="file" name="file" class="big-input">
 						<!-- end input  -->
 					</div>
 					
@@ -139,7 +196,7 @@
 
 				</form>
 				<div class="text-center">
-					<span class="highlight-button btn btn-medium">등록</span><span class="highlight-button btn btn-medium">확인</span>
+					<span id="submit" class="highlight-button btn btn-medium">등록</span>
 				</div>
 			</div>
 		</div>

@@ -83,7 +83,7 @@ public class UserController {
 		}
 		
 		return "redirect:/common/index.jsp";
-		
+
 	}
 	
 	///로그아웃 GET
@@ -138,8 +138,12 @@ public class UserController {
 		 
 		 // Model 과 View 연결
 		model.addAttribute("user", user);
+		//마이페이지
+		model.addAttribute("myPageState",8);
 		
-		return "forward:/user/getUser.jsp";
+		/*return "forward:/user/getUser.jsp";*/
+		
+		return "forward:/mypage/myPageMain.jsp";
 	}
 	
 	//회원정보 수정화면 GET  (로그인 클릭했을 때 단순네비게이션)
@@ -154,11 +158,14 @@ public class UserController {
 
 	//비밀번호 수정 화면 GET
 	@RequestMapping( value="updatePassword", method=RequestMethod.GET )
-	public String updatePassword ()  throws Exception {
+	public String updatePassword (HttpServletRequest request)  throws Exception {
 
 		System.out.println("비밀번호 수정 화면으로 /user/updatePassword : GET");
 		
-		return "forward:/user/updatePassword.jsp";
+		//마이페이지
+		request.setAttribute("myPageState",9);
+		
+		return "forward:/mypage/myPageMain.jsp";
 	} 
 	
 	//비밀번호 수정 POST
@@ -180,10 +187,14 @@ public class UserController {
 	
 	///회원탈퇴 GET
 	@RequestMapping( value="deleteUser", method=RequestMethod.GET )
-	public String deleteUser() throws Exception{
+	public String deleteUser(HttpServletRequest request) throws Exception{
 		
 		System.out.println("회원탈퇴 화면으로 /user/deleteUser : GET");
-		return "forward:/user/deleteUser.jsp";
+		
+		//마이페이지
+		request.setAttribute("myPageState",10);
+		
+		return "forward:/mypage/myPageMain.jsp";
 	}
 	
 	///회원탈퇴 POST

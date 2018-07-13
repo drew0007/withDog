@@ -35,7 +35,7 @@ function fncAddDogInfo(){
 
 
 $(function () {
-	$("#asdf").on("click", function () {
+	$("#submit").on("click", function () {
 		if (confirm("등록하시겠습니까?") == true){    //확인
 			fncAddDogInfo();
 		  }else{   //취소
@@ -111,7 +111,7 @@ $(function () {
                             </form>
                             
                             <!-- button  -->
-                            <input id="asdf" type="submit" name="send" value="등록하기" class="highlight-button-dark btn btn-medium no-margin-bottom">
+                            <input id="submit" type="submit" name="send" value="등록하기" class="highlight-button-dark btn btn-medium no-margin-bottom">
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
                         </div>

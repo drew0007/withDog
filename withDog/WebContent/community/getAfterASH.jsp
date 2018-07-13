@@ -5,12 +5,35 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<jsp:include page="/common/css.jsp" />
 
 	<title>동물교감 치유 후기 상세</title>
 </head>
+<script type="text/javascript">
+$(function () {
+	var healingDogNo = ${afterAsh.healingDog.healingDogNo}
+	$.ajax({
+		url : "/ash/json/getHealingDog/"+healingDogNo,
+		method : "GET",
+		datatype : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		success : function (data) {
+			console.log(data)
+			console.log($("#dogBreed").val());
+			console.log($("#dogBreed").text());
+			console.log($("#dogBreed").html());
+			
+			
+		}
+	})
+})
 
+
+</script>
 <body>
 
 		<jsp:include page="../layout/header.jsp" />
@@ -41,11 +64,11 @@
                 <div class="row border-bottom border-gray text-center">
                     <div class="col-md-12 col-sm-6 sm-margin-bottom-ten">
                         <!-- post title  -->
-                        <h2>동물교감치유 후기제목</h2>
+                        <h2>${afterAsh.afterASHTitle}</h2>
                         <!-- end post title  -->
                         <!-- post date and categories  -->
                         <div class="blog-date" style="margin-bottom:20px">
-                        	Posted by <a href="blog-masonry-3columns.html">회원ID aaa</a> | Date 2018.08.17| <a href="#"></a><i class="fa fa-heart-o pull-right" >15</i></a> 
+                        	Posted by <a href="blog-masonry-3columns.html">회원ID ${afterAsh.user.userId}</a> | Date ${afterAsh.regDate}| <a href="#"></a><i class="fa fa-heart-o pull-right" >15</i></a> 
                        	</div>
                         <!-- end date and categories   -->
                     </div>
@@ -68,11 +91,11 @@
 	                    <div class="col-md-6 col-sm-6 sm-margin-bottom-ten">
 	                        <div class="col-md-12 col-sm-12 no-padding">
 	                            <ul class="list-line margin-ten text-med">
-	                                <li><span class="font-weight-600">치유견종:</span> Andrew Smith</li>
-	                                <li><span class="font-weight-600">치유견 이름:</span>ㅇㅇㅇ</li>
-	                                <li><span class="font-weight-600">치유견 나이:</span> ㅇㅇ</li>
-	                                <li><span class="font-weight-600">치유견 성격:</span> ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</li>
-	                                <li><span class="font-weight-600">담당 치유사:</span> ㅇㅇㅇ</li>
+	                                <li id="dogBreed"><span class="font-weight-600">치유견종:</span> Andrew Smith</li>
+	                                <li id="dogName"><span class="font-weight-600">치유견 이름:</span>ㅇㅇㅇ</li>
+	                                <li id="dogAge"><span class="font-weight-600">치유견 나이:</span> ㅇㅇ</li>
+	                                <li id="dogChar"><span class="font-weight-600">치유견 성격:</span> ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</li>
+	                                <li id="healer"><span class="font-weight-600">담당 치유사:</span> ㅇㅇㅇ</li>
 	                            </ul>
 	                        </div>
 	                    </div>
