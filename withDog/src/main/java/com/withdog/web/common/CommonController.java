@@ -1,18 +1,28 @@
 package com.withdog.web.common;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.withdog.common.Page;
 import com.withdog.common.Search;
@@ -38,6 +48,8 @@ public class CommonController {
 	@Value("#{commonProperties['pointpageSize']}")
 	int pageSize;
 	
+	@Value("#{commonProperties['sommernoteFilePath']}")
+	String path;
 	
 	
 	@RequestMapping(value="/mainPage")
@@ -125,5 +137,42 @@ public class CommonController {
 		
 		return "forward:/mypage/myPageMain.jsp";
 	}
-
+	/*@RequestMapping(value="/imageUpload")
+	public ResponseEntity<String>  imageUpload() throws Exception{
+		
+		String imagePath= "";
+		HttpHeaders hearders = new HttpHeaders();
+		hearders.setContentType(MediaType.valueOf(imagePath));
+		
+		
+		return new ResponseEntity<String>(imagePath,hearders,HttpStatus.OK);
+	}
+	 */
+	
+	/*@RequestMapping(value="/imageUpload")
+	public ResponseEntity<String>  imageUpload(MultipartFile file,HttpServletResponse response) throws Exception{
+		System.out.println("imageStart");
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		System.out.println(1);
+		String fileName= file.getOriginalFilename();
+		
+		System.out.println(fileName);
+		File fileSave = new File(path+fileName);
+		file.transferTo(fileSave);
+		
+		System.out.println(2);
+		out.println("../images/sommernote/"+fileName);
+		String imagePath ="../images/sommernote/"+fileName;
+		System.out.println(3);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("", "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+		headers.setContentType(MediaType.valueOf(imagePath));
+		
+		return new ResponseEntity<String>(imagePath,HttpStatus.OK);
+	
+	}*/
+	
 }

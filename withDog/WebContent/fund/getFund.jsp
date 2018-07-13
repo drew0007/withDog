@@ -198,7 +198,6 @@ $(function(){
                                     <div class="row">
                                         <div class="col-md-11 col-sm-12 center-col">
                                             <p>${fund.fundContent}</p>
-                                            <img src="http://placehold.it/1200x800" alt="" />
                                         </div>
                                     </div>
                                 </div>
