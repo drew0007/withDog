@@ -257,7 +257,13 @@ public class FundController {
 	 	
 	 	System.out.println("/FundList : Start");
 	 	
-	 	User user = (User)session.getAttribute("user");
+	 	User user = new User();
+	 	if(session.getAttribute("user")!=null) {
+	 	  user = (User)session.getAttribute("user");
+	 	}else {
+	 		user.setRole("user");
+	 	}
+	 			
 		
 	 	List<Fund> list = fundService.getFundList(user); 	
 		
@@ -325,6 +331,8 @@ public class FundController {
 		User user = new User();
 		if(session.getAttribute("user")!=null) {
 		user = (User)session.getAttribute("user");
+		}else {
+		user.setRole("user");
 		}
 	 	if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -518,8 +526,12 @@ public class FundController {
 		
 		
 		request.setAttribute("list", map.get("list"));
+		System.out.println("이거확인========================================");
+		List<Fund> list =(List<Fund>) map.get("list");
+		System.out.println(list.size());
+		System.out.println(resultPage.getTotalCount());
 		
-		System.out.println(map.get("list"));
+				
 		
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);

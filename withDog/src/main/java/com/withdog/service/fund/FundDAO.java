@@ -18,7 +18,7 @@ public interface FundDAO {
 		
 	public List<Fund> getFundResultList(Search search,User user) throws Exception;
 	
-	public int getTotalCount() throws Exception;
+	public int getResultTotalCount(User user) throws Exception;
 	
 	public int getMyTotalCount(User user) throws Exception;
 	

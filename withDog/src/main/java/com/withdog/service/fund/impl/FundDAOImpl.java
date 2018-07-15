@@ -122,13 +122,14 @@ public class FundDAOImpl implements FundDAO{
 	}
 
 	@Override
-	public int getTotalCount() throws Exception {
+	public int getResultTotalCount(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("FundMapper.getTotalCount");
+		return sqlSession.selectOne("FundMapper.getResultTotalCount",user);
 	}
 	
 	
 	
+
 	@Override
 	public int getMyTotalCount(User user) throws Exception {
 		// TODO Auto-generated method stub
