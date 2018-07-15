@@ -6,11 +6,43 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <jsp:include page="/common/css.jsp" />
 
 
 <title>펀딩신청문의</title>
+<script>
+
+
+$(function(){
+	
+	if('${req}'=="yes"){
+		alert("신청이 완료되었습니다.");
+	}
+	
+	
+	$("span:contains('신청하기')").on("click",function(){
+		console.log(1);
+		
+		var file = $("#fundReq").val();
+		
+		console.log(file);
+				
+		if(file==null||file.length<1){
+			alert("신청서를 첨부해주세요");
+			return;
+		}
+		
+		$("form").submit();
+		
+		
+	});
+	
+});
+
+
+</script>
 
 </head>
 
@@ -44,20 +76,16 @@
   		<!-- content section -->
         <section class="wow fadeIn">
             <div class="container">
-                <c:if test="${guid!=null}">
-                <div class="col-md-7 col-sm-8">
-                </c:if> 
-                <c:if test="${guid==null}">
-                <div class="row">
-                </c:if>
-                	<c:if test="${guid!=null}">
-                    <div class="col-md-9 col-sm-8 col-xs-11 center-col xs-no-padding">
-                    </c:if>
-                    <c:if test="${guid==null}">
+                 <div class="row">
                     <div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
-                    </c:if>
-                        <form>
+                    
+                        <form method="post" action="/fund/fundReqSend" enctype="multipart/form-data">  
+                        <div class="form-group no-margin-bottom">
+                        		<hr/>
                         		
+                        		<jsp:include page="/test/tooltip.jsp"></jsp:include>
+                        		<hr/>
+                        </div>
                             <div class="form-group no-margin-bottom">
                                 <!-- label  -->
                                 <hr/>
@@ -79,40 +107,31 @@
                                 <hr/>
                                 <!-- end label  -->
                                 <!-- input  -->
-                                <input type="file" name="file" id="exampleInputFile" class="input-round big-input">
+                                <input type="file" name="fundReq" id="fundReq" class="input-round big-input">
 								<!-- end input  -->
 							</div>
                                 
                         </form>
                        	
-                       	<div class="text-center">
-                           
-                           <button class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right" type="submit">크라우드 펀딩 신청방법</button>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           <button class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right" type="submit">신청하기</button>
+                       	<div class="text-right">
+                                                 
+                           <button class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right"><span>신청하기</span></button>
+                  
                         </div>
                         
                         
                     </div>
-                               
-                    
+                           
                 </div>
-                <c:if test="${guid=='1'}">
-                 <div class="col-md-5 col-sm-5">
-                      <img alt="" src="../images/fund/fundReq.png">
-                 </div>
-                </c:if> 
+                          
             </div>
         </section>
         <!-- end content section -->
 
-        
-        
-        
 	
 	<jsp:include page="/layout/footer.jsp" />
 	
-	<jsp:include page="/common/js.jsp" />
+	<jsp:include page="/common/jsTooltip.jsp" />
 	
 </body>
 </html>

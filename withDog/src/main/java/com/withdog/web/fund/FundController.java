@@ -23,6 +23,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -129,6 +141,8 @@ public class FundController {
 		System.out.println(fund.toString());
 		
 
+		Thread.sleep(2500);
+		
 				
 		fundService.addFund(fund);
 						
@@ -596,15 +610,96 @@ public class FundController {
 			return "forward:/fund/fundReq.jsp";
 	}
 	
+	@RequestMapping(value="/fundReqSend")
+	public String SendfundReq(@RequestParam("fundReq")MultipartFile file,HttpServletRequest request) throws Exception {
+
+		System.out.println("/SednFundReqMail : Start");
+		
+		System.out.println(file.getOriginalFilename());
+		
+		String host = "smtp.naver.com";
+		String adminMail = "nmw369";
+		String password = "itgkqrur77&";
+		
+		String to ="nmw369@naver.com";
+		
+		String emailHtml="<HTML>" +
+			    "<HEAD><TITLE></TITLE></HEAD>" +
+			    "<BODY>" +
+			    "<h3>크라우드 펀딩 신청서 </h3>" +
+			        			     " <br>"+
+			     "<img src=\"https://bit.ly/2Nbd1nf\">"+
+			     "<br>"+
+			     "</BODY>" +
+			    "</HTML>";
+		  Properties props = new Properties();
+		  props.put("mail.smtp.host", host);
+		  props.put("mail.smtp.port", 587);
+		  props.put("mail.smtp.auth", "true");
+		
+		  
+		  
+		  
+		  Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			  protected PasswordAuthentication getPasswordAuthentication() {
+				   return new PasswordAuthentication(adminMail, password);
+				}  
+		  });
+		  
+		  //session.setDebug(true); //session 디버그
+		  
+		  
+		  MimeMessage message = new MimeMessage(session);
+		  		  
+		   message.setFrom(new InternetAddress(adminMail+"@naver.com"));
+		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		  
+		   
+		   // Subject
+		   message.setSubject("크라우드펀딩 신청서가 도착했습니다.");
+		  		  
+		   String path="C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\fundreq\\";
+		   String fileName=file.getOriginalFilename();
+			  MimeBodyPart mdp = new MimeBodyPart();
+			  FileDataSource fds = new FileDataSource(path+fileName);
+			  
+			  mdp.setDataHandler(new DataHandler(fds));
+			  mdp.setFileName(MimeUtility.encodeText(fds.getName(),"KSC5601","B"));
+			  
+			  Multipart mp = new MimeMultipart();
+			  mp.addBodyPart(mdp);
+		   
+		   message.setContent(mp);
+		   		   
+		   /*message.setContent(emailHtml	, "text/html; charset=euc-kr");*/
+		  
+		   
+
+		   // send the message
+		   Transport.send(message);
+		   
+		   System.out.println("message sent successfully...");
+		
+		   
+					
+		return "forward:/fund/fundReq?req=yes";
+	}
+	
 	@RequestMapping(value="/fundReq")
-	public String getfundReq() throws Exception {
+	public String getfundReq(HttpServletRequest request) throws Exception {
 
 		System.out.println("/getFundReq : Start");
+				
+		String uri="";
 		
+		if(request.getParameter("req")!=null&&request.getParameter("req").equals("yes")) {
+			request.setAttribute("req", "yes");
+		}else {
+			request.setAttribute("req", "no");
+		}
 					
 		return "forward:/fund/fundReq.jsp";
 	}
-	
 	
 	
 		
