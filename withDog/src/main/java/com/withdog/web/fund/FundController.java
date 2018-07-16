@@ -5,7 +5,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -21,10 +23,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpRequest;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -126,6 +141,8 @@ public class FundController {
 		System.out.println(fund.toString());
 		
 
+		Thread.sleep(2500);
+		
 				
 		fundService.addFund(fund);
 						
@@ -240,7 +257,13 @@ public class FundController {
 	 	
 	 	System.out.println("/FundList : Start");
 	 	
-	 	User user = (User)session.getAttribute("user");
+	 	User user = new User();
+	 	if(session.getAttribute("user")!=null) {
+	 	  user = (User)session.getAttribute("user");
+	 	}else {
+	 		user.setRole("user");
+	 	}
+	 			
 		
 	 	List<Fund> list = fundService.getFundList(user); 	
 		
@@ -308,6 +331,8 @@ public class FundController {
 		User user = new User();
 		if(session.getAttribute("user")!=null) {
 		user = (User)session.getAttribute("user");
+		}else {
+		user.setRole("user");
 		}
 	 	if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -501,8 +526,12 @@ public class FundController {
 		
 		
 		request.setAttribute("list", map.get("list"));
+		System.out.println("이거확인========================================");
+		List<Fund> list =(List<Fund>) map.get("list");
+		System.out.println(list.size());
+		System.out.println(resultPage.getTotalCount());
 		
-		System.out.println(map.get("list"));
+				
 		
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
@@ -525,15 +554,164 @@ public class FundController {
 		return "forward:/fund/fundGuid.jsp";
 	}
 	
+	@RequestMapping(value="/fundReqFile")
+	public String getfundReqFile(HttpServletRequest request,HttpServletResponse response) throws Exception {
+
+		System.out.println("/getFundReqFileDownLoad : Start");
+		
+		String path = "C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\fundreq\\";
+		
+		String sendfileName = "FundRequset.";
+		String sendfileExe=request.getParameter("sendfileExe");
+		String sendfile= sendfileName+sendfileExe;
+		String client = "";
+		
+		InputStream in = null;
+		OutputStream out = null;
+		File file = null;
+		boolean skip = false;
+		String revUser = "";
+		
+		if(sendfile!=null) {
+			file = new File(path+sendfile);
+			in = new FileInputStream(file);
+		}else {
+			skip=true;
+		}
+		
+		//웹브라우저 확인
+		revUser = request.getHeader("User-Agent");
+		
+		System.out.println(revUser);
+		
+		response.reset();
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Description", "JSP Generated Data");
+		
+		if(!skip) {
+			
+			if(revUser.indexOf("MSIE")!=-1) {
+				response.setHeader("Content-Description","attachment; filename=\""+new String(sendfile.getBytes("KSC5601"),"ISO8859_1"));
+				
+						
+			}else{
+                // 한글 파일명 처리
+				sendfile = new String(sendfile.getBytes("utf-8"),"iso-8859-1");
+ 
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + sendfile + "\"");
+                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
+            }
+			
+			response.setHeader ("Content-Length", ""+file.length() );
+			 
+			 
+		       
+            out = response.getOutputStream();
+            byte b[] = new byte[(int)file.length()];
+            int leng = 0;
+             
+            while( (leng = in.read(b)) > 0 ){
+                out.write(b,0,leng);
+            }
+ 
+        }else{
+            response.setContentType("text/html;charset=UTF-8");
+            System.out.println("<script language='javascript'>alert('파일을 찾을 수 없습니다');history.back();</script>");
+ 
+        }
+			return "forward:/fund/fundReq.jsp";
+	}
+	
+	@RequestMapping(value="/fundReqSend")
+	public String SendfundReq(@RequestParam("fundReq")MultipartFile file,HttpServletRequest request) throws Exception {
+
+		System.out.println("/SednFundReqMail : Start");
+		
+		System.out.println(file.getOriginalFilename());
+		
+		String host = "smtp.naver.com";
+		String adminMail = "nmw369";
+		String password = "itgkqrur77&";
+		
+		String to ="nmw369@naver.com";
+		
+		String emailHtml="<HTML>" +
+			    "<HEAD><TITLE></TITLE></HEAD>" +
+			    "<BODY>" +
+			    "<h3>크라우드 펀딩 신청서 </h3>" +
+			        			     " <br>"+
+			     "<img src=\"https://bit.ly/2Nbd1nf\">"+
+			     "<br>"+
+			     "</BODY>" +
+			    "</HTML>";
+		  Properties props = new Properties();
+		  props.put("mail.smtp.host", host);
+		  props.put("mail.smtp.port", 587);
+		  props.put("mail.smtp.auth", "true");
+		
+		  
+		  
+		  
+		  Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			  protected PasswordAuthentication getPasswordAuthentication() {
+				   return new PasswordAuthentication(adminMail, password);
+				}  
+		  });
+		  
+		  //session.setDebug(true); //session 디버그
+		  
+		  
+		  MimeMessage message = new MimeMessage(session);
+		  		  
+		   message.setFrom(new InternetAddress(adminMail+"@naver.com"));
+		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		  
+		   
+		   // Subject
+		   message.setSubject("크라우드펀딩 신청서가 도착했습니다.");
+		  		  
+		   String path="C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\fundreq\\";
+		   String fileName=file.getOriginalFilename();
+			  MimeBodyPart mdp = new MimeBodyPart();
+			  FileDataSource fds = new FileDataSource(path+fileName);
+			  
+			  mdp.setDataHandler(new DataHandler(fds));
+			  mdp.setFileName(MimeUtility.encodeText(fds.getName(),"KSC5601","B"));
+			  
+			  Multipart mp = new MimeMultipart();
+			  mp.addBodyPart(mdp);
+		   
+		   message.setContent(mp);
+		   		   
+		   /*message.setContent(emailHtml	, "text/html; charset=euc-kr");*/
+		  
+		   
+
+		   // send the message
+		   Transport.send(message);
+		   
+		   System.out.println("message sent successfully...");
+		
+		   
+					
+		return "forward:/fund/fundReq?req=yes";
+	}
+	
 	@RequestMapping(value="/fundReq")
-	public String getfundReq() throws Exception {
+	public String getfundReq(HttpServletRequest request) throws Exception {
 
 		System.out.println("/getFundReq : Start");
+				
+		String uri="";
 		
+		if(request.getParameter("req")!=null&&request.getParameter("req").equals("yes")) {
+			request.setAttribute("req", "yes");
+		}else {
+			request.setAttribute("req", "no");
+		}
 					
 		return "forward:/fund/fundReq.jsp";
 	}
-	
 	
 	
 		

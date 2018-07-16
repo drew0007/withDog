@@ -15,7 +15,12 @@
 	//"확인" 버튼 이벤트 연결
 	$(function(){
 		$("#listProductNav").on("click", function(){
-			self.location = "/product/listProduct?prodType=0";
+// 			var prodType = $(".prodSort").val();
+// 			if(prodType.equals('0')){
+				self.location = "/product/listProduct?prodType=0";
+// 			}else{
+// 				self.location = "/product/listProduct?prodType=" + prodType;
+// 			}
 		});
 	});
 </script>
@@ -59,6 +64,7 @@
 								애견식품
 							</c:otherwise>
 						</c:choose>
+						<input type="hidden" name="prodType"  value="${product.prodType}" class="prodType"/>
 					</div>
 				</div>
 				

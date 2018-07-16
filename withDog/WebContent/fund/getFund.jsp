@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -96,8 +97,14 @@ $(function(){
                          <%-- <span class="rating-text text-uppercase pull-right">펀딩번호: <span class="black-text">${fund.fundNo}</span></span> --%>
                         <div class="separator-line bg-black no-margin-lr margin-five no-margin-top"></div>
                         <!-- end fund No -->
+<<<<<<< HEAD
+                        <p class="no-margin-bottom">펀딩번호</p>
+=======
+                        <c:if test="${user.role=='admin'}">
                         <p class="no-margin-bottom">펀딩번호:</p>
+>>>>>>> refs/remotes/origin/master
                         <div class="fund-sub-title ">${fund.fundNo}</div>
+                        </c:if>
                         <!-- fund detail 01 -->
                         <p class="no-margin-bottom">펀딩요청기관</p>
                         <div class="fund-sub-title ">${fund.fundCenter}</div>
@@ -210,12 +217,14 @@ $(function(){
                         <!-- end tab -->
                     </div>
                 </div>
+                <c:if test="${user.role=='admin'}">
                 <div class="text-center">
 					<span class="highlight-button btn btn-medium">펀딩수정</span>
 				</div>
 				<div class="text-center">
 					<span class="highlight-button btn btn-medium">펀딩삭제</span>
 				</div>
+				</c:if>
             </div>
         </section>
 

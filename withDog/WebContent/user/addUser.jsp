@@ -5,17 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+
 <jsp:include page="../common/css.jsp" />
 <title>회원가입</title>
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-
+	
+	
 	<script type="text/javascript">
 	
 	$( function() {
+
 		
-	
 		$("#userId").focus();
 		
 		//아이디 중복검사 
@@ -62,23 +64,20 @@
 			
 		});//end 이메일 입력방식
 		
-		//좋아하는 견종 선택
-		$.ajax({
-			url : "/dogBreedDic/json/getAllBreedInfoListByKo",
-			method : "GET",
-			datatype : "json",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			success : function (data) {
-				console.log(data)
-				for(var i = 0; i<data.allDogBreedInfo.length; i++){
-					$("#selecttt").append($('<option value='+data.allDogBreedInfo[i].dogNo+'>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
-				}
-			}		
-		});// end of ajax
-		
+// 		document.domain = "localhost:8080";
+		//도로명 주소  우편번호 검색 클릭시
+		$("#searchPost").on("click" , function() {
+			var pop = window.open("http://localhost:8080/user/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+		});
+						
+		function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
+			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+// 			alert(roadFullAddr);
+			$("#postNo").val(zipNo);
+			$("#address1").val(roadAddrPart1);
+			$("#address2").val(addrDetail);
+		}	
+		window.jusoCallBack = jusoCallBack;
 		//회원가입 연결
 		$("#join").on("click" , function() {
 			 
@@ -160,7 +159,7 @@
                             
                             <div class="col-md-12 no-padding">
                                 <label>생년월일:</label>
-                                <input type="text" name="birth" placeholder="예)1995-10-02">
+                                <input type="text" name="birth" placeholder="예)1995-10-02" class="selector" id="selector">
                             </div>
                             
                             <div class="col-md-12 no-padding">
@@ -189,18 +188,15 @@
                             </div>
                             
                             <div class="col-md-12 no-padding">
-                             	<input type="text" name="postNo" class="col-md-8">
-                                <input type="text" name="address1" class="col-md-8">
-                                <button class="highlight-button btn no-margin pull-right post-search">우편번호 검색</button>
-                                <input type="text" name="address2">
+                             	<input type="text" name="postNo" class="col-md-8" id="postNo">
+                                <input type="text" name="address1" class="col-md-8" id="address1">
+                                <button class="highlight-button btn no-margin pull-right post-search" id="searchPost">우편번호 검색</button>
+                                <input type="text" name="address2" id="address2">
                             </div>
                             
                             <div class="col-md-12 no-padding">
                             	 <label>좋아하는 견종:</label>
-	                          	<div id="searchKeyword" class="select-style input-round big-input">
-									<select id="selecttt" name="dogNo">
-									</select>
-								</div>
+								<input type="text" name="dogNo" id="dog">
 							</div>
                           
                         </form> 

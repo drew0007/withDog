@@ -19,16 +19,16 @@
 	//상품이미지 클릭시 이벤트 getProduct 연결
 	$(function(){
 		$(".prodImage").on("click", function(){
-			
+			var role = "${user.role}";
 			var index = $(".prodImage").index(this);
-			alert(index);
 			var prodNo = $($("input[name='prodNo']")[index]).val();
+			alert(prodNo);
 
-// 			 if(role != 'admin'){
+			 if(role == 'admin'){
+				 self.location = "/product/updateProductAdmin?prodNo="+prodNo;
+			}else{
 				self.location = "/product/getProduct?prodNo="+prodNo;
-// 			}else{
-// 				self.location = "/product/updateProductAdmin?prodNo="+prodNo;
-// 			}
+			}
 		});
 	});
 
@@ -40,15 +40,22 @@
 		$("#prodSort").on("change", function(){
 			var sort = $("#prodSort").val();
 			if(sort == 0){
-				self.location = "/product/listProduct?prodSort=0&prodType=0";
+				self.location = "/product/listProduct?prodSort=0&prodType=1";
 			}else if(sort == 1){
-				self.location = "/product/listProduct?prodSort=1&prodType=0";
+				self.location = "/product/listProduct?prodSort=1&prodType=1";
 			}else if(sort == 2 ){
-				self.location = "/product/listProduct?prodSort=2&prodType=0";
+				self.location = "/product/listProduct?prodSort=2&prodType=1";
 			}else{
-				self.location = "/product/listProduct?prodSort=3&prodType=0";
+				self.location = "/product/listProduct?prodSort=3&prodType=1";
 			}
 		})
+	});
+	
+	//"상품등록" 버튼 이벤트 연결
+	$(function(){
+		$("#add").on("click", function(){
+			self.location = "/product/addProductAdmin";
+		});
 	});
 
 
@@ -100,8 +107,8 @@
                                 <p class="text-uppercase letter-spacing-1">전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</p>
                             </div>
                             <div class="col-md-3 col-sm-3 pull-right">
-                                <div class="select-style med-input shop-shorting-full no-border">
-                                    <select id="prodSort" class="pull-right">
+                                <div class="select-style med-input shop-shorting-full no-border pull-right">
+                                    <select id="prodSort">
                                         <option value="0" selected>신상품순</option>
                                         <option value="1">인기상품순</option>
                                         <option value="2">낮은가격순</option>
@@ -124,9 +131,11 @@
                             <c:if test="${product.prodType == '1'}">
                             <div class="col-md-4 col-sm-6">
                                 <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
+                                	<div class="blog-post-images margin-two-bottom">
                                     <a href=""  class="prodImage">
                                     	<img src = "/images/uploadFiles/store/${product.prodImage}" class="gallery-img"/>
                                    	</a>
+                                   	</div>
                                     <span class="product-name font-weight-600">
                                     		${product.prodName}
                                     		<input type="hidden" value="${product.prodNo}" name="prodNo" />
@@ -140,6 +149,12 @@
                             <!-- end shop item -->
                             
                             </div>
+                            
+                            <c:if test="${user.role == 'admin'}">
+                            <div class="text-right">
+                          	  <button id="add" type="button" class="highlight-button btn btn-medium">상품등록</button>
+                      	   </div>
+                      	   </c:if>
                             
                     </div>
                 </div>

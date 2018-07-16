@@ -48,7 +48,7 @@
                         <!-- end copyright -->
                         <!-- logo -->
                         <div class="col-md-6 col-sm-6 col-xs-12 footer-logo text-right xs-text-center">
-                            <a href="index.html"><img src="images/logo-light-gray.png" alt=""/></a>
+                            <a href="index.html"><img src="../images/logo-light-gray.png" alt=""/></a>
                         </div>
                         <!-- end logo -->
                     </div>

@@ -39,103 +39,150 @@
             </div>
         </section>
         <!-- end head section -->
-        
-        
-        <!-- content section -->
-        <section>
+                
+        <!-- 영상삼담 소개 -->
+        <section class="no-padding-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="shorting clearfix xs-margin-top-three">
-                            <div class="col-md-8 col-sm-8 grid-nav">
-                                <a href="shop-with-sidebar-list.html"><i class="fa fa-bars"></i></a>
-                                <a href="#"><i class="fa fa-th"></i></a>
-                                <p class="text-uppercase letter-spacing-1">Showing 1–12 of 22 results</p>
-                            </div>
-                            <div class="col-md-3 col-sm-3 pull-right">
-                                <div class="select-style input-round med-input shop-shorting-full no-border">
-                                    <select>
-                                        <option value="">Select sort by</option>
-                                        <option value="">By popularity</option>
-                                        <option value="">By rating</option>
-                                        <option value="">Price: low to high</option>
-                                        <option value="">Price: high to low</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-listing margin-three">
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="getProduct.jsp">Gianvito Rossi</a></span>
-                                    <span class="price black-text"><del>$750.00</del>$450</span>
-                                    <span class="onsale onsale-style-2">Sale</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="shop-single-product.html">Givenchy Low</a></span>
-                                    <span class="price black-text">$500</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="shop-single-product.html">Alexander McQueen</a></span>
-                                    <span class="price black-text">$380</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            </div>
-                        <!-- pagination -->
-                        <div class="pagination margin-ten no-margin-bottom">
-                            <a href="#"><img src="images/arrow-pre-small.png" alt=""/></a>
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#" class="active">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#"><img src="images/arrow-next-small.png" alt=""/></a>
-                        </div>
-                        <!-- end pagination -->
+                    <div class="col-md-12 col-sm-10 text-center center-col">
+                        <span class="margin-one no-margin-top display-block letter-spacing-2">THE VIDEO CONSULTATION</span>
+                        <h1>영상상담 소개</h1>
+                        <div class="separator-line bg-black margin-two no-margin-bottom"></div>
+                        <p class="text-p width-120 center-col margin-two no-margin-bottom">영상상담 서비스를 활용하면 동물교감치유서비스 신청전 치유견을 만나볼 수 있습니다. <br> 고객은 상담사에게 전화통화만으로는 설명하기 어려웠던 불편사항을 실시간 영상으로 쉽게 설명할 수 있습니다.  <br> 또한 상담사도 고객과 함께 현상을 눈으로 보면서 문제를 정확하게 파악할 수 있습니다.</p>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- end content section -->
+        <!-- end 영상삼담 소개 -->
+
+        <!-- 영상신청방법 --> 
+        <section id="approach" class="approach bg-green margin-five no-margin-bottom">
+            <div> 
+                <div class="container">
+                    <div class="row">
+                        <!-- section title -->
+                        <div class="col-md-12 text-center">
+                            <h2 class=".font-weight-400 title-med white-text no-padding-bottom">영상신청방법</h2>
+                        </div>
+                        <!-- end section title -->
+                    </div>
+                    <div class="margin-three no-margin-bottom">
+                        <!-- slider item -->
+                        <div class="item active"> 
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 text-center margin-four no-margin-top sm-margin-bottom-ten"><img class="width-20" src="../images/icon/video_01.png"><h5 class="white-text margin-five no-margin-bottom title-small">1단계</h5><span class="white-text text-p">만나고 싶은 치유견 선택</span></div>
+                                <div class="col-md-4 col-sm-4 text-center margin-four no-margin-top sm-margin-bottom-ten"><img class="width-20" src="../images/icon/video_02.png"><h5 class="white-text margin-five no-margin-bottom title-small">2단계</h5><span class="white-text text-p">신청하기 버튼 클릭</span></div>
+                                <div class="col-md-4 col-sm-4 text-center margin-four no-margin-top sm-margin-bottom-ten"><img class="width-20" src="../images/icon/video_03.png"><h5 class="white-text margin-five no-margin-bottom title-small">3단계</h5><span class="white-text text-p">알람메시지 수락</span></div>
+                            </div>
+                        </div>
+                        <!-- end slider item -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end 영상신청방법 --> 
+
+        <!-- 강아지 소개 -->
+        <section class="no-padding-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-10 text-center center-col">
+                        <span class="margin-one no-margin-top display-block letter-spacing-2">OUR HEALING DOG</span>
+                        <h1>치유견 선택</h1>
+                        <div class="separator-line bg-black margin-two no-margin-bottom"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wow fadeIn container margin-two">
+                <div class="row">
+                  
+                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
+                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
+                        <div class="radio no-margin-bottom">
+                            <!-- radio button  -->
+                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 복이
+                            </label>
+                            <!-- end radio button  -->
+                        </div>
+                        <p class="no-margin-top center-col width-90">3세 암컷, 요크셔테리아</p>
+                        <span class="margin-five black-text">치유사 박소현</span>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
+                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
+                        <div class="radio no-margin-bottom">
+                            <!-- radio button  -->
+                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 복실이
+                            </label>
+                            <!-- end radio button  -->
+                        </div>
+                        <p class="no-margin-top center-col width-90">5세 수컷, 말티즈</p>
+                        <span class="margin-five black-text">치유사 박소현</span>
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
+                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
+                        <div class="radio no-margin-bottom">
+                            <!-- radio button  -->
+                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 미니
+                            </label>
+                            <!-- end radio button  -->
+                        </div>
+                        <p class="no-margin-top center-col width-90">2세 암컷, 불독</p>
+                        <span class="margin-five black-text">치유사 박소현</span>
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
+                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
+                        <div class="radio no-margin-bottom">
+                            <!-- radio button  -->
+                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 순둥이
+                            </label>
+                            <!-- end radio button  -->
+                        </div>
+                        <p class="no-margin-top center-col width-90">3세 암컷, 요크셔테리아</p>
+                        <span class="margin-five black-text">치유사 박소현</span>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+        <!-- end 강아지 소개 -->
+
+        <!--신청하기-->
+        <div class="row text-center margin-two">
+                <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a>
+         </div>
+        <!-- end 신청하기-->
+
+        <!--안내사항-->
+        <section class="no-padding-top margin-two">
+            <div class="container bg-gray border-round padding-one">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6"></div>           
+                    <div class="col-md-1 col-sm-6">
+                    <i class="icon-megaphone"></i><br>
+                    <strong>안내사항</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-6">   
+                        <p class="no-margin-bottom">
+                            1. 영상상담 신청 후 일정 시간이 소요 될 수 있습니다.</br>
+                            2. 치유견과 치유담당사의 변동이 있을 수 있습니다.<br>
+                            3. 치유견 및 치유사 영상 상담 준비 후 영상상담 신청 알람을 발송합니다. .<br>
+                            4. 알람을 수락한 후 영상상담 연결이 됩니다.
+                        </p>
+                    </div>  
+                </div>
+            </div>
+        </section>
+
+        <!-- end 안내사항-->
         
-        
-        
-	
-	<jsp:include page="/layout/footer.jsp" />
+    <jsp:include page="/layout/footer.jsp" />
 	
 	<jsp:include page="/common/js.jsp" />
 	

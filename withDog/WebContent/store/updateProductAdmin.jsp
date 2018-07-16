@@ -40,7 +40,9 @@
 	//"상품삭제" 버튼 이벤트 연결
 	$(function(){
 		$("#delete").on("click", function(){
-			fncAddProduct();
+			var prodNo = $(".prodNo").val();
+
+			self.location = "/product/updateDeleteFlag?prodNo="+prodNo+"&deleteFlag=1";
 		});
 	});
 </script>
@@ -85,6 +87,15 @@
                                         <option value="1" >애견식품</option>
                                      </select>
                                 </div>
+                            </div>
+                            
+                            <div class="form-group no-margin-bottom">
+                                <!-- label  -->
+                                <label>상품번호</label>
+                                <!-- end label  -->
+                                <!-- input  -->
+                                <input type="text" name="prodNo" id="prodNo"  value="${product.prodNo}" class="big-input">
+                                <!-- end input  -->
                             </div>
                             
                             <div class="form-group no-margin-bottom">

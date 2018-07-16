@@ -49,6 +49,12 @@ public class ProductDAOImpl implements ProductDAO {
 		sqlSession.update("ProductMapper.updateProductAdmin", product);
 	}
 	
+	
+	@Override
+	public void updateDeleteFlag(Product product) throws Exception {
+		sqlSession.update("ProductMapper.updateDeleteFlag", product);
+	}
+
 	@Override
 	public List<Product> getProductList(Search search) throws Exception {
 		return sqlSession.selectList("ProductMapper.getProductList",search);

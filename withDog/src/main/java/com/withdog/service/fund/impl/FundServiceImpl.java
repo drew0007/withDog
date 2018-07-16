@@ -103,7 +103,7 @@ public class FundServiceImpl implements FundService{
 		// TODO Auto-generated method stub
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<Fund> list = fundDAO.getFundResultList(search,user);
-		int totalCount = fundDAO.getTotalCount();
+		int totalCount = fundDAO.getResultTotalCount(search,user);
 		map.put("list", list);
 		map.put("totalCount",totalCount);
 				
@@ -121,7 +121,7 @@ public class FundServiceImpl implements FundService{
 		
 		System.out.println("MyFundlist 받음"+list.size());
 		
-		int totalCount = fundDAO.getMyTotalCount(user);
+		int totalCount = fundDAO.getMyTotalCount(search,user);
 		System.out.println("MyFundlist Count 받음"+totalCount);
 		map.put("list", list);
 		map.put("totalCount",totalCount);
@@ -138,7 +138,7 @@ public class FundServiceImpl implements FundService{
 		
 		System.out.println("MyFundlist 받음"+list.size());
 		
-		int totalCount = fundDAO.getFundUserTotalCount(user);
+		int totalCount = fundDAO.getFundUserTotalCount(search,user);
 		System.out.println("MyFundlist Count 받음"+totalCount);
 		map.put("list", list);
 		map.put("totalCount",totalCount);

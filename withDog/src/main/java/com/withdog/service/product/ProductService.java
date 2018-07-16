@@ -11,6 +11,8 @@ public interface ProductService {
 
 	public void updateProductAdmin(Product product) throws Exception;
 	
+	public void updateDeleteFlag(Product  product) throws Exception;
+	
 	public Product getProduct(int prodNo) throws Exception;
 
 	public Map<String,Object> getProductList(Search search, String prodType) throws Exception;

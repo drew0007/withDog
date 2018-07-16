@@ -56,30 +56,27 @@
 			//var param = $("form").serialize();
 			//var userId = $("#userId").val();
 			var pwcheck = false;
-			$.ajax(
-					{
-						async : false, 
-						url : "/user/json/checkPassword",
-						method : "POST",
-						dataType : "json",
-						data: JSON.stringify({
-							userId:$("#userId").val(),
-							password:$("#beforePassword").val()
-						}),
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
+			$.ajax({
+					async : false, 
+					url : "/user/json/checkPassword",
+					method : "POST",
+					dataType : "json",
+					data: JSON.stringify({
+						userId:$("#userId").val(),
+						password:$("#beforePassword").val()
+					}),
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
 					success : function(JSONData , status){
-						var check = JSONData;
+					var check = JSONData;
 						if(check){
 							pwcheck = true;
 						}else{
 							pwcheck = false;
 						}
 					}
-						
-						
 				}); //end of .ajax
 				
 			return pwcheck;

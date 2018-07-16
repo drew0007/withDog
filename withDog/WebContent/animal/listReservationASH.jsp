@@ -9,7 +9,7 @@
 <jsp:include page="/common/css.jsp" />
 
 
-<title>치유견 소개</title>
+<title>동물교감치유 서비스 예약</title>
 
 </head>
 
@@ -22,7 +22,6 @@
 	
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">
-            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
             <img class="parallax-background-img" src="../images/sub/303_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
@@ -31,9 +30,6 @@
                         <!-- page title -->
                         <h1 class="white-text tit_png"><img src="../images/sub/303_tit.png"></h1>
                         <!-- end page title -->
-                        <!-- page title tagline -->
-                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
-                        <!-- end title tagline -->
                     </div>
                 </div>
             </div>
@@ -44,91 +40,153 @@
         <!-- content section -->
         <section>
             <div class="container">
+            
+            	<!-- 동물교감치유 -->
+            	<div class="row margin-ten-bottom">
+            	
+            		<!-- section title  -->
+                   	<div class="col-md-12 text-center margin-five-bottom">
+                      		<span class="title-small black-text  font-weight-600">Animal Sympathetic Healing Reservation</span>
+                       	<div class="separator-line-thick bg-black margin-one xs-margin-top-five"></div>
+                	   </div>
+                   	<!-- end section title -->
+                    	
+          		  	<!-- 캘린더 -->
+            		<div class="col-md-11 col-sm-12 center-col text-center">
+            			<img src="../images/temp-calendar.jpg" alt=""/>
+            		</div>
+            		<!-- end 캘린더 -->
+
+				</div>
+            	<!-- end 동물교감치유  -->
+            	
+            	
+            	
+            	<!-- 치유견 리스트 -->
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <div class="shorting clearfix xs-margin-top-three">
-                            <div class="col-md-8 col-sm-8 grid-nav">
-                                <a href="shop-with-sidebar-list.html"><i class="fa fa-bars"></i></a>
-                                <a href="#"><i class="fa fa-th"></i></a>
-                                <p class="text-uppercase letter-spacing-1">Showing 1–12 of 22 results</p>
-                            </div>
-                            <div class="col-md-3 col-sm-3 pull-right">
-                                <div class="select-style input-round med-input shop-shorting-full no-border">
-                                    <select>
-                                        <option value="">Select sort by</option>
-                                        <option value="">By popularity</option>
-                                        <option value="">By rating</option>
-                                        <option value="">Price: low to high</option>
-                                        <option value="">Price: high to low</option>
-                                    </select>
-                                </div>
-                            </div>
+                    	
+                    	<!-- section title  -->
+                    	<div class="col-md-12 text-center margin-five-bottom">
+                       		<span class="title-small black-text font-weight-600">HealingDog List</span>
+                        	<div class="separator-line-thick bg-black margin-one xs-margin-top-five"></div>
+                 	   </div>
+                    	<!-- end section title -->
+                    
+                        <!-- dog 01 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#modal-popup" class="popup-with-zoom-anim">
+		                        <img src="http://placehold.it/400x400" alt=""/>
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 01 -->
+	                    
+	                    <!-- dog 02 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                    	<a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 02 -->
+	                    
+	                    <!-- dog 03 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 03 -->
+	                    
+	                    <!-- dog 04 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 04 -->
+	                    
+	                    <!-- dog 05 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 05 -->
+	                    
+	                    <!-- dog 06 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 06 -->
+	                    
+	                    <!-- dog 07 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 07 -->
+	                    
+	                    <!-- dog 08 -->
+	                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+	                        <a href="#">	
+		                        <img src="http://placehold.it/400x400" alt="" />
+		                        <span class="name black-text">치유견 이름</span>
+	                        	<p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+	                        </a>
+	                    </div>
+	                    <!-- end dog 08 -->
+	                    
+	                    <!-- 알림팝업 -->
+						<div class="col-md-9 col-sm-9 no-padding margin-five">
+			
+							<div class="col-lg-3 col-md-4 col-sm-5 center-col text-center">
+								<div id="modal-popup" class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main">
+						
+								<div>
+									<span class="black-text">웹페이지 메시지</span>
+									<p class="borderline-gray"></p>
+								</div>
+
+								<p class="text-small">[치유견이름] <br /> 동물교감치유를 예약하시겠습니까?</p>
+								
+								<!-- 버튼 -->
+								<div class="text-center no-margin-bottom">
+									<a href="#"
+										class="highlight-button btn btn-medium no-margin-bottom">CANCEL</a>
+									<a href="#"
+										class="highlight-button-dark btn btn-medium no-margin">OK</a>
+								</div>
+								<!-- end 버튼 -->
+
+						</div>
+					</div>
+
+				</div>
+				<!-- end 알림팝업 -->
+	                    
+	                    
                         </div>
-                        <div class="product-listing margin-three">
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="getProduct.jsp">Gianvito Rossi</a></span>
-                                    <span class="price black-text"><del>$750.00</del>$450</span>
-                                    <span class="onsale onsale-style-2">Sale</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="shop-single-product.html">Givenchy Low</a></span>
-                                    <span class="price black-text">$500</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="shop-single-product.html">Alexander McQueen</a></span>
-                                    <span class="price black-text">$380</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            </div>
-                        <!-- pagination -->
-                        <div class="pagination margin-ten no-margin-bottom">
-                            <a href="#"><img src="images/arrow-pre-small.png" alt=""/></a>
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#" class="active">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#"><img src="images/arrow-next-small.png" alt=""/></a>
-                        </div>
-                        <!-- end pagination -->
                     </div>
+                    <!-- end 치유견 리스트 -->
+                    
                 </div>
-            </div>
         </section>
         <!-- end content section -->
         
