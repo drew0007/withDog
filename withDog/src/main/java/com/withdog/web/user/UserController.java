@@ -1,6 +1,7 @@
 package com.withdog.web.user;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.withdog.common.Page;
+import com.withdog.common.Search;
+import com.withdog.service.common.CommonService;
 import com.withdog.service.dogbreeddic.DogBreedDicService;
+import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserService;
 
@@ -32,6 +37,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("dogBreedDicServiceImpl")
 	private DogBreedDicService dogBreedDicService;
+	
+	@Autowired
+	@Qualifier("commonServiceImpl")
+	private CommonService commonService;
+	
 	
 	///Page 
 	@Value("#{commonProperties['pageUnit']}")
@@ -94,7 +104,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "forward:/common/index.jsp";
+		return "forward:/user/loginUser.jsp";
 	}
 	
 	//회원가입 화면 GET (회원가입 클릭했을 때 단순네비게이션)
@@ -125,7 +135,7 @@ public class UserController {
 
 	//회원정보 조회 GET 
 	@RequestMapping( value="getUser", method=RequestMethod.GET )
-	public String getUser (HttpSession session, Model model)  throws Exception {
+	public String getUser (HttpSession session, Model model,Point point)  throws Exception {
 
 		System.out.println("회원정보 조회 :: /user/getUser : GET");
 	
@@ -136,6 +146,11 @@ public class UserController {
 		//Business Logic
 		 user = userService.getUser(userId);
 		 
+		 //포인트 조회;
+		 point.setUser(user);
+		 int userPoint= commonService.getCurrentPoint(point);
+		 
+		 user.setCurrentPoint(userPoint);
 		 // Model 과 View 연결
 		model.addAttribute("user", user);
 		//마이페이지
@@ -216,7 +231,51 @@ public class UserController {
 			
 			return "forward:/user/findUser.jsp";
 		}
+		
+		//회원관리 리스트 Admin 
+		@RequestMapping( value="getUserListAdmin" )
+		public String getUserListAdmin(@ModelAttribute("search") Search search,HttpSession session,Model model) throws Exception{
+			
+			System.out.println("회원관리 리스트으로 /user/getUserListAdmin ");
+			
+			
+			if(search.getCurrentPage() ==0 ){
+				search.setCurrentPage(1);
+			}
+			search.setPageSize(pageSize);
+			
+			// Business logic 수행
+			Map<String , Object> map=userService.getUserListAdmin(search);
+			Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+			
+			// Model 과 View 연결
+			model.addAttribute("list", map.get("list"));
+			model.addAttribute("resultPage", resultPage);
+			model.addAttribute("search", search);
+			
+			return "forward:/user/listUserAdmin.jsp";
+		}
 	
+		//회원관리리스트 상세
+		@RequestMapping( value="getUserAdmin", method=RequestMethod.GET )
+		public String getUserAdmin (@RequestParam("userId") String userId,Model model,User user)  throws Exception {
+
+			System.out.println("회원정보 조회 :: /user/getUser : GET");
+		
+			//Business Logic
+			 user = userService.getUser(userId);
+			 
+			 // Model 과 View 연결
+			model.addAttribute("user", user);
+			
+			/*return "forward:/user/getUser.jsp";*/
+			
+			return "forward:/user/getUser.jsp";
+		}
+		
+		
+		
+		
 		//장원이 테스트 2
 		@RequestMapping( value="test", method=RequestMethod.GET )
 		public String test() throws Exception{

@@ -263,6 +263,16 @@ public class UserRestController {
 		return jsonObject;
 	}
 	
+	
+	//회원관리리스트 간략보기
+	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
+	public User getUser( @PathVariable String userId ) throws Exception{
+		
+		System.out.println("/user/json/getUser : GET");
+		
+		//Business Logic
+		return userService.getUser(userId);
+	}
 }//end of class
 		
 

@@ -3,6 +3,7 @@ package com.withdog.service.user;
 import java.util.List;
 import java.util.Map;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 
 public interface UserDAO {
@@ -21,12 +22,7 @@ public interface UserDAO {
 	
 	// 회원 탈퇴 UPDATE
 	public void deleteUser(User user) throws Exception ;
-	
-	// 회원관리 리스트 Admin SELECT LIST
-	public List<User> getUserListAdmin1() throws Exception ;
-	
-	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
-	public int getTotalCount() throws Exception ;
+
 	
 	// 로그인 SELECT ONE
 	public User loginUser(User user) throws Exception;
@@ -41,7 +37,10 @@ public interface UserDAO {
 	public void findUserPassword(User user) throws Exception;
 	
 	// 회원정보리스트 Admin 
-	public Map<String , Object> getUserListAdmin() throws Exception;
+	public List<User> getUserListAdmin(Search search) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
+	public int getTotalCount(Search search) throws Exception ;
 	
 	// 접속일변경
 	public void updateRecentlyDate(String userId) throws Exception;

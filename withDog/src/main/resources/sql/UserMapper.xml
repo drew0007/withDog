@@ -86,11 +86,11 @@
 	   		WHERE user_id = #{value}
 	 </update>
 		 
-	<!-- SQL : SELECT LIST -->
+	<!-- 회원관리리스트 SQL : SELECT LIST -->
 	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT user_id , user_name , email
+	  					FROM		(	SELECT user_id , user_name , user_condition, recently_date
 											FROM users
 											<if test="searchCondition != null">
 												<where>
@@ -136,15 +136,15 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_id , user_name , email
+	  	FROM(	SELECT user_id , user_name
 						FROM users
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			user_id LIKE '%'|| #{searchKeyword} ||'%'
+						 			user_id = #{searchKeyword}
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		user_name LIKE '%'|| #{searchKeyword} ||'%'
+						 		user_name = #{searchKeyword}
 								</if>
 							</where>
 						</if> ) countTable						

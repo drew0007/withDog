@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -73,14 +74,14 @@
 						<div class="col-xs-8 col-md-4">${user.userName}</div>
 				</div>
 			
-			<hr/>
+				<hr/>
 			
 				<div class="row">
 					<div class="col-xs-4 col-md-2 "><strong>생년월일</strong></div>
 					<div class="col-xs-8 col-md-4">${user.birth}</div>
 				</div>
 			
-			<hr/>
+				<hr/>
 			
 				<div class="row">
 			 		<div class="col-xs-4 col-md-2 "><strong>이메일</strong></div>
@@ -88,14 +89,14 @@
 					<div class="col-xs-8 col-md-4">${user.email2}</div>
 				</div>
 			
-			<hr/>
+				<hr/>
 			
 				<div class="row">
 			 		<div class="col-xs-4 col-md-2 "><strong>전화번호</strong></div>
 					<div class="col-xs-8 col-md-4">${user.phone}</div>
 				</div>
 			
-			<hr/>
+				<hr/>
 			
 				<div class="row">
 			 		<div class="col-xs-4 col-md-2 "><strong>주소</strong></div>
@@ -104,7 +105,7 @@
 					<div class="col-xs-2 col-md-2">${user.address2}</div>
 				</div>
 			
-			<hr/>
+				<hr/>
 			
 			
 				<div class="row">
@@ -112,8 +113,83 @@
 					<div class="col-xs-8 col-md-4" id="dogName">${user.dogNo}</div>
 				</div>
 			
-			<hr/>
+				<hr/>
 			
+				<div class="row">
+			 		<div class="col-xs-4 col-md-2"><strong>가입일</strong></div>
+					<div class="col-xs-8 col-md-4">${user.joinDate}</div>
+				</div>
+			
+				<hr/>
+				
+				<div class="row">
+			 		<div class="col-xs-4 col-md-2"><strong>현재포인트</strong></div>
+					<div class="col-xs-8 col-md-4">${user.currentPoint}point</div>
+				</div>
+			
+				<hr/>
+				
+				<div class="row">
+			 		<div class="col-xs-4 col-md-2"><strong>snsNaverId</strong></div>
+					<div class="col-xs-8 col-md-4">${user.snsNaverId}</div>
+				</div>
+				
+				<hr/>
+				
+				<div class="row">
+			 		<div class="col-xs-4 col-md-2"><strong>snsKakaoId</strong></div>
+					<div class="col-xs-8 col-md-4">${user.snsKakaoId}</div>
+				</div>
+				
+				<hr/>
+			
+				<div class="row">
+			 		<div class="col-xs-4 col-md-2"><strong>snsGoogleId</strong></div>
+					<div class="col-xs-8 col-md-4">${user.snsGoogleId}</div>
+				</div>
+				
+				<hr/>
+				
+				<div class="row">
+			 		<div class="col-xs-4 col-md-2"><strong>snsFacebookId</strong></div>
+					<div class="col-xs-8 col-md-4">${user.snsFacebookId}</div>
+				</div>
+				
+				<hr/>
+			 
+				<c:if test="${sessionScope.user.role=='admin'}"> 
+				
+					<div class="row">
+				 		<div class="col-xs-4 col-md-2"><strong>최근접속일</strong></div>
+						<div class="col-xs-8 col-md-4" >${user.recentlyDate}</div>
+					</div>
+				
+					<hr/>
+					
+					<div class="row">
+				 		<div class="col-xs-4 col-md-2"><strong>탈퇴일</strong></div>
+						<div class="col-xs-8 col-md-4">${user.leaveDate}</div>
+					</div>
+				
+					<hr/>
+					
+					<div class="row">
+				 		<div class="col-xs-4 col-md-2"><strong>탈퇴사유</strong></div>
+						<div class="col-xs-8 col-md-4">${user.leaveReason}</div>
+					</div>
+				
+					<hr/>
+					
+					<div class="row">
+				 		<div class="col-xs-4 col-md-2"><strong>권한</strong></div>
+						<div class="col-xs-8 col-md-4">${user.role}</div>
+					</div>
+				
+					<hr/>
+				
+				
+				</c:if>
+				
 				<div class="text-center">
 					<button class="highlight-button btn no-margin post-search" id="change">회원정보수정</button>
 				</div>

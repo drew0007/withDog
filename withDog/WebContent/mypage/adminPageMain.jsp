@@ -16,24 +16,13 @@
 	
 	$(function () {
 	
-		$( "a:contains('나의 후원내역')" ).on("click" , function() {
-			$(self.location).attr("href","/fund/getMyFundList");
- 		});
-		
-	 	///나의 정보 확인 연결
-	 	$( "a:contains('나의 정보 확인')" ).on("click" , function() {
-			$(self.location).attr("href","/user/getUser");
- 		});
 	 	
-	 	///비밀번호 수정 연결
-	 	$( "a:contains('비밀번호 수정')" ).on("click" , function() {
-			$(self.location).attr("href","/user/updatePassword");
+	 	///회원관리 리스트 연결
+	 	$( "a:contains('회원관리 리스트')" ).on("click" , function() {
+			$(self.location).attr("href","/user/getUserListAdmin");
 		});
 	 	
-	 	///회원탈퇴 연결
-	 	$( "a:contains('회원탈퇴')" ).on("click" , function() {
-			$(self.location).attr("href","/user/deleteUser");
-		});
+
 	 		 	
 	 	$("a:contains('나의 포인트 내역')").on("click",function(){
 	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
@@ -123,9 +112,7 @@
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="#">나의 정보 확인</a></li>
-                                    <li><a href="#">비밀번호 수정</a></li>
-                                    <li><a href="#">회원탈퇴</a></li>
+                                    <li><a href="#">회원관리 리스트</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -144,7 +131,7 @@
 					
 					<c:if test="${myPageState =='8'}">
 						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../user/getUser.jsp" />
+					   		<jsp:include page="../user/listUserAdmin.jsp" />
 						</div>
 					</c:if>
 					

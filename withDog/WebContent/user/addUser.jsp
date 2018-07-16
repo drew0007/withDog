@@ -72,7 +72,7 @@
 						
 		function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
 			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
-// 			alert(roadFullAddr);
+			//alert(roadFullAddr);
 			$("#postNo").val(zipNo);
 			$("#address1").val(roadAddrPart1);
 			$("#address2").val(addrDetail);
@@ -169,9 +169,10 @@
                             
                             <div class="col-md-12 no-padding">
                                 <p style="margin-bottom:10px">이메일:</p>
-                                <input type="text" name="email1" class="col-md-4" id="email1">
-                                <input type="text" name="emailText"class="col-md-4" id="emailText">
-                             	<div class="col-md-4 input-round">
+                                <input type="text" name="email1" class="col-md-3" id="email1">
+                                <span>@</span>	
+                                <input type="text" name="emailText"class="col-md-3" id="emailText">
+                             	<div class="col-md-3 input-round">
 									<select name="email2" id="email2">
 										<option value="1">직접입력</option>
 										<option value="@naver.com">@naver.com</option>

@@ -1,11 +1,14 @@
 package com.withdog.service.user.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserDAO;
 import com.withdog.service.user.UserService;
@@ -88,9 +91,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Map<String, Object> getUserListAdmin() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getUserListAdmin(Search search) throws Exception {
+		
+		List<User> list= userDAO.getUserListAdmin(search);
+		int totalCount = userDAO.getTotalCount(search);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserDAO;
 
@@ -42,7 +43,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void updateUser(User user) throws Exception {
-		System.out.println("다오임플에서 확인중 "+user);
 		sqlSession.update("UserMapper.updateUser", user);
 
 	}
@@ -59,17 +59,6 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	@Override
-	public List<User> getUserListAdmin1() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getTotalCount() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public User loginUser(User user) throws Exception {
@@ -95,15 +84,24 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	@Override
-	public Map<String, Object> getUserListAdmin() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public void updateRecentlyDate(String userId) throws Exception {
 		sqlSession.update("UserMapper.updateRecentlyDate", userId);
 		
 	}
-}
+
+	//회원관리리스트 어드민
+	@Override
+	public List<User> getUserListAdmin(Search search) throws Exception {
+		return sqlSession.selectList("UserMapper.getUserList", search);
+	}
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+	
+}//end of class
