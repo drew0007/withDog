@@ -65,7 +65,7 @@
                                     <span class="fund-center">모집기간 : ${fund.fundTerm}</span><br>
                                     <span class="fund-center">모집금액 : ${fund.fundRaising} 원</span>
                                     <p class="width-100 xs-width-100"></p>
-                                    <a href="getFund?fundNo=${fund.fundNo}"  class="highlight-button btn btn-medium no-margin sm-no-margin">후원하기</a>
+                                    <a href="getFund?fundNo=${fund.fundNo}"  class="highlight-button btn btn-medium no-margin sm-no-margin">상세정보</a>
                                 </div>
                             </div>
                           </div>
@@ -84,15 +84,17 @@
                                 <span class="fund-raising">모인금액 : ${list.fundRaising} 원</span>
                                 
                             </div>
-                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>
+                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">상세정보</a>
                         </div>
                     </div>
                     </c:forEach>
                    
                 </div>
+                <c:if test="${user.role=='admin'}">
         		<div align="right">
         		     <a class="highlight-button btn-medium button margin-five" href="addFundView">등록하기</a>
-        		</div>        
+        		</div>
+        		</c:if>        
             </div>
         </section>
         <!-- end content section -->

@@ -33,10 +33,11 @@ function fncGetList(currentPage) {
 	
 	
 	 <!-- head section -->
-	 <form>
+	 
 	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
+    <form>
      <input type="hidden" id="currentPage" name="currentPage" value=""/>
-     </form>
+     
          <section class="page-title parallax3 parallax-fix page-title-blog">
             <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
             <img class="parallax-background-img" src="../images/sub/700_bg.jpg" alt="" />
@@ -60,8 +61,28 @@ function fncGetList(currentPage) {
                           
         
             <div class="container">
+               
+               <div class="row" style="display:inline;">
+                <div class="form-group col-md-4 col-sm-4" align="right">
+				    <select class="form-control" name="searchCondition" >
+						<option id="check" value="0" ${search.searchCondition =="0"? "selected" : ""}>펀딩제목</option>
+					</select>
+				  
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control"  name="searchKeyword"  placeholder="검색어" id="tags"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};">
+				    <button type="button" class="highlight-button btn-medium button margin-five" id="key">검색</button>
+				     
+				</div>
+				
+                  </div>
+               
+                  
+                  
                 <div class="row">
                     <!-- content  -->
+                   
+                   
                    
                                        
                     <!-- 펀딩 item 01 -->
@@ -78,7 +99,7 @@ function fncGetList(currentPage) {
 	                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
 	                                
 	                            </div>
-	                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>
+	                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">상세정보</a>
 	                        </div>
 	                    </div>
 	                    
@@ -94,6 +115,7 @@ function fncGetList(currentPage) {
                         <!-- end pagination -->
                     </div>        
             </div>
+            </form>
         </section>
         <!-- end content section -->
         

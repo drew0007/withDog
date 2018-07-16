@@ -23,7 +23,7 @@
 
 function fncGetList(currentPage) {
  	$("#currentPage").val(currentPage)
-	$("#myFund").attr("method","POST").attr("action","/fund/getFundUserListAdmin").submit();
+	$("form").attr("method","POST").attr("action","/fund/getFundUserListAdmin").submit();
 }
 
 
@@ -32,10 +32,10 @@ function fncGetList(currentPage) {
 </head>
 
 <body>
-	<form id="myFund">
+	
 	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
-     <input type="hidden" id="currentPage" name="currentPage" value=""/>
-     </form>
+     
+     
 	<!-- 숫자증가 스크립트 -->
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
     <script src="/js/jquery.counterup.min.js"></script>
@@ -63,7 +63,7 @@ function fncGetList(currentPage) {
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
+			   <form>
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
@@ -75,15 +75,15 @@ function fncGetList(currentPage) {
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control" id="tags" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">검색</button>
+				  <button type="button" class="highlight-button btn-medium button margin-five">검색</button>
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
-				</form>
+				</form>  
+				
 	    	</div>
 	    	
 		</div>
