@@ -11,27 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
   </head>
   
- <!--  <script>
-    
-    var content
-    $(function(){
-    	$('#summernote').summernote({
-            placeholder: 'Hello stand alone ui',
-            tabsize: 2,
-            height: 450
-          });
-          
-           
-          
-    });
-       
-    function test(){
-    	alert(1);
-    	content = $('#summernote').summernote('code');
-    	alert(content);
-      	
-      }
-    </script> -->
+
     
     <script>
 	$(function(){
@@ -50,24 +30,7 @@
 
 	})
 	
-	/* function sendFile(file, el) {
-		var form_data = new FormData();
-      	form_data.append('file', file);
-      	$.ajax({
-        	data: form_data,
-        	type: "POST",
-        	url: '/common/json/imageUpload',
-        	cache: false,
-        	contentType: false,
-        	enctype: 'multipart/form-data',
-        	processData: false,
-        	success: function(url) {
-        		console.log(url);
-          		$(el).summernote('editor.insertImage', JSON.stringify(url));
-          		$('#imageBoard > ul').append('<li><img src=../images/sommernote/"'+img_name+'" width="480" height="auto"/></li>'); 
-        	}
-      	});
-    } */
+	
     
     function sendFile(file, el) {
 		var form_data = new FormData();

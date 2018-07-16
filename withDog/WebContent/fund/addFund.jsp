@@ -18,7 +18,7 @@
 <!-- SommerNote  -->
 <script>
 
-	var content
+/* 	var content
 
 	$(function(){
 		
@@ -42,7 +42,7 @@
 			
 		});
 		
-	});
+	}); 
 	
 	
     
@@ -63,7 +63,7 @@
           		$(el).summernote('editor.insertImage',url.url);
         	}
       	});
-    }
+    }*/
 	
 	function getFund(){
 		document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;

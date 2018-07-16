@@ -35,6 +35,7 @@ function fncGetList(currentPage) {
 	 <!-- head section -->
 	 
 	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
+    <form>
      <input type="hidden" id="currentPage" name="currentPage" value=""/>
      
          <section class="page-title parallax3 parallax-fix page-title-blog">
@@ -60,12 +61,11 @@ function fncGetList(currentPage) {
                           
         
             <div class="container">
-               <form>
+               
                <div class="row" style="display:inline;">
                 <div class="form-group col-md-4 col-sm-4" align="right">
 				    <select class="form-control" name="searchCondition" >
 						<option id="check" value="0" ${search.searchCondition =="0"? "selected" : ""}>펀딩제목</option>
-						<option id="check" value="1" ${search.searchCondition =="1"? "selected" : ""}>요청기관</option>
 					</select>
 				  
 				    <label class="sr-only" for="searchKeyword">검색어</label>
@@ -76,7 +76,8 @@ function fncGetList(currentPage) {
 				</div>
 				
                   </div>
-                  </form>
+               
+                  
                   
                 <div class="row">
                     <!-- content  -->
@@ -98,7 +99,7 @@ function fncGetList(currentPage) {
 	                                <span class="fund-raising">모인금액 : ${list.fundRaising}</span>
 	                                
 	                            </div>
-	                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">후원하기</a>
+	                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">상세정보</a>
 	                        </div>
 	                    </div>
 	                    
@@ -114,6 +115,7 @@ function fncGetList(currentPage) {
                         <!-- end pagination -->
                     </div>        
             </div>
+            </form>
         </section>
         <!-- end content section -->
         

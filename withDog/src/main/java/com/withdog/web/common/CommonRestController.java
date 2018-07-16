@@ -53,6 +53,8 @@ public class CommonRestController {
 		File fileSave = new File(path+fileName);
 		file.transferTo(fileSave);
 		
+		Thread.sleep(3000);
+		
 		System.out.println(2);
 		response.setContentType("application/json");
 		/*out.println("../images/sommernote/"+fileName);*/

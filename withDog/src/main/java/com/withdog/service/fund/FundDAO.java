@@ -18,11 +18,11 @@ public interface FundDAO {
 		
 	public List<Fund> getFundResultList(Search search,User user) throws Exception;
 	
-	public int getResultTotalCount(User user) throws Exception;
+	public int getResultTotalCount(Search search,User user) throws Exception;
 	
-	public int getMyTotalCount(User user) throws Exception;
+	public int getMyTotalCount(Search search,User user) throws Exception;
 	
-	public int getFundUserTotalCount(User user) throws Exception;
+	public int getFundUserTotalCount(Search search,User user) throws Exception;
 	
 	public List<Fund> getFundUserList(Search search,User user) throws Exception;
 	

@@ -122,27 +122,40 @@ public class FundDAOImpl implements FundDAO{
 	}
 
 	@Override
-	public int getResultTotalCount(User user) throws Exception {
+	public int getResultTotalCount(Search search,User user) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("FundMapper.getResultTotalCount",user);
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("user", user);
+		map.put("search", search);
+		
+		return sqlSession.selectOne("FundMapper.getResultTotalCount",map);
 	}
 	
 	
 	
 
 	@Override
-	public int getMyTotalCount(User user) throws Exception {
+	public int getMyTotalCount(Search search,User user) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println(123);
-		return sqlSession.selectOne("FundMapper.getMyTotalCount",user);
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("user", user);
+		map.put("search", search);
+				
+		return sqlSession.selectOne("FundMapper.getMyTotalCount",map);
 	}
 	
 	
 
 	@Override
-	public int getFundUserTotalCount(User user) throws Exception {
+	public int getFundUserTotalCount(Search search,User user) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("FundMapper.getFundUserTotalCount",user);
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("user", user);
+		map.put("search", search);
+		
+		return sqlSession.selectOne("FundMapper.getFundUserTotalCount",map);
 	}
 
 	@Override
