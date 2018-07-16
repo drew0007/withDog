@@ -118,6 +118,11 @@
 									FROM fund 
 									where 
 									<if test="user.role == 'user'">delete_flag='0'and</if>
+									<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+								    </if>
 									FUND_STATE='1'
 									ORDER BY reg_date) if
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
@@ -144,13 +149,25 @@
 					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin 					
 									FROM fund_info fi,fund f,point p 
 									where  
-									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0
+									<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+													
+								    </if> 
 									ORDER BY fi.purchase_date desc) up, 
 
 			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin 
 								    FROM fund_info fi,fund f,point p 
 								    where  
-									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0
+									<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+													
+								    </if> 
     								ORDER BY fi.purchase_date desc) sp  
 	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) if  
    	    WHERE ROWNUM &lt;= #{search.endRowNum} )  
@@ -165,62 +182,116 @@
 					 from 
 					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin,fi.user_Id 					
 									FROM fund_info fi,fund f,point p 
-									where  
-									fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									where
+									fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0
+									 <if test="search.searchCondition != null">
+										<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+							 			 and    fi.user_id Like '%'||#{search.searchKeyword}||'%'
+										</if>
+										<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+							 			 and 	f.fund_title LIKE '%'||#{search.searchKeyword}||'%'
+										</if>
+							        </if>  
 									ORDER BY fi.purchase_date desc) up, 
 
 			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin,fi.user_Id  
 								    FROM fund_info fi,fund f,point p 
-								    where  
-								fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+								    where
+								    fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0
+								     <if test="search.searchCondition != null">
+										<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+							 			 and    fi.user_id Like '%'||#{search.searchKeyword}||'%'
+										</if>
+										<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+							 			 and 	f.fund_title LIKE '%'||#{search.searchKeyword}||'%'
+										</if>
+							        </if>  
     								ORDER BY fi.purchase_date desc) sp  
 	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) if  
    	    WHERE ROWNUM &lt;= #{search.endRowNum} )  
 	    where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	    
 	 </select>
 	 
 	 
-	 <select id="getMyTotalCount" parameterType="user" resultType="int" >
+	 <select id="getMyTotalCount" parameterType="map" resultType="int" >
 		SELECT COUNT(*)
 	  	FROM(select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no  
 					 from 
 					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin 					
 									FROM fund_info fi,fund f,point p 
 									where  
-									fi.user_Id=#{userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0
+									<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				f.fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+													
+								    </if> 
 									ORDER BY fi.purchase_date desc) up, 
 
 			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin 
 								    FROM fund_info fi,fund f,point p 
 								    where  
-									fi.user_Id=#{userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0
+									<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				f.fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+													
+								    </if> 
     								ORDER BY fi.purchase_date desc) sp  
 	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) countTable					
 	</select>
 	 
 	 
-	 <select id="getTotalCount"  resultType="int" >
-		SELECT COUNT(*)
+	 <select id="getResultTotalCount"  parameterType="map" resultType="int" >
+	    SELECT COUNT(*)
 	  	FROM(	SELECT * 
 						FROM fund
-						where FUND_STATE='1'
+						where
+						<if test="user.role == 'user'">delete_flag='0'and</if>
+									<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+													
+								    </if>
+						FUND_STATE='1'
 						ORDER BY reg_date desc) countTable					
 	</select>
+
 	
-	<select id="getFundUserTotalCount"  resultType="int" >
+	<select id="getFundUserTotalCount" parameterType="map"  resultType="int" >
 		SELECT COUNT(*)
 	  	FROM(	select sp.purchase_date,sp.fund_Title,sp.fund_term,sp.fund_My_Price,sp.fund_state,NVL(up.use_point,0) as use_point,sp.point,sp.sfin as fund_my_price_no  
 					 from 
 					 (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.use_point,fi.fund_my_price_no as ufin 					
 									FROM fund_info fi,fund f,point p 
 									where  
-									fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0 
+									fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0
+									<if test="search.searchCondition != null">
+										<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+							 			 and    fi.user_id Like '%'||#{search.searchKeyword}||'%'
+										</if>
+										<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+							 			 and 	f.fund_title LIKE '%'||#{search.searchKeyword}||'%'
+										</if>
+							        </if>  
 									ORDER BY fi.purchase_date desc) up, 
 
 			  (SELECT fi.purchase_date,f.fund_Title,f.fund_term,fi.fund_My_Price,fund_state,p.point,fi.fund_my_price_no as sfin 
 								    FROM fund_info fi,fund f,point p 
 								    where  
-								fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0 
+								fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0
+								   <if test="search.searchCondition != null">
+										<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+							 			 and    fi.user_id Like '%'||#{search.searchKeyword}||'%'
+										</if>
+										<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+							 			 and 	f.fund_title LIKE '%'||#{search.searchKeyword}||'%'
+										</if>
+							        </if> 
     								ORDER BY fi.purchase_date desc) sp  
 	    where up.ufin(+) = sp.sfin order by sp.purchase_date desc) countTable					
 	</select>

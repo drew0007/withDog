@@ -18,7 +18,7 @@
 <!-- SommerNote  -->
 <script>
 
-	var content
+/* 	var content
 
 	$(function(){
 		
@@ -33,14 +33,16 @@
 			callbacks: {
 				onImageUpload: function(files, editor, welEditable) {
 					 for (var i = files.length - 1; i >= 0; i--) {
-			            	sendFile(files[i], this);
+						 console.log("아래확인");
+						 console.log(files[i]);	
+						 sendFile(files[i], this);
 			            }
 		        }
 			}
 			
 		});
 		
-	});
+	}); 
 	
 	
     
@@ -61,7 +63,7 @@
           		$(el).summernote('editor.insertImage',url.url);
         	}
       	});
-    }
+    }*/
 	
 	function getFund(){
 		document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;

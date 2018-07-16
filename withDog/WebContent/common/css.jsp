@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<!-- animation --> 
+		
+		<!-- animation --> 
         <link rel="stylesheet" href="../css/animate.css" />
         <!-- bootstrap --> 
         <link rel="stylesheet" href="../css/bootstrap.css" />

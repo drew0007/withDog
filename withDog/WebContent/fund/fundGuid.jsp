@@ -44,91 +44,40 @@
         <!-- content section -->
         <section>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="shorting clearfix xs-margin-top-three">
-                            <div class="col-md-8 col-sm-8 grid-nav">
-                                <a href="shop-with-sidebar-list.html"><i class="fa fa-bars"></i></a>
-                                <a href="#"><i class="fa fa-th"></i></a>
-                                <p class="text-uppercase letter-spacing-1">Showing 1–12 of 22 results</p>
-                            </div>
-                            <div class="col-md-3 col-sm-3 pull-right">
-                                <div class="select-style input-round med-input shop-shorting-full no-border">
-                                    <select>
-                                        <option value="">Select sort by</option>
-                                        <option value="">By popularity</option>
-                                        <option value="">By rating</option>
-                                        <option value="">Price: low to high</option>
-                                        <option value="">Price: high to low</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-listing margin-three">
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="getProduct.jsp">Gianvito Rossi</a></span>
-                                    <span class="price black-text"><del>$750.00</del>$450</span>
-                                    <span class="onsale onsale-style-2">Sale</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="shop-single-product.html">Givenchy Low</a></span>
-                                    <span class="price black-text">$500</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="getProduct.jsp"><img src="http://placehold.it/600x500" alt=""/></a>
-                                    <span class="product-name text-uppercase"><a href="shop-single-product.html">Alexander McQueen</a></span>
-                                    <span class="price black-text">$380</span>
-                                    <div class="quick-buy">
-                                        <div class="product-share">
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
-                                            <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a>
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end shop item -->
-                            </div>
-                        <!-- pagination -->
-                        <div class="pagination margin-ten no-margin-bottom">
-                            <a href="#"><img src="images/arrow-pre-small.png" alt=""/></a>
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#" class="active">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#"><img src="images/arrow-next-small.png" alt=""/></a>
-                        </div>
-                        <!-- end pagination -->
-                    </div>
+                
+                <div class="col-md-10">
+                    	<hr/>
+                    	<h1 align="center">크라우드펀딩이란?</h1>
+                    	<hr/> 
+            		 <p>크라우드펀딩(Crowdfunding)이란 은 군중 또는 다수를 의미하는 영어단어 크라우드(crowd)와 자금조달을 뜻하는 펀딩(funding)을 조합한 용어입니다.       
+		     			창의적 기업가를 비롯한 자금수요자가 인터넷 등의 온라인상에서 자금모집을 중개하는 자(온라앤소액투자중개업자)를 통하여 불특정 다수의 소액투자자로부터 자금을 조달하는 행위를 의미합니다.
+		    			 이러한 크라우드펀딩은 자금모집 및 보상방식에 따라 통상 기부형, 후원형, 대출형, 증권형(투자형) 등으로 구분됩니다.</p>
+		                <br/><br/><br/>
+		                
+		                <hr/>
+		                <h1 align="center">함께할개에서는 어떻게 진행하나요?</h1>
+		                <hr/>
+		                <p>
+		                            함께할개에서는 크라우드펀딩의 종류중 기부형(후원 형식의 소셜 펀딩과 유사하지만 후원자들에 대한 보상을 조건으로 하지 않고 순수 기부의 목적으로 지원하는 유형입니다.)의 펀딩만을 진행하기 떄문에 모든 금액과 사용 내역을 투명하게 공개 합니다.
+		                            기부형만 진행하는 이유는 도움이 절실한 유기견들의 경우 일정금액을 지원받는 보호소나 병원이 아닌 개인 혹은 사설기관에서 보호하는 경우가 많아 후원자들에게 상품적 가치를 지닌 것으로 보상하기가 제한되기 때문입니다.
+		                </p>
+		                <br/><br/><br/>
+		               
+		               <hr/>
+		                <h1 align="center">함께할개 펀딩 사례</h1>
+		                <hr/> 
+		                <p align="center">
+		                여러분들의 후원으로 사람들에게 '괴물'이라 불리던 '복서'가 원래 모습을 되찾았습니다. 
+		                </p>
+		               <br/><br/><br/>
+		               <img alt="" src="../images/fund/ex.png">     
+		                    
+		                    
+		                    
                 </div>
+                        <!-- end pagination -->
             </div>
+                
         </section>
         <!-- end content section -->
         
