@@ -88,7 +88,7 @@
  
 <body>
 					
-	<jsp:include page="/layout/store-sub-header.jsp" />
+	<jsp:include page="/layout/header.jsp" />
 
 	<!-- head section -->
 	<section

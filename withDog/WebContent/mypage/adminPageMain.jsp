@@ -51,7 +51,7 @@
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">
             <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
-            <img class="parallax-background-img" src="../images/sub/304_bg.jpg" alt="" />
+            <img class="parallax-background-img" src="../images/sub/305_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-center animated fadeInUp">

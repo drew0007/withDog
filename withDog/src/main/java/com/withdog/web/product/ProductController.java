@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.CookieGenerator;
 
 import com.withdog.common.Page;
@@ -94,6 +95,9 @@ public class ProductController {
 			}
 		}
 		
+		Thread.sleep(2500);
+		
+		System.out.println("여긴가");
 		productService.addProductAdmin(product);
 		
 		System.out.println("갔다온프로덕트" + product );
@@ -119,7 +123,7 @@ public class ProductController {
 	
 	@RequestMapping( value ="updateProductAdmin", method=RequestMethod.POST)
 	public String updateProduct(@ModelAttribute("product") Product product, 
-															  @RequestParam("file") MultipartFile[] file, Model model, HttpServletRequest request) throws Exception{
+															  @RequestParam("file") MultipartFile[] file, HttpServletRequest request) throws Exception{
 		
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -153,16 +157,29 @@ public class ProductController {
 			}
 		}
 		
+		System.out.println("업데이트전" + product.getProdNo());
+		
 		productService.updateProductAdmin(product);
-		/*//Business Logic
-		Product product = productService.getProduct(prodNo);
-		// Model 과 View 연결
-		model.addAttribute("product", product);*/
 		
-		model.addAttribute("prodNo", product.getProdNo());
+		System.out.println("업데이트후");
 		
-		return "redirect:/product/getProduct";
+		return "redirect:/product/getProduct?prodNo="+ product.getProdNo();
 	}
+	
+	
+	@RequestMapping(value="updateDeleteFlag")
+	public String updateDeleteFlag(@ModelAttribute("purchase") Product product, @RequestParam("deleteFlag") String deleteFlag, Model model) throws Exception{
+		
+		System.out.println("/product/updateDeleteFlag : POST");
+		
+		product.setDeleteFlag(deleteFlag);
+		productService.updateDeleteFlag(product);
+		
+		model.addAttribute("product", product);
+		
+		return "forward:/store/listProduct?prodType=0";
+	}
+	
 	
 	@RequestMapping( value = "historyProduct")
 	public String historyProduct() throws Exception{

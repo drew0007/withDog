@@ -15,20 +15,20 @@
 		alert("현재페이지");
 		$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();
 	}
-
+	
 	//상품이미지 클릭시 이벤트 getProduct 연결
 	$(function(){
 		$(".prodImage").on("click", function(){
-			
+			var role = "${user.role}";
 			var index = $(".prodImage").index(this);
-			alert(index);
 			var prodNo = $($("input[name='prodNo']")[index]).val();
+			alert(prodNo);
 
-// 			 if(role != 'admin'){
+			 if(role == 'admin'){
+				 self.location = "/product/updateProductAdmin?prodNo="+prodNo;
+			}else{
 				self.location = "/product/getProduct?prodNo="+prodNo;
-// 			}else{
-// 				self.location = "/product/updateProductAdmin?prodNo="+prodNo;
-// 			}
+			}
 		});
 	});
 
@@ -49,6 +49,13 @@
 				self.location = "/product/listProduct?prodSort=3&prodType=0";
 			}
 		})
+	});
+	
+	//"상품등록" 버튼 이벤트 연결
+	$(function(){
+		$("#add").on("click", function(){
+			self.location = "/product/addProductAdmin";
+		});
 	});
 
 
@@ -100,8 +107,8 @@
                                 <p class="text-uppercase letter-spacing-1">전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지</p>
                             </div>
                             <div class="col-md-3 col-sm-3 pull-right">
-                                <div class="select-style med-input shop-shorting-full no-border">
-                                    <select id="prodSort" class="pull-right">
+                                <div class="select-style med-input shop-shorting-full no-border pull-right">
+                                    <select id="prodSort">
                                         <option value="0" selected>신상품순</option>
                                         <option value="1">인기상품순</option>
                                         <option value="2">낮은가격순</option>
@@ -142,6 +149,12 @@
                             <!-- end shop item -->
                             
                             </div>
+                            
+                            <c:if test="${user.role == 'admin'}">
+                            <div class="text-right">
+                          	  <button id="add" type="button" class="highlight-button btn btn-medium">상품등록</button>
+                      	   </div>
+                      	   </c:if>
                             
                     </div>
                 </div>

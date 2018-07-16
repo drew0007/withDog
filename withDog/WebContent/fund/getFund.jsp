@@ -96,7 +96,7 @@ $(function(){
                          <%-- <span class="rating-text text-uppercase pull-right">펀딩번호: <span class="black-text">${fund.fundNo}</span></span> --%>
                         <div class="separator-line bg-black no-margin-lr margin-five no-margin-top"></div>
                         <!-- end fund No -->
-                        <p class="no-margin-bottom">펀딩번호:</p>
+                        <p class="no-margin-bottom">펀딩번호</p>
                         <div class="fund-sub-title ">${fund.fundNo}</div>
                         <!-- fund detail 01 -->
                         <p class="no-margin-bottom">펀딩요청기관</p>

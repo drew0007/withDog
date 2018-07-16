@@ -46,6 +46,12 @@ public class ProductServiceImpl implements ProductService  {
 	public void updateProductAdmin(Product product) throws Exception{
 		productDAO.updateProductAdmin(product);
 	}
+	
+	//상품수정
+	public void updateDeleteFlag(Product product) throws Exception{
+		productDAO.updateDeleteFlag(product);
+	}
+	
 
 	//상품리스트조회
 	public Map<String, Object> getProductList(Search search, String prodType) throws Exception{  
