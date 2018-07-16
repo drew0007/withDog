@@ -85,6 +85,7 @@ public class DogInfoController {
 			}
 			dogInfo.setDogInfoImage(a.substring(0, a.length()-1));
 		}
+		Thread.sleep(2500);
 		
 	
 		System.out.println(dogInfo);
@@ -127,7 +128,7 @@ public class DogInfoController {
 	@RequestMapping(value = "getDogInfo", method = RequestMethod.GET)
 	public String getDogInfo(@RequestParam("dogInfoNo") int dogInfoNo, Model model, HttpServletResponse response,
 			HttpSession session) throws Exception {
-		System.out.println("/getDogInfo.do");
+		System.out.println("/getDogInfo : GET");
 		// Business Logic
 		User sessionUser = (User)session.getAttribute("user");
 		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo,sessionUser);
@@ -149,7 +150,7 @@ public class DogInfoController {
 	@RequestMapping(value = "updateDogInfo", method = RequestMethod.GET)
 	public String updateDogInfo(@RequestParam("dogInfoNo") int dogInfoNo, Model model,HttpSession session) throws Exception {
 
-		System.out.println("/updateDogInfoView.do");
+		System.out.println("/updateDogInfoView : GET");
 		// Business Logic
 		User sessionUser = (User)session.getAttribute("user");
 		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo,sessionUser);
@@ -161,7 +162,7 @@ public class DogInfoController {
 
 	@RequestMapping(value = "updateDogInfo", method = RequestMethod.POST)
 	public String updateDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo,HttpSession session, Model model, @RequestParam("file") MultipartFile[] file) throws Exception {
-		System.out.println("/updateDogInfo.do");
+		System.out.println("/updateDogInfo : POST");
 		System.out.println("업데이트 도그인포 : " + dogInfo);
 		User sessionUser = (User)session.getAttribute("user");
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -183,11 +184,12 @@ public class DogInfoController {
 				
 				multipartFile.transferTo(f); // 위의 경로에 파일 저장
 			}
-			dogInfo.setDogInfoImage(a);
+			dogInfo.setDogInfoImage(a.substring(0, a.length()-1));
 		}else {
 			System.out.println("업데이트 시 이미지 수정 안함");
 			dogInfo.setDogInfoImage((dogInfoService.getDogInfo(dogInfo.getDogInfoNo(),sessionUser)).getDogInfoImage());
 		}
+		Thread.sleep(2500);
 		System.out.println("업데이트 전 dog Info : " + dogInfo);
 		
 		dogInfoService.updateDogInfo(dogInfo);

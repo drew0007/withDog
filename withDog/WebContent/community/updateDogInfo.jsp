@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,7 +9,7 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="/common/css.jsp" />
 
-<title>애견상식 등록</title>
+<title>애견상식 수정</title>
 
 <script type="text/javascript">
 function fncUpdateDogInfo(){
@@ -79,7 +80,7 @@ $(function () {
                 <div class="row">
                 <form>
                     <div id="addcomment" class="col-md-8 col-sm-12 blog-comment-form-main center-col text-center">
-                        <h5 class="info-title margin-five no-margin-top">애견상식 등록하기</h5>
+                        <h5 class="info-title margin-five no-margin-top">애견상식 수정</h5>
                         <div class="blog-comment-form">
                             	<!-- select -->
                                 <select id="dogInfoTopic" name="dogInfoTopic" class="big-input col-md-4" style="padding-bottom:13px; padding-right:10px;">

@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>	
+	
 	<jsp:include page="/common/css.jsp" />
 
 	<title>동물교감 치유 후기 상세</title>
@@ -22,11 +25,27 @@ $(function () {
 			"Content-Type" : "application/json"
 		},
 		success : function (data) {
-			console.log(data)
-			console.log($("#dogBreed").val());
-			console.log($("#dogBreed").text());
-			console.log($("#dogBreed").html());
-			
+			$.ajax({
+				url : "/dogBreedDic/json/getDogBreed2",
+				method : "POST",
+				datatype : "json",
+				data : JSON.stringify({
+					dogNo : data.healingDog.healingDogBreed.dogNo
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function (data) {
+					console.log(data)
+					$("#dogBreed").html('<span class="font-weight-600">치유견종:</span>'+data.key.dogBreedKO);
+				}
+			})
+			$("#dogName").html('<span class="font-weight-600">치유견 이름:</span>'+data.healingDog.healingDogName);
+			$("#dogAge").html('<span class="font-weight-600">치유견 생년월일:</span>'+data.healingDog.healingDogBirth);
+			$("#dogChar").html('<span class="font-weight-600">치유견 성격:</span>'+data.healingDog.healingDogChar);
+			$("#healer").html('<span class="font-weight-600">담당 치유사:</span>'+data.healingDog.healingDogHealer);
+			$("#healingDogImg").attr('src','/images/uploadFiles/dogInfo/'+data.healingDog.healingDogimage);
 			
 		}
 	})
@@ -68,7 +87,7 @@ $(function () {
                         <!-- end post title  -->
                         <!-- post date and categories  -->
                         <div class="blog-date" style="margin-bottom:20px">
-                        	Posted by <a href="blog-masonry-3columns.html">회원ID ${afterAsh.user.userId}</a> | Date ${afterAsh.regDate}| <a href="#"></a><i class="fa fa-heart-o pull-right" >15</i></a> 
+                        	<a href="blog-masonry-3columns.html">회원ID ${afterAsh.user.userId}</a> | Date ${afterAsh.regDate}| 조회수 : ${afterAsh.viewCount}<a href="#"></a><i class="fa pull-right" ></i></a>
                        	</div>
                         <!-- end date and categories   -->
                     </div>
@@ -86,16 +105,17 @@ $(function () {
 	                </div>
 	                <div class="row margin-ten no-margin-bottom">
 	                    <div class="col-md-6 col-sm-6 text-center xs-margin-bottom-ten">
-	                        <img src="http://placehold.it/300x300" alt=""/>
+<!-- 	                        <img src="http://placehold.it/300x300" alt=""/> -->
+	                        <img id="healingDogImg" src = "" alt=""/>
 	                    </div>
 	                    <div class="col-md-6 col-sm-6 sm-margin-bottom-ten">
 	                        <div class="col-md-12 col-sm-12 no-padding">
 	                            <ul class="list-line margin-ten text-med">
-	                                <li id="dogBreed"><span class="font-weight-600">치유견종:</span> Andrew Smith</li>
-	                                <li id="dogName"><span class="font-weight-600">치유견 이름:</span>ㅇㅇㅇ</li>
-	                                <li id="dogAge"><span class="font-weight-600">치유견 나이:</span> ㅇㅇ</li>
-	                                <li id="dogChar"><span class="font-weight-600">치유견 성격:</span> ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</li>
-	                                <li id="healer"><span class="font-weight-600">담당 치유사:</span> ㅇㅇㅇ</li>
+	                                <li id="dogBreed"></li>
+	                                <li id="dogName"></li>
+	                                <li id="dogAge"></li>
+	                                <li id="dogChar"></li>
+	                                <li id="healer"></li>
 	                            </ul>
 	                        </div>
 	                    </div>
@@ -115,9 +135,7 @@ $(function () {
 	                <div class="row margin-ten no-margin-bottom">
 	                    <div class="col-md-12 col-sm-6 sm-margin-bottom-ten">
 	                        <!-- post details text -->
-	                        <p class="text-large">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
-	                        <p class="text-extra-large">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-	                        <p class="text-extra-large">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+	                        <p name=afterASHContent class="text-large">${afterAsh.afterASHContent}</p>
 	                        <!-- end post details text -->
 	                    </div>
 	                </div>
@@ -145,42 +163,23 @@ $(function () {
 						                            <!-- work grid -->
 						                            <ul class="grid masonry-items">
 						                             <!-- work item ( external page ) -->
+						                             <c:if test="${!empty afterAsh.afterASHImage}">
+ 						                             <c:forEach var="a" items="${afterAsh.afterASHImageList}">
 						                                <li class="html wordpress lightbox-gallery">
 						                                    <figure>
-						                                        <div class="gallery-img"><a href="http://placehold.it/800x500" title=""><img src="../images/ash/r1.png" alt=""></a><a href="http://placehold.it/800x500" title=""><a href="http://placehold.it/800x500" title=""></div>
+						                                        <div class="gallery-img">
+						                                        	<a href="/images/uploadFiles/dogInfo/${a}" title="">
+						                                        	 <img  src = "/images/uploadFiles/dogInfo/${a}" width="400px" height="200px" alt=""/></a>
 						                                        <figcaption>
 						                                            <i class="icon-camera"></i>
-						                                            <h3>Tailoring Interior</h3>
-						                                            <p>Lightbox gallery</p>
+						                                            <h3>함께할개</h3>
+						                                            <p>With Dog</p>
 						                                        </figcaption>
 						                                    </figure>
 						                                </li>
-						                                <!-- end work item -->
-						                                <!-- end work item -->
+						                                </c:forEach>
+ 						                                </c:if>
 						                                <!-- work item ( lightbox gallery ) -->
-						                                <li class="html wordpress lightbox-gallery">
-						                                    <figure>
-						                                        <div class="gallery-img"><a href="http://placehold.it/800x500" title=""><img src="../images/ash/r2.png" alt=""></a><a href="http://placehold.it/800x500" title=""><a href="http://placehold.it/800x500" title=""></div>
-						                                        <figcaption>
-						                                            <i class="icon-camera"></i>
-						                                            <h3>Tailoring Interior</h3>
-						                                            <p>Lightbox gallery</p>
-						                                        </figcaption>
-						                                    </figure>
-						                                </li>
-						                                <!-- end work item -->
-						                                <!-- work item ( video lightbox )-->
-              						                    <li class="html wordpress lightbox-gallery">
-						                                    <figure>
-						                                        <div class="gallery-img"><a href="http://placehold.it/800x500" title=""><img src="../images/ash/r3.png" alt=""></a><a href="http://placehold.it/800x500" title=""><a href="http://placehold.it/800x500" title=""></div>
-						                                        <figcaption>
-						                                            <i class="icon-camera"></i>
-						                                            <h3>Tailoring Interior</h3>
-						                                            <p>Lightbox gallery</p>
-						                                        </figcaption>
-						                                    </figure>
-						                                </li>
-						                                <!-- end work item -->
 						                                <!-- end work item -->
 						                             </ul>  
 												</div>
@@ -215,6 +214,9 @@ $(function () {
 						                        <a class="popup-youtube" href="https://www.youtube.com/watch?v=mcixldqDIEQ"><i class="icon-video white-text large-icon margin-ten no-margin-top"></i></a>
 						                        <h1 class="white-text video-title">Open Video in Popup</h1>
 						                        <h6>What's the story behind the project? Check the episode to discover how the Make Sense Project was built.</h6>
+				
+						                        
+						                        
 						                    </div>
 						                    <!-- end video popup -->
 						                </div>
@@ -227,9 +229,23 @@ $(function () {
 	            </section>    
                 <!-- end 내용  4  -->
                 <div class="text-center">
-					<a href="listAfterASH.jsp"><span class="highlight-button btn btn-medium pull-right">목록으로</span></a>
+					<a href="/afterAsh/listAfterAsh"><span class="highlight-button btn btn-medium pull-right">목록으로</span></a>
+					<c:if test="${user.userId==afterAsh.user.userId}">
+					<a href="/afterAsh/updateAfterAsh?afterASHNo=${afterAsh.afterASHNo}"><span class="highlight-button btn btn-medium pull-right">수정</span></a>
+					</c:if>
 				</div>
             </div>
+            		       <!--                  <amp-video
+													  width="640"
+													  height="360"
+													  src="/images/uploadFiles/dogInfo/tokyo.mp4"
+													  poster="/images/uploadFiles/dogInfo/20180715170356래브라도 리트리버.jpg"
+													   controls>
+													  <div fallback>
+													    <p>This browser does not support the video element.</p>
+													  </div>
+												</amp-video> -->
+            
         </section> 
         <!-- end 내용 영역  -->
 

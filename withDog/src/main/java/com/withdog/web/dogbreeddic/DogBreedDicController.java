@@ -28,17 +28,9 @@ public class DogBreedDicController {
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping(value = "getDogBreedInfo", method = RequestMethod.POST)
-	public String getDogBreedInfo (@ModelAttribute("dogBreedDic") DogBreedDic dogBreedDic, HttpServletRequest request) throws Exception {
-		System.out.println("/getDogBreedInfo");
-		System.out.println(dogBreedDic);
-		// Business Logic
-		List<DogBreedDic> list = dogBreedDicService.getDogBreedInfoList(dogBreedDic.getDogBreedKO());
-		// Model 과 View 연결
-		DogBreedDic dogBreedDic2 = new DogBreedDic();
-		System.out.println("리스트는 ? " + list);
-		request.setAttribute("normalSearch", list.get(0));
-
+	@RequestMapping(value = "getDogBreed", method = RequestMethod.GET)
+	public String getDogBreed () throws Exception {
+		System.out.println("/getDogBreed");
 		return "forward:/community/dogBreedDicSearch.jsp";
 	}
 

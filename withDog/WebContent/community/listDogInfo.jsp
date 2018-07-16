@@ -103,6 +103,9 @@ function fncGetList(currentPage) {
                     <div class="col-md-8 col-sm-8">
                     
 	                    <c:set var="i" value="0"/>
+	                    <c:if test="${empty list}">
+	                    	<h1>등록된 애견상식이 없습니다.</h1>
+	                    </c:if>
 						<c:forEach var="list" items="${list}">
 						<c:set var="i" value="${i+1}"/>
                     

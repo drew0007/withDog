@@ -38,20 +38,36 @@ public class AfterAshDaoImpl implements AfterAshDao {
 
 	@Override
 	public void updateAfterAsh(AfterAsh afterAsh) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update("AfterAshMapper.updateAfterAsh",afterAsh);
 
 	}
 
 	@Override
 	public List<AfterAsh> getAfterAshList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("AfterAshMapper.getAfterAshList", search);
 	}
 
 	@Override
 	public void deleteAfterAsh(AfterAsh afterAsh) throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("AfterAshMapper.getTotalCount", search);
+	}
+
+	@Override
+	public void updateViewCount(AfterAsh afterAsh) throws Exception {
+		sqlSession.update("AfterAshMapper.updateViewCount", afterAsh);
+	}
+
+	@Override
+	public List<AfterAsh> getAfterAshListByViewCount() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("AfterAshMapper.getAfterAshListByViewCount");
 	}
 
 }

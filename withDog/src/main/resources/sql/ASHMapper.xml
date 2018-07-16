@@ -18,11 +18,13 @@
 		<result property="healingDogHealer" 		column="healing_dog_healer" 				jdbcType="VARCHAR"  />
 		<association property="healingDogBreed" javaType="dogBreedDic" >
 		 	<result property="dogNo" column="dog_no"	 		jdbcType="NUMERIC" />
+		 	<result property="dogBreedEN" column="dog_breed_en" jdbcType="VARCHAR" />
+			<result property="dogBreedKO" column="dog_breed_ko" jdbcType="VARCHAR" />
 		</association>
 	</resultMap>
 	
 	<select id="getAllHealingDog" resultMap="healingDogSelectMap">
-		SELECT *
+		SELECT DISTINCT *
 		FROM healing_dog
 	</select>
 	

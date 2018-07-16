@@ -1,16 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- <link href='/css/summernote.css' rel='stylesheet' /> -->
+<!-- <script src='/js/summernote.min.js'></script> -->
+
+
+
 <jsp:include page="/common/css.jsp" />
 
 <title>애견상식 등록</title>
 
 <script type="text/javascript">
+
+$(function() {
+	  $('#summernote').summernote();
+	});
+
 function fncAddDogInfo(){
 	//Form 유효성 검증
  	var dogInfoTopic = $('#dogInfoTopic option:selected').val();
@@ -111,7 +122,7 @@ $(function () {
                             </form>
                             
                             <!-- button  -->
-                            <input id="submit" type="submit" name="send" value="등록하기" class="highlight-button-dark btn btn-medium no-margin-bottom">
+                            <span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium" >등록</span>
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
                         </div>

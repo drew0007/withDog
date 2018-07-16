@@ -104,6 +104,7 @@ after_ash_date VARCHAR2(30),
 after_ash_time VARCHAR2(20),
 after_ash_vedio VARCHAR2(300) UNIQUE,
 after_ash_image VARCHAR2(300) UNIQUE,
+after_ash_view_count VARCHAR2(10) DEFAULT '0',
 reg_date DATE,
 delete_flag VARCHAR2(3) DEFAULT 0,
 PRIMARY KEY (after_ash_no)
