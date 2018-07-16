@@ -28,11 +28,14 @@
 							dogNo : dogNum
 						}),
 						success : function(JSONData , status) {
+							
 							var displayValue = JSONData.key.dogBreedKO;
 							$( "#dogName" ).text(displayValue);
 						}
-						
+					
 					});// end of ajax
+					
+
 					
 			});//end 제이쿼리
 	</script>
@@ -117,6 +120,10 @@
 			
 			</div>
 		</div><!-- container1 -->
+		
+
+		
+		
 	</section>
 	<!-- end content section -->
         

@@ -1,5 +1,8 @@
 package com.withdog.web.user;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
@@ -16,17 +19,21 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.withdog.service.domain.DogBreedDic;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserService;
 
@@ -51,7 +58,35 @@ public class UserRestController {
 		System.out.println(this.getClass());
 	}
 	
+	
 	///Method
+	//로그인 POST
+	@RequestMapping( value="json/loginUser", method=RequestMethod.POST )
+	public boolean loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response)  throws Exception {
+
+		System.out.println("제이슨 로그인 /user/loginUser : POST");
+		System.out.println("user내용 확인"+user);
+		//Business Logic
+		User dbUser=userService.getUser(user.getUserId());
+		System.out.println("dbUser내용 확인"+dbUser);
+		
+		boolean check = false;
+		if(dbUser!=null){
+			
+			if( user.getPassword().equals(dbUser.getPassword())){
+				session.setAttribute("user", dbUser);
+				userService.updateRecentlyDate(dbUser.getUserId());
+				check= true;
+			}
+			
+		}
+		System.out.println("check 확인"+check);
+		return check;
+
+	}//end 로그인
+	
+	
+	
 	//비밀번호 변경 페이지에서 기존 비밀번호 확인
 	@RequestMapping( value="json/checkPassword", method=RequestMethod.POST )
 	public boolean checkPassword(	@RequestBody User user,
@@ -174,7 +209,7 @@ public class UserRestController {
 			   message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 			   // Subject
-			   message.setSubject("[함께할개] 임시비밀번호  발송하였습니다.");
+			   message.setSubject("[함께할개] 임시비밀번호 발송하였습니다.");
 			  
 			   message.setContent(emailHtml	, "text/html; charset=euc-kr");
 			  
@@ -206,7 +241,27 @@ public class UserRestController {
 		return pwNo;
 	}
 
-	
+	//장원이 테스트
+	//아이디/비밀번호 찾기에서 id 찾기
+	@RequestMapping( value="json/test", method=RequestMethod.GET )
+	public JSONObject  findUserId () throws Exception{
+		
+		System.out.println("제이슨 테스트 ");
+		//이름,생일 일치할것
+		List<String> aaa = new ArrayList<String>() ;
+
+		aaa.add(0, "10");
+		aaa.add(1, "20");
+		aaa.add(2, "30");
+		aaa.add(3, "40");
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("key", aaa);
+		
+		System.out.println(jsonObject.toJSONString());
+		
+		return jsonObject;
+	}
 	
 }//end of class
 		

@@ -82,7 +82,7 @@ public class UserController {
 			
 		}
 		
-		return "redirect:/common/index.jsp";
+		return "forward:/common/index.jsp";
 
 	}
 	
@@ -94,7 +94,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "redirect:/common/index.jsp";
+		return "forward:/common/index.jsp";
 	}
 	
 	//회원가입 화면 GET (회원가입 클릭했을 때 단순네비게이션)
@@ -103,7 +103,7 @@ public class UserController {
 
 		System.out.println("회원가입 입력창 :: /user/addUser : GET");
 		
-		return "redirect:/user/addUser.jsp";
+		return "forward:/user/addUser.jsp";
 	}
 	
 	//회원가입 POST (회원가입창에서 가입하기 눌러서 전송)
@@ -204,7 +204,8 @@ public class UserController {
 		System.out.println("회원탈퇴 /user/deleteUser : POST");
 		System.out.println("User 정보 확인"+user);
 		System.out.println("User 정보 확인"+user.getLeaveReason());
-		return "redirect:/common/index.jsp";
+		
+		return "forward:/common/index.jsp";
 	}
 	
 	//ID 찾기 GET (로그인 클릭했을 때 단순네비게이션)
@@ -216,5 +217,13 @@ public class UserController {
 			return "forward:/user/findUser.jsp";
 		}
 	
+		//장원이 테스트 2
+		@RequestMapping( value="test", method=RequestMethod.GET )
+		public String test() throws Exception{
+			
+			System.out.println("ddddd");
+			
+			return "forward:/user/test.jsp";
+		}
 
 }//end of class
