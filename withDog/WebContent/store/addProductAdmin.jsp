@@ -125,6 +125,7 @@
                                 <!-- end input  -->
                             </div>
                         </form>
+                        
                         <div class="text-center">
                             <button id="add" type="button" class="highlight-button btn btn-medium">상품등록</button>
                          </div>

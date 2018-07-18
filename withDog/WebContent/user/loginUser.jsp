@@ -26,28 +26,63 @@
 				self.location = "/user/findUser"
 			});
 			
-			
 			//로그인 연결
 			$("#login").on("click" , function() {
-					/*
-					var userId=$("#userId").val();
-					var passWord=$("#password").val();
-					
-					if(id == null || id.length <1) {
-						alert('ID 를 입력하지 않으셨습니다.');
-						$("#userId").focus();
-						return;
-					}
-					
-					if(pw == null || pw.length <1) {
-						alert('패스워드를 입력하지 않으셨습니다.');
-						$("#password").focus();
-						return;
-					}
-					*/
-					
-					$("form").attr("method","POST").attr("action","/user/loginUser").submit();
-			 });
+				
+				//유효성체크
+				var userId=$("#userId").val();
+				var passWord=$("#password").val();
+				
+				if(userId == null || userId.length <1) {
+					$(".spanClass").html("**ID 를  입력해주세요").css('color','red');	
+					$("#userId").focus();
+					$("input").on("click",function(){
+						$(".spanClass").html("");
+					});
+					return;
+				}
+				
+				if(passWord == null || passWord.length <1) {
+					$(".spanClass").html("**비밀번호를 입력해주세요").css('color','red');	
+					$("#password").focus();
+					$("input").on("click",function(){
+						$(".spanClass").html("");
+					});
+					return;
+				}
+							
+				//로그인 
+				$.ajax({
+							url : "/user/json/loginUser",
+							method : "POST",
+							datatype : "json",
+							data: JSON.stringify({
+								userId:$("#userId").val(),
+								password:$("#password").val()
+							}),
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status){
+								
+								var check = JSONData;
+								
+								if(check){
+									self.location = "/common/mainPage";
+								}else{
+									$(".spanClass").html("**아이디 또는 비밀번호가 일치하지 않습니다.").css('color','red');	
+									
+									$("input").on("click",function(){
+										$(".spanClass").html("");
+									});
+								}
+							}
+						
+		 				});//end of Ajax
+		 				
+			});// end 로그인
+			
 	
 			//엔터키 이벤트 ( 로그인 클릭한것처럼)
 			$("#password").keydown(function(event){
@@ -55,6 +90,12 @@
 		    	   $('#login').trigger('click');
 		        }
 		    });
+			
+			$("#userId").keydown(function(event){
+			       if(event.keyCode==13){
+			    	   $('#login').trigger('click');
+			        }
+			    });
 
 		});
 
@@ -93,15 +134,17 @@
                     <div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
                     
                     	<form>
-                         
+                         	<span class="spanClass"></span>
 	                        <div class="col-md-12 no-padding">
 	                            <label>아이디</label>
 	                            <input type="userId" name="userId" id="userId">
+	                              <span class="spanId"></span>
 	                        </div>
 	                        
 	                        <div class="col-md-12 no-padding">
 	                            <label>비밀번호</label>
 	                            <input type="password" name="password" id="password">
+	                            
 	                        </div>
                             
                          </form> 

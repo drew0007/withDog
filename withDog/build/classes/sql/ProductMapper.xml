@@ -40,10 +40,19 @@
 	   	<set>
 	   		prod_type = #{prodType},
 	   		prod_name = #{prodName},
-	   		prod_content = #{prodContent, jdbcType=VARCHAR},
-	   		prod_image = #{prodImage, jdbcType=VARCHAR},
 	   		price = #{price},
-	   		prod_qantity = #{prodQuantity}
+	   		prod_image = #{prodImage, jdbcType=VARCHAR},
+	   		prod_content = #{prodContent, jdbcType=VARCHAR},
+	   		prod_quantity = #{prodQuantity}
+	   	</set>
+	   	WHERE prod_no = #{prodNo}
+	 </update>
+	 
+	<!-- SQL : DELETE -->
+	 <update	id="deleteProductAdmin"	parameterType="product" >
+	   	UPDATE product
+	   	<set>
+	   		delete_flag = #{deleteFlag}
 	   	</set>
 	   	WHERE prod_no = #{prodNo}
 	 </update>
@@ -57,9 +66,7 @@
 	  				 FROM product
 	  				 <where>
 		  				 <if test="searchCondition != null">
-		  				 	<if test="searchKeyword !='' ">
 		  				 		prod_name LIKE '%'||#{searchKeyword}||'%'
-		  				 	</if>
 		  				 </if>
 	  				 </where>
 	  				 ORDER BY
