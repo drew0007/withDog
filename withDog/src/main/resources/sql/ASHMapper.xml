@@ -5,7 +5,7 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AshMapper">
+<mapper namespace="ASHMapper">
  	
  	
 	<resultMap id="healingDogSelectMap" type="healingDog">
@@ -16,6 +16,7 @@
 		<result property="healingDogChar" 		column="healing_dog_char" 				jdbcType="VARCHAR"  />
 		<result property="healingDogGender" 		column="healing_dog_gender" 				jdbcType="VARCHAR"  />
 		<result property="healingDogHealer" 		column="healing_dog_healer" 				jdbcType="VARCHAR"  />
+		<result property="healingDogReservCount" 		column="healing_Dog_Reserv_Count" 				jdbcType="VARCHAR"  />
 		<association property="healingDogBreed" javaType="dogBreedDic" >
 		 	<result property="dogNo" column="dog_no"	 		jdbcType="NUMERIC" />
 		 	<result property="dogBreedEN" column="dog_breed_en" jdbcType="VARCHAR" />
@@ -23,16 +24,163 @@
 		</association>
 	</resultMap>
 	
+	<resultMap id="ashSelectMap" type="ash">
+		<result property="ashReservationNo"  column="ash_reservation_no" 				jdbcType="NUMERIC"/>
+		<result property="ashReservationName" 				column="ash_reservation_name" 					jdbcType="VARCHAR" />
+		<result property="ashReservationDate" 		column="ash_reservation_date" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationTime" 		column="ash_reservation_time" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationAddress1" 		column="ash_reservation_address1" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationAddress2" 		column="ash_reservation_address2" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationPhone" 		column="ash_reservation_phone" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationPrice" 		column="ash_reservation_price" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationEtc" 		column="ash_reservation_etc" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationCondition" 		column="ash_reservation_condition" 				jdbcType="VARCHAR"  />
+		<result property="ashReservationColor" 		column="ash_reservation_color" 				jdbcType="VARCHAR"  />
+		<result property="purchaseDate" 		column="purchase_date" 				jdbcType="DATE"  />
+		<result property="paymentOption" 		column="payment_option" 				jdbcType="VARCHAR"  />
+		<association property="healingDog" javaType="healingDog" >
+		 	<result property="healingDogNo" column="healing_dog_no"	 		jdbcType="NUMERIC" />
+			<result property="healingDogName" 	column="healing_dog_name" 		jdbcType="VARCHAR" />
+			<result property="healingDogBirth" 		column="healing_dog_birth" 					jdbcType="VARCHAR" />
+			<result property="healingDogimage" 				column="healing_dog_image" 					jdbcType="VARCHAR" />
+			<result property="healingDogChar" 		column="healing_dog_char" 				jdbcType="VARCHAR"  />
+			<result property="healingDogGender" 		column="healing_dog_gender" 				jdbcType="VARCHAR"  />
+			<result property="healingDogHealer" 		column="healing_dog_healer" 				jdbcType="VARCHAR"  />
+			<association property="healingDogBreed" javaType="dogBreedDic" >
+			 	<result property="dogNo" column="dog_no"	 		jdbcType="NUMERIC" />
+			 	<result property="dogBreedEN" column="dog_breed_en" jdbcType="VARCHAR" />
+				<result property="dogBreedKO" column="dog_breed_ko" jdbcType="VARCHAR" />
+			</association>
+		</association>
+		<association property="user" javaType="user" >
+		 	<result property="userId" column="user_id"	 	jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	
+	<!-- 	모든 치유견 (서치없이)가져오기 -->
 	<select id="getAllHealingDog" resultMap="healingDogSelectMap">
 		SELECT DISTINCT *
 		FROM healing_dog
 	</select>
 	
+	<!-- 	치유견 가져오기 -->
 	<select id="getHealingDog" parameterType="int" resultMap="healingDogSelectMap">
-		SELECT *
-		FROM healing_dog
-		WHERE healing_dog_no= #{value}
+		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name,TO_CHAR(sysdate,'YYYY')-SUBSTR(hd.healing_dog_birth,0,4)+1 AS healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO
+		FROM healing_dog hd, dog_breed_dic dd
+		WHERE hd.DOG_NO = dd.DOG_NO AND healing_dog_no= #{value}
 	</select>
+	
+		<!-- 	치유견 추가 -->
+	<insert id="addHealingDog" parameterType="healingDog">
+		INSERT INTO healing_dog
+		(healing_dog_no, healing_dog_name, healing_dog_birth, healing_dog_image,  healing_dog_char, healing_dog_gender, healing_dog_healer, dog_no) 
+		VALUES (
+		seq_healing_dog_healing_dog_no.nextval,
+		#{healingDogName},
+		#{healingDogBirth},
+		#{healingDogimage},
+		#{healingDogChar},
+		#{healingDogGender},
+		#{healingDogHealer},
+		#{healingDogBreed.dogNo}
+		 )
+	</insert>
+	
+		<!-- 	치유견 업데이트 -->
+		<update id="updateHealingDog" parameterType="healingDog">
+		UPDATE healing_dog
+			<set>
+			healing_dog_name = #{healingDogName},
+			healing_dog_birth = #{healingDogBirth},
+			healing_dog_image = #{healingDogimage},
+			healing_dog_char = #{healingDogChar},
+			healing_dog_gender = #{healingDogGender},
+			healing_dog_healer = #{healingDogHealer},
+			dog_no = #{healingDogBreed.dogNo}
+			</set>
+			<where> 
+			healing_dog_no = #{healingDogNo}
+			</where>
+		</update>
+	
+<!-- 	치유견소개 (서치포함)리스트 출력 -->
+		<select id="getHealingDogList" parameterType="search" resultMap="healingDogSelectMap">
+		SELECT *
+		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
+					FROM( 
+									SELECT he.dog_no ,dd.dog_Breed_ko, he.healing_dog_no,he.healing_dog_name, he.healing_dog_char,he.healing_dog_image,he.healing_dog_healer,he.healing_dog_gender,TO_CHAR(sysdate,'YYYY')-SUBSTR(he.healing_dog_birth,0,4)+1 AS healing_dog_birth
+									FROM healing_dog he, dog_breed_dic dd
+									WHERE he.dog_no = dd.dog_no
+									ORDER BY he.healing_dog_no
+									) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+<!-- 	 예약하기 메인화면에 달력 날짜 클릭시 날짜에 맞는 치유견 출력 -->
+		<select id="getHealingDogListByDate" resultMap="healingDogSelectMap" parameterType="string">
+			SELECT he.dog_no ,dd.dog_Breed_ko, he.healing_dog_no,he.healing_dog_name, he.healing_dog_char,he.healing_dog_image,he.healing_dog_healer,he.healing_dog_gender,TO_CHAR(SYSDATE,'YYYY')-SUBSTR(he.healing_dog_birth,0,4)+1 AS healing_dog_birth, count(ar.ash_reservation_no) AS healing_Dog_Reserv_Count 
+			FROM ash_reservation ar, healing_dog he, dog_breed_dic dd
+			WHERE he.healing_dog_no = ar.healing_dog_no(+)
+			AND he.dog_no = dd.dog_no 
+			AND ar.ash_reservation_date(+) = #{value}
+			GROUP BY  he.dog_no ,dd.dog_Breed_ko, he.healing_dog_no,he.healing_dog_name, he.healing_dog_char,he.healing_dog_image,he.healing_dog_healer,he.healing_dog_gender,HEALING_DOG_BIRTH,he.healing_dog_no
+			HAVING count(he.HEALING_DOG_NO) &lt; 2
+			ORDER BY healing_dog_no
+		</select>
+	
+	<!-- 	페이징을 위한 토탈카운트 -->
+	<select id="getTotalCount" parameterType="search" resultType="int" >
+		SELECT COUNT(*)
+	  	FROM(	SELECT he.dog_no ,dd.dog_Breed_ko, he.healing_dog_name, he.healing_dog_birth, he.healing_dog_char,he.healing_dog_image,he.healing_dog_healer,he.healing_dog_gender
+						FROM healing_dog he, dog_breed_dic dd
+						WHERE he.dog_no = dd.dog_no
+						ORDER BY he.healing_dog_no
+						) countTable					
+	</select>	  
+	
+	<!-- 	모든 예약 현황 가져오기 -->
+	<select id="getAllAshReservationList" resultMap="ashSelectMap">
+		SELECT ar.* , hd.*
+		FROM ash_reservation ar, healing_dog hd
+		WHERE ar.healing_dog_no = hd.healing_dog_no
+	</select>
+	
+	<!-- 	치유견별로 예약현황 가져오기 -->
+	<select id="getAshReservationByHealingDog" resultMap="ashSelectMap" parameterType="int">
+		SELECT ar.* , hd.*
+		FROM ash_reservation ar, healing_dog hd
+		WHERE ar.healing_dog_no = hd.healing_dog_no AND hd. healing_dog_no=  #{value}
+	</select>
+	
+	<!-- 치유견+날짜 별로 예약 시간 가져오기 -->
+	<select id="getAshReservationTime" resultMap="ashSelectMap" parameterType="java.util.Map">
+		SELECT hd.healing_dog_no,hd.healing_dog_name,NVL(ar.ash_reservation_time,3) AS ash_reservation_time
+		FROM ash_reservation ar, healing_dog hd
+		WHERE ar.healing_dog_no(+) = hd.healing_dog_no
+		AND hd.healing_dog_no= #{healingDogNo}
+		AND ar.ash_reservation_date(+) = #{ashReservationDate}
+	</select>
+	
+	<!-- 치유견+날짜 별로 예약 시간(Count) 가져오기 / count가 2(예약 차있을때)일때 : count로 출력(2로) /  2가 아닐땐 오전 오후인지 출력/ null일땐 3으로-->
+	<select id="getAshReservationTimeCount" resultMap="ashSelectMap" parameterType="java.util.Map">
+		SELECT DISTINCT a.healing_dog_no, a.healing_dog_name,NVL(DECODE(a.ash_rservation_time,2,a.ash_rservation_time,ar.ash_reservation_time),3) AS ash_reservation_time
+		FROM
+		(
+			SELECT hd.healing_dog_no,hd.healing_dog_name, ar.ash_reservation_date, COUNT(ar.ash_reservation_time) AS ash_rservation_time
+			FROM ash_reservation ar, healing_dog hd
+			WHERE ar.healing_dog_no(+) = hd.healing_dog_no
+			AND ar.ash_reservation_date(+) = #{ashReservationDate}
+			AND hd.healing_dog_no = #{healingDogNo}
+			group by  hd.healing_dog_no,hd.healing_dog_name,ar.ash_reservation_date
+		) a, ash_reservation ar
+		WHERE ar.healing_dog_no(+) = a.healing_dog_no
+		AND ar.ash_reservation_date(+) =#{ashReservationDate}
+		AND ar.healing_dog_no(+) = #{healingDogNo}
+	</select>
+	
+
+
 	
 	
 	

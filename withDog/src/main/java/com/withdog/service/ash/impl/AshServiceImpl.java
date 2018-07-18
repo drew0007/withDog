@@ -1,6 +1,8 @@
 package com.withdog.service.ash.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.withdog.common.Search;
 import com.withdog.service.ash.AshDAO;
 import com.withdog.service.ash.AshService;
+import com.withdog.service.domain.AfterAsh;
 import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Consulting;
 import com.withdog.service.domain.HealingDog;
@@ -26,7 +29,7 @@ public class AshServiceImpl implements AshService{
 	
 	@Override
 	public void addHealingDog(HealingDog healingDog) throws Exception {
-		// TODO Auto-generated method stub
+		ashDAO.addHealingDog(healingDog);
 		
 	}
 
@@ -37,13 +40,29 @@ public class AshServiceImpl implements AshService{
 
 	@Override
 	public void updateHealingDog(HealingDog healingDog) throws Exception {
-		// TODO Auto-generated method stub
-		
+		ashDAO.updateHealingDog(healingDog);
 	}
 
 	@Override
 	public List<HealingDog> getHealingDogList() throws Exception {
 		return ashDAO.getHealingDogList();
+	}
+	
+	@Override
+	public List<HealingDog> getHealingDogListByDate(String ashReservationDate) throws Exception {
+		// TODO Auto-generated method stub
+		return ashDAO.getHealingDogListByDate(ashReservationDate);
+	}
+	
+	@Override
+	public Map<String, Object> getHealingDogList(Search search) throws Exception {
+		Map<String, Object> map = new HashMap<String,Object>();
+		List<HealingDog> list = ashDAO.getHealingDogList(search);
+		int totalCount = ashDAO.getTotalCount(search);
+		
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		return map;
 	}
 
 	@Override
@@ -69,6 +88,12 @@ public class AshServiceImpl implements AshService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Ash> getAshReservationByHealingDog(int healingDogNo) throws Exception {
+		// TODO Auto-generated method stub
+		return ashDAO.getAshReservationByHealingDog(healingDogNo);
+	}
 
 	@Override
 	public List<Ash> getAshReservationList(Search search) throws Exception {
@@ -81,11 +106,32 @@ public class AshServiceImpl implements AshService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
+	@Override
+	public List<Ash> getAllAshReservationList() throws Exception { //모든 예약현황 가져오기
+		return ashDAO.getAllAshReservationList();
+	}
+
+
+
 
 	@Override
 	public Ash getAshReservationAdmin(int ashReservationNo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Ash getAshReservationTime(int healingDogNo, String ashReservationDate) throws Exception {
+		// TODO Auto-generated method stub
+		return ashDAO.getAshReservationTime(healingDogNo, ashReservationDate);
+	}
+	
+	@Override
+	public Ash getAshReservationTimeCount(int healingDogNo, String ashReservationDate) throws Exception {
+		// TODO Auto-generated method stub
+		return ashDAO.getAshReservationTimeCount(healingDogNo, ashReservationDate);
 	}
 
 	@Override

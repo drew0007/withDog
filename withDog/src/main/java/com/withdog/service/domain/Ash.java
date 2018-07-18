@@ -8,10 +8,12 @@ public class Ash {
 	private String ashReservationName;
 	private String ashReservationDate;
 	private String ashReservationTime;
-	private String ashReservationAddress;
+	private String ashReservationAddress1;
+	private String ashReservationAddress2;
 	private String ashReservationPhone;
 	private String ashReservationEtc;
 	private String ashReservationPrice;
+	private String ashReservationColor;
 	private String paymentOption;
 	private String purchaseDate;
 
@@ -71,12 +73,20 @@ public class Ash {
 		this.ashReservationTime = ashReservationTime;
 	}
 
-	public String getAshReservationAddress() {
-		return ashReservationAddress;
+	public String getAshReservationAddress1() {
+		return ashReservationAddress1;
 	}
 
-	public void setAshReservationAddress(String ashReservationAddress) {
-		this.ashReservationAddress = ashReservationAddress;
+	public void setAshReservationAddress1(String ashReservationAddress1) {
+		this.ashReservationAddress1 = ashReservationAddress1;
+	}
+	
+	public String getAshReservationAddress2() {
+		return ashReservationAddress2;
+	}
+	
+	public void setAshReservationAddress2(String ashReservationAddress2) {
+		this.ashReservationAddress2 = ashReservationAddress2;
 	}
 
 	public String getAshReservationPhone() {
@@ -119,14 +129,24 @@ public class Ash {
 		this.purchaseDate = purchaseDate;
 	}
 
+	public String getAshReservationColor() {
+		return ashReservationColor;
+	}
+
+	public void setAshReservationColor(String ashReservationColor) {
+		this.ashReservationColor = ashReservationColor;
+	}
+
 	@Override
 	public String toString() {
-		return "Ash [healingDog=" + healingDog + ", ashReservationNo=" + ashReservationNo + ", ashReservationCondition="
-				+ ashReservationCondition + ", ashReservationName=" + ashReservationName + ", ashReservationDate="
-				+ ashReservationDate + ", ashReservationTime=" + ashReservationTime + ", ashReservationAddress="
-				+ ashReservationAddress + ", ashReservationPhone=" + ashReservationPhone + ", ashReservationEtc="
-				+ ashReservationEtc + ", ashReservationPrice=" + ashReservationPrice + ", paymentOption="
-				+ paymentOption + ", purchaseDate=" + purchaseDate + "]";
+		return "Ash [healingDog=" + healingDog + ", user=" + user + ", ashReservationNo=" + ashReservationNo
+				+ ", ashReservationCondition=" + ashReservationCondition + ", ashReservationName=" + ashReservationName
+				+ ", ashReservationDate=" + ashReservationDate + ", ashReservationTime=" + ashReservationTime
+				+ ", ashReservationAddress1=" + ashReservationAddress1 + ", ashReservationAddress2="
+				+ ashReservationAddress2 + ", ashReservationPhone=" + ashReservationPhone + ", ashReservationEtc="
+				+ ashReservationEtc + ", ashReservationPrice=" + ashReservationPrice + ", ashReservationColor="
+				+ ashReservationColor + ", paymentOption=" + paymentOption + ", purchaseDate=" + purchaseDate + "]";
 	}
+
 
 }

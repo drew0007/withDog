@@ -1,6 +1,8 @@
 package com.withdog.service.ash.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,24 +32,35 @@ public class AshDAOImpl implements AshDAO {
 
 	@Override
 	public void addHealingDog(HealingDog healingDog) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sqlSession.insert("ASHMapper.addHealingDog", healingDog);
 	}
 
 	@Override
 	public HealingDog getHealingDog(int healingDogNo) throws Exception {
-		return sqlSession.selectOne("AshMapper.getHealingDog",healingDogNo);
+		return sqlSession.selectOne("ASHMapper.getHealingDog",healingDogNo);
 	}
 
 	@Override
 	public void updateHealingDog(HealingDog healingDog) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update("ASHMapper.updateHealingDog",healingDog);
 		
 	}
 
 	@Override
 	public List<HealingDog> getHealingDogList() throws Exception {
-		return sqlSession.selectList("AshMapper.getAllHealingDog");
+		return sqlSession.selectList("ASHMapper.getAllHealingDog");
+	}
+	
+	@Override
+	public List<HealingDog> getHealingDogListByDate(String ashReservationDate) throws Exception {
+		// 날짜별로 힐링독 가져오기
+		return sqlSession.selectList("ASHMapper.getHealingDogListByDate",ashReservationDate);
+	}
+	
+
+	@Override
+	public List<HealingDog> getHealingDogList(Search search) throws Exception {
+		return sqlSession.selectList("ASHMapper.getHealingDogList", search);
 	}
 
 	@Override
@@ -73,6 +86,23 @@ public class AshDAOImpl implements AshDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Ash getAshReservationTime(int healingDogNo, String ashReservationDate) throws Exception {
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("healingDogNo", healingDogNo);
+		map.put("ashReservationDate", ashReservationDate);
+		return sqlSession.selectOne("ASHMapper.getAshReservationTime",map);
+	}
+	
+	@Override
+	public Ash getAshReservationTimeCount(int healingDogNo, String ashReservationDate) throws Exception {
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("healingDogNo", healingDogNo);
+		map.put("ashReservationDate", ashReservationDate);
+		return sqlSession.selectOne("ASHMapper.getAshReservationTimeCount",map);
+	}
+
 
 	@Override
 	public List<Ash> getAshReservationList(Search search) throws Exception {
@@ -85,11 +115,25 @@ public class AshDAOImpl implements AshDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Ash> getAllAshReservationList() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("ASHMapper.getAllAshReservationList");
+	}
+
+
 
 	@Override
 	public Ash getAshReservationAdmin(int ashReservationNo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public List<Ash> getAshReservationByHealingDog(int healingDogNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("ASHMapper.getAshReservationByHealingDog",healingDogNo);
 	}
 
 	@Override
@@ -115,5 +159,18 @@ public class AshDAOImpl implements AshDAO {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("ASHMapper.getTotalCount", search);
+	}
+
+
+
+
+
+
 
 }

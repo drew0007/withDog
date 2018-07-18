@@ -1,6 +1,7 @@
 package com.withdog.service.ash;
 
 import java.util.List;
+import java.util.Map;
 
 import com.withdog.common.Search;
 import com.withdog.service.domain.Ash;
@@ -17,6 +18,10 @@ public interface AshService {
 
 	public List<HealingDog> getHealingDogList() throws Exception;
 
+	public Map<String, Object> getHealingDogList(Search search) throws Exception;
+	
+	public List<HealingDog> getHealingDogListByDate(String ashReservationDate) throws Exception;
+
 	// ÄÁ¼³ÆÃ
 	public void addConsulting(Consulting consulting) throws Exception;
 
@@ -26,12 +31,20 @@ public interface AshService {
 	public void addAshReservation(Ash ash) throws Exception;
 
 	public Ash getAshReservation(int ashReservationNo) throws Exception;
+	
+	public Ash getAshReservationTime(int healingDogNo, String ashReservationDate) throws Exception;
+
+	public Ash getAshReservationTimeCount(int healingDogNo, String ashReservationDate) throws Exception;
+	
+	public List<Ash> getAllAshReservationList() throws Exception;
 
 	public List<Ash> getAshReservationList(Search search) throws Exception;
-
+	
 	public List<Ash> getAshReservationAdminList(Search search) throws Exception;
 
 	public Ash getAshReservationAdmin(int ashReservationNo) throws Exception;
+	
+	public List<Ash> getAshReservationByHealingDog(int healingDogNo) throws Exception;
 
 	public void updateAshReservationAdmin(Ash ash) throws Exception;
 

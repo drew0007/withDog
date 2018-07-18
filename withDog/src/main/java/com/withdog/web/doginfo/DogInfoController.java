@@ -107,7 +107,6 @@ public class DogInfoController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-
 		Map<String, Object> map = dogInfoService.getDogInfoList(search);
 		System.out.println("∏ »Æ¿Œ : " + map);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,

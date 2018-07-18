@@ -100,8 +100,8 @@ $(function(){
                                             <ul>
                                                 <li class="dropdown-header">동물교감치유 서비스</li>
                                                 <li><a href="../animal/getASHInfo.jsp">동물교감치유 서비스란</a></li>
-                                                <li><a href="../animal/listHealingDog.jsp">치유견 소개</a></li>
-                                                <li><a href="../animal/listReservationASH.jsp">예약하기</a></li>
+                                                <li><a href="/ash/listHealingDog">치유견 소개</a></li>
+                                                <li><a href="/ash/listAsh">예약하기</a></li>
                                                 <li><a href="../animal/addConsulting.jsp">영상상담 신청<span class="menu-new">new</span></a></li>
                                             </ul>
                                             <!-- end sub menu item  -->

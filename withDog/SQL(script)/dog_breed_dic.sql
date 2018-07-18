@@ -78,12 +78,13 @@ PRIMARY KEY (healing_dog_no)
 
 CREATE TABLE ash_reservation(
 ash_reservation_no NUMBER(10) NOT NULL,
-healing_dog_no NUMBER(10) NOT NULL REFERENCES dog_breed_dic(dog_no),
+healing_dog_no NUMBER(10) NOT NULL REFERENCES healing_dog(healing_dog_no),
 user_id VARCHAR2(20) NOT NULL REFERENCES users(user_id),
 ash_reservation_name VARCHAR2(20),
 ash_reservation_date VARCHAR2(30),
 ash_reservation_time VARCHAR2(20),
-ash_reservation_address VARCHAR2(200),
+ash_reservation_address1 VARCHAR2(200),
+ash_reservation_address2 VARCHAR2(200),
 ash_reservation_phone VARCHAR2(20),
 ash_reservation_price VARCHAR2(20),
 ash_reservation_etc VARCHAR2(200),

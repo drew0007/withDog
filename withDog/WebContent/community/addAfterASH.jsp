@@ -3,13 +3,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+</style>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="kr">
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+	  
 <link href="/css/jquery.minical.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+ 
+
 <!-- 달력 -->
 <script type="text/javascript" src="http://www.blueb.co.kr/data/201010/IJ12873724731095/datepicker.js"></script>
 <link href="http://www.blueb.co.kr/data/201010/IJ12873724731095/datepicker.css" rel="stylesheet" type="text/css" />
@@ -17,6 +27,7 @@
 <jsp:include page="/common/css.jsp" />
 
 <title>동물 교감 후기 등록</title>
+
 
 <script type="text/javascript">
 $(function () {
@@ -48,14 +59,37 @@ function fncAddAfterAsh(){
 	$("form").attr("method","post").attr("action","/afterAsh/addAfterAsh").attr("enctype","multipart/form-data").submit();
 }
 
+// $(function () {
+// 	$("#submit").on("click", function () {
+// 		if (confirm("등록하시겠습니까?") == true){    //확인
+// 			fncAddAfterAsh();
+// 		  }else{   //취소
+// 		      return;
+// 		  }
+// 	});
+// })
 $(function () {
 	$("#submit").on("click", function () {
-		if (confirm("등록하시겠습니까?") == true){    //확인
-			fncAddAfterAsh();
-		  }else{   //취소
-		      return;
-		  }
+		$( "#dialog-confirm" ).dialog( "open" );
 	});
+})
+$(function () {
+	    $( "#dialog-confirm" ).dialog({
+	    	dialogClass: "no-close",
+	    	autoOpen: false,
+	        resizable: false,
+	        height: "auto",
+	        width: 400,
+	        modal: true,	
+	        buttons: {
+	          "확인": function() {
+	        	  fncAddAfterAsh();
+	          },
+	          "취소": function() {
+	            $( this ).dialog( "close" );
+	          }
+	        }
+	      });
 })
 
 
@@ -227,7 +261,9 @@ $(function () {
 	</section>
 	<!-- end content section -->
 
-
+<div id="dialog-confirm" title="동물교감치유 후기 등록">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>게시글을 등록하시겠습니까?</p>
+</div>
 
 
 

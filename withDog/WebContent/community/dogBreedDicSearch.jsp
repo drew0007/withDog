@@ -391,6 +391,7 @@ $(function () {
 						method : "GET" ,
 						dataType : "json",
 						success : function (data) {
+							console.log(data)
 							 googleVisionByImageURI(data.items[0].pagemap.cse_image[0].src)
 							 
 						}

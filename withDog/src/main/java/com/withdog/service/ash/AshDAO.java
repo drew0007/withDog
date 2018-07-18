@@ -16,7 +16,10 @@ public interface AshDAO {
 	public void updateHealingDog(HealingDog healingDog) throws Exception;
 
 	public List<HealingDog> getHealingDogList() throws Exception;
+	
+	public List<HealingDog> getHealingDogList(Search search) throws Exception;
 
+	public List<HealingDog> getHealingDogListByDate(String ashReservationDate) throws Exception;
 	// ÄÁ¼³ÆÃ
 	public void addConsulting(Consulting consulting) throws Exception;
 
@@ -28,10 +31,20 @@ public interface AshDAO {
 	public Ash getAshReservation(int ashReservationNo) throws Exception;
 
 	public List<Ash> getAshReservationList(Search search) throws Exception;
+	
+	
+	
+	public List<Ash> getAllAshReservationList() throws Exception;
 
 	public List<Ash> getAshReservationAdminList(Search search) throws Exception;
 
 	public Ash getAshReservationAdmin(int ashReservationNo) throws Exception;
+	
+	public Ash getAshReservationTime(int healingDogNo, String ashReservationDate) throws Exception;
+	
+	public Ash getAshReservationTimeCount(int healingDogNo, String ashReservationDate) throws Exception;
+	
+	public List<Ash> getAshReservationByHealingDog(int healingDogNo) throws Exception;
 
 	public void updateAshReservationAdmin(Ash ash) throws Exception;
 
@@ -40,5 +53,7 @@ public interface AshDAO {
 	public Ash getAshMyReservation(Ash ash) throws Exception;
 
 	public void updateAshMyReservation(Ash ash) throws Exception;
+	
+	public int getTotalCount(Search search) throws Exception;
 
 }

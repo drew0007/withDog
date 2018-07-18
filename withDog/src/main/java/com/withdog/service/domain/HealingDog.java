@@ -9,6 +9,7 @@ public class HealingDog {
 	private String healingDogChar;
 	private String healingDogimage;
 	private String healingDogHealer;
+	private String healingDogReservCount;
 
 	public int getHealingDogNo() {
 		return healingDogNo;
@@ -74,11 +75,20 @@ public class HealingDog {
 		this.healingDogHealer = healingDogHealer;
 	}
 
+	public String getHealingDogReservCount() {
+		return healingDogReservCount;
+	}
+
+	public void setHealingDogReservCount(String healingDogReservCount) {
+		this.healingDogReservCount = healingDogReservCount;
+	}
+
 	@Override
 	public String toString() {
 		return "HealingDog [healingDogNo=" + healingDogNo + ", healingDogBreed=" + healingDogBreed + ", healingDogName="
 				+ healingDogName + ", healingDogBirth=" + healingDogBirth + ", healingDogGender=" + healingDogGender
 				+ ", healingDogChar=" + healingDogChar + ", healingDogimage=" + healingDogimage + ", healingDogHealer="
-				+ healingDogHealer + "]";
+				+ healingDogHealer + ", healingDogReservCount=" + healingDogReservCount + "]";
 	}
+
 }

@@ -7,6 +7,10 @@
 		
 		<!-- animation --> 
         <link rel="stylesheet" href="../css/animate.css" />
+        <!-- 장원 캘린더 -->
+        <link href='/css/fullcalendar.css' rel='stylesheet' /> 
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        
         <!-- bootstrap --> 
         <link rel="stylesheet" href="../css/bootstrap.css" />
         <!-- et line icon --> 

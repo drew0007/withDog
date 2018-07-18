@@ -28,7 +28,7 @@ $(function () {
 	$("#fd-but-afterASHDate").attr('class','fa fa-calendar small-icon form-group');
 })
 
-function fncAddAfterAsh(){
+function fncUpdateAfterAsh(){
 	//Form 유효성 검증
  	var healingDog = $('#healingDog option:selected').val();
 	var afterASHTitle = $('input[name=afterASHTitle]').val();
@@ -54,7 +54,7 @@ function fncAddAfterAsh(){
 $(function () {
 	$("#submit").on("click", function () {
 		if (confirm("수정하시겠습니까?") == true){    //확인
-			fncAddAfterAsh();
+			fncUpdateAfterAsh();
 		  }else{   //취소
 		      return;
 		  }
