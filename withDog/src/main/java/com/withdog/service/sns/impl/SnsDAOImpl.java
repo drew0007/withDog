@@ -20,31 +20,18 @@ import com.withdog.service.sns.SnsDAO;
 public class SnsDAOImpl implements SnsDAO {
 
 	@Override
-	public JSONObject kakaoPay(Point point,String uri) throws Exception {
+	public JSONObject kakaoPay(Point point,MultiValueMap<String, String> params) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("=========================SNSDAO Start=========================");
 		
 		JSONObject jobj = new JSONObject();
 		
-		if(point.getFund().getFundTitle()!=null) {
+		
 			System.out.println("Fund purchase Start");
-			if(point.getFund().getFundMyPrice()!=0) {
+			
 			String HOST = "https://kapi.kakao.com";
 		    RestTemplate restTemplate = new RestTemplate();
 		    
-		    // 서버로 요청할 내용 (Body)
-		    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-		    params.add("cid", "TC0ONETIME");
-		    params.add("partner_order_id","admin");
-		    params.add("partner_user_id",point.getUser().getUserId());
-		    params.add("item_name",point.getFund().getFundTitle());
-		    params.add("quantity", "1");//수량
-		    params.add("total_amount", new String(point.getFund().getFundMyPrice()+"").trim());
-		    params.add("tax_free_amount", "0");//세금
-		    params.add("approval_url", "http://192.168.0.42:8080/fund/fundReceipt?title="+point.getFund().getFundTitle()+"&price="+point.getFund().getFundMyPrice()+"&usePoint="+point.getUsePoint());
-		    params.add("cancel_url", "http://127.0.0.1:8080/purchase/json/paycancel");
-		    params.add("fail_url", "http://127.0.0.1:8080/purchase/json/fail");
-		
 		    // 서버로 요청할 Header
 		    HttpHeaders headers = new HttpHeaders();
 		    headers.add("Authorization", "KakaoAK " + "e429428556e2835e02b9dcd4f7f55174");
@@ -60,14 +47,8 @@ public class SnsDAOImpl implements SnsDAO {
 		    ObjectMapper obj = new ObjectMapper();
 		   jobj = (JSONObject)JSONValue.parse(response);
 		    System.out.println(jobj.get("tid"));
-		  		    
-		  
+		
 			
-			}
-			
-		}else {
-			jobj = null;	
-			}
 		return jobj;
 	}
 	

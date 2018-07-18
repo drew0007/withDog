@@ -6,6 +6,8 @@ import com.withdog.service.domain.Point;
 
 public interface SnsService {
 	
-	public JSONObject kakaoPay(Point point,String uri) throws Exception;
+	public JSONObject FundkakaoPay(Point point,String uri) throws Exception;
+	public JSONObject AshkakaoPay(Point point,String uri) throws Exception;
+	public JSONObject PurchasekakaoPay(Point point,String uri) throws Exception;
 		
 }

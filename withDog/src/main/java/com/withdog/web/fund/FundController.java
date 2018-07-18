@@ -409,9 +409,9 @@ public class FundController {
 		
 		if(pointfund.getFund().getFundMyPrice()!=0) {
 		System.out.println(123);
-		String uri ="forward:/fund/fundReceipt?title=";
+		String uri ="http://192.168.0.42:8080/fund/fundReceipt?title=";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-	    JSONObject jobj = snsService.kakaoPay(pointfund, uri);;
+	    JSONObject jobj = snsService.FundkakaoPay(pointfund, uri);;
 	    System.out.println(jobj.get("tid"));
 	    String url = (String)jobj.get("next_redirect_pc_url");
 	    System.out.println(url);
