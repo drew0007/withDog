@@ -1,7 +1,10 @@
 package com.withdog.service.sns;
 
+import org.json.simple.JSONObject;
+
+import com.withdog.service.domain.Point;
 
 public interface SnsDAO {
 	
-	public void kakaoPay(Object obj) throws Exception;
+	public JSONObject kakaoPay(Point point,String uri) throws Exception;
 }

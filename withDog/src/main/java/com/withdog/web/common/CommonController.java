@@ -132,6 +132,7 @@ public class CommonController {
 		request.setAttribute("resultList", resultList);
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
+		
 		request.setAttribute("myPageState", "11");
 		
 		

@@ -40,6 +40,7 @@
 	function sendFile(file, el) {
 		var form_data = new FormData();
       	form_data.append('file', file);
+      	console.log(form_data);
       	$.ajax({
         	data: form_data,
         	type: "POST",
