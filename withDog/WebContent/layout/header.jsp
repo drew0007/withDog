@@ -165,6 +165,7 @@
                                         <li><a href="/fund/getFundResultList">펀딩완료목록</a></li>
                                         <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>
                                     </ul>
+                                    </ul>
                                     <!-- end sub menu item  -->
                                     <!-- end sub menu single -->
                                 </li>
