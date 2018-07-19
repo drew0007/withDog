@@ -33,9 +33,9 @@ public class SnsServiceImpl implements SnsService{
 	    params.add("quantity", "1");//수량
 	    params.add("total_amount", new String(point.getFund().getFundMyPrice()+"").trim());
 	    params.add("tax_free_amount", "0");//세금
-	    params.add("approval_url", uri+point.getFund().getFundTitle()+"&price="+point.getFund().getFundMyPrice()+"&usePoint="+point.getUsePoint());
-	    params.add("cancel_url", "http://127.0.0.1:8080/purchase/json/paycancel");
-	    params.add("fail_url", "http://127.0.0.1:8080/purchase/json/fail");
+	    params.add("approval_url", uri+"0");
+	    params.add("cancel_url", uri+"1");
+	    params.add("fail_url", uri+"2");
 		
 		return snsDAO.kakaoPay(point,params);
 	}

@@ -313,8 +313,9 @@ public class QuickRestController {
 	            
 	            String temp="";
 	            int a=0;
-	            if(jsonArray.size()>=5) {
-	            	a=jsonArray.size();
+	            if(jsonArray.size()>7) {
+	            	//a=jsonArray.size();//전부받기
+	            	a=7;
 	            }else {
 	            	a=jsonArray.size();
 	            }
@@ -473,6 +474,69 @@ public class QuickRestController {
 	               
 	        return pinfolast;
 	    
+	}
+	
+	@RequestMapping(value = "json/ARDistance")
+	public JSONObject ARDistance(HttpServletRequest request) throws Exception{
+		
+		System.out.println("////////////////googleDistance Start /////////////////////////////");
+		System.out.println(request.getParameter("lng"));
+		System.out.println(request.getParameter("lat"));
+		if(request.getParameter("lng")!=null) {
+		String clat=request.getParameter("lat");
+		String clng=request.getParameter("lng");
+		}else {
+		String clat="37.494541";
+		String clng="127.027969";	
+		}
+		
+		
+		String apiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=37.494541,127.027969&destinations=37.497942,127.027621&mode=transit&language=ko-ko&key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE"; //json
+        
+        URL url = new URL(apiURL);
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Accept", "application/json");
+        con.setRequestProperty("Content-Type", "application/json");
+        int responseCode = con.getResponseCode();
+        BufferedReader br;
+        if(responseCode==200) { // 정상 호출
+            br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+        } else {  // 에러 발생
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream(),"UTF-8"));
+        }
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            response.append(inputLine);
+        }
+        br.close();
+        
+        
+        JSONObject jobj = new JSONObject();
+        jobj = (JSONObject)JSONValue.parse(response.toString());
+        System.out.println(jobj.get("rows"));
+        String temp1=((JSONArray)jobj.get("destination_addresses")).get(0).toString();
+        String temp2 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("duration")).get("text").toString();
+        String temp3 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("text").toString();
+        System.out.println(((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("duration")).get("text"));
+        System.out.println(((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("text"));
+		
+      
+                
+        JSONObject resjobj = new JSONObject();
+   
+        System.out.println(1);
+        resjobj.put("address", temp1);
+        System.out.println(2);
+        resjobj.put("mins", temp2);
+        System.out.println(3);
+        resjobj.put("distance", temp3);
+        System.out.println(4);
+		
+        System.out.println(resjobj.toString());
+        
+		return resjobj;
 	}
 
 }

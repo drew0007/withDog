@@ -36,8 +36,10 @@ $(function(){
 		
 		
 		/* self.location.href="/fund/kakaoPay?fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price; */
-		popWin 
+		
+		 popWin 
 		= window.open("/fund/kakaoPay?fundNo="+No+"&fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price,"popWin", "left=300,width=500,height=300,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		
 		
 	});
 	

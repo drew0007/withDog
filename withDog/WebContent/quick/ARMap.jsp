@@ -65,11 +65,11 @@
 					$("#top").append("<img alt=\"\" src=\"../images/quick/title.png\" width=\"100%\" height=\"40px\">");
 					
 					$("#place").append("<p class=\"bg-info\" align=\"center\">주 &nbsp;&nbsp;&nbsp;&nbsp; 변 &nbsp;&nbsp;&nbsp;&nbsp; 검 &nbsp;&nbsp;&nbsp;&nbsp; 색</p>");
-					$("#place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"65\" height=\"75\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"65\" height=\"75\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"60\" height=\"75\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"65\" height=\"75\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"65\" height=\"75\"></a>");
+					$("#place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"65\" height=\"75\" id=\"s\"></a>&nbsp;");
+					$("#place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"65\" height=\"75\" id=\"s\"></a>&nbsp;");
+					$("#place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"60\" height=\"75\" id=\"s\"></a>&nbsp;");
+					$("#place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"65\" height=\"75\" id=\"s\"></a>&nbsp;");
+					$("#place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"65\" height=\"75\" id=\"s\"></a>");
 					
 										
 				}else{
@@ -79,11 +79,11 @@
 					$("#top").append("<img alt=\"\" src=\"../images/quick/title.png\" width=\"100%\" height=\"100px\">");
 					
 					$("#place").append("<p class=\"bg-info\">주 변 검 색</p>");
-					$("#place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"90\" height=\"100\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"90\" height=\"100\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"90\" height=\"100\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"90\" height=\"100\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"90\" height=\"100\"></a><hr/>");
+					$("#place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
+					$("#place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
+					$("#place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"90\" height=\"100\"id=\"s\"></a><hr/>");
+					$("#place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
+					$("#place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
 		 
 				}
 			
@@ -147,6 +147,7 @@
     	  self.location.href="http://maps.google.com/maps";
       }
       
+ 	  
        
       
       var placelat = new Array();
@@ -167,6 +168,9 @@
       var culat;
       var culng;
  
+      
+      
+      
       
       function initMap() {
     	  directionsService = new google.maps.DirectionsService;
@@ -279,10 +283,11 @@
         console.log(neighborhoods)
     	  clearMarkers();
        
-        
+     
         for (var i = 0; i < neighborhoods.length; i++) {
           addMarkerWithTimeout(neighborhoods[i], i * 200);
           console.log(neighborhoods[i])
+     
         }
         
         for (var i = 0; i < placelat.length; i++) {
@@ -343,7 +348,7 @@
       /* 경로받기 자원 */
       var dislng;
       var dislat;
-      var arlng;
+      var arlng; 
       var arlat;
       /* 여기까지 */
       var tempName = new Array();
@@ -352,7 +357,18 @@
       var tem1;
       var tem2;
        /* 마크닫기 */
-      
+       
+       
+      $(function(){
+     	 $(document).on("click","#s",function(){
+     		map.setZoom(15);
+     		
+      	 });
+ 
+  	var uluru = {lat:arlat,lng:arlng}
+    var marker = new google.maps.Marker({position: uluru, map: map});
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+       });
       
        function addMarkerWithTimeout(position, timeout) {
     	
@@ -362,10 +378,7 @@
       	  tempaddress[i]= plplace[temp];         
           
         	temp+=1;
-             console.log("도착지이름")
-        	console.log(tempName);
-            console.log(tempaddress);
-        	
+           	
           markers.push(marker[i]=new google.maps.Marker({
             position: position,
             map: map,
@@ -379,8 +392,7 @@
           console.log(marker[i].index);
           
           marker[i].addListener('click', function() {
-        	  
-        	  
+        	    
         	  
         	  for(var i=0;i<templat.length;i++){
         	  infowindow[i].close();      	  
