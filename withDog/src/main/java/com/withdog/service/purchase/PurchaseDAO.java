@@ -1,17 +1,17 @@
-//package com.withdog.service.purchase;
-//
-//import java.util.List;
-//
-//import com.withdog.common.Search;
-//import com.withdog.service.domain.Purchase;
-//
-//
-//
-//public interface PurchaseDAO {
-//
-//	// INSERT 상품구매
-//	public void addPurchase(Purchase  purchase) throws Exception ;
-//
+package com.withdog.service.purchase;
+
+import java.util.List;
+
+import com.withdog.common.Search;
+import com.withdog.service.domain.Purchase;
+
+
+
+public interface PurchaseDAO {
+
+	// INSERT 상품구매
+	public void addPurchase(Purchase  purchase) throws Exception ;
+
 //	// SELECT ONE 구매 상세조회 
 //	public Purchase getPurchase(int purchaseNo) throws Exception ;
 //
@@ -32,6 +32,6 @@
 //
 //	//구매코드 변경 
 //	public void updatePurchaseCondition(Purchase purchase) throws Exception ;
-//
-//	
-//}
+
+	
+}

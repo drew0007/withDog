@@ -177,8 +177,8 @@ $(function(){
                                             <!-- sub menu item  -->
                                             <ul>
                                                 <li class="dropdown-header">스토어</li>
-                                                <li><a href="../store/listProduct.jsp">애견용품 </a></li>
-                                                <li><a href="../store/listProduct2.jsp">애견식품<span class="menu-new">new</span></a></li>
+                                                <li><a href="#">애견용품 </a></li>
+                                                <li><a href="#">애견식품<span class="menu-new">new</span></a></li>
                                             </ul>
                                             <!-- end sub menu item  -->
                                         </li>

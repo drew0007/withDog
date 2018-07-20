@@ -5,18 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-//@Repository("purchaseDaoImpl")
-public class PurchaseDaoImpl {
+import com.withdog.service.domain.Purchase;
+import com.withdog.service.purchase.PurchaseDAO;
+
+
+@Repository("purchaseDAOImpl")
+public class PurchaseDAOImpl implements PurchaseDAO{
 	
-//	@Autowired
-//	@Qualifier("sqlSessionTemplate")
+	@Autowired
+	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 	
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 	
-	public PurchaseDaoImpl() {
+	public PurchaseDAOImpl() {
 		System.out.println(this.getClass());
+	}
+	
+	public void addPurchase(Purchase purchase) throws Exception {
+		System.out.println("펄체이스 다오 시작");
+		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
 	}
 }

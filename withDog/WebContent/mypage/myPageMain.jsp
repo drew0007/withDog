@@ -72,113 +72,16 @@
         <!-- content section -->
         <section class="wow fadeIn">
             <div class="container">
-                <div class="row col-md-3 col-sm-4">
+                <div class="row">
                 
-                    <!-- sidebar  -->
-                    <div class="col-md-8 col-sm-8 sidebar">
-                       
-                        <!-- widget  -->
-                        <div class="widget">
-                            <h5 class="widget-title font-alt">My 쇼핑</h5>
-                            <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-                            <div class="widget-body">
-                                <ul class="category-list">
-                                    <li><a href="">나의 구매내역</a></li>
-                                    <li><a href="">취소/반품내역</a></li>
-                                    <li><a href="">나의 문의 내역</a></li>
-                                    <li><a href="../store/listCart.jsp">장바구니</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end widget  -->
-                        
-                         <!-- widget  -->
-                        <div class="widget">
-                            <h5 class="widget-title font-alt">My 후원</h5>
-                            <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-                            <div class="widget-body">
-                                <ul class="category-list">
-                                    <li><a href="#">나의 후원내역</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end widget  -->
-                        
-                        <!-- widget  -->
-                        <div class="widget">
-                            <h5 class="widget-title font-alt">My 예약</h5>
-                            <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-                            <div class="widget-body">
-                                <ul class="category-list">
-                                    <li><a href="">나의 예약내역</a></li>
-                                    <li><a href="">영상상담신청내역</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end widget  -->
-                        
-                        <!-- widget  -->
-                        <div class="widget">
-                            <h5 class="widget-title font-alt">My 정보</h5>
-                            <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-                            <div class="widget-body">
-                                <ul class="category-list">
-                                    <li><a href="#">나의 정보 확인</a></li>
-                                    <li><a href="#">비밀번호 수정</a></li>
-                                    <li><a href="#">회원탈퇴</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end widget  -->
-                        
-                        <!-- widget  -->
-                        <div class="widget">
-                            <h5 class="widget-title font-alt">My 포인트</h5>
-                            <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-                            <div class="widget-body">
-                                <ul class="category-list">
-                                    <li><a href="#">나의 포인트 내역</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end widget  -->
-                        </div>
-					</div>
-					<input type="hidden" id="myPageState" name="myPageState" value="">
-					
-					<c:if test="${myPageState =='5'}">
-						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../fund/listMyFund.jsp" />
-						</div>
-					</c:if>
-					
-					<c:if test="${myPageState =='8'}">
-						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../user/getUser.jsp" />
-						</div>
-					</c:if>
-					
-					<c:if test="${myPageState =='9'}">
-						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../user/updatePassword.jsp" />
-						</div>
-					</c:if>
-					
-					
-					<c:if test="${myPageState =='10'}">
-						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../user/deleteUser.jsp" />
-						</div>
-					</c:if>
-										
-					<c:if test="${empty myPageState || myPageState =='11'}">
-						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../mypage/listMyPoint.jsp" />
-						</div>
-					</c:if>
-					
+                	<!-- sidebar  -->
+					<div class="col-md-2 col-sm-3 sidebar">
+						<jsp:include page="/layout/mypage-sideBar.jsp" />
 					</div>
 					<!-- end sidebar  -->
+
+         		</div>
+         	</div>      
 		</section>			
         <!-- end content section -->
         

@@ -38,6 +38,10 @@
 	 	$("a:contains('나의 포인트 내역')").on("click",function(){
 	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
 	 	});
+	 	
+	 	$("a:contains('상품문의관리리스트')").on("click",function(){
+	 		$(self.location).attr("href","/inquiry/getInquiryListAdmin");	 			 		
+	 	});
 	});
 	
 	</script>
@@ -83,10 +87,8 @@
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="">나의 구매내역</a></li>
-                                    <li><a href="">취소/반품내역</a></li>
-                                    <li><a href="">나의 문의 내역</a></li>
-                                    <li><a href="../store/listCart.jsp">장바구니</a></li>
+                                    <li><a href="#">구매관리리스트</a></li>
+                                    <li><a href="#">상품문의관리리스트</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -134,6 +136,8 @@
                        
                         </div>
 					</div>
+					
+					
 					<input type="hidden" id="myPageState" name="myPageState" value="">
 					
 					<c:if test="${myPageState =='5'}">

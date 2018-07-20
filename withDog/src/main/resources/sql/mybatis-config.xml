@@ -26,6 +26,7 @@
 		<typeAlias alias="healingDog" type="com.withdog.service.domain.HealingDog" />
 		<typeAlias alias="afterAsh" type="com.withdog.service.domain.AfterAsh" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
+		<typeAlias alias="inquiry" type="com.withdog.service.domain.Inquiry" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -38,6 +39,7 @@
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/ASHMapper.xml"/>
 		<mapper resource="sql/AfterASHMapper.xml"/>
+		<mapper resource="sql/InquiryMapper.xml"/>
 		
 	</mappers>
 

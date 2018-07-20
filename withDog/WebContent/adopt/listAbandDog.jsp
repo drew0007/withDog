@@ -39,161 +39,191 @@
         <!-- content section -->
         <section id="key-person" class="no-padding-top animate slow-mo even fadeIn" data-anim-type="fadeIn" data-anim-delay="200">
         
-        	<!-- highlight section
-		        <section class="bg-fast-yellow">
-		            <div class="container">
-		                <div class="row sm-text-center">
-		                    
-		                    <div class="col-md-3 col-sm-3 pull-left no-margin">
-                                <div class="select-style input-round med-input no-border">
-                                    <select>
-                                        <option value="">견종</option>
-                                        <option value="">골든리트리버</option>
-                                        <option value="">블독</option>
-                                    </select>
-                                </div>
-                        </div>
-                        
-                        <div class="col-md-3 col-sm-3 pull-left no-margin">
-                                <div class="select-style input-round med-input no-border">
-                                    <select>
-                                        <option value="">보호소위치</option>
-                                        <option value="">서울특별시</option>
-                                        <option value="">경기도</option>
-                                    </select>
-                                </div>
-                        </div>
-		                    <div class="col-md-5 no-padding">
-		                        <a class="highlight-button btn btn-medium button xs-margin-bottom-five xs-no-margin-right input-round pull-right" href="#">상세조건</a>
-		                    </div>
-		                </div>
-		            </div>
-		        </section>
-		        end highlight section -->
+	        	<!-- search -->
+	        	<section class="bg-deep padding-three">
+	            <div class="container ">
+	                <div class="row sm-text-center no-margin">
+	                    
+	                    <div class="col-md-3 col-sm-3 pull-left no-margin" style="height:47px">
+	                              <div class="select-style input-round med-input">
+	                                  <select>
+	                                      <option value="">견종</option>
+	                                      <option value="">골든리트리버</option>
+	                                      <option value="">블독</option>
+	                                  </select>
+	                              </div>
+	                      </div>
+	                      
+	                      <div class="col-md-3 col-sm-3 pull-left no-margin"style="height:47px">
+	                              <div class="select-style input-round med-input" >
+	                                  <select>
+	                                      <option value="">보호소위치</option>
+	                                      <option value="">서울특별시</option>
+	                                      <option value="">경기도</option>
+	                                  </select>
+	                              </div>
+	                      </div>
+	                      
+	                       <a class="highlight-button btn btn-medium button xs-margin-bottom-five xs-no-margin-right input-round pull-right popup-with-zoom-anim" href="#modal-popup" >상세조건</a>
+
+					</div>
+					
+	            </div>
+
+				<!-- 상세조건 팝업 -->
+				<div class="col-md-9 col-sm-9 no-padding margin-five">
+			
+					<div class="col-lg-3 col-md-4 col-sm-5 center-col text-center">
+						<div id="modal-popup"
+							class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main">
+			
+							<div>
+								<span class="black-text">웹페이지 메시지</span>
+								<p class="borderline-gray"></p>
+							</div>
+							
+							<form>
+							
+								<!-- 조건 1 -->
+								<div class="form-group no-margin-bottom">
+									<!-- input  -->
+									<div class="text-center col-md-12 clearfix">
+										<div class="no-padding pull-left">
+										<label class="font-weight-600" style="margin-top:14px;">성별</label>
+										</div>
+										<div class="pull-right no-padding" style="display: flex;  justify-content: center; align-items: center;	">
+											<input type="radio" name="radio" id="radio1" class="checkbox">
+											<label for="radio1" class="input-label radio">남아</label>
+											<input type="radio" name="radio" id="radio2" class="checkbox">
+											<label for="radio2" class="input-label radio">여아</label>
+										</div>
+									</div>
+									<!-- end input  -->
+								</div>
+								<!-- end 조건 1 -->
+								
+								<!-- 조건 2 -->
+								<div class="form-group no-margin-bottom">
+									<!-- input  -->
+									<div class="text-center col-md-12 clearfix">
+										<div class="no-padding pull-left">
+										<label class="font-weight-600" style="margin-top:14px;">상태</label>
+										</div>
+										<div class="pull-right no-padding" style="display: flex;  justify-content: center; align-items: center;">
+											<span class="pull-right text-right">
+											<input type="radio" name="radio" id="radio3" class="checkbox">
+											<label for="radio3" class="input-label radio">공고중</label>
+											<input type="radio" name="radio" id="radio4" class="checkbox">
+											<label for="radio4" class="input-label radio">보호중</label>
+											</span>
+										</div>
+									</div>
+									<!-- end input  -->
+								</div>
+								<!-- end 조건 2 -->
+								
+								
+								
+							</form>
+			
+							<!-- 버튼 -->
+							<div class="text-center no-margin-bottom">
+								<a href="#"
+									class="highlight-button btn btn-medium no-margin-bottom">CANCEL</a>
+								<a href="#" class="highlight-button-dark btn btn-medium no-margin">OK</a>
+							</div>
+							<!-- end 버튼 -->
+			
+						</div>
+					</div>
+			
+				</div>
+				<!-- end 상세조건 팝업 -->
+						
+	            </section>
+		        <!-- end search -->
 		        
-            	<div class="container">
-                <div class="row margin-five no-margin-bottom">
-                    <!-- model -->
-                    <div class="col-md-6 col-sm-6 xs-margin-bottom-ten">
-                        <div class=" model-details clearfix xs-no-margin">
-                            <div class="col-md-6 no-padding">
-                                <img src="http://placehold.it/700x853" alt=""/>
-                            </div>
-                            <div class="col-md-6 no-padding">
-                                <div class="model-details-text">
-                                    <div class="separator-line bg-black no-margin-lr margin-ten"></div>
-                                    <span class="margin-ten display-block clearfix xs-no-margin sm-display-none dog-num"></span>
-                                    <span class="font-weight-600 title-small">품종 : 진도견</span>
-                                    <span class="text-small letter-spacing-2 margin-three display-block"><span class="text-small display-block margin-two-bottom">공고번호</span>경북-경주-2018-00591</span>
-                                    <p class="margin-ten"><span class="text-small display-block margin-two-bottom">발견장소</span>교문화원 앞 강변도로에서발견</p>
-                                    <span class="margin-ten display-block clearfix xs-no-margin"></span>
-                                    <a class="highlight-button-dark btn btn-very-small no-margin" href="#">Read More</a>
-                                </div>
-                            </div>
+				<section class="work-3col gutter work-with-title wide wide-title no-padding">
+		        <div class="container-fluid margin-five no-margin-bottom">
+                <div class="row">
+                    <div class="col-md-10 overflow-hidden no-padding center-col" >
+                        <div class="tab-content">
+                            <!-- work grid -->
+                            <ul class="grid masonry-items">
+                                <!-- work item -->
+                                <li>
+                                    <figure>
+                                        <div class="gallery-img"><a href="#"><img src="http://placehold.it/800x500" alt=""></a></div>
+                                        <figcaption>
+                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
+                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <!-- end work item -->
+                                <!-- work item -->
+                                <li>
+                                    <figure>
+                                        <div class="gallery-img"><a href="single-project-page2.html"><img src="http://placehold.it/800x500" alt=""></a></div>
+                                        <figcaption>
+                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
+                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <!-- end work item -->
+                                <!-- work item -->
+                                <li>
+                                    <figure>
+                                        <div class="gallery-img"><a href="single-project-page3.html"><img src="http://placehold.it/800x500" alt=""></a></div>
+                                        <figcaption>
+                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
+                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <!-- end work item -->
+                                <!-- work item -->
+                                <li>
+                                    <figure>
+                                        <div class="gallery-img"><a href="single-project-page4.html"><img src="http://placehold.it/800x500" alt=""></a></div>
+                                        <figcaption>
+                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
+                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <!-- end work item -->
+                                <!-- work item -->
+                                <li>
+                                    <figure>
+                                        <div class="gallery-img"><a href="single-project-page5.html"><img src="http://placehold.it/800x500" alt=""></a></div>
+                                        <figcaption>
+                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
+                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <!-- end work item -->
+                                <!-- work item -->
+                                <li>
+                                    <figure>
+                                        <div class="gallery-img"><a href="single-project-page1.html"><img src="http://placehold.it/800x500" alt=""></a></div>
+                                        <figcaption>
+                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
+                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <!-- end work item -->
+                            </ul>
+                            <!-- end work grid -->
                         </div>
                     </div>
-                    <!-- end model -->
-                    <!-- model -->
-                    <div class="col-md-6 col-sm-6 xs-margin-bottom-ten">
-                        <div class=" model-details clearfix xs-no-margin">
-                            <div class="col-md-6 no-padding">
-                                <img src="http://placehold.it/700x853" alt=""/>
-                            </div>
-                            <div class="col-md-6 no-padding">
-                                <div class="model-details-text">
-                                    <div class="separator-line bg-black no-margin-lr margin-ten"></div>
-                                    <span class="margin-ten display-block clearfix xs-no-margin sm-display-none"></span>
-                                    <span class="text-uppercase font-weight-600 black-text letter-spacing-2">Marika Merry</span>
-                                    <span class="text-uppercase text-small letter-spacing-2 margin-three display-block">Fashion / Modeling</span>
-                                    <p class="margin-ten">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    <span class="margin-ten display-block clearfix xs-no-margin"></span>
-                                    <a class="highlight-button-dark btn btn-very-small no-margin" href="#">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end model -->
-                    <!-- model -->
-                    <div class="col-md-6 col-sm-6 xs-margin-bottom-ten">
-                        <div class=" model-details no-margin clearfix xs-no-margin">
-                            <div class="col-md-6 no-padding">
-                                <img src="http://placehold.it/700x853" alt=""/>
-                            </div>
-                            <div class="col-md-6 no-padding">
-                                <div class="model-details-text">
-                                    <div class="separator-line bg-black no-margin-lr margin-ten"></div>
-                                    <span class="margin-ten display-block clearfix xs-no-margin sm-display-none"></span>
-                                    <span class="text-uppercase font-weight-600 black-text letter-spacing-2">Julia Trento</span>
-                                    <span class="text-uppercase text-small letter-spacing-2 margin-three display-block">Fashion / Modeling</span>
-                                    <p class="margin-ten">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    <span class="margin-ten display-block clearfix xs-no-margin"></span>
-                                    <a class="highlight-button-dark btn btn-very-small no-margin" href="#">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end model -->
-                    <!-- model -->
-                    <div class="col-md-6 col-sm-6">
-                        <div class=" model-details no-margin clearfix">
-                            <div class="col-md-6 no-padding">
-                                <img src="http://placehold.it/700x853" alt=""/>
-                            </div>
-                            <div class="col-md-6 no-padding">
-                                <div class="model-details-text">
-                                    <div class="separator-line bg-black no-margin-lr margin-ten"></div>
-                                    <span class="margin-ten display-block clearfix xs-no-margin sm-display-none"></span>
-                                    <span class="text-uppercase font-weight-600 black-text letter-spacing-2">Cassie Moldoe</span>
-                                    <span class="text-uppercase text-small letter-spacing-2 margin-three display-block">Fashion / Modeling</span>
-                                    <p class="margin-ten">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    <span class="margin-ten display-block clearfix xs-no-margin"></span>
-                                    <a class="highlight-button-dark btn btn-very-small no-margin" href="#">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end model -->
                 </div>
             </div>
+		        </section>
                 
-                	<!-- dog 01 -->
-                    <div class="col-md-4 col-xs-4 bottom-margin text-center">
-                        <div class="key-person">
-                            <div class="key-dog-img"><img src="http://placehold.it/500x400" alt=""></div>
-                            <div class="key-dog-details"> <span class="dog-num black-text">경북-경주-2018-00591</span> <span class="dog-receipt">접수일 2018-07-08</span>
-                                <div class="separator-line bg-fast-yellow"></div>
-                                <p>품종 : 진도견<br/>발견장소 : 교문화원 앞 강변도로에서발견</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end dog 01 -->
-                    
-                    <!-- dog 02 -->
-                    <div class="col-md-4 col-xs-4 bottom-margin text-center">
-                        <div class="key-person">
-                            <div class="key-dog-img"><img src="http://placehold.it/500x400" alt=""></div>
-                            <div class="key-dog-details"> <span class="dog-num black-text">경북-경주-2018-00591</span> <span class="dog-receipt">접수일 2018-07-08</span>
-                                <div class="separator-line bg-fast-yellow"></div>
-                                <p>품종 : 진도견<br/>발견장소 : 교문화원 앞 강변도로에서발견</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end dog 02 -->
-                    
-                    <!-- dog 03 -->
-                    <div class="col-md-4 col-xs-4 text-center">
-                        <div class="key-person">
-                            <div class="key-dog-img"><img src="http://placehold.it/500x400" alt=""></div>
-                            <div class="key-dog-details"> <span class="dog-num black-text">경북-경주-2018-00591</span> <span class="dog-receipt">접수일 2018-07-08</span>
-                                <div class="separator-line bg-fast-yellow"></div>
-                                <p>품종 : 진도견<br/>발견장소 : 교문화원 앞 강변도로에서발견</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end dog 03 -->
-                    
-                    
-                    
              		<!-- pagination -->
                     <div class="pagination margin-ten no-margin">
                        <a href="#"><img src="../images/arrow-pre-small.png" alt=""/></a>

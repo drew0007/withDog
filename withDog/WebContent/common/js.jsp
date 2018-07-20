@@ -11,16 +11,8 @@
 
 <!-- end -->
 <!-- javascript libraries / javascript files set #1 --> 
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/master
         <!-- <script type="text/javascript" src="../js/jquery.min.js"></script> -->
-<<<<<<< HEAD
-        <script type="text/javascript" src="../js/jquery.animateNumber.js"></script>
-=======
-       <script type="text/javascript" src="../js/jquery.animateNumber.js"></script>
->>>>>>> refs/remotes/origin/master
         <script type="text/javascript" src="../js/jquery.animateNumber.min.js"></script>
         <script type="text/javascript" src="../js/modernizr.js"></script>
         <script type="text/javascript" src="../js/bootstrap.js"></script>

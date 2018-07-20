@@ -9,7 +9,7 @@ public class Inquiry {
 	private User user;
 	private Product product;
 	private String inquiryTitle;
-	private String iquiryContent;
+	private String inquiryContent;
 	private Date regDate;
 	private String secret;
 	private String replyCondition;
@@ -40,13 +40,13 @@ public class Inquiry {
 	}
 
 
-	public String getIquiryContent() {
-		return iquiryContent;
+	public String getInquiryContent() {
+		return inquiryContent;
 	}
 
 
-	public void setIquiryContent(String iquiryContent) {
-		this.iquiryContent = iquiryContent;
+	public void setInquiryContent(String inquiryContent) {
+		this.inquiryContent = inquiryContent;
 	}
 
 
@@ -123,7 +123,7 @@ public class Inquiry {
 	@Override
 	public String toString() {
 		return "Inquiry [inquiryNo=" + inquiryNo + ", user=" + user + ", product=" + product + ", inquiryTitle="
-				+ inquiryTitle + ", iquiryContent=" + iquiryContent + ", regDate=" + regDate + ", secret=" + secret
+				+ inquiryTitle + ", inquiryContent=" + inquiryContent + ", regDate=" + regDate + ", secret=" + secret
 				+ ", replyCondition=" + replyCondition + ", inquiryReply=" + inquiryReply + ", deleteFlag=" + deleteFlag
 				+ "]";
 	}

@@ -9,8 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.withdog.common.Search;
 import com.withdog.service.domain.Product;
+import com.withdog.service.domain.User;
 import com.withdog.service.product.ProductDAO;
 
 
@@ -57,17 +60,14 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public List<Product> getProductList(Search search) throws Exception {
+		System.out.println("매퍼들어가기전 서치" + search);
 		return sqlSession.selectList("ProductMapper.getProductList",search);
 	}
 
 	@Override
-	public int getTotalCount(Search search, String prodType) throws Exception {
-		System.out.println("마이바티스전에 프로드타입" + prodType  + "----------------------");
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("prodType", prodType);
-		map.put("a", search);
+	public int getTotalCount(Search search) throws Exception {
 		
-		return sqlSession.selectOne("ProductMapper.getTotalCount", map);
+		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
 //	
 }//end of class

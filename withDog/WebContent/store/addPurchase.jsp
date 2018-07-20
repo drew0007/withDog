@@ -5,8 +5,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="../common/css.jsp" />
-<title>구매하기</title>
+
+<title>구매하기 - 결제정보입력</title>
+
+<script type="text/javascript">
+//"결제하기" 버튼 이벤트 연결
+$(function(){
+	$("#add").on("click", function(){
+		fncAddProduct();
+	});
+});
+
+//도로명 주소  우편번호 검색 클릭시
+$(function(){
+		$("#searchPost").on("click" , function() {
+			alert("sss")
+			var pop = window.open("http://localhost:8080/user/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+		});
+						
+		function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
+			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+// 			alert(roadFullAddr);
+			$("#address1").val("[" + zipNo + "]"+ roadAddrPart1);
+			$("#address2").val(addrDetail);
+		}	
+});
+</script>
 </head>
 <body>
 		
@@ -32,7 +58,7 @@
         
         
         <!-- content section -->
-        <section>
+        <section class="bg-gray-light">
             <div class="container clearfix">
                 <div class="row margin-seven no-margin-top">
                     <div class="col-md-6 col-xs-12 alert-style4 center-col">
@@ -45,7 +71,7 @@
                         <form id="billing-form" method="post" action="javascript:void(0)" name="billing-form">
                             <div class="col-md-12 no-padding">
                                 <label>구매자이름:</label>
-                                <input type="text" name="userName" value="userName">
+                                <input type="text" name="userName" value="${purchase.user.userName}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>수령인:</label>
@@ -53,11 +79,12 @@
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>배송주소:</label>
+                                <span class="text-right" id="postNo"></span>
                             </div>
                             <div class="col-md-12 no-padding">
-                                <input type="text" name="Address1" class="col-md-9">
-                                <button class="highlight-button btn no-margin pull-right post-search">우편번호 검색</button>
-                                <input type="text" name="Address2">
+                                <input type="text" name="address1" id="address1" class="col-md-9">
+                                <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3" id="searchPost" value="우편번호검색">
+                                <input type="text" name="address2" id="address2">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>연락처:</label>
@@ -76,14 +103,18 @@
                                 </div>
                             </div>
                             <div class="col-md-12 no-padding">
-                            <hr/>
+                            	<p class="border-top"></p>
                                 <label>포인트:</label>
-                                <input type="text" name="usePoint"><p class="pull-right">[1000 point 보유]</p>
+                                <input type="text" name="usePoint"><p class="text-right display-block gray-text">[1000 point 보유]</p>
                             </div>
                             <div class="col-md-12 no-padding">
-                            <hr/>
+     	                       <p class="border-top"></p>
                                 <label>결제수단:</label>
-                                <p class="pull-right"><input type="radio" name="kakaoPay" id="kakaoPay" value="kakaoPay" checked>카카오페이</p>
+                                <div class="wrap pull-right">
+									<input type="radio" name="radio" id="radio" class="checkbox" checked>
+									<label for="radio1" class="input-label radio  no-margin-top">카카오페이</label>
+								</div>
+<!--                                 <p class="pull-right"><input type="radio" name="kakaoPay" id="kakaoPay" value="kakaoPay" checked>카카오페이</p> -->
                             </div>
                         </form>
                     </div>
@@ -91,7 +122,7 @@
                 </div>
                 
                 <div class="row margin-five sm-margin-bottom-seven">
-                    <div class="col-sm-12 shop-cart-table">
+                    <div class="col-sm-10 shop-cart-table center-col">
                         <table class="table shop-cart text-center">
                             <thead>
                                 <tr>
@@ -105,16 +136,16 @@
                             <tbody>
                                 <tr>
                                     <td class="product-thumbnail text-left">
-                                        <a href="shop-single-product.html"><img src="http://placehold.it/120x120" alt="" ></a>
+                                        <img src = "/images/store/${product.prodImage}" width="120" height="120"/>
                                     </td>
                                     <td class="text-left">
-                                        <a href="shop-single-product.html">Chasse Wells Italian Genuine Leather Incroyable Tote</a>
-                                        <span class="text-uppercase display-block text-small margin-two">상품번호: 290397</span>
-                                        <a href="shop-single-product.html" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
+                                        <a href="#">${product.prodName}</a>
+                                        <span class="text-uppercase display-block text-small margin-two">상품번호: ${product.prodNo}</span>
+                                        <a href="#" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
                                     </td>
                                     <td class="product-quantity">
                                         <div class="select-style med-input shop-shorting shop-shorting-cart no-border-round">
-                                            <select>
+                                            <select classs="prodQuantity">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -124,33 +155,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td class="product-subtotal text-left">20,000원</td>
-                                    <td class="product-remove text-center">
-                                        <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail text-left">
-                                        <a href="shop-single-product.html"><img src="http://placehold.it/120x120" alt="" ></a>
-                                    </td>
-                                    <td class="text-left">
-                                        <a href="shop-single-product.html">Tundra perforated suede boots</a>
-                                        <span class="text-uppercase display-block text-small margin-two">상품번호: 450365</span>
-                                        <a href="shop-single-product.html" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
-                                    </td>
-                                    <td class="product-quantity">
-                                        <div class="select-style med-input shop-shorting shop-shorting-cart no-border-round">
-                                            <select>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal text-left">30,000원</td>
+                                    <td class="product-subtotal text-left">${product.price}원</td>
                                     <td class="product-remove text-center">
                                         <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
                                     </td>
@@ -160,7 +165,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-sm-12 pull-right">
+                    <div class="col-md-10 col-sm-10 center-col">
                         <table class="table cart-total">
                             <tbody>
                                 <tr>
@@ -182,16 +187,14 @@
                                 </tr>
                                 <tr class="total">
                                     <th class="padding-two text-uppercase text-right no-padding-right font-weight-600 text-large xs-no-padding">총 주문금액</th>
-                                    <td class="padding-two text-uppercase text-right no-padding-right font-weight-600 black-text text-large no-letter-spacing xs-no-padding">50,000원</td>
-                                </tr>
-                                <tr>
+                                    <td class="padding-two text-uppercase text-right no-padding-right font-weight-600 black-text text-large no-letter-spacing xs-no-padding"><tr>
                                     <td colspan="2" class="padding-one no-padding-right xs-no-padding">
                                         <hr class="no-margin-bottom">
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="shop-checkout.html" class="highlight-button-black-background btn no-margin pull-right checkout-btn xs-width-100 xs-text-center">결제하기</a>
+                        <a href="#" class="highlight-button-black-background btn no-margin pull-right checkout-btn xs-width-100 xs-text-center">결제하기</a>
                     </div>
                 </div>
             </div>

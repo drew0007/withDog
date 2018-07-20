@@ -9,20 +9,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	
-	
+
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
+		alert("현재페이지");
 		$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=1").submit();
 	}
-
+	
 	//상품이미지 클릭시 이벤트 getProduct 연결
 	$(function(){
 		$(".prodImage").on("click", function(){
-			var role = "${user.role}";
+			var role = "${sessionScope.user.role}";
 			var index = $(".prodImage").index(this);
 			var prodNo = $($("input[name='prodNo']")[index]).val();
-			alert(prodNo);
+			alert(role + "[" + prodNo+ "]");
 
 			 if(role == 'admin'){
 				 self.location = "/product/updateProductAdmin?prodNo="+prodNo;
@@ -37,16 +37,16 @@
 	$(function(){
 		
 		//셀렉트박스 클릭시  
-		$("#prodSort").on("change", function(){
-			var sort = $("#prodSort").val();
+		$("#sorting").on("change", function(){
+			var sort = $("#sorting").val();
 			if(sort == 0){
-				self.location = "/product/listProduct?prodSort=0&prodType=1";
+				self.location = "/product/listProduct?sorting=0&prodType=0";
 			}else if(sort == 1){
-				self.location = "/product/listProduct?prodSort=1&prodType=1";
+				self.location = "/product/listProduct?sorting=1&prodType=0";
 			}else if(sort == 2 ){
-				self.location = "/product/listProduct?prodSort=2&prodType=1";
+				self.location = "/product/listProduct?sorting=2&prodType=0";
 			}else{
-				self.location = "/product/listProduct?prodSort=3&prodType=1";
+				self.location = "/product/listProduct?sorting=3&prodType=0";
 			}
 		})
 	});
@@ -64,7 +64,7 @@
 <jsp:include page="/common/css.jsp" />
 
 
-<title>애견식품 리스트</title>
+<title>애견용품 리스트</title>
 
 </head>
 
@@ -108,12 +108,12 @@
                             </div>
                             <div class="col-md-3 col-sm-3 pull-right">
                                 <div class="select-style med-input shop-shorting-full no-border pull-right">
-                                    <select id="prodSort">
+                                    <select id="sorting">
                                         <option value="0" selected>신상품순</option>
                                         <option value="1">인기상품순</option>
                                         <option value="2">낮은가격순</option>
                                         <option value="3">높은가격순</option>
-                                        <input type="hidden" name="prodSort"  value="${search.prodSort}"/>
+                                        <input type="hidden" name="sorting"  value="${search.sorting}"/>
                                     </select>
                                 </div>
                                 
@@ -128,12 +128,11 @@
                         
                             <!-- shop item -->
                             <c:forEach var="product" items="${list}">
-                            <c:if test="${product.prodType == '1'}">
                             <div class="col-md-4 col-sm-6">
                                 <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
                                 	<div class="blog-post-images margin-two-bottom">
-                                    <a href=""  class="prodImage">
-                                    	<img src = "/images/uploadFiles/store/${product.prodImage}" class="gallery-img"/>
+                                    <a href="#"   class="prodImage">
+                                    	<img src = "/images/store/${product.prodImage}" />
                                    	</a>
                                    	</div>
                                     <span class="product-name font-weight-600">
@@ -144,7 +143,6 @@
                                     <span class="onsale onsale-style-2">New</span>
                                 </div>
                             </div>
-                            </c:if>
                             </c:forEach>
                             <!-- end shop item -->
                             
@@ -159,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <jsp:include page="/common/pageNavigator_new.jsp"/>
+   			<jsp:include page="/common/pageNavigator_new.jsp"/>
         </section>
         <!-- end content section -->
         
