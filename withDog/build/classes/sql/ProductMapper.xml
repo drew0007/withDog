@@ -8,15 +8,15 @@
  	
  	
 	<resultMap id="productSelectMap" type="product">
-		<result property="prodNo" 		column="prod_no" 						jdbcType="INTEGER"/>
-		<result property="prodType"	column="prod_type" 				jdbcType="VARCHAR" />
-		<result property="prodName"	column="prod_name" 				jdbcType="VARCHAR" />
-		<result property="prodContent" 	column="prod_content" 				jdbcType="VARCHAR" />
-		<result property="prodImage" 	column="prod_image" 		jdbcType="VARCHAR" />
-		<result property="price" 			column="price" 							jdbcType="INTEGER" />
-		<result property="prodQuantity" 		column="prod_quantity" 					jdbcType="INTEGER" />
-		<result property="regDate" 		column="reg_date" 					jdbcType="DATE" />
-		<result property="deleteFlag" column="delete_flag"							jdbcType="VARCHAR" />
+		<result property="prodNo" 					column="prod_no" 						jdbcType="INTEGER"/>
+		<result property="prodType"				column="prod_type" 					jdbcType="VARCHAR" />
+		<result property="prodName"			column="prod_name" 				jdbcType="VARCHAR" />
+		<result property="prodContent" 		column="prod_content" 			jdbcType="VARCHAR" />
+		<result property="prodImage" 			column="prod_image" 				jdbcType="VARCHAR" />
+		<result property="price" 						column="price" 							jdbcType="INTEGER" />
+		<result property="prodQuantity" 		column="prod_quantity" 			jdbcType="INTEGER" />
+		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
+		<result property="deleteFlag" 			column="delete_flag"					jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -29,7 +29,7 @@
  	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
-		prod_no, prod_type, prod_name, prod_content, prod_image, price, prod_quantity, reg_date
+		prod_no, prod_type, prod_name, prod_content, prod_image, price, prod_quantity, reg_date, delete_flag
 		FROM product
 		WHERE prod_no = #{value}
 	 </select>
@@ -49,7 +49,7 @@
 	 </update>
 	 
 	<!-- SQL : DELETE -->
-	 <update	id="deleteProductAdmin"	parameterType="product" >
+	 <update	id="updateDeleteFlag"	parameterType="product" >
 	   	UPDATE product
 	   	<set>
 	   		delete_flag = #{deleteFlag}
@@ -62,24 +62,33 @@
 	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-	  				 FROM ( SELECT prod_no, prod_type, prod_image, prod_name, price
+	  				 FROM ( SELECT  prod_no, prod_type, prod_image, prod_name, price
 	  				 FROM product
-	  				 <where>
-		  				 <if test="searchCondition != null">
-		  				 		prod_name LIKE '%'||#{searchKeyword}||'%'
-		  				 </if>
-	  				 </where>
+	  				 <trim prefix="where" prefixOverrides="AND | OR">
+		  				 		<if test='role != "admin"'>
+			  				 	delete_flag = '0' 
+			  				 	 </if>
+			  				 	<if test='prodType=="0" '>
+			  				 		AND prod_type = '0'
+			  				 	</if>
+			  				 	<if test='prodType=="1" '>
+			  				 		AND prod_type = '1'
+			  				 	</if>
+				  				 <if test="searchCondition != null and searchKeyword != ''">
+				  				 		AND prod_name LIKE '%'||#{searchKeyword}||'%'
+				  				 </if>
+			  		</trim>
 	  				 ORDER BY
-	  				 <if test="prodSort == 0">
+	  				 <if test="sorting == 0">
 	  				 	reg_date DESC
 	  				 </if>
-	  				 <if test="prodSort == 1">
+	  				 <if test="sorting == 1">
 	  				 	price
 	  				 </if>
-	  				 <if test="prodSort == 2">
+	  				 <if test="sorting == 2">
 	  				 	price
 	  				 </if>
-	  				 <if test="prodSort == 3">
+	  				 <if test="sorting == 3">
 	  				 	price DESC
 	  				 </if> ) inner_table
 	  				 WHERE ROWNUM &lt;= #{endRowNum} )
@@ -88,23 +97,24 @@
 
 	
  	<!-- SQL : SELECT ROW Count -->
-	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	 	SELECT COUNT(*)
-	 	FROM ( SELECT prod_no, prod_type, prod_image, prod_name, price
+	 	FROM ( SELECT prod_no, prod_type, prod_image, prod_name, price, delete_flag
 	  				 FROM product
-	  				 <where>
+	  				 <trim prefix="where"  prefixOverrides="AND | OR">
+	  					 <if test='role != "admin"'>
+				  				delete_flag = '0' 
+				  		</if>
 	  				 	<if test='prodType=="0" '>
-	  				 		prod_type = '0'
+	  				 		AND prod_type = '0'
 	  				 	</if>
 	  				 	<if test='prodType=="1" '>
-	  				 		prod_type = '1'
+	  				 		AND prod_type = '1'
 	  				 	</if>
-		  				 <if test="a.searchCondition != null">
-		  				 	<if test="a.searchKeyword !='' ">
-		  				 		prod_name LIKE '%'||#{searchKeyword}||'%'
-		  				 	</if>
+		  				 <if test="searchCondition != null and searchKeyword != ''">
+		  				 		AND prod_name LIKE '%'||#{searchKeyword}||'%'
 		  				 </if>
-	  				 </where> ) countTable				
+	  				 </trim> ) countTable				
 	 </select>
 	 
 	 

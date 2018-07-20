@@ -72,16 +72,16 @@
 						<label >치유견 성별</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<div class="checks">
-							<input type="radio" id="healingDogGender" name="healingDogGender">
-							<label for="healingDogGender">남아</label>
-							<input type="radio" id="healingDogGender" name="healingDogGender" >
-							<label for="healingDogGender">여아</label>
+						<div class="wrap">
+							<input type="radio" name="radio" id="radio1" class="checkbox">
+							<label for="radio1" class="input-label radio">남아</label>
+							<input type="radio" name="radio" id="radio2" class="checkbox">
+							<label for="radio2" class="input-label radio">여아</label>
 						</div>
 						<!-- end input  -->
-					</div>
-					
-					<div class="form-group no-margin-bottom">
+						</div>
+
+						<div class="form-group no-margin-bottom">
 						<!-- label  -->
 						<label>치유견 특징</label>
 						<!-- end label  -->

@@ -72,8 +72,9 @@
         <!-- content section -->
         <section class="wow fadeIn">
             <div class="container">
-                <div class="row col-md-3 col-sm-4">
+                <div class="row">
                 
+<<<<<<< HEAD
                     <!-- sidebar  -->
                     <div class="col-md-8 col-sm-8 sidebar">
                        
@@ -185,8 +186,16 @@
 						</div>
 					</c:if>
 					
+=======
+                	<!-- sidebar  -->
+					<div class="col-md-2 col-sm-3 sidebar">
+						<jsp:include page="/layout/mypage-sideBar.jsp" />
+>>>>>>> refs/heads/new/tazesign
 					</div>
 					<!-- end sidebar  -->
+
+         		</div>
+         	</div>      
 		</section>			
         <!-- end content section -->
         

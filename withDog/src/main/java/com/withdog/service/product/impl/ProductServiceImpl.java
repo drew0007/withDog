@@ -54,10 +54,10 @@ public class ProductServiceImpl implements ProductService  {
 	
 
 	//상품리스트조회
-	public Map<String, Object> getProductList(Search search, String prodType) throws Exception{  
+	public Map<String, Object> getProductList(Search search) throws Exception{  
 		
 		List<Product> list = productDAO.getProductList(search);
-		int totalCount = productDAO.getTotalCount(search, prodType);
+		int totalCount = productDAO.getTotalCount(search);
 		//return productDao.getProductList(search); //상품목록은 리턴값이맵 //기존의 서비스 임플에서 바로 dao.~~() 호출
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );

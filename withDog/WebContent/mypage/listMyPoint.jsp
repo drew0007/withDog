@@ -1,154 +1,136 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
-<!DOCTYPE html>
-
-<html lang="ko">
-	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-	<meta charset="EUC-KR">
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	  
- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
-  
-  <script type="text/javascript">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+
+<!-- ë¯¼ìš° -->	  
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+
+<!-- ê³µí†µ -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<jsp:include page="../common/css.jsp" />
+<script type="text/javascript">
 
 function fncGetList(currentPage) {
  	$("#currentPage").val(currentPage)
 	$("form").attr("method","POST").attr("action","/common/getMyPointList").submit();
 }
-
-
 </script>
-<!-- ¼ıÀÚÁõ°¡ ½ºÅ©¸³Æ® -->
-  <script>
-  jQuery(document).ready(function( $ ) {
-        $('.counter').counterUp({
-            delay: 10,
-            time: 1000
-        });
-    });
-  </script>
-  <!--  -->
-   
+
+
 </head>
 
 <body>
-	<form>
-	 <%-- <input type="text" placeholder="Search..." class="search-input" name="search" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" > --%>
-     <input type="hidden" id="currentPage" name="currentPage" value=""/>
-     </form>
-	<!-- ¼ıÀÚÁõ°¡ ½ºÅ©¸³Æ® -->
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-    <script src="/js/jquery.counterup.min.js"></script>
-    <!--end  -->
-	<!-- ToolBar Start /////////////////////////////////////-->
+
+	<jsp:include page="/layout/common-header.jsp" />
+
+	<!-- head section -->
+	<section class="page-title parallax3 parallax-fix page-title-blog">
+	<img class="parallax-background-img" src="../images/sub/304_bg.jpg" alt="" />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+				<div class="no-margin-top margin-one"></div>
+				<!-- page title -->
+				<h1 class="white-text tit_png">
+					<img src="../images/sub/myPage_tit.png">
+				</h1>
+				<!-- end page title -->
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- end head section -->
 	
-   	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<!-- <div class="container" style="width: 921px;"> -->
-	<div class="container" style="width: 921px;">
-	
+	<section class="wow fadeIn">
+	<div class="container">
+	<div class="row">
 		
-	       <h1 align="center">³ªÀÇÆ÷ÀÎÆ®³»¿ª</h1>
-	    <hr/>
-	    <div >
-	       <h2 align="center">ÇöÀçÆ÷ÀÎÆ® : <div class="counter" style="display:inline;"> ${currentPoint}</div> Point</h2>
-	    </div>
-	    <hr/>
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
-	  <%--   <div class="row">
-	    
-		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
-		    	</p>
-		    </div>
-		    
-		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
-			    
-				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>È¸¿øID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>È¸¿ø¸í</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="tags" name="searchKeyword"  placeholder="°Ë»ö¾î"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
-				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
-				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
+			<!-- sidebar  -->
+			<div class="col-md-2 col-sm-3 sidebar">
+				<jsp:include page="/layout/mypage-sideBar.jsp" />
+			</div>
+			<!-- end sidebar  -->
+			
+			
+			<!-- content -->
+			<div class="col-md-9 col-sm-9 col-md-offset-1">
+
+				<form>
+					<input type="hidden" id="currentPage" name="currentPage" value="" />
 				</form>
-	    	</div>
-	    	
-		</div> --%>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
-		
-		
-      <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover table-striped" >
-      
-        <thead>
-          <tr>
-            <td align="center">³¯Â¥</td>
-            <td align="center">³»¿ª</td>
-            <td align="center">Æ÷ÀÎÆ®</td>
-          </tr>
-        </thead>
-       
-		<tbody>
-		
-		  
-		  <c:forEach var="point" items="${resultList}">
-			<tr>
-			  <td align="center">${point.pointDate}</td>
-			  <c:if test="${point.pointHistory=='0'}">
-			  <td align="center">Å©¶ó¿ìµåÆİµùÈÄ¿ø</td>
-			  </c:if>
-			  <c:if test="${point.pointHistory=='1'}">
-			  <td align="center">µ¿¹°±³°¨Ä¡À¯¿¹¾à</td>
-			  </c:if>
-			  <c:if test="${point.pointHistory=='2'}">
-			  <td align="center">½ºÅä¾î»óÇ°±¸¸Å</td>
-			  </c:if>
-			  <td align="center">${point.usePoint!=0? "»ç¿ëÆ÷ÀÎÆ® : ":"Àû¸³Æ÷ÀÎÆ® : "} ${point.usePoint!=0? point.usePoint : point.point}</td>
-			 
-			</tr>
-          </c:forEach>
-        
-        </tbody>
-      
-      </table>
-	  <!--  table End /////////////////////////////////////-->
-	  <div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
-                        <!-- pagination -->
-						<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
-                        <!-- end pagination -->
-                    </div> 
- 	</div>
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
+
+				<h1 align="center">ë‚˜ì˜í¬ì¸íŠ¸ë‚´ì—­</h1>
+				<hr />
+				<div>
+					<h2 align="center">
+						í˜„ì¬í¬ì¸íŠ¸ :
+						<div class="counter" style="display: inline;">
+						<span class="timer counter-number alt-font" data-to="${currentPoint}" data-speed="1000"></span>
+							Point
+						</div>
+					</h2>
+				</div>
+				<hr />
+
+				<!--  table Start /////////////////////////////////////-->
+				<table class="table table-hover table-striped">
+
+					<thead>
+						<tr>
+							<td align="center">ë‚ ì§œ</td>
+							<td align="center">ë‚´ì—­</td>
+							<td align="center">í¬ì¸íŠ¸</td>
+						</tr>
+					</thead>
+
+					<tbody>
+						<c:forEach var="point" items="${resultList}">
+							<tr>
+								<td align="center">${point.pointDate}</td>
+								<c:if test="${point.pointHistory=='0'}">
+									<td align="center">í¬ë¼ìš°ë“œí€ë”©í›„ì›</td>
+								</c:if>
+								<c:if test="${point.pointHistory=='1'}">
+									<td align="center">ë™ë¬¼êµê°ì¹˜ìœ ì˜ˆì•½</td>
+								</c:if>
+								<c:if test="${point.pointHistory=='2'}">
+									<td align="center">ìŠ¤í† ì–´ìƒí’ˆêµ¬ë§¤</td>
+								</c:if>
+								<td align="center">${point.usePoint!=0? "ì‚¬ìš©í¬ì¸íŠ¸ : ":"ì ë¦½í¬ì¸íŠ¸ : "}
+									${point.usePoint!=0? point.usePoint : point.point}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+
+				</table>
+				<!--  table End /////////////////////////////////////-->
+
+
+				<div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
+					<!-- pagination -->
+					<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
+					<!-- end pagination -->
+				</div>
+
+
+			</div>
+			<!--  end content -->
+			
+			</div>
+		</div>
+	</section>
  	
+	<jsp:include page="../layout/footer.jsp" />
+
+	<jsp:include page="../common/js.jsp" />
  	
- 	<!-- PageNavigation Start... -->
-	
-	<!-- PageNavigation End... -->
-	
 </body>
 
 </html>

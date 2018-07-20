@@ -6,6 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <jsp:include page="/common/css.jsp" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script type="text/javascript">
+$(function(){
+	$("#datePicker").flatpickr(optional_config);
+});
+</script>
 <title>상품등록</title>
 </head>
 <body>
@@ -56,6 +63,15 @@
                                 <!-- end label  -->
                                 <!-- input  -->
                                 <input type="text" name="prodName" id="prodName"  class="big-input">
+                                <!-- end input  -->
+                            </div>
+                            
+                              <div class="form-group no-margin-bottom">
+                                <!-- label  -->
+                                <label>생년월일</label>
+                                <!-- end label  -->
+                                <!-- input  -->
+                                <input type="text" name="prodName" id="datePicker"class="big-input">
                                 <!-- end input  -->
                             </div>
                             

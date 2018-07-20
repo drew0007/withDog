@@ -41,7 +41,7 @@
 	$(function(){
 		$("#delete").on("click", function(){
 			var prodNo = $(".prodNo").val();
-
+			alert("프로덕트넘버====" + prodNo);
 			self.location = "/product/updateDeleteFlag?prodNo="+prodNo+"&deleteFlag=1";
 		});
 	});
@@ -146,6 +146,7 @@
                         <div class="text-center">
                             <button id="update" type="button" class="highlight-button-dark btn btn-medium">수정</button>
                             <button id="delete" type="button" class="highlight-button btn btn-medium">삭제</button>
+                            <input type="hidden" name="prodNo" class="prodNo"  value="${product.prodNo}"/>
                          </div>
                     </div>
                 </div>

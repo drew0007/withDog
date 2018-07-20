@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,7 @@ import org.springframework.web.util.CookieGenerator;
 import com.withdog.common.Page;
 import com.withdog.common.Search;
 import com.withdog.service.domain.Product;
+import com.withdog.service.domain.User;
 import com.withdog.service.product.ProductService;
 
 @Controller
@@ -168,20 +170,21 @@ public class ProductController {
 	
 	
 	@RequestMapping(value="updateDeleteFlag")
-	public String updateDeleteFlag(@ModelAttribute("purchase") Product product, @RequestParam("deleteFlag") String deleteFlag, Model model) throws Exception{
+	public String updateDeleteFlag(@ModelAttribute("product") Product product, @RequestParam("deleteFlag") String deleteFlag) throws Exception{
 		
 		System.out.println("/product/updateDeleteFlag : POST");
 		
 		product.setDeleteFlag(deleteFlag);
+		System.out.println("삭제서비스들어가기전");
 		productService.updateDeleteFlag(product);
+		System.out.println("삭제서비스갔다온후");
 		
-		model.addAttribute("product", product);
 		
-		return "forward:/store/listProduct?prodType=0";
+		return "forward:/product/listProduct?prodType=0";
 	}
 	
 	
-	@RequestMapping( value = "historyProduct")
+	//@RequestMapping( value = "historyProduct")
 	public String historyProduct() throws Exception{
 		
 		return "forward:/history.jsp";
@@ -218,7 +221,7 @@ public class ProductController {
 	
 	
 	@RequestMapping(value="listProduct")
-	public String getProductList( @ModelAttribute("search") Search search , @RequestParam("prodType") String prodType, Model model , HttpServletRequest request) throws Exception{
+	public String getProductList( @ModelAttribute("search") Search search , @RequestParam("prodType") String prodType, Model model , User user, HttpServletRequest request, HttpSession session) throws Exception{
 		
 		System.out.println("/product/listProduct : POST");
 		
@@ -226,14 +229,49 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(storePageSize);
-		System.out.println(search + "서치");
 		
-		System.out.println("컨트롤러prodType" + prodType);
-		Map<String , Object> map= productService.getProductList(search, prodType);
+		
+		//서치에 프로드타입 심기
+		if(prodType.equals("0")) {
+			search.setProdType("0"); 
+		}else {
+			search.setProdType("1"); 
+		}
+		
+		
+		if((User)session.getAttribute("user") != null) {
+			
+			System.out.println("이프문탓나111111");
+			
+			user = (User)session.getAttribute("user");
+			
+			String role = user.getRole();
+			
+			System.out.println(role);
+			
+			if(role.equals("admin")){
+				search.setRole("admin");
+				
+				
+			}else {
+				user.setRole("user");
+			}			
+			
+		}else {
+			
+				System.out.println("이프문탓나222222");
+				user.setRole("user");
+		}
+		
+		
+		
+		search.setProdType(prodType);
+		Map<String , Object> map= productService.getProductList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, storePageSize);
 		System.out.println(map);
 		System.out.println(resultPage);
+		
 		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
@@ -243,6 +281,7 @@ public class ProductController {
 		if(prodType.equals("0")) {
 			result = "forward:/store/listProductGoods.jsp";
 		}else {
+			System.out.println("애견식품");
 			result = "forward:/store/listProductFood.jsp";
 		}
 		

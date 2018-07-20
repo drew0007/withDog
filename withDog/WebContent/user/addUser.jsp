@@ -314,7 +314,11 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 		<jsp:include page="../layout/common-header2.jsp" />
+=======
+		<jsp:include page="../layout/common-header.jsp" />
+>>>>>>> refs/heads/new/tazesign
 		
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">

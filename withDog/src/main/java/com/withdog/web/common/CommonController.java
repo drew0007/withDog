@@ -136,7 +136,7 @@ public class CommonController {
 		request.setAttribute("myPageState", "11");
 		
 		
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/listMyPoint.jsp";
 	}
 	/*@RequestMapping(value="/imageUpload")
 	public ResponseEntity<String>  imageUpload() throws Exception{
