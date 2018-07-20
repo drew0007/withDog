@@ -62,22 +62,60 @@ public class AshDAOImpl implements AshDAO {
 	public List<HealingDog> getHealingDogList(Search search) throws Exception {
 		return sqlSession.selectList("ASHMapper.getHealingDogList", search);
 	}
+	@Override
+	public List<HealingDog> getConsultingDogList() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("ASHMapper.getConsultingDogList");
+	}
 
 	@Override
 	public void addConsulting(Consulting consulting) throws Exception {
 		// TODO Auto-generated method stub
-		
+		sqlSession.insert("ASHMapper.addConsulting", consulting);
 	}
 
 	@Override
-	public Consulting getConsulting(int consultingNo) throws Exception {
+	public Map<String, Object> getMyConsultingList(Search search, String userId) throws Exception{
 		// TODO Auto-generated method stub
-		return null;
+		
+		System.out.println("여기??");
+		Map<String, Object> mapIn = new HashMap<String, Object>();
+		mapIn.put("search", search);
+		mapIn.put("userId", userId);	
+		
+		int totalCount = sqlSession.selectOne("ASHMapper.getMyConsultingListCount", userId);
+		System.out.println("여기2??");
+		List<Consulting> list = sqlSession.selectList("ASHMapper.getMyConsultingList", mapIn);
+
+		System.out.println("여기3??");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("totalCount", totalCount);
+		map.put("list", list);
+
+		return map;
 	}
+	
+	public void updateConsultingState(Consulting consulting) throws Exception{
+		sqlSession.update("ASHMapper.updateConsultingState", consulting);
+	}
+	
+	public Map<String, Object> getConsultingAdminList(Search search) throws Exception{
+		int totalCount = sqlSession.selectOne("ASHMapper.getConsultingAdminListCount");
+		List<Consulting> list = sqlSession.selectList("ASHMapper.getConsultingAdminList", search);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("totalCount", totalCount);
+		map.put("list", list);
+
+		return map;
+	}
+
 
 	@Override
 	public void addAshReservation(Ash ash) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.insert("ASHMapper.addAshReservation",ash);
 		
 	}
 
@@ -113,7 +151,7 @@ public class AshDAOImpl implements AshDAO {
 	@Override
 	public List<Ash> getAshReservationAdminList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("ASHMapper.getAshReservationAdminList",search);
 	}
 	
 	@Override
@@ -143,29 +181,62 @@ public class AshDAOImpl implements AshDAO {
 	}
 
 	@Override
-	public List<Ash> getAshMyReservationList(String userId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Ash> getAshMyReservationList(Search search,String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("userId", userId);
+		System.out.println("dao 가기 전 map : " + map);
+		
+		return sqlSession.selectList("ASHMapper.getAshMyReservationList", map);
 	}
 
 	@Override
-	public Ash getAshMyReservation(Ash ash) throws Exception {
+	public Ash getAshMyReservation(int ashReservationNo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("ASHMapper.getAshMyReservation", ashReservationNo);
 	}
+	
+	@Override
+	public Ash getAshMyReservationByUser(Ash ash, String userId) throws Exception{
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("ash", ash);
+		map.put("userId", userId);
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("ASHMapper.getAshMyReservationByUser", map);
+	}
+
 
 	@Override
 	public void updateAshMyReservation(Ash ash) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sqlSession.update("ASHMapper.updateAshMyReservation", ash);
 	}
-
+	
+	@Override
+	public void updateMyReservationCondition(Ash ash) throws Exception {
+		sqlSession.update("ASHMapper.updateMyReservationCondition", ash);
+	}
 
 	@Override
 	public int getTotalCount(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("ASHMapper.getTotalCount", search);
 	}
+	
+	@Override
+	public int getTotalCountByMyASH(Search search,String userId) throws Exception {
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("userId", userId);
+		return sqlSession.selectOne("ASHMapper.getTotalCountByMyASH", map);
+	}
+
+	@Override
+	public int getTotalCountByAdminASH(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("ASHMapper.getTotalCountByAdminASH", search);
+	}
+
+
 
 
 

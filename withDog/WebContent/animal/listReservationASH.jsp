@@ -38,6 +38,8 @@
 <body>
 <script type="text/javascript">
 $(function () {
+	window.close();
+	
 	$(".popup-with-zoom-anim").on("click", function () {
 		var index = $(".popup-with-zoom-anim").index(this);
 		$("#selectDogName").html($($(".name")[index]).text()+ "<br /> 동물교감치유를 예약하시겠습니까?")

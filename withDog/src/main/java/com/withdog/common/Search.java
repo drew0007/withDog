@@ -17,6 +17,8 @@ public class Search {
 	private int startRowNum;
 	private int priceUpDown;
 	private int recently;
+	private String searchStartDay;
+	private String searchEndDay;
 	
 	//상품정렬
 	private int prodSort;
@@ -82,12 +84,30 @@ public class Search {
 		this.prodSort = prodSort;
 	}
 
+	public String getSearchStartDay() {
+		return searchStartDay;
+	}
+
+	public void setSearchStartDay(String searchStartDay) {
+		this.searchStartDay = searchStartDay;
+	}
+
+	public String getSearchEndDay() {
+		return searchEndDay;
+	}
+
+	public void setSearchEndDay(String searchEndDay) {
+		this.searchEndDay = searchEndDay;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ ", sorting=" + sorting + "]";
+				+ ", priceUpDown=" + priceUpDown + ", recently=" + recently + ", searchStartDay=" + searchStartDay
+				+ ", searchEndDay=" + searchEndDay + ", prodSort=" + prodSort + ", sorting=" + sorting + "]";
 	}
+
 
 
 }

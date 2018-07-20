@@ -1,5 +1,7 @@
 package com.withdog.service.domain;
 
+import java.sql.Date;
+
 public class Ash {
 	private HealingDog healingDog;
 	private User user;
@@ -12,10 +14,10 @@ public class Ash {
 	private String ashReservationAddress2;
 	private String ashReservationPhone;
 	private String ashReservationEtc;
-	private String ashReservationPrice;
-	private String ashReservationColor;
+	private int ashReservationPrice;
+//	private String ashReservationColor;
 	private String paymentOption;
-	private String purchaseDate;
+	private Date purchaseDate;
 
 	public HealingDog getHealingDog() {
 		return healingDog;
@@ -105,11 +107,11 @@ public class Ash {
 		this.ashReservationEtc = ashReservationEtc;
 	}
 
-	public String getAshReservationPrice() {
+	public int getAshReservationPrice() {
 		return ashReservationPrice;
 	}
 
-	public void setAshReservationPrice(String ashReservationPrice) {
+	public void setAshReservationPrice(int ashReservationPrice) {
 		this.ashReservationPrice = ashReservationPrice;
 	}
 
@@ -121,21 +123,21 @@ public class Ash {
 		this.paymentOption = paymentOption;
 	}
 
-	public String getPurchaseDate() {
+	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(String purchaseDate) {
+	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
-	public String getAshReservationColor() {
-		return ashReservationColor;
-	}
-
-	public void setAshReservationColor(String ashReservationColor) {
-		this.ashReservationColor = ashReservationColor;
-	}
+//	public String getAshReservationColor() {
+//		return ashReservationColor;
+//	}
+//
+//	public void setAshReservationColor(String ashReservationColor) {
+//		this.ashReservationColor = ashReservationColor;
+//	}
 
 	@Override
 	public String toString() {
@@ -144,8 +146,8 @@ public class Ash {
 				+ ", ashReservationDate=" + ashReservationDate + ", ashReservationTime=" + ashReservationTime
 				+ ", ashReservationAddress1=" + ashReservationAddress1 + ", ashReservationAddress2="
 				+ ashReservationAddress2 + ", ashReservationPhone=" + ashReservationPhone + ", ashReservationEtc="
-				+ ashReservationEtc + ", ashReservationPrice=" + ashReservationPrice + ", ashReservationColor="
-				+ ashReservationColor + ", paymentOption=" + paymentOption + ", purchaseDate=" + purchaseDate + "]";
+				+ ashReservationEtc + ", ashReservationPrice=" + ashReservationPrice + ", "
+				 + ", paymentOption=" + paymentOption + ", purchaseDate=" + purchaseDate + "]";
 	}
 
 

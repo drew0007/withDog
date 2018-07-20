@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.withdog.service.ash.AshService;
 import com.withdog.service.domain.Ash;
+import com.withdog.service.domain.Consulting;
 import com.withdog.service.domain.HealingDog;
 
 @RestController
@@ -164,6 +165,25 @@ public class AshRestController {
 		
 		return jsonObject;
 	}
+	
+//	컨설팅 
+	
+	@RequestMapping(value = "json/updateConsultingState/{consultingNo}/{consultingState}")
+	public int updateConsultingState(@PathVariable int consultingNo, @PathVariable String consultingState) throws Exception{
+		System.out.println("/json/updateConsultingState");
+		
+		Consulting consulting = new Consulting();
+		consulting.setConsultingNo(consultingNo);
+		consulting.setConsultingState(consultingState);
+		
+		System.out.println(consulting);
+		
+		ashService.updateConsultingState(consulting);
+		
+		return 1;
+	}
+
+	//end 컨설팅
 	
 
 }

@@ -28,6 +28,16 @@ $(function () {
 })
 
 
+///////////////카카오페이
+$(function () {
+	$("#kakaoPay").on("click", function () {
+	usePoint = 	$("input[name=usePoint]").val();
+		window.open("", "popup_window", "left=300,width=500,height=500,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		$("form").attr("method","post").attr("target","popup_window").attr("action","/ash/kakaoPay/"+usePoint).submit();
+	})
+})
+
+
 
 
 $(function () {
@@ -35,14 +45,16 @@ $(function () {
 		console.log("현재포인트 : " + currentPoint)
 		var totalPrice = 	uncomma($("input[name=totalPrice]").val());
 		var usePoint;
-		$("input[name=ashReservationPrice]").val(comma(totalPrice));
+		$("input[name=ashReservationPrice2]").val(comma(totalPrice));
+		$("input[name=ashReservationPrice]").val(totalPrice);
 	$("input[name=usePoint]").on("keyup", function () {
 		usePoint = 	$("input[name=usePoint]").val();
 		if(usePoint>currentPoint){
 			$("input[name=usePoint]").val(currentPoint);
 			usePoint = 	$("input[name=usePoint]").val();	
 		}
-		$("input[name=ashReservationPrice]").val(comma(totalPrice-usePoint));
+		$("input[name=ashReservationPrice2]").val(comma(totalPrice-usePoint));
+		$("input[name=ashReservationPrice]").val(totalPrice-usePoint);
 	})
 })
 
@@ -122,7 +134,7 @@ function uncomma(str) {
 							<li id="dogAge"><span class="font-weight-600">예약일시: </span> ${ashReservationDate} ${ashReservationTime=='0'?'[오전 10:00 ~ 13:00]':'[오후 14:00 ~ 17:00]'}</li>
 							<li id="dogName"><span class="font-weight-600">서비스 이용금액:</span> 100,000원</li>
 							<li id="dogChar"><span class="font-weight-600">예상적립 포인트:</span> 1,000Point 적립예정</li>
-							<li id="healer"><span class="font-weight-600">신청일:</span> ${mTime} </li>
+							<li id="healer"><span class="font-weight-600">결제일:</span> ${mTime} </li>
 						</ul>
 					</div>
 				</div>
@@ -152,6 +164,10 @@ function uncomma(str) {
                         <div class="col-md-6 col-sm-8 center-col">
                        		<!--form-->
                        		<form>  
+	                        	<input type="hidden"  name="ashReservationName" value="${user.userName}">
+	                        	<input type="hidden"  name="ashReservationDate" value="${ashReservationDate}">
+	                        	<input type="hidden"  name="ashReservationTime" value="${ashReservationTime}">
+	                        	<input type="hidden"  name="healingDog.healingDogNo" value="${healingDog.healingDogNo}">
                             	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>주소</strong></h6>
 	                        	<input type="text" id="textbox" name="ashReservationAddress1" class="input-round big-input" value="${user.address1}">
 	                        	<span class="col-md-12 no-padding">
@@ -163,29 +179,31 @@ function uncomma(str) {
 	                        	<input type="text" id="textbox" name="ashReservationPhone" class="input-round big-input" value="${user.phone}">
                             
                             	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>특이사항</strong></h6>
-	                        	<input type="text" id="textbox" name="ashReservationEtc" class="input-round big-input"  maxlength="40"  placeholder="40자 미만으로 입력해주세요">
+	                        	<input type="text" id="textbox" name="ashReservationEtc" class="input-round big-input"  maxlength="40"  placeholder="40자 미만으로 입력해주세요" value="">
 	                        	
 	                        	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>* 총금액</strong></h6>
 	                        	<input type="text" id="textbox" name="totalPrice" class="input-round big-input" value="100,000" readonly>
 	                        	
 	                        	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>사용할 포인트</strong><span> &nbsp;(현재 보유 포인트 : ${currentPoint} point)</span></h6>
 	                        	<c:if test="${currentPoint==0}">
-	                        		<input type="text" id="textbox" name="" class="input-round big-input" disabled="disabled" placeholder="사용할 수 있는 포인트가 없습니다.">
+	                        		<input type="text" id="textbox" name="usePoint2" class="input-round big-input" value="" disabled="disabled" placeholder="사용할 수 있는 포인트가 없습니다.">
+	                        		<input type="hidden" id="textbox" name="usePoint" class="input-round big-input" value="0" disabled="disabled" placeholder="사용할 수 있는 포인트가 없습니다.">
 	                        	</c:if>
 	                        	<c:if test="${currentPoint!=0}">
-	                        		<input type="text" id="textbox" name="" class="input-round big-input" >
+	                        		<input type="text" id="textbox" name="usePoint" class="input-round big-input" value="0">
 	                        	</c:if>
 	                        	
 	                        	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>* 결제수단</strong></h6>
 	                        	<input type="text" id="textbox" name="paymentOption" class="input-round big-input" value="카카오페이" readonly>
                             
                             	 <h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>* 최종 결제금액</strong></h6>
-	                        	<input type="text" id="textbox" name="ashReservationPrice" class="input-round big-input" value="" readonly>
+	                        	<input type="text" id="textbox" name="ashReservationPrice2" class="input-round big-input" value="" readonly>
+	                        	<input type="hidden" id="textbox" name="ashReservationPrice" class="input-round big-input" value="" readonly>
                             
                             </form>
                             <!--end form-->
                             <div class="text-center margin-five">
-                             	<a href="addReservationASHView.jsp" class="btn-small-black-border-light btn btn-medium btn-round button xs-margin-bottom-five">결제하기</a>
+                             	<a id="kakaoPay" style="cursor: pointer;" class="btn-small-black-border-light btn btn-medium btn-round button xs-margin-bottom-five">결제하기</a>
                      		</div>
                      		
        					</div>	

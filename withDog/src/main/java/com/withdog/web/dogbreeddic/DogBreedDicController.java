@@ -30,8 +30,10 @@ public class DogBreedDicController {
 	}
 	
 	@RequestMapping(value = "getDogBreed", method = RequestMethod.GET)
-	public String getDogBreed () throws Exception {
+	public String getDogBreed (Model model) throws Exception {
 		System.out.println("/getDogBreed");
+		List<DogBreedDic> list = dogBreedDicService.getAllDogBreedInfoListByKo();
+		model.addAttribute("list",list);
 		return "forward:/community/dogBreedDicSearch.jsp";
 	}
 

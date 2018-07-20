@@ -34,6 +34,10 @@
 			alert("결제실패!!! 다시시도해 주세요");
 			window.close();
 		}
+		if('${state}'=='0'){
+			window.close();
+			opener.location.href='/animal/addReservationASHView.jsp';
+		}
 		
 		
 	});
@@ -42,33 +46,5 @@
 	</head>
 
 	<body>
-
-		<%-- <form name="updatePurchase" action="/purchase/updatePurchaseView?tranNo=${purchase.tranNo}" method="post"> --%>
-		<c:if test="${state=='0'}">
-		다음과 같이 후원 되었습니다.
-		
-		<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<td>펀딩이름</td>
-				<td>${title}</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>후원금액</td>
-				<td>${empty price? 0:price} 원</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>사용포인트</td>
-				<td>
-				${empty usePoint? 0:usePoint}
-				</td>
-				<td></td>
-			</tr>
-			
-		</table>
-		</c:if>
-		<!-- </form> -->
-	
 	</body>
 </html>

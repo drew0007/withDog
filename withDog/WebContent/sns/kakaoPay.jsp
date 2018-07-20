@@ -28,8 +28,11 @@
 <script type="text/javascript" src="/js/v2/user_info.js?v=version"></script>
 <script type="text/javascript">
 	$(function(){
-		/* self.location="http://127.0.0.1:8080/user/login"; */
+		
 		self.location="${url}";
+		
+		/* self.location="http://127.0.0.1:8080/user/login"; */
+		
 	});
 </script>
 </head>

@@ -7,7 +7,7 @@ public class Consulting {
 	private HealingDog healingDog;	// 치유견
 	private User user;						// 신청자
 	private String consultingState;		// 상담신청 상태
-	private Date regDate;					// 등록일
+	private String regDate;					// 등록일
 	
 	public Consulting(){
 	}
@@ -44,11 +44,11 @@ public class Consulting {
 		this.consultingState = consultingState;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 
