@@ -10,35 +10,112 @@
 	<title>로그인</title>
 	<jsp:include page="../common/css.jsp" />
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
+
+	<!-- 제이쿼리 달력  -->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  	<!-- 제이쿼리 달력 :: 크롬에서 년도 안에 글씨 작게 -->
+		<style type="text/css">
+		.ui-datepicker .ui-datepicker-title select {
+	    font-size: 12px;
+		}
+		</style>
+		<!-- 제이쿼리 달력 기본값 세팅 -->
+		<script src="../js/datepicker.js"></script>
+	<!-- end 제이쿼리 달력 -->
+	
+	<!-- 오토컴플릿 -->
+	  <style>
+	  .custom-combobox {
+	    position: relative;
+	    display: block;
+	    width : 500px;
+	  }
+	  .custom-combobox-toggle {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    margin-left: -1px;
+	    padding: 0;
+	  }
+	  .custom-combobox-input {
+	    margin: 0;
+	    padding: 5px 10px;
+	  }
+	  
+	    .ui-autocomplete {
+	    max-height: 200px;
+	    overflow-y: auto;
+	    /* prevent horizontal scrollbar */
+	    overflow-x: hidden;
+	 	  }
+	
+	
+		* html .ui-autocomplete {
+	    height: 200px;
+	  }
+	 	</style>
+  		<script src="../js/autocomplete.js"></script>
+		<!-- end 오토컴플릿 -->
 	
 	<script type="text/javascript">
 	
+	///////견종////////
 	$(function () {
+		
+		//좋아하는 견종 셀렉박스
+		$.ajax({
+			url : "/dogBreedDic/json/getAllBreedInfoListByKo",
+			method : "GET",
+			datatype : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			success : function (data) {
+							
+				//console.log(data)
+				//console.log(data.allDogBreedInfo[2].dogNo)
+				for(var i = 0; i<data.allDogBreedInfo.length; i++){
+					$("#combobox").append($('<option value='+data.allDogBreedInfo[i].dogNo+'>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
+					
+				}
+			}
 			
-				//좋아하는 견종 dogNo => dogBreedKO
-				var dogNum  = ${user.dogNo};
-				$.ajax(
-					{
-					url : "/dogBreedDic/json/getDogBreed2",
-					method : "post",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					data : JSON.stringify({
-						dogNo : dogNum
-					}),
-					success : function(JSONData , status) {
-						
-						var displayValue = JSONData.key.dogBreedKO;
-						$( "#dogName" ).text(displayValue);
-					}
+		}); //end of ajax	
+		
+		
+		//좋아하는 견종 dogNo => dogBreedKO
+		var dogNum  = ${user.dogNo};
+		$.ajax(
+			{
+			url : "/dogBreedDic/json/getDogBreed2",
+			method : "post",
+			dataType : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				dogNo : dogNum
+			}),
+			success : function(JSONData , status) {
 				
-				});// end of ajax
+				var displayValue = JSONData.key.dogBreedKO;
+				$( "#dogName" ).text(displayValue);
+			}
+		
+		});// end of ajax
+	
+	});
+	
+	//로딩시 제이쿼리 시작
+	$(function () {
 				
 				//도로명 주소  우편번호 검색 클릭시
 				$("#searchPost").on("click" , function() {
+					alert(1111);
 					var pop = window.open("http://localhost:8080/user/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 				});
 								
@@ -52,6 +129,8 @@
 				}	
 				window.jusoCallBack = jusoCallBack;
 				
+				//수정 넘기기전 유효성 체크
+				updateUser();
 				
 				//회원정보 수정 이벤트
 				$("#change").on("click" , function() {
@@ -62,19 +141,71 @@
 				
 				
 		});//end 제이쿼리
-
+		
+	function updateUser() {
+		
+		var id=$("input[name='userId']").val();
+		var pw=$("input[name='password']").val();
+		var pwCheck=$("input[name='passwordCheck']").val();
+		var name=$("input[name='userName']").val();
+		
+		
+		if(id == null || id.length <1){
+			alert("아이디는 반드시 입력하셔야 합니다.");
+			return;
+		}
+	
+		if(pw == null || pw.length <1){
+			alert("비밀번호는  반드시 입력하셔야 합니다.");
+			return;
+		}
+		
+		if(pwCheck == null || pwCheck.length <1){
+			alert("비밀번호확인은  반드시 입력하셔야 합니다.");
+			return;
+		}
+		if(name == null || name.length <1){
+			alert("이름은  반드시 입력하셔야 합니다.");
+			return;
+		}			 
+		
+		if( pw != pwCheck ) {				
+			alert("비밀번호 확인이 일치하지 않습니다.");
+			$("input:text[name='password2']").focus();
+			return;
+		}
+			
+	};
 
 	</script>	
 	
 </head>
 
 <body>
-			
+
+	<jsp:include page="../layout/header2.jsp" /> 
+	
+	<!-- head section -->
+	 <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
+	   <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" />
+	   <div class="container">
+	       <div class="row">
+	           <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+	                <h1 class="white-text">회원정보 수정</h1>
+	               <span class="white-text xs-display-none">Register and modify user information.</span>
+	            </div>
+	        </div>
+	    </div>
+	</section> 
+	<!-- end head section -->	
 	
         <!-- form option #2 -->  
         <section class="wow fadeIn" >
             <div class="container">
                 <div class="row">
+                	<div class="col-md-2 col-sm-3 sidebar">
+						<jsp:include page="/layout/mypage-sideBar.jsp" />
+					</div>
                     <div class="col-md-6 col-sm-10" style="margin-top:-50px">
                     	<h3 style="margin-bottom:20px">회원정보수정</h3>
                         <form>
@@ -102,7 +233,7 @@
                                 <label for="errortextbox" class="text-uppercase">생년월일</label>
                                 <!-- end label -->
                                 <!-- input -->
-                                <input type="text" id="" name="birth" required class="input-round big-input" value="${user.birth}">
+                                <input type="text" id="datepicker" name="birth" required class="input-round big-input" value="${user.birth}">
                                 <!-- end input -->
                             </div>
                             
@@ -138,14 +269,14 @@
                                 <!-- end input -->
                             </div>
                             
-                            <div class="form-group">
-                                <!-- label -->
-                                <label for="errortextbox" class="text-uppercase">좋아하는 견종</label>
-                                <!-- end label -->
-                                <!-- input -->
-                                <input type="text" id="dogName" name="dogNo" required class="input-round big-input" value="${user.dogNo}" >
-                                <!-- end input -->
-                            </div>
+	            		    <div class="form-group">
+							    <div class="ui-widget">
+								  <label>좋아하는 견종: </label><span style="color:gray ; font-size:10px">**입력 또는 선택이 가능합니다.</span>
+								  <select id="combobox" name="dogNo">
+								    <option value="">Select one...</option>
+								  </select>
+								</div>
+							</div>
                             
                             <div class="form-group">
                                 <!-- label -->
@@ -222,8 +353,6 @@
                             </div> 
                     
                             
-                  
-                            
                             <c:if test="${sessionScope.user.role=='admin'}"> 
                             
 	                             <div class="form-group">
@@ -289,6 +418,8 @@
         <!-- end form option #2 -->   
         
         <jsp:include page="../common/js.jsp" />
+        
+        <jsp:include page="../layout/footer.jsp" />
 
 </body>
 </html>

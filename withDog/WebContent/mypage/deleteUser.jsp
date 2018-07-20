@@ -48,9 +48,9 @@
 
 <body>
 
-		<%-- <jsp:include page="../layout/header.jsp" /> --%>
+	 <jsp:include page="../layout/header.jsp" />
 <!-- head section -->
-         <!-- <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
+          <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
             <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
@@ -64,12 +64,15 @@
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section> 
         <!-- end head section -->
         
       	<!-- content section /// careers.htm /// form.html-->
         <section class="wow fadeIn">
             <div class="container"><!-- container -->
+            		<div class="col-md-2 col-sm-3 sidebar">
+						<jsp:include page="/layout/mypage-sideBar.jsp" />
+					</div>
             		<div class="col-md-8 col-sm-6 col-md-offset-1 career-form xs-margin-top-ten">
             		<!-- 포인트 -->
             		<h2 class="font-weight-600">회원 탈퇴 </h2>
@@ -113,7 +116,7 @@
         <!-- end content section -->       
                 
         
-<%-- <jsp:include page="../layout/footer.jsp" /> --%>
+<jsp:include page="../layout/footer.jsp" /> 
 
 <jsp:include page="../common/js.jsp" />
 </body>

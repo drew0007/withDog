@@ -131,7 +131,7 @@ public class UserController {
 		user = userService.getUser(user.getUserId());
 		session.setAttribute("user", user);
 		
-		return "forward:/user/getUser.jsp";
+		return "forward:/mypage/getUser.jsp";
 	}
 
 	//회원정보 조회 GET  :: 
@@ -150,11 +150,9 @@ public class UserController {
 
 		 // Model 과 View 연결
 		model.addAttribute("user", user);
-		System.out.println("마이페이지 가기전 확인"+user);
-		//myPageMain  :: 연결코드 ::   8 회원상세 , 88 회원정보수정, 9 비밀번호 수정, 10 회원탈퇴
-		model.addAttribute("myPageState",8);
+		System.out.println("나의 정보 조회"+user);
 		
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/getUser.jsp";
 	}
 	
 	//회원정보 수정화면 GET  (로그인 클릭했을 때 단순네비게이션)
@@ -169,11 +167,8 @@ public class UserController {
 		
 		 // Model 과 View 연결
 		model.addAttribute("user", user);
-		
-		//myPageMain   :: 연결코드 ::   8 회원상세 , 88 회원정보수정, 9 비밀번호 수정, 10 회원탈퇴
-		model.addAttribute("myPageState",88);
 	
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/updateUser.jsp";
 		}	
 	
 	//회원정보 수정화면 POST 
@@ -190,32 +185,17 @@ public class UserController {
 		out.println("<script>alert('정보수정이 완료 되었습니다'); </script>");
 		out.flush();
 		*/
-		//myPageMain  또는 adminPageMain 페이지 연결 :: 연결코드 ::   888 회원관리리스트,  8 회원상세, 88 회원정보수정,  9 비밀번호 수정,  10 회원탈퇴
-		String resultJsp ;
-		String role = user.getRole();
-		
-		if(role.equals("admin")) {
-			model.addAttribute("myPageState",8);
-			model.addAttribute("user");
-			resultJsp ="forward:/mypage/adminPageMain.jsp";
-		}else {
-			model.addAttribute("myPageState",8);
-			model.addAttribute("user");
-			resultJsp ="forward:/mypage/myPageMain.jsp";
-		}
-		return resultJsp;
+
+		return "forward:/mypage/getUser.jsp";
 	}
 	
 	//비밀번호 수정 화면 GET
 	@RequestMapping( value="updatePassword", method=RequestMethod.GET )
 	public String updatePassword (Model model)  throws Exception {
 
-		System.out.println("비밀번호 수정 화면으로 /user/updatePassword : GET");
+		System.out.println("비밀번호 수정 화면으로 단순네비게이션 /user/updatePassword : GET");
 		
-		//myPageMain :: 연결코드 ::   8 회원상세 , 88 회원정보수정, 9 비밀번호 수정, 10 회원탈퇴
-		model.addAttribute("myPageState",9);
-		
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/updatePassword.jsp";
 	} 
 	
 	//비밀번호 수정 POST
@@ -223,7 +203,7 @@ public class UserController {
 	public String updatePassword (User user, HttpServletResponse response)  throws Exception {
 
 		System.out.println("비밀번호 수정 /user/updatePassword : POST");
-		System.out.println("유저확인"+user);
+		System.out.println(" 수정전 유저확인"+user);
 		
 		//Business Logic
 		userService.updateUser(user);
@@ -232,7 +212,7 @@ public class UserController {
 		out.println("<script>alert('비밀번호 변경 완료 되었습니다'); </script>");
 		out.flush();
 
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/getUser.jsp";
 	} 
 	
 	///회원탈퇴 GET
@@ -249,10 +229,7 @@ public class UserController {
 		 // Model 과 View 연결
 		model.addAttribute("user", user);
 		
-		//마이페이지
-		request.setAttribute("myPageState",10);
-		
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/deleteUser.jsp";
 	}
 	
 	///회원탈퇴 POST
@@ -302,31 +279,24 @@ public class UserController {
 			model.addAttribute("resultPage", resultPage);
 			model.addAttribute("search", search);
 			
-			//amdinPageMain  :: 연결 코드 ::  888 회원관리 리스트, 8 회원상세 , 88 회원정보수정
-			model.addAttribute("myPageState",888);
-			
-			return "forward:/mypage/adminPageMain.jsp";
+			return "forward:/admin/listUserAdmin.jsp";
 		}
 	
-		//회원관리리스트 상세 ::  아이디 겟방식 
+		//회원관리리스트_상세 ::  아이디 겟방식 
 		@RequestMapping( value="getUserAdmin", method=RequestMethod.GET )
 		public String getUserAdmin (@RequestParam("userId") String userId,Model model,User user)  throws Exception {
 
 			System.out.println("회원정보 조회 :: /user/getUserAdmin : GET");
 		
-			System.out.println("확인중"+userId);
+			System.out.println("어드민 리스트 상세 확인중"+userId);
+			
 			//Business Logic
 			 user = userService.getUser(userId);
-			 System.out.println("확인중222222222"+user);
+			 
 			 // Model 과 View 연결
 			model.addAttribute("user", user);
 			
-			/*return "forward:/user/getUser.jsp";*/
-			
-			//amdinPageMain  :: 연결 코드 ::  888 회원관리 리스트, 8 회원상세 , 88 회원정보수정
-			model.addAttribute("myPageState",8);
-			
-			return "forward:/mypage/adminPageMain.jsp";
+			return "forward:/mypage/getUser.jsp";
 		}
 		
 			//회원수정 _어드민 :: 아이디 겟방식
@@ -342,10 +312,7 @@ public class UserController {
 				 // Model 과 View 연결
 				model.addAttribute("user", user);
 				
-				//amdinPageMain  :: 연결 코드 ::  888 회원관리 리스트, 8 회원상세 , 88 회원정보수정
-				model.addAttribute("myPageState",88);
-				
-				return "forward:/mypage/adminPageMain.jsp";
+				return "forward:/mypage/updateUser.jsp";
 			
 		}
 		

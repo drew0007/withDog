@@ -100,12 +100,10 @@ $(function(){
                          <%-- <span class="rating-text text-uppercase pull-right">펀딩번호: <span class="black-text">${fund.fundNo}</span></span> --%>
                         <div class="separator-line bg-black no-margin-lr margin-five no-margin-top"></div>
                         <!-- end fund No -->
-<<<<<<< HEAD
-                        <p class="no-margin-bottom">펀딩번호</p>
-=======
+
                         <c:if test="${user.role=='admin'}">
                         <p class="no-margin-bottom">펀딩번호:</p>
->>>>>>> refs/remotes/origin/master
+
                         <div class="fund-sub-title ">${fund.fundNo}</div>
                         </c:if>
                         <!-- fund detail 01 -->

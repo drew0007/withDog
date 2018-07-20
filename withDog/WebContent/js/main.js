@@ -5,7 +5,7 @@ var $portfolio_selectors_li;
 var $blog;
 var hashfilter;
 
-jb(document).ready(function () {
+$(document).ready(function () {
 
     // Show Animated Counters
     animatecounters();

@@ -282,7 +282,6 @@ public class UserRestController {
 		
 		System.out.println("/user/json/getUser : GET");
 		
-		
 		//유저 정보 조회
 		user = userService.getUser(userId);
 		
@@ -293,10 +292,8 @@ public class UserRestController {
 		 int userPoint= commonService.getCurrentPoint(point);
 		 user.setCurrentPoint(userPoint);
 	
-		 
 		return  user;
 	}
-
 
 	
 	//휴면 > 일반  해제 :: 이름과 전화번호로 검색 후 일치하면 인증번호 전송
@@ -321,7 +318,6 @@ public class UserRestController {
 				jsonObject.put("textNum", textNum);
 				jsonObject.put("check", true);	
 			
-				/*
 				//문자로 보내기
 			 	String api_key = "NCSKQ1ATROR9MMJC";
 			    String api_secret = "HBXDI5ETRJMCRCDKAZHV1CWVF0L6DOKI";
@@ -346,10 +342,7 @@ public class UserRestController {
 			}else {
 				jsonObject.put("check",false );	
 			}
-			*/
-			}
 			System.out.println("인증번호 발송"+jsonObject.toJSONString());
-			
 			return jsonObject;
 			
 	}	
@@ -357,22 +350,24 @@ public class UserRestController {
 	
 	//문자로 받은 인증번호 일치 후 휴면 > 정상으로 전환 /user/json/changeUserCondition
 	@RequestMapping( value="json/changeUserCondition", method=RequestMethod.POST )
-	public void checkTextNum(@RequestParam("userId") String userId ) throws Exception{
+	public boolean checkTextNum(@RequestParam("userId") String userId ) throws Exception{
 		
 		System.out.println("휴면계정을 해제");
-	
+	  
 		userService.updateUserCon(userId);
-
+		boolean check= true;
+		return check;
 	}	
 	
 	//문자로 받은 인증번호 일치 후 휴면 > 정상으로 전환 /user/json/changeUserCondition
-	@RequestMapping( value="json/changeUserConditionTest", method=RequestMethod.POST )
-	public void changeUserConditionTest(@PathVariable String userId ) throws Exception{
+	@RequestMapping( value="json/changeUserConditionTest/{userId}", method=RequestMethod.GET )
+	public boolean changeUserConditionTest(@PathVariable String userId ) throws Exception{
 		
 		System.out.println("휴면계정을 해제");
 	
 		userService.updateUserCon(userId);
-
+		boolean check= true;
+		return check;
 	}	
 	
 	//가입시 이메일 인증  :: 고유번호 세션 + 메일 전송

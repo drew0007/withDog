@@ -322,7 +322,7 @@ public class FundController {
 		request.setAttribute("search", search);
 		request.setAttribute("myPageState", 5);
 		
-		return "forward:/mypage/myPageMain.jsp";
+		return "forward:/mypage/listMyFund.jsp";
 	}
 	
 	
@@ -410,7 +410,7 @@ public class FundController {
 		
 		if(pointfund.getFund().getFundMyPrice()!=0) {
 		System.out.println(123);
-		String uri ="http://localhost:8080/fund/fundReceipt?state=";
+		String uri ="http://192.168.0.42:8080/fund/fundReceipt?state=";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	    JSONObject jobj = snsService.FundkakaoPay(pointfund, uri);;
 	    System.out.println(jobj.get("tid"));
@@ -570,7 +570,7 @@ public class FundController {
 		request.setAttribute("search", search);
 		request.setAttribute("myPageState", 11);
 		
-		return "forward:/mypage/adminPageMain.jsp";
+		return "forward:/admin/listFundUserAdmin.jsp";
 	}
 	
 	

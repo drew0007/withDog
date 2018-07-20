@@ -89,24 +89,20 @@
 </head>
 <body>
 		
-		<%-- <jsp:include page="../layout/header.jsp" /> --%>
+		<jsp:include page="../layout/header.jsp" /> 
 		
 		<!-- head section -->
-        <!--  <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
+        <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
             <img class="parallax-background-img" src="../images/sub/603_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
-                        page title
                         <h1 class="white-text">Change Password</h1>
-                        end page title
-                        page title tagline
                         <span class="white-text xs-display-none">고객님의 소중한 개인정보 보호를 위해 비밀번호를 변경해주세요</span>
-                        end title tagline
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section> 
         <!-- end head section -->
         
         
@@ -114,6 +110,9 @@
         <section>
             <div class="container clearfix"><!-- container1 -->
                 <div class="row margin-five no-margin-top"><!-- row1 -->
+                	<div class="col-md-2 col-sm-3 sidebar">
+						<jsp:include page="/layout/mypage-sideBar.jsp" />
+					</div>
                     <div class="col-md-6 col-sm-12 center-col sm-margin-bottom-seven">
                         <p class="black-text font-weight-600 text-uppercase text-large">비밀번호 변경</p>
                         <form id="updateform">
@@ -148,7 +147,7 @@
         <!-- end content section -->
         
 		
-		<%-- <jsp:include page="../layout/footer.jsp" /> --%>
+		<jsp:include page="../layout/footer.jsp" /> 
 	
 		<jsp:include page="../common/js.jsp" />
 </body>

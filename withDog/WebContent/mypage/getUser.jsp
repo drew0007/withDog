@@ -61,29 +61,29 @@
 
 <body>
 
-	<%-- <jsp:include page="../layout/header.jsp" /> --%>
+	<jsp:include page="../layout/header.jsp" /> 
 	<!-- head section -->
-	<!-- <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
+	 <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
 	   <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" />
 	   <div class="container">
 	       <div class="row">
 	           <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
-	               page title
-	                <h1 class="white-text">User Information</h1>
-	               end page title
-	               page title tagline
+	                <h1 class="white-text">회원 상세정보 조회</h1>
 	               <span class="white-text xs-display-none">Register and modify user information.</span>
-	               end title tagline
 	            </div>
 	        </div>
 	    </div>
-	</section> -->
+	</section> 
 	<!-- end head section -->
   
 	<!-- content section -->
 	<section>
 		<div class="container clearfix"><!-- container1 -->
 			<div class="container">
+				
+				<div class="col-md-2 col-sm-3 sidebar">
+					<jsp:include page="/layout/mypage-sideBar.jsp" />
+				</div>
 				<h2 style="margin-bottom:20px">회원정보</h2>
 				<hr/>
 				<div class="row">
@@ -246,7 +246,7 @@
 	</section>
 	<!-- end content section -->
         
-	<%-- <jsp:include page="../layout/footer.jsp" /> --%>
+	<jsp:include page="../layout/footer.jsp" /> 
 	<jsp:include page="../common/js.jsp" />
 
 </body>

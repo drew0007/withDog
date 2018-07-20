@@ -289,7 +289,7 @@ public class AshController {
 
 		if (pointAsh.getAsh().getAshReservationPrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
 			System.out.println(123);
-			String uri = "http://localhost:8080/ash/addReservationASHView?state=";
+			String uri = "http://192.168.0.42:8080/ash/addReservationASHView?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
 			JSONObject jobj = snsService.AshKakaoPay(pointAsh, uri); // 카카오페이 다녀와서 데이터를 받는 객체
@@ -421,7 +421,7 @@ public class AshController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 
-		return "forward:/animal/listMyReservationASH.jsp";
+		return "forward:/mypage/listMyReservationASH.jsp";
 	}
 	
 	@RequestMapping(value = "getMyReservationASH/{ashReservationNo}")  //나의 예약리스트
@@ -434,7 +434,7 @@ public class AshController {
 		
 		model.addAttribute("ash", resultAsh);
 		
-		return "forward:/animal/getMyReservationASH.jsp";
+		return "forward:/mypage/getMyReservationASH.jsp";
 	}
 	
 	@RequestMapping(value = "updateMyReservationCondition/{ashReservationNo}")  //나의 예약컨디션 수정
@@ -447,7 +447,7 @@ public class AshController {
 		
 		model.addAttribute("ash", ash);
 		
-		return "forward:/animal/getMyReservationASH.jsp";
+		return "forward:/mypage/getMyReservationASH.jsp";
 	}
 	
 	@RequestMapping(value = "updateAshMyReservation/{ashReservationNo}", method= RequestMethod.GET)  //나의 예약 수정
@@ -457,7 +457,7 @@ public class AshController {
 		
 		model.addAttribute("ash", ash);
 		
-		return "forward:/animal/updateMyReservationASH.jsp";
+		return "forward:/mypage/updateMyReservationASH.jsp";
 	}
 	
 	@RequestMapping(value = "updateAshMyReservation/{ashReservationNo}")  //나의 예약 수정
@@ -475,7 +475,7 @@ public class AshController {
 		
 		model.addAttribute("ash", ash);
 		
-		return "forward:/animal/getMyReservationASH.jsp";
+		return "forward:/mypage/getMyReservationASH.jsp";
 	}
 	
 	@RequestMapping(value = "getAshReservationAdminList")  //관리자의 회원예약리스트확인
@@ -506,7 +506,7 @@ public class AshController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 
-		return "forward:/animal/listReservationASHAdmin.jsp";
+		return "forward:/admin/listReservationASHAdmin.jsp";
 	}
 	
 	
@@ -578,7 +578,7 @@ public class AshController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		
-		return "forward:/animal/listMyConsulting.jsp";
+		return "forward:/mypage/listMyConsulting.jsp";
 	}
 	
 	@RequestMapping(value="updateConsultingState")
@@ -626,7 +626,7 @@ public class AshController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		
-		return "forward:/animal/listConsultingAdmin.jsp";
+		return "forward:/admin/listConsultingAdmin.jsp";
 	}
 	
 //	end컨설팅

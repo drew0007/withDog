@@ -15,6 +15,8 @@
 	<script type="text/javascript">
 	
 	$(function () {
+		
+		//스토어
 		$("a:contains('판매관리')").on("click",function(){
 	 		$(self.location).attr("href","/inquiry/getInquiryListAdmin");	 			 		
 	 	});
@@ -22,70 +24,28 @@
 		$("a:contains('상품문의관리')").on("click",function(){
 	 		$(self.location).attr("href","/inquiry/getInquiryListAdmin");	 			 		
 	 	});
-	
-		$( "a:contains('나의 후원내역')" ).on("click" , function() {
-			$(self.location).attr("href","/fund/getMyFundList");
+		
+		
+		//펀드
+		$( "a:contains('회원별 후원내역')" ).on("click" , function() {
+			$(self.location).attr("href","/fund/getFundUserListAdmin");
  		});
 		
-	 	///나의 정보 확인 연결
-	 	$( "a:contains('회원관리')" ).on("click" , function() {
-			$(self.location).attr("href","/user/getUserListAdmin");
+		
+		//동물교감치유
+	 	$( "a:contains('예약관리')" ).on("click" , function() {
+			$(self.location).attr("href","/ASH/getAshReservationAdminList");
  		});
 	 	
-	 	$("a:contains('나의 포인트 내역')").on("click",function(){
-	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
-	 	});
-	 	
-<<<<<<< HEAD
-	 	
-	});
-	
-	</script>
-
-</head>
-
-<body>
-		
- <!-- sidebar  -->
-    
-     <!-- widget  -->
-     <div class="widget">
-         <h5 class="widget-title font-alt">스토어</h5>
-         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-         <div class="widget-body">
-             <ul class="category-list">
-                 <li><a href="#">판매관리</a></li>
-                 <li><a href="#">상품문의관리</a></li>
-             </ul>
-         </div>
-     </div>
-     <!-- end widget  -->
-     
-      <!-- widget  -->
-     <div class="widget">
-         <h5 class="widget-title font-alt">크라우드펀딩</h5>
-         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-         <div class="widget-body">
-             <ul class="category-list">
-                 <li><a href="#">회원별 후원내역</a></li>
-             </ul>
-         </div>
-     </div>
-     <!-- end widget  -->
-     
-     <!-- widget  -->
-     <div class="widget">
-         <h5 class="widget-title font-alt">동물교감치유</h5>
-         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-         <div class="widget-body">
-             <ul class="category-list">
-                 <li><a href="">예약관리</a></li>
-                 <li><a href="">영상상담신청관리</a></li>
-=======
 	 	$("a:contains('영상상담신청관리')").on("click",function(){
 	 		$(self.location).attr("href","/ash/getConsultingAdminList");	 			 		
 	 	});
 	 	
+		
+		//회원
+	 	$( "a:contains('회원관리')" ).on("click" , function() {
+			$(self.location).attr("href","/user/getUserListAdmin");
+ 		});
 	 	
 	});
 	
@@ -130,7 +90,6 @@
              <ul class="category-list">
                  <li><a href="#">예약관리</a></li>
                  <li><a href="#">영상상담신청관리</a></li>
->>>>>>> refs/heads/master
              </ul>
          </div>
      </div>

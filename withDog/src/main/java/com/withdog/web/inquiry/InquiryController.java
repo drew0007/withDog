@@ -132,7 +132,7 @@ public class InquiryController {
 		model.addAttribute("search", search);
 
 		
-		return "forward:/store/listMyInquiry.jsp";
+		return "forward:/mypage/listMyInquiry.jsp";
 	}
 	
 	
@@ -157,6 +157,6 @@ public class InquiryController {
 		model.addAttribute("search", search);
 
 		
-		return "forward:/store/listInquiryAdmin.jsp";
+		return "forward:/admin/listInquiryAdmin.jsp";
 	}
 }

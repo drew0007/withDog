@@ -82,12 +82,39 @@
 
 </head>
 <body>
+
+<jsp:include page="/layout/header.jsp" />
+	 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/304_bg.jpg" alt="" />
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
+                        <!-- page title -->
+                        <h1 class="white-text tit_png"><img src="../images/sub/myPage_tit.png"></h1>
+                        <!-- end page title -->
+                        <!-- page title tagline -->
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
+                        <!-- end title tagline -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end head section -->
+        
         
         <!-- content section -->
        <section class="wow fadeIn">
             <div class="container clearfix"><!-- container1 -->
 				<a class="highlight-button-black-border btn btn-medium pull-left" href="#" id ="updateUserCon">휴면 회원 설정</a>
 	    		<div class="row col-md-12">
+				    <!-- sidebar  -->
+					<div class="col-md-2 col-sm-3 sidebar">
+						<jsp:include page="/layout/admin-sideBar.jsp" />
+					</div>
+					<!-- end sidebar  -->
 	    			<h3>회원관리리스트</h3>
 		   			 <div class="col-md-6" style="margin-top:50px">
 		    			<p class="text-primary">

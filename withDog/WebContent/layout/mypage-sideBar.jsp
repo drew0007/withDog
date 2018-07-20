@@ -16,82 +16,58 @@
 	
 	$(function () {
 		
+		//스토어
+		$( "a:contains('나의 구매내역')" ).on("click" , function() {
+			$(self.location).attr("href","/purchase/getMyPurchaseList");
+ 		});
+		
+		$( "a:contains('취소/반품내역')" ).on("click" , function() {
+			$(self.location).attr("href","/purchase/getMyCancelList");
+ 		});
+		
 		$( "a:contains('나의 문의내역')" ).on("click" , function() {
 			$(self.location).attr("href","/inquiry/getMyInquiryList");
  		});
 		
+		$( "a:contains('장바구니')" ).on("click" , function() {
+			$(self.location).attr("href","/cart/getMyCartList");
+ 		});
+		
+		
+		//펀드
 		$( "a:contains('나의 후원내역')" ).on("click" , function() {
 			$(self.location).attr("href","/fund/getMyFundList");
  		});
 		
-	 	///나의 정보 확인 연결
+		
+		//회원
 	 	$( "a:contains('나의 정보 확인')" ).on("click" , function() {
 			$(self.location).attr("href","/user/getUser");
  		});
 	 	
-	 	///비밀번호 수정 연결
 	 	$( "a:contains('비밀번호 수정')" ).on("click" , function() {
 			$(self.location).attr("href","/user/updatePassword");
 		});
 	 	
-	 	///회원탈퇴 연결
 	 	$( "a:contains('회원탈퇴')" ).on("click" , function() {
 			$(self.location).attr("href","/user/deleteUser");
 		});
 	 		 	
-	 	$("a:contains('나의 포인트 내역')").on("click",function(){
-	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
+		
+	 	//동물교감치유
+	 	$("a:contains('나의 예약내역')").on("click",function(){
+	 		$(self.location).attr("href","/ash/getMyReservationASHList");	 			 		
 	 	});
-<<<<<<< HEAD
-	});
-	
-	</script>
-
-</head>
-
-<body>
-        
-                       
-  <!-- widget  -->
-  <div class="widget">
-      <h5 class="widget-title font-alt">My 쇼핑</h5>
-      <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-      <div class="widget-body">
-          <ul class="category-list">
-              <li><a href="#">나의 구매내역</a></li>
-              <li><a href="#">취소/반품내역</a></li>
-              <li><a href="#">나의 문의내역</a></li>
-              <li><a href="#">장바구니</a></li>
-          </ul>
-      </div>
-  </div>
-  <!-- end widget  -->
-  
-   <!-- widget  -->
-  <div class="widget">
-      <h5 class="widget-title font-alt">My 후원</h5>
-      <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-      <div class="widget-body">
-          <ul class="category-list">
-              <li><a href="#">나의 후원내역</a></li>
-          </ul>
-      </div>
-  </div>
-  <!-- end widget  -->
-  
-  <!-- widget  -->
-  <div class="widget">
-      <h5 class="widget-title font-alt">My 예약</h5>
-      <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
-      <div class="widget-body">
-          <ul class="category-list">
-              <li><a href="">나의 예약내역</a></li>
-              <li><a href="">영상상담신청내역</a></li>
-=======
-	 	
 	 	$("a:contains('영상상담신청내역')").on("click",function(){
 	 		$(self.location).attr("href","/ash/getMyConsultingList");	 			 		
 	 	});
+	 	
+	 	
+	 	//포인트
+	 	$("a:contains('나의 포인트 내역')").on("click",function(){
+	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
+	 	});
+	 	
 	});
 	
 	</script>
@@ -136,7 +112,7 @@
           <ul class="category-list">
               <li><a href="#">나의 예약내역</a></li>
               <li><a href="#">영상상담신청내역</a></li>
->>>>>>> refs/heads/master
+
           </ul>
       </div>
   </div>
