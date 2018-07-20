@@ -11,7 +11,7 @@
 
 <script>
 function nearmap(){
-	popWin = window.open("/quick/ARMap","popWin", "left=300,width=993,height=800,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+	popWin = window.open("/quick/ARMap","popWin", "left=300,width=1060,height=790,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
 }
 
 </script>

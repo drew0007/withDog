@@ -14,7 +14,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
      #map {
-        height: 100%;
+        height: 706px;
         align-left:100;
         /* left: 100%; */
 
@@ -26,7 +26,7 @@
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
-        height: 112%;
+        height: 100%;
         margin: 0;
         padding: 0;
         
@@ -56,39 +56,92 @@
 	
 	    $(function(){
 		    var filter = "win16|win32|win64|mac|macintel";
-			if( navigator.platform  ){
+			 if( navigator.platform  ){
 			
 				if( filter.indexOf(navigator.platform.toLowerCase())<0 ){
 			
 					console.log("모바일 기기에서 접속");
 					
-					$("#top").append("<img alt=\"\" src=\"../images/quick/title.png\" width=\"100%\" height=\"40px\">");
+					document.getElementById('map').style.height='383px';
 					
-					$("#place").append("<p class=\"bg-info\" align=\"center\">주 &nbsp;&nbsp;&nbsp;&nbsp; 변 &nbsp;&nbsp;&nbsp;&nbsp; 검 &nbsp;&nbsp;&nbsp;&nbsp; 색</p>");
-					$("#place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"65\" height=\"75\" id=\"s\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"65\" height=\"75\" id=\"s\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"60\" height=\"75\" id=\"s\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"65\" height=\"75\" id=\"s\"></a>&nbsp;");
-					$("#place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"65\" height=\"75\" id=\"s\"></a>");
+					$("#top").append("<img alt=\"\" src=\"../images/quick/titlem.png\" width=\"100%\" height=\"45px\">");
+					
+					/* $(".place").append("<p class=\"bg-info\" align=\"center\">주 &nbsp;&nbsp;&nbsp;&nbsp; 변 &nbsp;&nbsp;&nbsp;&nbsp; 검 &nbsp;&nbsp;&nbsp;&nbsp; 색</p>"); */
+					$(".place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"65\"  id=\"s\" class=\"st st0\"></a>&nbsp;");
+					$(".place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"65\"  id=\"s\" class=\"st st1\"></a>&nbsp;");
+					$(".place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"65\"  id=\"s\" class=\"st st2\"></a>&nbsp;");
+					$(".place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"65\"  id=\"s\" class=\"st st3\"></a>&nbsp;");
+					$(".place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"65\"  id=\"s\" class=\"st st4\"></a>");
 					
 										
 				}else{
 			
 					console.log("PC에서 접속");
 					
-					$("#top").append("<img alt=\"\" src=\"../images/quick/title.png\" width=\"100%\" height=\"100px\">");
+					$("#top").append("<a href=\"javascript:initMap();\" ><img alt=\"\" src=\"../images/quick/title.png\" width=\"100%\"  id=\"home\"></a>");
 					
-					$("#place").append("<p class=\"bg-info\">주 변 검 색</p>");
-					$("#place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"90\" height=\"100\"id=\"s\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
-					$("#place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"90\" height=\"100\" id=\"s\"></a><hr/>");
+					$(".place").append("<p class=\"bg-info\">주 변 검 색</p>");
+					$(".place").append("<a href=\"javascript:dropAnimal('veterinary_care');\"><img alt=\"\" src=\"../images/quick/dogicon.png\" width=\"73\"  id=\"s\" class=\"st st0\"></a><hr/>");
+					$(".place").append("<a href=\"javascript:dropAnimal('park');\"><img alt=\"\" src=\"../images/quick/park.png\" width=\"73\"  id=\"s\" class=\"st st1\"></a><hr/>");
+					$(".place").append("<a href=\"javascript:dropAnimal('convenience_store');\"><img alt=\"\" src=\"../images/quick/pun.png\" width=\"73\" id=\"s\" class=\"st st2\"></a><hr/>");
+					$(".place").append("<a href=\"javascript:dropAnimal('restaurant');\"><img alt=\"\" src=\"../images/quick/ret.png\" width=\"73\"  id=\"s\" class=\"st st3\"></a><hr/>");
+					$(".place").append("<a href=\"javascript:dropAnimal('subway_station');\"><img alt=\"\" src=\"../images/quick/sub.png\" width=\"73\"  id=\"s\" class=\"st st4\"></a>");
 		 
 				}
+				
+				
+				$(document).on("click",".st",function(){
+					var temp = "_off";
+					var st0 = $(".st0")
+					var st1 = $(".st1")
+					var st2 = $(".st2")
+					var st3 = $(".st3")
+					var st4 = $(".st4")
+					if($(".st").index(this)==0){
+						st0.attr('src','../../images/quick/dogicon.png')
+						st1.attr('src','../../images/quick/park_off.png')
+						st2.attr('src','../../images/quick/pun_off.png')
+						st3.attr('src','../../images/quick/ret_off.png')
+						st4.attr('src','../../images/quick/sub_off.png')
+																
+					}
+					if($(".st").index(this)==1){
+						st1.attr('src','../../images/quick/park.png')
+						st2.attr('src','../../images/quick/pun_off.png')
+						st3.attr('src','../../images/quick/ret_off.png')
+						st4.attr('src','../../images/quick/sub_off.png')
+						st0.attr('src','../../images/quick/dogicon_off.png')
+					}
+					if($(".st").index(this)==2){
+						st2.attr('src','../../images/quick/pun.png')
+						st1.attr('src','../../images/quick/park_off.png')
+						st0.attr('src','../../images/quick/dogicon_off.png')
+						st3.attr('src','../../images/quick/ret_off.png')
+						st4.attr('src','../../images/quick/sub_off.png')
+						
+					}
+					if($(".st").index(this)==3){
+						st3.attr('src','../../images/quick/ret.png')
+						st1.attr('src','../../images/quick/park_off.png')
+						st2.attr('src','../../images/quick/pun_off.png')
+						st0.attr('src','../../images/quick/dogicon_off.png')
+						st4.attr('src','../../images/quick/sub_off.png')
+						
+					}
+					if($(".st").index(this)==4){
+						st4.attr('src','../../images/quick/sub.png')
+						st1.attr('src','../../images/quick/park_off.png')
+						st2.attr('src','../../images/quick/pun_off.png')
+						st3.attr('src','../../images/quick/ret_off.png')
+						st0.attr('src','../../images/quick/dogicon_off.png')
+					}
+				});
+				
+				
 			
 			}
 	    });
+	    
 	</script>
   </head>
   		<div align="center" id="top">
@@ -100,7 +153,7 @@
 		<div id="map" class="col-md-10 col-sm-10"></div>
 		
 			<div class="col-md-2 col-sm-2">
-				<div class="row" align="center" id="place">
+				<div class="row place" align="center" id="place">
 																				
 				</div>
 			</div>
@@ -360,9 +413,24 @@
        
        
       $(function(){
+    	  $(document).on("click","#home",function(){
+       		
+    		  initMap();
+       		
+        	 });
+    	  
+    	  
      	 $(document).on("click","#s",function(){
-     		map.setZoom(15);
+     		var filter = "win16|win32|win64|mac|macintel";
+			 if( navigator.platform  ){
+			
+				if( filter.indexOf(navigator.platform.toLowerCase())<0 ){
+				 map.setZoom(14);
+				}else{
+					map.setZoom(15);
+				}
      		
+			 }
       	 });
  
   	var uluru = {lat:arlat,lng:arlng}
