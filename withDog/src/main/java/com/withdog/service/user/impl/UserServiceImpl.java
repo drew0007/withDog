@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.withdog.common.Search;
+import com.withdog.service.common.CommonService;
+import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserDAO;
 import com.withdog.service.user.UserService;
@@ -20,6 +22,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("userDAOImpl")
 	private UserDAO userDAO;
+	
+	@Autowired
+	@Qualifier("commonServiceImpl")
+	private CommonService commonService;
 	
 	///Constructor
 	public UserServiceImpl() {
@@ -34,7 +40,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUser(String userId) throws Exception {
-			return userDAO.getUser(userId);
+		
+			User user = userDAO.getUser(userId);
+			
+			 //포인트 조회;
+			 Point point =new Point();
+			 point.setUser(user);
+			 int currentPoint= commonService.getCurrentPoint(point);
+			 
+			 user.setCurrentPoint(currentPoint);
+			return  user;
 	}
 	
 
@@ -51,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteUser(User user) throws Exception {
-		// TODO Auto-generated method stub
+		 userDAO.deleteUser(user);
 
 	}
 
@@ -105,6 +120,24 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateRecentlyDate(String userId) throws Exception {
 		userDAO.updateRecentlyDate(userId);
+	}
+
+	@Override
+	public User checkPhone(User user) throws Exception {
+		return userDAO.checkPhone(user);
+		
+	}
+
+	@Override
+	public void updateUserList() throws Exception {
+		userDAO.updateUserList();
+		
+	}
+
+	@Override
+	public void updateUserCon(String userId) throws Exception {
+		userDAO.updateUserCon(userId);
+		
 	}
 
 }

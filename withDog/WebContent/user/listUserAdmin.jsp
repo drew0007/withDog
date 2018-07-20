@@ -16,13 +16,11 @@
 
 	$( function() {
 		
-		
 		//간략한 정보 보기 클리
 		$(  "td:nth-child(6)" ).on("click" , function() {
-			alert(111111);
-			var parents = $(this).parents();
-			var userId = $(this).val();
-			alert(parents);
+			
+			var userId = $(this).children().find($('input[type="hidden"]')).val();
+		
 			$.ajax({
 					url : "/user/json/getUser/"+userId ,
 					method : "GET" ,
@@ -35,10 +33,9 @@
 
 						var displayValue = "<h6>"
 													+"아이디 : "+JSONData.userId+"<br/>"
-													+"이  름 : "+JSONData.userName+"<br/>"
-													+"이메일 : "+JSONData.email+"<br/>"
-													+"ROLE : "+JSONData.role+"<br/>"
-													+"휴대폰 : "+JSONData.regDate+"<br/>"
+													+"생년월일 : "+JSONData.birth+"<br/>"
+													+"휴대폰 : "+JSONData.phone+"<br/>"
+													+"현재 포인트 : "+JSONData.currentPoint+"<br/>"
 													+"</h6>";
 						$("h6").remove();
 						$( "#"+userId+"" ).html(displayValue);
@@ -48,19 +45,33 @@
 		
 		
 		//이름 클릭시 상세 정보 화면으로
-		$("#userId").on("click" , function() {
-			var userId = $(this).text();
+		$("td:nth-child(3)").on("click" , function() {
+			
+			var userId =$(this).text();
+			alert(userId);
+			
 			self.location = "/user/getUserAdmin?userId="+userId;
 			
 		});
 			
-			
-	}); //제이쿼리
+		
+		//검색버튼 이벤트
+		 $( "#search" ).on("click" , function() {
+			 fncGetList(1);
+		});
+		
+		//휴면회원 설정
+		 $( "#updateUserCon" ).on("click" , function() {
+			 
+			self.location = "/user/updateUserList";
+						 
+		});
+		
+	}); //제이쿼리 끝
 		
 	
-
 		
-	
+	//하단 페이지 클릭시
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
 		$("form").attr("method", "POST").attr("action", "/user/getUserListAdmin").submit();
@@ -71,47 +82,29 @@
 
 </head>
 <body>
-		<jsp:include page="../layout/header.jsp" /> 
-		
-		<!-- head section -->
-        	<section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/603_bg.jpg" alt="" />
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
-                        <h1 class="white-text">회원관리 리스트</h1>
-                        <span class="white-text xs-display-none">List User</span>
-                    </div>
-                </div>
-            </div>
-        </section> 
-        <!-- end head section -->
         
         <!-- content section -->
-       <section class="wow fadeIn border-top">
+       <section class="wow fadeIn">
             <div class="container clearfix"><!-- container1 -->
-            	 <!-- 상단 -->
-                <div class="row  no-margin-top"><!-- row1 -->
-                
-                     <div class="col-md-7 col-sm-10 center-col text-center margin-ten no-margin-top xs-margin-bottom-seven">
-                        <h3 class="no-margin-top margin-ten xs-margin-bottom-seven"><strong class="black-text">회원관리리스트</strong></h3>
-                    </div>
-                    
-                </div>
-                
+				<a class="highlight-button-black-border btn btn-medium pull-left" href="#" id ="updateUserCon">휴면 회원 설정</a>
 	    		<div class="row col-md-12">
-		   			 <div class="col-md-6">
+	    			<h3>회원관리리스트</h3>
+		   			 <div class="col-md-6" style="margin-top:50px">
 		    			<p class="text-primary">
 		    				전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    			</p>
 		    		</div>	
 		    		
 		   			<div class="col-md-6">
+		   				
 			   			<form class="form-inline">
 						  	<div class="form-group">
 						    	<select class="form-control" name="searchCondition" >
 									<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
 									<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
+									<option value="00"  ${ ! empty search.searchCondition && search.searchCondition==00 ? "selected" : "" }>계정상태 :휴면</option>
+									<option value="11"  ${ ! empty search.searchCondition && search.searchCondition==11 ? "selected" : "" }>계정상태 :정상</option>
+									<option value="22"  ${ ! empty search.searchCondition && search.searchCondition==22 ? "selected" : "" }>계정상태 :탈퇴</option>
 								</select>
 						  	</div>
 						  
@@ -119,21 +112,22 @@
 						    	<label class="sr-only" for="searchKeyword">검색어</label>
 						    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 						    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-						  	</div>
-						  
-						  	<button class="highlight-button-dark btn no-margin post-search" id="join" type="submit">검색</button>
-						  
-							<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-							<input type="hidden" id="currentPage" name="currentPage" value=""/>
+						  	
+							  	<input type="button" class="highlight-button-dark btn no-margin post-search" id="search" value="검색"/>
+							  
+								<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+								<input type="hidden" id="currentPage" name="currentPage" value=""/>
+							</div>
 						</form>
 	    			</div>
 	    		</div>	
 	    	
 		</div>
                 <!-- 하단 -->
+        <div class="container clearfix">      
                 <div class="row">
                    
-                    <div class="col-md-8 col-sm-12 center-col no-margin-bottom table-scroll">
+                    <div class="col-md-12 col-sm-12 no-margin-bottom table-scroll">
                         <table class="table table-striped">
                            
                             <thead>
@@ -157,12 +151,12 @@
 											  <td align="left">
 												  <c:choose>
 														<c:when test="${user.userCondition=='0'}">휴면 </c:when>
-														 <c:when test="${user.userCondition=='2'}">탈퇴 </c:when>
+														<c:when test="${user.userCondition=='2'}">탈퇴 </c:when>
 												  		<c:otherwise>정상</c:otherwise>	
-												</c:choose>
+												  </c:choose>
 											  </td>
 											  
-											  <td align="left" id="userId">${user.userId}</td>
+											  <td align="left" value="${user.userId}">${user.userId}</td>
 											  <td align="left">${user.userName}</td>
 											  <td align="left">${user.recentlyDate}</td>
 											  <td align="left"> <i class="fa fa-fw" id="${user.userId}" >
@@ -175,15 +169,13 @@
                     </div>
                 
                 </div><!-- row1 -->
-            </div><!-- container1 -->
+           
             
-            <jsp:include page="/common/pageNavigator_new.jsp"/>
-            
+            	<jsp:include page="/common/pageNavigator_new.jsp"/>
+             </div><!-- container1 -->
         </section>
         <!-- end content section -->
 		
-		<jsp:include page="../layout/footer.jsp" /> 
-	
-		<jsp:include page="../common/js.jsp" />
+
 </body>
 </html>

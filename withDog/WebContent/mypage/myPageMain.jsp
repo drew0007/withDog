@@ -49,12 +49,12 @@
 	<jsp:include page="/layout/common-header.jsp" />
 		
 	 <!-- head section -->
-         <section class="page-title parallax3 parallax-fix page-title-blog">
+         <section class="page-title parallax3 parallax-fix  page-title-blog">
             <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
             <img class="parallax-background-img" src="../images/sub/304_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                    <div class="col-md-12 col-sm-12 text-center">
                         <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
                         <h1 class="white-text tit_png"><img src="../images/sub/myPage_tit.png"></h1>
@@ -157,6 +157,14 @@
 					   		<jsp:include page="../user/getUser.jsp" />
 						</div>
 					</c:if>
+					
+					<c:if test="${myPageState =='88'}">
+						<div class="col-md-3 col-sm-4 ">
+					   		<jsp:include page="../user/updateUser.jsp" />
+						</div>
+					</c:if>
+					
+					
 					
 					<c:if test="${myPageState =='9'}">
 						<div class="col-md-3 col-sm-4 ">

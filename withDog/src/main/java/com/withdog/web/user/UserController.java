@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.ModelAndView;
 
 import com.withdog.common.Page;
 import com.withdog.common.Search;
@@ -96,7 +98,7 @@ public class UserController {
 
 	}
 	
-	///로그아웃 GET
+	//로그아웃 GET changeUserCon
 	@RequestMapping( value="logoutUser", method=RequestMethod.GET )
 	public String logoutUser(HttpSession session ) throws Exception{
 		
@@ -124,7 +126,6 @@ public class UserController {
 		System.out.println("회원가입 :: /user/addUser : POST");
 
 		//Business Logic
-		
 		userService.addUser(user);
 		
 		user = userService.getUser(user.getUserId());
@@ -133,7 +134,9 @@ public class UserController {
 		return "forward:/user/getUser.jsp";
 	}
 
-	//회원정보 조회 GET 
+	//회원정보 조회 GET  :: 
+	/* 회원정보 중 현재포인트는 serviceImpl에서 처리 ( 다른곳에서 userService.getUser(userId) 부르면 포인트 담겨져 가도록)
+	 * 유저 회원정보시 세션에서 아이디 확인 / 관리자는 겟방식으로 받음 */
 	@RequestMapping( value="getUser", method=RequestMethod.GET )
 	public String getUser (HttpSession session, Model model,Point point)  throws Exception {
 
@@ -142,43 +145,75 @@ public class UserController {
 		User user =  (User) session.getAttribute("user");
 		String userId  = user.getUserId();
 		
-		
 		//Business Logic
 		 user = userService.getUser(userId);
-		 
-		 //포인트 조회;
-		 point.setUser(user);
-		 int userPoint= commonService.getCurrentPoint(point);
-		 
-		 user.setCurrentPoint(userPoint);
+
 		 // Model 과 View 연결
 		model.addAttribute("user", user);
-		//마이페이지
+		System.out.println("마이페이지 가기전 확인"+user);
+		//myPageMain  :: 연결코드 ::   8 회원상세 , 88 회원정보수정, 9 비밀번호 수정, 10 회원탈퇴
 		model.addAttribute("myPageState",8);
-		
-		/*return "forward:/user/getUser.jsp";*/
 		
 		return "forward:/mypage/myPageMain.jsp";
 	}
 	
 	//회원정보 수정화면 GET  (로그인 클릭했을 때 단순네비게이션)
-	@RequestMapping( value="upateUser", method=RequestMethod.GET )
-	public String updateUser (HttpSession session, Model model)  throws Exception {
+	@RequestMapping( value="updateUser", method=RequestMethod.GET )
+	public String updateUser (HttpSession session, Model model, User user)  throws Exception {
 
 		System.out.println("회원정보 수정화면 :: /user/updateUser : GET");
+		
+		//Business Logic
+		user = (User)session.getAttribute("user");
+		user  = userService.getUser(user.getUserId());
+		
+		 // Model 과 View 연결
+		model.addAttribute("user", user);
+		
+		//myPageMain   :: 연결코드 ::   8 회원상세 , 88 회원정보수정, 9 비밀번호 수정, 10 회원탈퇴
+		model.addAttribute("myPageState",88);
 	
-		return "forward:/user/updateUser.jsp";
+		return "forward:/mypage/myPageMain.jsp";
+		}	
+	
+	//회원정보 수정화면 POST 
+	@RequestMapping( value="updateUser", method=RequestMethod.POST )
+	public String updateUser (@ModelAttribute("user") User user, Model model,HttpServletResponse response)  throws Exception {
+
+		System.out.println("회원정보 수정화면 :: /user/updateUser : POST");
+		
+		//Business Logic
+		userService.updateUser(user);
+		user = userService.getUser(user.getUserId());
+		/*response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('정보수정이 완료 되었습니다'); </script>");
+		out.flush();
+		*/
+		//myPageMain  또는 adminPageMain 페이지 연결 :: 연결코드 ::   888 회원관리리스트,  8 회원상세, 88 회원정보수정,  9 비밀번호 수정,  10 회원탈퇴
+		String resultJsp ;
+		String role = user.getRole();
+		
+		if(role.equals("admin")) {
+			model.addAttribute("myPageState",8);
+			model.addAttribute("user");
+			resultJsp ="forward:/mypage/adminPageMain.jsp";
+		}else {
+			model.addAttribute("myPageState",8);
+			model.addAttribute("user");
+			resultJsp ="forward:/mypage/myPageMain.jsp";
+		}
+		return resultJsp;
 	}
 	
-
 	//비밀번호 수정 화면 GET
 	@RequestMapping( value="updatePassword", method=RequestMethod.GET )
-	public String updatePassword (HttpServletRequest request)  throws Exception {
+	public String updatePassword (Model model)  throws Exception {
 
 		System.out.println("비밀번호 수정 화면으로 /user/updatePassword : GET");
 		
-		//마이페이지
-		request.setAttribute("myPageState",9);
+		//myPageMain :: 연결코드 ::   8 회원상세 , 88 회원정보수정, 9 비밀번호 수정, 10 회원탈퇴
+		model.addAttribute("myPageState",9);
 		
 		return "forward:/mypage/myPageMain.jsp";
 	} 
@@ -202,9 +237,17 @@ public class UserController {
 	
 	///회원탈퇴 GET
 	@RequestMapping( value="deleteUser", method=RequestMethod.GET )
-	public String deleteUser(HttpServletRequest request) throws Exception{
+	public String deleteUser(HttpServletRequest request,HttpSession session,User user,Point point,Model model) throws Exception{
 		
 		System.out.println("회원탈퇴 화면으로 /user/deleteUser : GET");
+		
+		user =(User)session.getAttribute("user");
+		
+		//Business Logic
+		user  = userService.getUser(user.getUserId());
+		
+		 // Model 과 View 연결
+		model.addAttribute("user", user);
 		
 		//마이페이지
 		request.setAttribute("myPageState",10);
@@ -214,13 +257,19 @@ public class UserController {
 	
 	///회원탈퇴 POST
 	@RequestMapping( value="deleteUser", method=RequestMethod.POST )
-	public String deleteUser(User user, HttpSession session ) throws Exception{
+	public String deleteUser(User user, HttpSession session,HttpServletResponse response ) throws Exception{
 		
 		System.out.println("회원탈퇴 /user/deleteUser : POST");
-		System.out.println("User 정보 확인"+user);
-		System.out.println("User 정보 확인"+user.getLeaveReason());
+			
+		userService.deleteUser(user);
+		session.invalidate();
 		
-		return "forward:/common/index.jsp";
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('회원탈퇴가 완료 되었습니다'); </script>");
+		out.flush();
+		
+		return "forward:/common/mainPage";
 	}
 	
 	//ID 찾기 GET (로그인 클릭했을 때 단순네비게이션)
@@ -253,28 +302,74 @@ public class UserController {
 			model.addAttribute("resultPage", resultPage);
 			model.addAttribute("search", search);
 			
-			return "forward:/user/listUserAdmin.jsp";
+			//amdinPageMain  :: 연결 코드 ::  888 회원관리 리스트, 8 회원상세 , 88 회원정보수정
+			model.addAttribute("myPageState",888);
+			
+			return "forward:/mypage/adminPageMain.jsp";
 		}
 	
-		//회원관리리스트 상세
+		//회원관리리스트 상세 ::  아이디 겟방식 
 		@RequestMapping( value="getUserAdmin", method=RequestMethod.GET )
 		public String getUserAdmin (@RequestParam("userId") String userId,Model model,User user)  throws Exception {
 
-			System.out.println("회원정보 조회 :: /user/getUser : GET");
+			System.out.println("회원정보 조회 :: /user/getUserAdmin : GET");
 		
+			System.out.println("확인중"+userId);
 			//Business Logic
 			 user = userService.getUser(userId);
-			 
+			 System.out.println("확인중222222222"+user);
 			 // Model 과 View 연결
 			model.addAttribute("user", user);
 			
 			/*return "forward:/user/getUser.jsp";*/
 			
-			return "forward:/user/getUser.jsp";
+			//amdinPageMain  :: 연결 코드 ::  888 회원관리 리스트, 8 회원상세 , 88 회원정보수정
+			model.addAttribute("myPageState",8);
+			
+			return "forward:/mypage/adminPageMain.jsp";
 		}
 		
+			//회원수정 _어드민 :: 아이디 겟방식
+			@RequestMapping( value="updateUserAdmin", method=RequestMethod.GET )
+			public String updateUserAdmin (@RequestParam("userId") String userId,Model model,User user)  throws Exception {
+
+				System.out.println("회원정보 조회 :: /user/updateUserAdmin : GET");
+			
+				System.out.println("확인중"+userId);
+				//Business Logic
+				 user = userService.getUser(userId);
+				 
+				 // Model 과 View 연결
+				model.addAttribute("user", user);
+				
+				//amdinPageMain  :: 연결 코드 ::  888 회원관리 리스트, 8 회원상세 , 88 회원정보수정
+				model.addAttribute("myPageState",88);
+				
+				return "forward:/mypage/adminPageMain.jsp";
+			
+		}
 		
+		//휴면해제 페이지로 단순 네비게이션
+			@RequestMapping( value="changeUserCon", method=RequestMethod.GET )
+			public String changeUserCon( ) throws Exception{
+				
+				System.out.println("휴면해제 단순 네비게이션");
+					
+					return "forward:/user/changeUserCon.jsp";
+			}	
 		
+			
+			//회원관리리스트_어드민 :: 휴면회원 설정:: 1 년 로그인 하지 않은 경우 휴면회원으로 (user_condition ='2')
+			@RequestMapping( value="updateUserList", method=RequestMethod.GET )
+			public String updateUserList( ) throws Exception{
+				
+				System.out.println("휴면설정 :: updateUserList");
+				
+				userService.updateUserList();
+				
+				return "forward:/user/getUserListAdmin";
+			}	
+
 		
 		//장원이 테스트 2
 		@RequestMapping( value="test", method=RequestMethod.GET )
@@ -283,6 +378,19 @@ public class UserController {
 			System.out.println("ddddd");
 			
 			return "forward:/user/test.jsp";
+		}
+		
+		//html 받기
+		@RequestMapping( value="test2", method=RequestMethod.POST )
+		public String  html (String testa, ModelMap model) throws Exception{
+			
+			System.out.println("html 테스트 >> "+testa);
+//			ModelAndView mav = new ModelAndView();
+//			mav.addObject("testa", testa);
+//			mav.setViewName("forward:/user/test3.jsp");
+			model.addAttribute("testa", testa);
+
+			return "forward:/user/test2.jsp";
 		}
 
 }//end of class

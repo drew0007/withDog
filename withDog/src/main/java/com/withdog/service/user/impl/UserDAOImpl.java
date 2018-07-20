@@ -43,6 +43,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void updateUser(User user) throws Exception {
+		System.out.println("업데이트 하기전에"+user);
 		sqlSession.update("UserMapper.updateUser", user);
 
 	}
@@ -55,7 +56,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void deleteUser(User user) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update("UserMapper.deleteUser", user);
 
 	}
 
@@ -102,6 +103,21 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+
+	@Override
+	public User checkPhone(User user) throws Exception {
+		return sqlSession.selectOne("UserMapper.checkPhone", user);
+	}
+
+	@Override
+	public void updateUserList() throws Exception {
+		sqlSession.update("UserMapper.updateUserList");
+	}
+
+	@Override
+	public void updateUserCon(String userId) throws Exception {
+		sqlSession.update("UserMapper.updateUserCon",userId);
 	}
 	
 }//end of class

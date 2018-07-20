@@ -46,7 +46,7 @@
                     <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
                         <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
-                        <h1 class="white-text tit_png"><img src="../images/sub/myPage_tit.png"></h1>
+                        <h1 class="white-text tit_png"><img src="../images/sub/admin_tit.png"></h1>
                         <!-- end page title -->
                         <!-- page title tagline -->
                         <!-- 서브타이틀 <span class="white-text">1234</span>-->
@@ -129,22 +129,22 @@
 						</div>
 					</c:if>
 					
-					<c:if test="${myPageState =='8'}">
+					<c:if test="${myPageState =='888'}">
 						<div class="col-md-3 col-sm-4 ">
 					   		<jsp:include page="../user/listUserAdmin.jsp" />
 						</div>
 					</c:if>
 					
-					<c:if test="${myPageState =='9'}">
+					<c:if test="${myPageState =='8'}">
 						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../user/updatePassword.jsp" />
+					   		<jsp:include page="../user/getUser.jsp" />
 						</div>
 					</c:if>
 					
 					
-					<c:if test="${myPageState =='10'}">
+					<c:if test="${myPageState =='88'}">
 						<div class="col-md-3 col-sm-4 ">
-					   		<jsp:include page="../user/deleteUser.jsp" />
+					   		<jsp:include page="../user/updateUser.jsp" />
 						</div>
 					</c:if>
 										

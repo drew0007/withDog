@@ -45,5 +45,13 @@ public interface UserDAO {
 	// 접속일변경
 	public void updateRecentlyDate(String userId) throws Exception;
 	
+	//휴면 계정 핸드폰, 이름 확인
+	public User checkPhone(User user) throws Exception;
+	
+	//휴면 회원 설정 Admin
+	public void updateUserList() throws Exception;
+	
+	//휴면 회원 해제 :: 휴면 > 정상 
+	public void updateUserCon(String userId) throws Exception;
 	
 }

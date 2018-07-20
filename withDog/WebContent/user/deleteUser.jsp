@@ -18,28 +18,29 @@
 			$("#delete").on("click" , function() {
 				
 				//라디오 체크 여부
-				if(chk_radio()){
-					$("form").attr("method","POST").attr("action","/user/deleteUser").submit();
-				}
+				if($("input:radio[name='leaveReason']").is(":checked") == true){
+				
+					  //컨펌창으로 한번 더 묻기
+					  var result = confirm("정말 탈퇴를 하시겠습니까?");
+					  
+					  if(result){
+						
+						  $("form").attr("method","POST").attr("action","/user/deleteUser").submit();
+					  
+					  }else{
+						  return;
+						  
+					  }	
+					  
+				}else{
+					
+					alert("사유를 선택해주세요"); 
+					
+				}	
+				
 			});
 			
 		});
-		
-		//라디오 체크되었는지
-		function chk_radio() { 
-			num_temp = document.all.leaveReason.length; 
-		 	for (i=0;i<num_temp ;i++) { 
-		  	
-		 		if(document.all.leaveReason[i].checked == true){ 
-		  			break; 
-		  		} 
-		 	} 
-		 	if (i == num_temp) { 
-			  	alert("사유를 선택해주세요"); 
-			  	return false;
-		 	} 
-		 	return true;
-		} 
 
 	</script>	
 	
@@ -73,7 +74,7 @@
             		<!-- 포인트 -->
             		<h2 class="font-weight-600">회원 탈퇴 </h2>
 		                   <div class="separator-line bg-black no-margin-lr"></div>
-		                   <p class="text-large black-text letter-spacing-2 no-margin-bottom">현재 고객님의 사용가능한 포인트는<strong> 900 point</strong>입니다.</p>
+		                   <p class="text-large black-text letter-spacing-2 no-margin-bottom">현재 고객님의 사용가능한 포인트는<strong> ${user.currentPoint} point</strong>입니다.</p>
             		</div>
                     <!-- 내용 -->
                     <div class="col-md-8 col-sm-6 col-md-offset-1 bg-gray career-form xs-margin-top-ten">
@@ -83,17 +84,17 @@
 	                        <form>
 	                            <div class="col-md-8 col-sm-4">
 	                                <!-- radio button  -->
-	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio1" value="option1">동물교감치유 서비스 불만 </label>
+	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio1" value="1">동물교감치유 서비스 불만 </label>
 	                                <!-- end radio button  -->
 	                                <!-- radio button  -->
-	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio2" value="option2">이용빈도 낮음</label>
+	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio2" value="2">이용빈도 낮음</label>
 	                                <!-- end radio button  -->
 	                             </div>   
 	                             <div class="col-md-8 col-sm-4">   
 	                                <!-- radio button  -->
-	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio3" value="option3">개인정보유출 우려</label>
+	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio3" value="3">개인정보유출 우려</label>
 	                                 <!-- end radio button  -->
-	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio4" value="option4">스토어상품 배송 지연</label>
+	                                <label class="radio-inline"><input type="radio" name="leaveReason" id="inlineRadio4" value="4">스토어상품 배송 지연</label>
 	                               	 <!-- end radio button  -->
 	                            </div>
 	                            <input type="hidden" name="userId" value="${sessionScope.user.userId}">
@@ -104,7 +105,7 @@
                 	<!-- 내용 -->
             		<!-- button  -->
             		<div class="text-center">
-						<button class="highlight-button btn post-search" id="change">회원탈퇴</button>
+						<button class="highlight-button btn post-search" id="delete">회원탈퇴</button>
                     </div>
                     <!-- end button  -->
             </div><!-- container -->

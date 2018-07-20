@@ -1,13 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  var hs = jQuery.noConflict();
+</script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <script type="text/javascript">
-$(function(){
+hs(function(){
 	$( "a[href='#']:contains('애견용품')" ).on("click" , function() {
 		self.location = "/product/listProduct?prodType=0";
 	 });
@@ -20,25 +28,27 @@ $(function(){
 	$( ".logo-light" ).on("click" , function() {
 		self.location = "/common/mainPage";
 	 });
+	
 	//로고 클릭시
 	$( ".logo-logo-dark" ).on("click" , function() {
 		self.location = "/common/mainPage";
 	 });
+	
 });
 </script>
 <title>header</title>
 </head>
 <body>
 <!-- navigation panel -->
-        <nav class="navbar navbar-default navbar-fixed-top nav-transparent overlay-nav sticky-nav nav-border-bottom bg-white" role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-top nav-transparent overlay-nav sticky-nav nav-white nav-border-bottom" role="navigation">
             <div class="container">
                 <div class="row">    
-					 <!-- logo -->
-                    <div class="col-md-2 pull-left">
-                    	<a class="logo-light" href="#"><img alt="" src="../images/logo-black.png" class="logo" /></a>
+                    <!-- logo -->
+                    <div class="col-md-2 pull-left"> 
+                    	<a class="logo-light" href="#"><img alt="" src="../images/logo-white.png" class="logo" /></a>
                     	<a class="logo-dark" href="#"><img alt="" src="../images/logo-black.png" class="logo" /></a>
-                    </div>
-                    <!-- end logo -->                
+                   	</div>
+                    <!-- end logo -->
                     
                     <!-- 로그인, 마이페이지  -->
                     <div class="col-md-2 no-padding-left search-cart-header pull-right">
@@ -164,7 +174,7 @@ $(function(){
                                             <ul id="collapse5" class="dropdown-menu mega-menu panel-collapse">
 		                                        <li class="dropdown-header">커뮤니티</li>
 		                                        <li><a href="../community/dogBreedDicSearch.jsp">견종백과</a></li>
-		                                        <li><a href="../community/listDogInfo.jsp">애견상식</a></li>
+		                                        <li><a href="/dogInfo/listDogInfo">애견상식</a></li>
 		                                        <li><a href="../community/listAfterASH.jsp">동물교감치유후기</a></li>
 		                                        <li><a href="../community/listOutSideSNS.jsp">SNS게시판</a></li>
 		                                        <li><a href="../community/listChatRoom.jsp">채팅방</a></li>
@@ -180,10 +190,10 @@ $(function(){
                                     <!-- sub menu single -->
                                     <!-- sub menu item  -->
                                     <ul id="collapse6" class="dropdown-menu panel-collapse collapse" role="menu">
-                                        <li class="dropdown-header">크라우드펀딩</li>
+                                       <li class="dropdown-header">크라우드펀딩</li>
                                         <li><a href="/fund/fundGuid">크라우드펀딩이란?</a></li>
                                         <li><a href="/fund/getFundList">크라우드펀딩 목록</a></li>
-                                        <li><a href="/fund/getFundResultList">펀딩완료목록</a></li>
+                                        <li><a href="/fund/getFundResultList">완료된펀딩목록</a></li>
                                         <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>
                                     </ul>
                                     <!-- end sub menu item  -->

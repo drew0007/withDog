@@ -13,32 +13,48 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript">
 	
+			
+		$(function () {
 			//좋아하는 견종 dogNo => dogBreedKO
-			$(function () {
-				var dogNum  = ${user.dogNo}
-					$.ajax(
-						{
-						url : "/dogBreedDic/json/getDogBreed2",
-						method : "post",
-						dataType : "json",
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						data : JSON.stringify({
-							dogNo : dogNum
-						}),
-						success : function(JSONData , status) {
-							
-							var displayValue = JSONData.key.dogBreedKO;
-							$( "#dogName" ).text(displayValue);
-						}
+			var dogNum  = "${user.dogNo}";
+			
+			$.ajax(
+				{
+				url : "/dogBreedDic/json/getDogBreed2",
+				method : "post",
+				dataType : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					dogNo : dogNum
+				}),
+				success : function(JSONData , status) {
 					
-					});// end of ajax
-					
-
-					
-			});//end 제이쿼리
+					var displayValue = JSONData.key.dogBreedKO;
+					$( "#dogName" ).text(displayValue);
+				}
+			
+			});// end of ajax
+			
+			//회원정보 수정화면  연결
+			$("#changeGo").on("click" , function() {
+				
+				var role ="${sessionScope.user.role}";
+				var userId ="${user.userId}";
+				
+				
+				if(role=='user'){
+					self.location = "/user/updateUser";
+				}else{
+					self.location = "/user/updateUserAdmin?userId="+userId;	
+				}
+			});
+			
+				
+	
+		});//end 제이쿼리
 	</script>
 	
 </head>
@@ -68,7 +84,14 @@
 	<section>
 		<div class="container clearfix"><!-- container1 -->
 			<div class="container">
-			
+				<h2 style="margin-bottom:20px">회원정보</h2>
+				<hr/>
+				<div class="row">
+				  		<div class="col-xs-4 col-md-2 "><strong>아이디</strong></div>
+						<div class="col-xs-8 col-md-4">${user.userId}</div>
+				</div>
+				<hr/>
+				
 				<div class="row">
 				  		<div class="col-xs-4 col-md-2 "><strong>이 름</strong></div>
 						<div class="col-xs-8 col-md-4">${user.userName}</div>
@@ -158,7 +181,17 @@
 				<hr/>
 			 
 				<c:if test="${sessionScope.user.role=='admin'}"> 
-				
+					<div class="row">
+				 		<div class="col-xs-4 col-md-2"><strong>계정상태</strong></div>
+				 		<div class="col-xs-8 col-md-4" >
+					 		 <c:choose>
+								<c:when test="${user.userCondition=='0'}">휴면 </c:when>
+								<c:when test="${user.userCondition=='2'}">탈퇴 </c:when>
+						  		<c:otherwise>정상</c:otherwise>	
+						  	</c:choose>
+						</div>
+					</div>
+					<hr/>
 					<div class="row">
 				 		<div class="col-xs-4 col-md-2"><strong>최근접속일</strong></div>
 						<div class="col-xs-8 col-md-4" >${user.recentlyDate}</div>
@@ -174,10 +207,20 @@
 					<hr/>
 					
 					<div class="row">
-				 		<div class="col-xs-4 col-md-2"><strong>탈퇴사유</strong></div>
-						<div class="col-xs-8 col-md-4">${user.leaveReason}</div>
+						<div class="col-xs-4 col-md-2"><strong>탈퇴사유</strong></div>
+				  
+				    	<div class="col-xs-8 col-md-4">
+				    	  <c:choose>
+							<c:when test="${user.leaveReason=='1'}">동물교감치유 서비스 불만 </c:when>
+							<c:when test="${user.leaveReason=='2'}">이용빈도 낮음 </c:when>
+							<c:when test="${user.leaveReason=='3'}">개인정보유출 우려 </c:when>
+							<c:when test="${user.leaveReason=='4'}">스토어상품 배송 지연 </c:when>
+					  		<c:otherwise></c:otherwise>	
+					  	  </c:choose>
+				  		</div>
+					
 					</div>
-				
+									
 					<hr/>
 					
 					<div class="row">
@@ -191,7 +234,7 @@
 				</c:if>
 				
 				<div class="text-center">
-					<button class="highlight-button btn no-margin post-search" id="change">회원정보수정</button>
+					<button class="highlight-button btn no-margin post-search pull-left" id="changeGo">회원정보수정</button>
 				</div>
 			
 			</div>

@@ -1,43 +1,41 @@
 package com.withdog.web.user;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.DogBreedDic;
+import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserService;
 
-
+import java.util.HashMap;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 //==> 회원관리 RestController
 @RestController
@@ -48,6 +46,10 @@ public class UserRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("commonServiceImpl")
+	private CommonService commonService;
 	
 	//이메일 html 나중에 밖으로 빼보자
 	//@Value("#{commonProperties['emailHtml']}")
@@ -62,7 +64,7 @@ public class UserRestController {
 	///Method
 	//로그인 POST
 	@RequestMapping( value="json/loginUser", method=RequestMethod.POST )
-	public boolean loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response)  throws Exception {
+	public JSONObject loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response)  throws Exception {
 
 		System.out.println("제이슨 로그인 /user/loginUser : POST");
 		System.out.println("user내용 확인"+user);
@@ -70,18 +72,42 @@ public class UserRestController {
 		User dbUser=userService.getUser(user.getUserId());
 		System.out.println("dbUser내용 확인"+dbUser);
 		
-		boolean check = false;
+		String userCondition = "4" ;
+		
 		if(dbUser!=null){
 			
-			if( user.getPassword().equals(dbUser.getPassword())){
-				session.setAttribute("user", dbUser);
-				userService.updateRecentlyDate(dbUser.getUserId());
-				check= true;
-			}
+			//휴면,  탈퇴 여부 체크 ::  컨디션 코드 0 휴면 1 정상 2 탈퇴  4아이디 비번 불일치
+			userCondition = dbUser.getUserCondition();
+			if(userCondition.equals("0")) {
+				userCondition ="0";
+				//휴면회원일 경우 아이디값만 넣기
+				String userId = user.getUserId();
+				session.setAttribute("userCon0", userId);
+
+			}else if(userCondition.equals("2")){
+				userCondition ="2";
+
+			}else {
+				
+				//비밀번호 일치 여부 
+				if( user.getPassword().equals(dbUser.getPassword())){
+					session.setAttribute("user", dbUser);
+					userService.updateRecentlyDate(dbUser.getUserId());
+					userCondition ="1";
+					
+				}//end of if :: userPassword 체크
+				
+				 //userCondition ="4"; 회원컨디션 1인데 비번틀린 경우
+				
+			}//end of if :: userCondition 체크
 			
-		}
-		System.out.println("check 확인"+check);
-		return check;
+		}//end of  if  :: dbUser null 체크
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("userCondition", userCondition);
+		
+		System.out.println("로그인 다시 보내기전에"+jsonObject.toString());
+		return jsonObject;
 
 	}//end 로그인
 	
@@ -236,11 +262,182 @@ public class UserRestController {
 		
 		int pwNo = random.nextInt();
 		//절대값으로 만들기
-		Math.abs(pwNo);
+		pwNo= Math.abs(pwNo);
+		
+		String temp = pwNo+"";
+		temp = temp.substring(3);
+		
+		pwNo =Integer.parseInt(temp);
+		
 		System.out.println("임시비밀번호pwNo확인"+pwNo);
 		return pwNo;
 	}
 
+
+	
+	
+	//회원관리리스트 간략보기
+	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.POST )
+	public User getUser( @PathVariable String userId,User user,Point point ) throws Exception{
+		
+		System.out.println("/user/json/getUser : GET");
+		
+		
+		//유저 정보 조회
+		user = userService.getUser(userId);
+		
+		 //포인트 조회;
+		user.setUserId(userId);
+		 point.setUser(user);
+		
+		 int userPoint= commonService.getCurrentPoint(point);
+		 user.setCurrentPoint(userPoint);
+	
+		 
+		return  user;
+	}
+
+
+	
+	//휴면 > 일반  해제 :: 이름과 전화번호로 검색 후 일치하면 인증번호 전송
+	@RequestMapping( value="json/changeUserCon", method=RequestMethod.POST )
+	public JSONObject changeUserCon(@RequestBody User user ) throws Exception{
+		
+		System.out.println("휴면계정 레스트 컨트롤러");
+		JSONObject jsonObject = new JSONObject();
+	
+		//1. 이름과 전화번호로 검색
+		User dbUser = userService.checkPhone(user);
+		
+		//2. 휴대폰으로 인증번호 발송
+	
+			if(dbUser!=null) {
+				
+				String userPhone = dbUser.getPhone();
+				
+				//2.1  인증번호 랜덤번호로 생성
+				int  textNum = createNo();
+				
+				jsonObject.put("textNum", textNum);
+				jsonObject.put("check", true);	
+			
+				/*
+				//문자로 보내기
+			 	String api_key = "NCSKQ1ATROR9MMJC";
+			    String api_secret = "HBXDI5ETRJMCRCDKAZHV1CWVF0L6DOKI";
+			    //import  중복으로 패키지명까지 
+			    net.nurigo.java_sdk.api.Message coolsms = new net.nurigo.java_sdk.api.Message(api_key, api_secret);
+
+			    // 4 params(to, from, type, text) are mandatory. must be filled
+			    HashMap<String, String> params = new HashMap<String, String>();
+			    params.put("to", userPhone); // 수신번호
+			    params.put("from", "01095885027"); // 발신번호
+			    params.put("type", "SMS"); // Message type ( SMS, LMS, MMS, ATA )
+			    params.put("text", "[함께할개] 본인확인 인증번호["+textNum+"]를 화면에 입력해주세요"); // 문자내용    
+			    params.put("app_version", "JAVA SDK v1.2"); // application name and version
+				
+			    try {
+				      JSONObject obj = (JSONObject) coolsms.send(params);
+				      System.out.println(obj.toString());
+				    } catch (CoolsmsException e) {
+				      System.out.println(e.getMessage());
+				      System.out.println(e.getCode());
+				    }
+			}else {
+				jsonObject.put("check",false );	
+			}
+			*/
+			}
+			System.out.println("인증번호 발송"+jsonObject.toJSONString());
+			
+			return jsonObject;
+			
+	}	
+
+	
+	//문자로 받은 인증번호 일치 후 휴면 > 정상으로 전환 /user/json/changeUserCondition
+	@RequestMapping( value="json/changeUserCondition", method=RequestMethod.POST )
+	public void checkTextNum(@RequestParam("userId") String userId ) throws Exception{
+		
+		System.out.println("휴면계정을 해제");
+	
+		userService.updateUserCon(userId);
+
+	}	
+	
+	//문자로 받은 인증번호 일치 후 휴면 > 정상으로 전환 /user/json/changeUserCondition
+	@RequestMapping( value="json/changeUserConditionTest", method=RequestMethod.POST )
+	public void changeUserConditionTest(@PathVariable String userId ) throws Exception{
+		
+		System.out.println("휴면계정을 해제");
+	
+		userService.updateUserCon(userId);
+
+	}	
+	
+	//가입시 이메일 인증  :: 고유번호 세션 + 메일 전송
+	@RequestMapping( value="json/checkEmail", method=RequestMethod.POST )
+	public JSONObject checkEmail (@RequestBody User user , HttpSession session) throws Exception{
+		
+		System.out.println("가입시 이메일 인증");
+		
+		//1.인증번호 랜덤번호로 생성
+		int  textNum = createNo();
+		
+		//2. 인증번호 세션에 넣기
+		session.setAttribute("textNum", textNum);
+		
+		//3. 이메일 링크 전송
+		
+		//4. 고유번호 
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("textNum", textNum);
+		
+		System.out.println(jsonObject.toJSONString());
+			
+		return jsonObject;
+	}	
+	
+	
+	/*
+	@RequestMapping( value="/json/checkUserMail", method=RequestMethod.GET )
+	public String checkMail(@RequestParam("user") String userId,
+							@RequestParam("code") String emailCode
+							, Model model) throws Exception{
+		System.out.println(userId + "/" + emailCode);
+		User user = new User();
+		user = userService.getUser(userId);
+		
+		if(user != null && user.getEmailCode() != null) {
+			if(user.getEmailCode().equals(emailCode) && user.getUserStatusCode().equals("3")) {
+				user.setUserStatusCode("1");
+				userService.updateStatusCode(user);
+				model.addAttribute("checkUserMail", true);
+				
+				return "forward:/index.jsp";
+			}
+		}
+		
+		return "redirect:/index.jsp";
+	}
+	
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/////////////////////////////////////////////////////
 	//장원이 테스트
 	//아이디/비밀번호 찾기에서 id 찾기
 	@RequestMapping( value="json/test", method=RequestMethod.GET )
@@ -263,16 +460,9 @@ public class UserRestController {
 		return jsonObject;
 	}
 	
+
 	
-	//회원관리리스트 간략보기
-	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
-	public User getUser( @PathVariable String userId ) throws Exception{
-		
-		System.out.println("/user/json/getUser : GET");
-		
-		//Business Logic
-		return userService.getUser(userId);
-	}
+	
 }//end of class
 		
 

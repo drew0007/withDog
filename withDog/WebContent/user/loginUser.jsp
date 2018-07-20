@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -66,17 +67,23 @@
 							},
 							success : function(JSONData , status){
 								
-								var check = JSONData;
+								var userCondition = JSONData.userCondition;
 								
-								if(check){
+								if(userCondition=='1'){
 									self.location = "/common/mainPage";
+								}else if(userCondition=='0'){
+									//휴면회원
+									alert("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다.");
+									self.location = "/user/changeUserCon";
 								}else{
+									//탈퇴한 회원 로그인시도시, 또는  비번  블일치
 									$(".spanClass").html("**아이디 또는 비밀번호가 일치하지 않습니다.").css('color','red');	
 									
 									$("input").on("click",function(){
 										$(".spanClass").html("");
 									});
 								}
+			
 							}
 						
 		 				});//end of Ajax
@@ -96,8 +103,50 @@
 			    	   $('#login').trigger('click');
 			        }
 			    });
+			
 
 		});
+		
+		////////////////SNS로그인////////////////
+		//카카오 로그인
+		$(function(){
+			$("img[src='/images/login/kakao_login.png']").on("mouseover" , function() {
+				$(this).attr("src", "/images/login/kakao_login_ov.png");
+			});
+			
+			$("img[src='/images/login/kakao_login.png']").on("mouseout" , function() {
+				$(this).attr("src", "/images/login/kakao_login.png");
+			});
+			
+			$("img[src='/images/login/kakao_login.png']").on("click" , function() {
+				
+				loginWithKakao();
+			});
+		});
+		
+		
+		Kakao.init('1d3fddc61b788ab458254eb1f4ea00ae');
+	    function loginWithKakao() {
+	      // 로그인 창을 띄웁니다.
+	      Kakao.Auth.login({
+	        success: function(authObj) {
+	            // 로그인 성공시, API를 호출합니다.
+	            Kakao.API.request({
+	              url: '/v1/user/me',
+	              success: function(res) {
+	                //alert(JSON.stringify(res));
+	                checkUser(res);
+	              },
+	              fail: function(error) {
+	                alert(JSON.stringify(error));
+	              }
+	            });
+	          },
+	          fail: function(err) {
+	            alert(JSON.stringify(err));
+	          }
+	      });
+	    };
 
 	</script>	
 	
@@ -154,10 +203,16 @@
                          <a href="#" class="display-block text-uppercase" id="findUser"> >> 아이디 비밀번호 찾기</a> 
                          
                          <div>
+                         	<a class="highlight-button-black-border btn btn-medium" href="#" id ="join">회원가입</a>
+                         </div>
                          
-                          <a class="highlight-button-black-border btn btn-medium" href="#" id ="join">회원가입</a>
-                         
-                        </div>
+                        <div class="form-group">
+                        	<p>SNS 로그인</p>
+						    <div class="col-sm-offset-4 col-sm-6">
+								<img src="../images/login/kakao_login.png" />
+						    </div>
+					  	</div>
+                        
                     </div>
                 </div>
             </div>

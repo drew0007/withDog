@@ -12,12 +12,12 @@
 		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
 		<result property="userName"			column="user_name" 			jdbcType="VARCHAR" />
 		<result property="birth"			column="birth" 				jdbcType="VARCHAR" />
-		<result property="email1"			column="email1" 				jdbcType="VARCHAR" />
-		<result property="email2"			column="email2" 				jdbcType="VARCHAR" />
+		<result property="email1"			column="email1" 			jdbcType="VARCHAR" />
+		<result property="email2"			column="email2" 			jdbcType="VARCHAR" />
 		<result property="phone"			column="phone" 				jdbcType="VARCHAR" />
-		<result property="postNo"			column="post_No" 				jdbcType="VARCHAR" />
-		<result property="address1"			column="address" 			jdbcType="VARCHAR" />
-		<result property="address2"			column="address" 			jdbcType="VARCHAR" />
+		<result property="postNo"			column="post_No" 			jdbcType="VARCHAR" />
+		<result property="address1"			column="address1" 			jdbcType="VARCHAR" />
+		<result property="address2"			column="address2" 			jdbcType="VARCHAR" />
 		<result property="dogNo"			column="dog_no" 			jdbcType="INTEGER" />
 		<result property="userCondition"	column="user_condition" 	jdbcType="VARCHAR" />
 		<result property="recentlyDate"		column="recently_date" 		jdbcType="DATE" />
@@ -31,21 +31,21 @@
 		<result property="snsFacebookId"	column="sns_facebook_id" 	jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<!-- SQL : INSERT -->
+	<!-- 회원가입 SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
 		INTO users( user_id, password, user_name, birth, email1, email2, post_No, phone, address1, address2, 
-					dog_no, user_condition, recently_date, join_date, role) 
+					dog_no, user_condition, recently_date, join_date, role, sns_naver_id, sns_kakao_id, sns_google_id, sns_facebook_id) 
 		VALUES	 (	#{userId}, #{password}, #{userName}, #{birth:VARCHAR}, #{email1:VARCHAR}, #{email2:VARCHAR},
 					#{phone:VARCHAR}, #{postNo:VARCHAR}, #{address1:VARCHAR}, #{address2:VARCHAR}, 
-					#{dogNo}, '1', SYSDATE, SYSDATE, 'user') 
+					#{dogNo}, '1', SYSDATE, SYSDATE, 'user', #{snsNaverId:VARCHAR}, #{snsKakaoId:VARCHAR}, #{snsGoogleId:VARCHAR}, #{snsFacebookId:VARCHAR}) 
 	 </insert>
 	 
-	 <!-- SQL : SELECT ONE -->
+	 <!-- 회원정보 조회 SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
 		user_id, password, user_name, birth, phone, email1, email2, post_No, phone, address1, address2, 
-		dog_no, user_condition, recently_date, join_date, role
+		dog_no, user_condition, recently_date, leave_date, leave_reason, join_date, role, sns_naver_id, sns_kakao_id, sns_google_id, sns_facebook_id
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>
@@ -60,22 +60,51 @@
 		WHERE user_name = #{userName} AND birth = #{birth}
 	 </select>
 	 
+	 <!--휴면계정 복구 SQL : SELECT ONE -->
+	 <select 	id="checkPhone"	parameterType="user"	resultMap="userSelectMap">
+		SELECT
+		user_name, phone
+		FROM users 
+		WHERE user_name = #{userName} AND phone = #{phone}
+	 </select>
 	 
-	 <!-- 회원정보 업데이트 SQL : UPDATE -->
+	 
+	 <!-- 휴면회원 해제SQL : UPDATE -->
+	 <update	id="updateUserCon"	parameterType="String" >
+	   	UPDATE users
+	   	<set>
+	   		user_condition 	= '1',
+	   		recently_date = SYSDATE
+	   	</set>
+	   	WHERE user_id = #{userId}
+	 </update>
+	 
+	 
+	 <!-- 회원정보 수정 SQL : UPDATE -->
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE users
 	   		<trim prefix="SET" suffixOverrides=",">
 	   			<if test="password != null">password = #{password},</if>
-	   			<if test="birth != null">birth = #{birth},</if>
-	   			<if test="email1 != null">email1 = #{email1},</if>
-	   			<if test="email2 != null">email2 = #{email2},</if>
 	   			<if test="phone != null">phone =  #{phone},</if>
-	   			<if test="address1 != null">address = #{address1},</if>
-	   			<if test="address2 != null">address = #{address2},</if>
-				<if test="dogNo != 0">dog_no = #{dogNo},</if>
+	   			<if test="email1 != null">email1 = #{email1},</if>
+	   			<if test="postNo != null">post_No =  #{postNo},</if>
+	   			<if test="address1 != null">address1 = #{address1},</if>
+	   			<if test="address2 != null">address2 = #{address2},</if>
 			</trim>
 	   	WHERE user_id = #{userId}
 	 </update>
+	 
+	 <!-- 회원탈퇴SQL : UPDATE -->
+	 <update	id="deleteUser"	parameterType="user" >
+	   	UPDATE users
+	   	<set>
+	   		user_condition 	= '2',
+	   		leave_date =SYSDATE,
+	   		leave_reason = #{leaveReason}
+	   	</set>
+	   	WHERE user_id = #{userId}
+	 </update>
+	 
 	 
 	 <!-- 최근 접속일  업데이트 SQL : UPDATE -->
 	 <update	id="updateRecentlyDate"	parameterType="string" >
@@ -100,6 +129,15 @@
 													<if test="searchCondition == 1 and searchKeyword !='' ">
 										 				user_name LIKE '%'|| #{searchKeyword} ||'%'
 													</if>
+													<if test="searchCondition == 00">
+										 				user_condition ='0'
+													</if>
+													<if test="searchCondition == 11">
+										 				user_condition ='1'
+													</if>
+													<if test="searchCondition == 22">
+										 				user_condition ='2'
+													</if>
 												</where>
 											</if>
 											ORDER BY user_id ) inner_table
@@ -107,33 +145,8 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 
-	<select  id="getUserList2"  parameterType="search"	resultMap="userSelectMap">
-	  	SELECT user_id , user_name , email
-		FROM users
-				<if test="searchCondition != null">
-						<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 				user_id LIKE '%'|| #{searchKeyword} ||'%'
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 				user_name LIKE '%'|| #{searchKeyword} ||'%'
-								</if>
-						</where>
-				</if>
-		ORDER BY user_id 
-	 </select>
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
 	
-	<!-- SQL : SELECT ROW Count -->	 
+	<!-- 토탈카운트 SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT user_id , user_name
@@ -144,10 +157,32 @@
 						 			user_id = #{searchKeyword}
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		user_name = #{searchKeyword}
+						 			user_name = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 00">
+					 				user_condition ='0'
+								</if>
+								<if test="searchCondition == 11">
+					 				user_condition ='1'
+								</if>
+								<if test="searchCondition == 22">
+					 				user_condition ='2'
 								</if>
 							</where>
 						</if> ) countTable						
 	 </select>
+	 
+	 
+	<!-- 휴먼 회원관리리스트 SQL : update  -->
+	<update  id="updateUserList">
+		UPDATE users 
+		<set>
+			user_condition = '0'
+		</set>	 
+			WHERE recently_date <![CDATA[ <= ]]> (select to_char(add_months(sysdate,-12),'yyyy-mm-dd') from dual)
+	 </update>
+	 
+
+	 
 	 
 </mapper>
