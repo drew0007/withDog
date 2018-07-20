@@ -8,12 +8,15 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    <script>
+	  var aa = jQuery.noConflict();
+	</script>
   </head>
   <script>
 
 	var content
 
-	$(function(){
+	aa(function(){
 		
 		$("span:contains('ÆÝµùµî·Ï')").on("click",function(){
 			test();
@@ -40,6 +43,7 @@
 	function sendFile(file, el) {
 		var form_data = new FormData();
       	form_data.append('file', file);
+      	console.log(form_data);
       	$.ajax({
         	data: form_data,
         	type: "POST",

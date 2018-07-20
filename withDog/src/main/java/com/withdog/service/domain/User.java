@@ -1,6 +1,6 @@
 package com.withdog.service.domain;
 
-import java.sql.Date;
+
 
 public class User {
 
@@ -17,9 +17,9 @@ public class User {
 	private String address2;
 	private int  dogNo; // 좋아하는 견종
 	private String userCondition; // 계정상태 : 정상, 휴면, 탈퇴
-	private Date recentlyDate;
-	private Date joinDate;
-	private Date leaveDate;
+	private String recentlyDate;
+	private String joinDate;
+	private String leaveDate;
 	private String leaveReason;
 	private String role;
 	private int currentPoint; // 현재 포인트
@@ -125,27 +125,27 @@ public class User {
 		this.userCondition = userCondition;
 	}
 
-	public Date getRecentlyDate() {
+	public String getRecentlyDate() {
 		return recentlyDate;
 	}
 
-	public void setRecentlyDate(Date recentlyDate) {
+	public void setRecentlyDate(String recentlyDate) {
 		this.recentlyDate = recentlyDate;
 	}
 
-	public Date getJoinDate() {
+	public String getJoinDate() {
 		return joinDate;
 	}
 
-	public void setJoinDate(Date joinDate) {
+	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
 
-	public Date getLeaveDate() {
+	public String getLeaveDate() {
 		return leaveDate;
 	}
 
-	public void setLeaveDate(Date leaveDate) {
+	public void setLeaveDate(String leaveDate) {
 		this.leaveDate = leaveDate;
 	}
 

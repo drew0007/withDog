@@ -72,7 +72,9 @@
 
 	String emdNo  = request.getParameter("emdNo");
 
-
+	String userId = request.getParameter("userId");
+// 	String password = 
+// 	String 
 
 %>
 
@@ -87,7 +89,7 @@
 
 
 function init(){
-
+	
 	var url = location.href;
 
 	var confmKey = "U01TX0FVVEgyMDE4MDcxNDIxNTY0OTEwODAxMDI=";

@@ -10,7 +10,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <script type="text/javascript">
 $(function(){
 	$( "a[href='#']:contains('애견용품')" ).on("click" , function() {
@@ -20,6 +20,17 @@ $(function(){
 	$( "a[href='#']:contains('애견식품')" ).on("click" , function() {
 		self.location = "/product/listProduct?prodType=1";
 	 });
+	
+	//로고 클릭시
+	$( ".logo-light" ).on("click" , function() {
+		self.location = "/common/mainPage";
+	 });
+	
+	//로고 클릭시
+	$( ".logo-logo-dark" ).on("click" , function() {
+		self.location = "/common/mainPage";
+	 });
+	
 });
 </script>
 <title>header</title>
@@ -31,8 +42,8 @@ $(function(){
                 <div class="row">    
                     <!-- logo -->
                     <div class="col-md-2 pull-left"> 
-                    	<a class="logo-light" href="/common/index.jsp"><img alt="" src="../images/logo-white.png" class="logo" /></a>
-                    	<a class="logo-dark" href="/common/index.jsp"><img alt="" src="../images/logo-black.png" class="logo" /></a>
+                    	<a class="logo-light" href="#"><img alt="" src="../images/logo-white.png" class="logo" /></a>
+                    	<a class="logo-dark" href="#"><img alt="" src="../images/logo-black.png" class="logo" /></a>
                    	</div>
                     <!-- end logo -->
                     
@@ -45,7 +56,7 @@ $(function(){
                              	</c:when>
                             	<c:when test="${sessionScope.user!=null}">
                              		<a href="/user/logoutUser"><div class="subtitle">로그아웃</div></a>
-                             		<a href="/common/myPageMain?role=${user.role}"><i class="fa  fa-user" ></i><div class="subtitle">${user.role != 'admin'?"마이페이지":"관리자페이지"}</div></a>
+                             		<a href="/common/myPageMain?role=${sessionScope.user.role}"><i class="fa  fa-user" ></i><div class="subtitle">${sessionScope.user.role != 'admin'?"마이페이지":"관리자페이지"}</div></a>
                              	</c:when>
                             </c:choose>
                         </div>

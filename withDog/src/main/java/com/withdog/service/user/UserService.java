@@ -2,6 +2,7 @@ package com.withdog.service.user;
 
 import java.util.Map;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 
 public interface UserService {
@@ -37,8 +38,17 @@ public interface UserService {
 	public void findUserPassword(User user) throws Exception;
 
 	// 회원정보리스트 Admin
-	public Map<String, Object> getUserListAdmin() throws Exception;
+	public Map<String, Object> getUserListAdmin(Search search) throws Exception;
 	
 	//로그인시 접속일 변경
 	public void updateRecentlyDate(String userId) throws Exception;
+	
+	//휴면 계정 핸드폰, 이름 확인
+	public User checkPhone(User user) throws Exception;
+	
+	//휴면 회원 설정 Admin
+	public void updateUserList() throws Exception;
+	
+	//휴면 회원 해제 :: 휴면 > 정상 
+	public void updateUserCon(String userId) throws Exception;
 }

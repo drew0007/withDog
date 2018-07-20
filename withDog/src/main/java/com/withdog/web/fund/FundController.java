@@ -71,6 +71,7 @@ import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
 import com.withdog.service.fund.FundService;
+import com.withdog.service.sns.SnsService;
 
 
 
@@ -93,6 +94,10 @@ public class FundController {
 	@Autowired
 	@Qualifier("commonServiceImpl")
 	private CommonService commonService;
+	
+	@Autowired
+	@Qualifier("snsServiceImpl")
+	private SnsService snsService;
 	
 	//setter Method 구현 않음
 		
@@ -228,7 +233,7 @@ public class FundController {
 		User user = new User();
 		
 		Fund fund = fundService.getFund(fundNo);
-		
+		System.out.println(session.getAttribute("user"));
 		if(session.getAttribute("user")!=null) {
 			user = (User)session.getAttribute("user");
 			System.out.println(user.getUserId());
@@ -362,6 +367,7 @@ public class FundController {
 	private String kakaoPay(@ModelAttribute("fund") Fund fund,HttpServletRequest req) throws Exception{
 		
 		System.out.println("kakaoPay Start==================================");
+		System.out.println(fund);
 		System.out.println(req.getParameter("usePoint"));
 		HttpSession session = req.getSession(false);
 		User user = new User();
@@ -373,98 +379,74 @@ public class FundController {
 		user.setRole("temp");
 		}
 		
-		///영수증.jsp로 callback 되는지
-	    String forwardUri="forward:/sns/kakaoPay.jsp";
-		
-		String title = fund.getFundTitle();
 		int price=0;
 		int usePoint=0;
-		if(fund.getFundMyPrice()!=0) {
-		price = fund.getFundMyPrice();
+		
+		System.out.println(req.getParameter("usePoint"));
+		
+		///영수증.jsp로 카드 결제시 callback 되는지
+	    String forwardUri="forward:/sns/kakaoPay.jsp";
+	    //snsKakaoPay를 위한 로직
+		Point pointfund = new Point();
+		pointfund.setUser(user);
+		pointfund.setFund(fund);
+		System.out.println(1);
+		
+		if(pointfund.getFund().getFundMyPrice()!=0) {
+			System.out.println(2);
+			price=pointfund.getFund().getFundMyPrice();
+		}
+		if(Integer.parseInt(req.getParameter("usePoint"))!=0) {
+			pointfund.setUsePoint(Integer.parseInt(req.getParameter("usePoint")));
+			usePoint=Integer.parseInt(req.getParameter("usePoint"));
 		}
 		
-		if(req.getParameter("usePoint")!=null) {
-		usePoint=Integer.parseInt(req.getParameter("usePoint"));
-		}
 		
 		
-		if(price!=0) {
-		String HOST = "https://kapi.kakao.com";
-	    RestTemplate restTemplate = new RestTemplate();
-	    
-	    // 서버로 요청할 내용 (Body)
-	    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-	    params.add("cid", "TC0ONETIME");
-	    params.add("partner_order_id","admin");
-	    params.add("partner_user_id",user.getUserId());
-	    params.add("item_name",fund.getFundTitle());
-	    params.add("quantity", "1");//수량
-	    params.add("total_amount", new String(fund.getFundMyPrice()+"").trim());
-	    params.add("tax_free_amount", "0");//세금
-	    params.add("approval_url", "http://192.168.0.42:8080/fund/fundReceipt?title="+title+"&price="+price+"&usePoint="+usePoint);
-	    params.add("cancel_url", "http://127.0.0.1:8080/purchase/json/paycancel");
-	    params.add("fail_url", "http://127.0.0.1:8080/purchase/json/fail");
 	
-	    // 서버로 요청할 Header
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.add("Authorization", "KakaoAK " + "e429428556e2835e02b9dcd4f7f55174");
-	    //headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
-	    headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
-	    headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
-
-	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
-	    String response = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), request, String.class);
-	    System.out.println("여기까지");
-	    System.out.println(response);
-	    System.out.println("여기부터다시");
-	    ObjectMapper obj = new ObjectMapper();
-	    JSONObject jobj = (JSONObject)JSONValue.parse(response);
+		System.out.println(price+"::"+usePoint);
+		
+		
+		
+		if(pointfund.getFund().getFundMyPrice()!=0) {
+		System.out.println(123);
+		String uri ="http://localhost:8080/fund/fundReceipt?state=";
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	    JSONObject jobj = snsService.FundkakaoPay(pointfund, uri);;
 	    System.out.println(jobj.get("tid"));
 	    String url = (String)jobj.get("next_redirect_pc_url");
 	    System.out.println(url);
 	    session.setAttribute("url", url);
-	    params.add("cid", "TC0ONETIME");
-	    params.add("tid", (String)jobj.get("tid"));
-	    params.add("partner_order_id", "1001");
-	    params.add("partner_user_id", "test@koitt.com");
-	    params.add("item_name", "갤럭시S9");
-	    
-	    
+	   	    	    
 		}
 		else {
-		forwardUri="forward:/fund/fundReceipt?title="+title+"&price="+price+"&usePoint="+usePoint;	
+			//포인트결제시
+		forwardUri="forward:/fund/fundReceipt?state=0"+pointfund.getFund().getFundTitle()+"&price="+pointfund.getFund().getFundMyPrice()+"&usePoint="+pointfund.getUsePoint();	
 		}
 	    
-	    
+	
 	    //임시처리
 	    
 	    Point point = new Point();
 	        
 	    //포인트 이것만 긁기
 	    fund.setUser(user);
+	    point.setUsePoint(pointfund.getUsePoint());
 	    point.setUser(user);//userid
-	    
+	    point.setFund(fund);
 	    
 	    //후원완료 되면 add시키고 이동시키기
 	    //fund테이블에 후원금액 추가
 	    int raising = price+usePoint;
 	    fund.setFundRaising(raising);
 	    System.out.println("후원금액 : "+raising);
-	    fundService.addFundRaising(fund);
 	    
-	    //펀드 구매 번호 가져오기
-	    Fund resultFund = fundService.getMyFundNo(fund,user);
+	    session.setAttribute("fundpurchase", point);
+	    /*session.setMaxInactiveInterval(1*60);*/
 	    
-	    fund.setFundMyPriceNo(resultFund.getFundMyPriceNo());
+	    System.out.println(session.getAttribute("point"));
+	        
 	    
-	    point.setFund(fund);//후원,구매,예약 구분을 위해
-	    
-	    double savePoint = price*0.01;
-	    System.out.println("적립포인트"+savePoint);
-	    int resultpoint = (int)savePoint;
-	    point.setPoint(resultpoint);
-	    point.setUsePoint(usePoint);
-	   	commonService.addPointinfo(point);
 	    	    
 	 
 	  return forwardUri;
@@ -472,19 +454,70 @@ public class FundController {
     }
 	
 	@RequestMapping(value="/fundReceipt")
-	public String getfundReceipt(HttpServletRequest req) throws Exception {
-
-		System.out.println("/getFundReceipt : Start");
+	public String getfundReceipt(HttpServletRequest request) throws Exception {
 		
-		System.out.println(req.getParameter("title"));
-		System.out.println(req.getParameter("price"));
-		System.out.println(req.getParameter("usePoint"));
+		System.out.println("fundReceipt Start");
 		
-		req.setAttribute("title", req.getParameter("title"));
-		req.setAttribute("price", req.getParameter("price"));
-		req.setAttribute("usePoint", req.getParameter("usePoint"));
+		Point point = new Point();
+		Fund fund = new Fund();
+		User user = new User();
 		
 		
+		HttpSession session = request.getSession(false);
+		
+		
+		String state = request.getParameter("state");
+		
+		
+		if(state!=null) {
+			if(state.equals("2")) {
+				System.out.println("결제실패");
+				request.setAttribute("state", "2");
+			
+			}
+			else if(state.equals("1")) {
+				System.out.println("결제취소");
+				request.setAttribute("state", "1");
+				
+			}
+			else {
+				System.out.println("결제성공");
+				
+				if(session.getAttribute("fundpurchase")!=null) {
+					point = (Point)session.getAttribute("fundpurchase");
+					fund = point.getFund();
+					user = point.getUser();
+					
+					fundService.addFundRaising(fund);
+				    
+				    //펀드 구매 번호 가져오기
+				    Fund resultFund = fundService.getMyFundNo(fund,user);
+				    
+				    fund.setFundMyPriceNo(resultFund.getFundMyPriceNo());
+				    
+				    point.setFund(fund);//후원,구매,예약 구분을 위해
+				    
+				    double savePoint = fund.getFundMyPrice()*0.01;
+				    System.out.println("적립포인트"+savePoint);
+				    int resultpoint = (int)savePoint;
+				    point.setPoint(resultpoint);
+				    
+				   	commonService.addPointinfo(point);
+				}
+				
+					
+				request.setAttribute("state", "0");
+				
+				request.setAttribute("title",fund.getFundTitle());
+				request.setAttribute("price",fund.getFundMyPrice());
+				request.setAttribute("usePoint",point.getUsePoint());
+				
+			}
+		}
+		
+		session.removeAttribute("fundpurchase");
+		
+		request.setAttribute("fundpurchase", point);
 		
 		return "forward:/fund/fundReceipt.jsp";
 	}

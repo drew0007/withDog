@@ -8,6 +8,16 @@
 
 <jsp:include page="/common/css.jsp" />
 <title>함께할개</title>
+
+<script>
+function nearmap(){
+	popWin = window.open("/quick/ARMap","popWin", "left=300,width=1060,height=790,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+}
+
+</script>
+
+
+
 </head>
 <body>
 	<jsp:include page="/layout/common-header.jsp" />
@@ -154,9 +164,9 @@
                     <!-- text block -->
                     <div class="col-md-3 col-sm-6 col-xs-12 text-block text-center">
                         <div class="text-block-inner">
-                            <p class="text-large text-uppercase no-margin-bottom">Breed</p>
-                            <p class="title-small text-uppercase font-weight-600 black-text letter-spacing-1">dictionary</p>
-                            <a class="highlight-button btn btn-small no-margin" href="shop-with-sidebar.html">View</a>
+                            <p class="text-large text-uppercase no-margin-bottom">near</p>
+                            <p class="title-small text-uppercase font-weight-600 black-text letter-spacing-1">With Map</p>
+                            <a class="highlight-button btn btn-small no-margin" href="javascript:nearmap();">start</a>
                         </div>
                     </div>
                     <!-- end text block -->

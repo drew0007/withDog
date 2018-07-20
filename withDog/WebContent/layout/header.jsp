@@ -15,6 +15,15 @@ $(function(){
 	$( "a[href='#']:contains('애견식품')" ).on("click" , function() {
 		self.location = "/product/listProduct?prodType=1";
 	 });
+	
+	//로고 클릭시
+	$( ".logo-light" ).on("click" , function() {
+		self.location = "/common/mainPage";
+	 });
+	//로고 클릭시
+	$( ".logo-logo-dark" ).on("click" , function() {
+		self.location = "/common/mainPage";
+	 });
 });
 </script>
 <title>header</title>
@@ -26,8 +35,8 @@ $(function(){
                 <div class="row">    
 					 <!-- logo -->
                     <div class="col-md-2 pull-left">
-                    	<a class="logo-light" href="/common/index.jsp"><img alt="" src="../images/logo-black.png" class="logo" /></a>
-                    	<a class="logo-dark" href="/common/index.jsp"><img alt="" src="../images/logo-black.png" class="logo" /></a>
+                    	<a class="logo-light" href="#"><img alt="" src="../images/logo-black.png" class="logo" /></a>
+                    	<a class="logo-dark" href="#"><img alt="" src="../images/logo-black.png" class="logo" /></a>
                     </div>
                     <!-- end logo -->                
                     
@@ -40,7 +49,7 @@ $(function(){
                              	</c:when>
                             	<c:when test="${sessionScope.user!=null}">
                              		<a href="/user/logoutUser"><div class="subtitle">로그아웃</div></a>
-                             		<a href="../mypage/myPageMain.jsp"><i class="fa  fa-user" ></i><div class="subtitle">마이페이지</div></a>
+                             		<a href="/common/myPageMain?role=${sessionScope.user.role}"><i class="fa  fa-user" ></i><div class="subtitle">${sessionScope.user.role != 'admin'?"마이페이지":"관리자페이지"}</div></a>
                              	</c:when>
                             </c:choose>
                         </div>
@@ -176,6 +185,7 @@ $(function(){
                                         <li><a href="/fund/getFundList">크라우드펀딩 목록</a></li>
                                         <li><a href="/fund/getFundResultList">펀딩완료목록</a></li>
                                         <li><a href="/fund/fundReq">크라우드펀딩 신청 문의</a></li>
+                                    </ul>
                                     </ul>
                                     <!-- end sub menu item  -->
                                     <!-- end sub menu single -->
