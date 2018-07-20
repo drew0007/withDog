@@ -216,7 +216,7 @@ function googleVisionByContent(a) {
 									console.log(kind)
 									console.log(rate)
 									console.log((kind.indexOf("dog")))
-	
+									
 										///////자체번역
 										$.ajax(
 												{
@@ -239,6 +239,7 @@ function googleVisionByContent(a) {
 															$("#dog_nameKO"+num).text(data.key.dogBreedKO)
 															$("#dog_nameEN"+num).text(data.key.dogBreedEN)
 															$("#result"+num).text(rate)
+															
 															num++;
 														}
 													},//end success function
@@ -450,6 +451,7 @@ $(function () {
 // })
 
 $(function () {
+	
 	$.ajax({
 		url : "/dogBreedDic/json/getAllBreedInfoListByKo",
 		method : "GET",
