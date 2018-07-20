@@ -1,10 +1,70 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('img[name="healingDogimage"]').on('click', function(){
+			var index = $('img[name="healingDogimage"]').index(this);
+			var selectDog = $('input[name="selectDog"]').val();
+			
+			if(selectDog == ''){
+				selectDog = 0;
+			}
+			
+			$('img[name="checkImg"]')[selectDog].src = '';
+			$('img[name="checkImg"]')[index].src = '/images/uploadFiles/healingDog/circle.png';
+			
+			$('input[name="selectDog"]').val(index);
+		});
+		
+
+		$('img[name="checkImg"]').on('click', function(){
+			var index = $('img[name="checkImg"]').index(this);
+			$('input[name="selectDog"]').val('');
+			$('img[name="checkImg"]')[index].src = '';
+		});
+		
+		$('#addConsulting').on('click', function(){
+			var selectDog = $('input[name="selectDog"]').val();
+			var userId = '${user.userId}';
+			var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
+			
+			if(userId == null || userId.length<1){
+				alert("로그인을 해야지만 이용 가능한 서비스입니다.");
+				return;
+			}
+			
+			if(selectDog == null || selectDog.length<1){
+				alert("치유견을 선택해주세요.");
+				return;
+			}
+			
+			self.location = "/ash/addConsulting?healingDogNo="+healingDogNo;
+		});
+		
+		$('#addConsulting2').on('click', function(){			
+			//popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+			self.location = "/ash/test";
+		});
+	});
+</script>
+
+<style>
+
+	.checkImg {
+		position: absolute;
+		top: calc(50% - 107px);
+		left: calc(50% - 60px);
+		/* visibility: hidden; */
+	}
+
+</style>
 
 <jsp:include page="/common/css.jsp" />
 
@@ -97,57 +157,23 @@
             <div class="wow fadeIn container margin-two">
                 <div class="row">
                   
+                  <input type="hidden" value="" name="selectDog"/>
+                  <c:forEach var="healingDog" items="${list}">
                     <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
-                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
-                        <div class="radio no-margin-bottom">
+                        <img class="margin-two" src="/images/uploadFiles/healingDog/${healingDog.healingDogimage }" name="healingDogimage" alt="" style="cursor:pointer;"/>
+                        <img class="checkImg" src="" name="checkImg" alt="" style="cursor:pointer;"/>
+                        <div class="no-margin-bottom">
                             <!-- radio button  -->
-                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 복이
+                            <label class="font-weight-700 text-p black-text"> ${healingDog.healingDogName }
                             </label>
                             <!-- end radio button  -->
                         </div>
-                        <p class="no-margin-top center-col width-90">3세 암컷, 요크셔테리아</p>
-                        <span class="margin-five black-text">치유사 박소현</span>
+                        <p class="no-margin-top center-col width-90">${healingDog.healingDogBirth }세 ${healingDog.healingDogGender }, ${healingDog.healingDogBreed.dogBreedKO }</p>
+                        <span class="margin-five black-text">치유사 ${healingDog.healingDogHealer }</span>
+                        <input type="hidden" name="healingDogNo" value="${healingDog.healingDogNo }"/>
                     </div>
-
-                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
-                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
-                        <div class="radio no-margin-bottom">
-                            <!-- radio button  -->
-                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 복실이
-                            </label>
-                            <!-- end radio button  -->
-                        </div>
-                        <p class="no-margin-top center-col width-90">5세 수컷, 말티즈</p>
-                        <span class="margin-five black-text">치유사 박소현</span>
-                    </div>
-
-
-                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
-                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
-                        <div class="radio no-margin-bottom">
-                            <!-- radio button  -->
-                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 미니
-                            </label>
-                            <!-- end radio button  -->
-                        </div>
-                        <p class="no-margin-top center-col width-90">2세 암컷, 불독</p>
-                        <span class="margin-five black-text">치유사 박소현</span>
-                    </div>
-
-
-                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
-                        <img class="margin-two" src="http://placehold.it/300x300" alt=""/>
-                        <div class="radio no-margin-bottom">
-                            <!-- radio button  -->
-                            <label class="font-weight-700 text-p black-text"><input type="radio" checked="checked" id="optionsRadios1" name="optionsRadios"> 치유견 순둥이
-                            </label>
-                            <!-- end radio button  -->
-                        </div>
-                        <p class="no-margin-top center-col width-90">3세 암컷, 요크셔테리아</p>
-                        <span class="margin-five black-text">치유사 박소현</span>
-                    </div>
-
-
+                  </c:forEach>
+                  
                 </div>
             </div>
         </section>
@@ -155,7 +181,9 @@
 
         <!--신청하기-->
         <div class="row text-center margin-two">
-                <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a>
+                <!-- <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a> -->
+                <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting">신청하기</button>
+                <!-- <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting2">신청하기2</button> -->
          </div>
         <!-- end 신청하기-->
 

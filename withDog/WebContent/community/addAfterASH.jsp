@@ -3,47 +3,93 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="kr">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+	  
+<link href="/css/jquery.minical.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+ 
+
+<!-- 달력 -->
+<script type="text/javascript" src="http://www.blueb.co.kr/data/201010/IJ12873724731095/datepicker.js"></script>
+<link href="http://www.blueb.co.kr/data/201010/IJ12873724731095/datepicker.css" rel="stylesheet" type="text/css" />
+<!-- 달력 -->
 <jsp:include page="/common/css.jsp" />
-<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <title>동물 교감 후기 등록</title>
 
+
 <script type="text/javascript">
+$(function () {
+	$("#fd-but-afterASHDate").attr('class','fa fa-calendar small-icon form-group');
+})
+
 function fncAddAfterAsh(){
 	//Form 유효성 검증
  	var healingDog = $('#healingDog option:selected').val();
 	var afterASHTitle = $('input[name=afterASHTitle]').val();
 	var afterASHContent = $('textarea[name=afterASHContent]').val();	
+	var afterASHDate = $('input[name=afterASHDate]').val();	
 
 
 	if(afterASHTitle == null || afterASHTitle.length<1){
 		alert("제목을 작성하세요.");
 		return;
 	}
-// 	if(healingDog == null || healingDog.length<1){
-// 		alert("치유견을 선택하세요.");
-// 		return;
-// 	}
+	
 	if(afterASHContent == null || afterASHContent.length<1){
 		alert("내용을 입력하세요.");
+		return;
+	}
+	if(afterASHDate == null || afterASHDate.length<1){
+		alert("날짜를 입력하세요.");
 		return;
 	}
 
 	$("form").attr("method","post").attr("action","/afterAsh/addAfterAsh").attr("enctype","multipart/form-data").submit();
 }
 
+// $(function () {
+// 	$("#submit").on("click", function () {
+// 		if (confirm("등록하시겠습니까?") == true){    //확인
+// 			fncAddAfterAsh();
+// 		  }else{   //취소
+// 		      return;
+// 		  }
+// 	});
+// })
 $(function () {
 	$("#submit").on("click", function () {
-		if (confirm("등록하시겠습니까?") == true){    //확인
-			fncAddAfterAsh();
-		  }else{   //취소
-		      return;
-		  }
+		$( "#dialog-confirm" ).dialog( "open" );
 	});
+})
+$(function () {
+	    $( "#dialog-confirm" ).dialog({
+	    	dialogClass: "no-close",
+	    	autoOpen: false,
+	        resizable: false,
+	        height: "auto",
+	        width: 400,
+	        modal: true,	
+	        buttons: {
+	          "확인": function() {
+	        	  fncAddAfterAsh();
+	          },
+	          "취소": function() {
+	            $( this ).dialog( "close" );
+	          }
+	        }
+	      });
 })
 
 
@@ -124,9 +170,20 @@ $(function () {
 						<!-- end label  -->
 					</div>
 					<div class="form-group calendar-icon no-margin-bottom" >
-						<!-- input  -->
-						<input type="text" class="big-input" name="afterASHDate" id="afterASHDate">
-						<i class="fa fa-calendar small-icon form-group" style="padding-left:-20px;"></i>
+					
+
+						<input  type="text" class="big-input" name="afterASHDate" id="afterASHDate" readonly>
+						      <script type="text/javascript">
+									var opts = {                            
+									        formElements:{"afterASHDate":"Y-ds-m-ds-d"},
+									        statusFormat:"l-cc-sp-d-sp-F-sp-Y",
+									        // Fill the grid...
+									        fillGrid:true,
+									        // ... and make all displayed dates selectable
+									        constrainSelection:false        
+									        };      
+									datePickerController.createDatePicker(opts);
+									 </script>
 						<select class="big-input" name="afterASHTime" id="afterASHTime">
 							<option value="0" selected="selected">오전 [10:00~13:00]</option>
                          	 <option value="1" >오후 [14:00~17:00]</option>
@@ -196,7 +253,7 @@ $(function () {
 
 				</form>
 				<div class="text-center">
-					<span id="submit" class="highlight-button btn btn-medium">등록</span>
+					<span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium" >등록</span>
 				</div>
 			</div>
 		</div>
@@ -204,7 +261,9 @@ $(function () {
 	</section>
 	<!-- end content section -->
 
-
+<div id="dialog-confirm" title="동물교감치유 후기 등록">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>게시글을 등록하시겠습니까?</p>
+</div>
 
 
 

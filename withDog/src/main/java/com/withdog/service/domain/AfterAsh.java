@@ -14,6 +14,7 @@ public class AfterAsh {
 	private String afterASHVideo;
 	private String afterASHDate;
 	private String afterASHTime;
+	private String viewCount;
 	private Date regDate;
 	private String deleteFlag;
 	private List<String> afterASHImageList = new ArrayList<String>();
@@ -114,8 +115,16 @@ public class AfterAsh {
 		this.deleteFlag = deleteFlag;
 	}
 	
-	public List<String> afterASHImageList() {
+	public List<String> getAfterASHImageList() {
 		return afterASHImageList;
+	}
+
+	public String getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(String viewCount) {
+		this.viewCount = viewCount;
 	}
 
 	@Override
@@ -123,9 +132,10 @@ public class AfterAsh {
 		return "AfterAsh [healingDog=" + healingDog + ", user=" + user + ", afterASHNo=" + afterASHNo
 				+ ", afterASHTitle=" + afterASHTitle + ", afterASHContent=" + afterASHContent + ", afterASHImage="
 				+ afterASHImage + ", afterASHVideo=" + afterASHVideo + ", afterASHDate=" + afterASHDate
-				+ ", afterASHTime=" + afterASHTime + ", regDate=" + regDate + ", deleteFlag=" + deleteFlag
-				+ ", afterASHImageList=" + afterASHImageList + "]";
+				+ ", afterASHTime=" + afterASHTime + ", viewCount=" + viewCount + ", regDate=" + regDate
+				+ ", deleteFlag=" + deleteFlag + ", afterASHImageList=" + afterASHImageList + "]";
 	}
+
 
 
 

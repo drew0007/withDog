@@ -570,7 +570,7 @@ public class FundController {
 		request.setAttribute("search", search);
 		request.setAttribute("myPageState", 11);
 		
-		return "forward:/mypage/listFundUserAdmin.jsp";
+		return "forward:/mypage/adminPageMain.jsp";
 	}
 	
 	

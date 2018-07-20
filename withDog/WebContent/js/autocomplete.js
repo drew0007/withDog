@@ -1,4 +1,4 @@
- $( function() {
+$( function() {
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -134,6 +134,5 @@
       $( "#combobox" ).toggle();
     });
   } );
-
 
 

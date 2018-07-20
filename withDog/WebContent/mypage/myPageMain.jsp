@@ -38,6 +38,10 @@
 	 	$("a:contains('나의 포인트 내역')").on("click",function(){
 	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
 	 	});
+	 		 	
+	 	$("a:contains('영상상담신청내역')").on("click",function(){
+	 		$(self.location).attr("href","/ash/getMyConsultingList");	 			 		
+	 	});
 	});
 	
 	</script>
@@ -111,8 +115,8 @@
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="">나의 예약내역</a></li>
-                                    <li><a href="">영상상담신청내역</a></li>
+                                    <li><a href="/ash/getMyReservationASHList">나의 예약내역</a></li>
+                                    <li><a href="#">영상상담신청내역</a></li>
                                 </ul>
                             </div>
                         </div>

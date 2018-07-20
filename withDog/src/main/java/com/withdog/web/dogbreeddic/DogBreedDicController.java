@@ -3,6 +3,7 @@ package com.withdog.web.dogbreeddic;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,17 +29,11 @@ public class DogBreedDicController {
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping(value = "getDogBreedInfo", method = RequestMethod.POST)
-	public String getDogBreedInfo (@ModelAttribute("dogBreedDic") DogBreedDic dogBreedDic, HttpServletRequest request) throws Exception {
-		System.out.println("/getDogBreedInfo");
-		System.out.println(dogBreedDic);
-		// Business Logic
-		List<DogBreedDic> list = dogBreedDicService.getDogBreedInfoList(dogBreedDic.getDogBreedKO());
-		// Model 과 View 연결
-		DogBreedDic dogBreedDic2 = new DogBreedDic();
-		System.out.println("리스트는 ? " + list);
-		request.setAttribute("normalSearch", list.get(0));
-
+	@RequestMapping(value = "getDogBreed", method = RequestMethod.GET)
+	public String getDogBreed (Model model) throws Exception {
+		System.out.println("/getDogBreed");
+		List<DogBreedDic> list = dogBreedDicService.getAllDogBreedInfoListByKo();
+		model.addAttribute("list",list);
 		return "forward:/community/dogBreedDicSearch.jsp";
 	}
 

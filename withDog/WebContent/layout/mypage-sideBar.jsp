@@ -42,6 +42,7 @@
 	 	$("a:contains('나의 포인트 내역')").on("click",function(){
 	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
 	 	});
+<<<<<<< HEAD
 	});
 	
 	</script>
@@ -86,6 +87,56 @@
           <ul class="category-list">
               <li><a href="">나의 예약내역</a></li>
               <li><a href="">영상상담신청내역</a></li>
+=======
+	 	
+	 	$("a:contains('영상상담신청내역')").on("click",function(){
+	 		$(self.location).attr("href","/ash/getMyConsultingList");	 			 		
+	 	});
+	});
+	
+	</script>
+
+</head>
+
+<body>
+        
+                       
+  <!-- widget  -->
+  <div class="widget">
+      <h5 class="widget-title font-alt">My 쇼핑</h5>
+      <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+      <div class="widget-body">
+          <ul class="category-list">
+              <li><a href="#">나의 구매내역</a></li>
+              <li><a href="#">취소/반품내역</a></li>
+              <li><a href="#">나의 문의내역</a></li>
+              <li><a href="#">장바구니</a></li>
+          </ul>
+      </div>
+  </div>
+  <!-- end widget  -->
+  
+   <!-- widget  -->
+  <div class="widget">
+      <h5 class="widget-title font-alt">My 후원</h5>
+      <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+      <div class="widget-body">
+          <ul class="category-list">
+              <li><a href="#">나의 후원내역</a></li>
+          </ul>
+      </div>
+  </div>
+  <!-- end widget  -->
+  
+  <!-- widget  -->
+  <div class="widget">
+      <h5 class="widget-title font-alt">My 예약</h5>
+      <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+      <div class="widget-body">
+          <ul class="category-list">
+              <li><a href="#">나의 예약내역</a></li>
+              <li><a href="#">영상상담신청내역</a></li>
+>>>>>>> refs/heads/master
           </ul>
       </div>
   </div>

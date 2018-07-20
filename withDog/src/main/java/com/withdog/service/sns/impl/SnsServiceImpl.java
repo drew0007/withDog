@@ -40,10 +40,25 @@ public class SnsServiceImpl implements SnsService{
 		return snsDAO.kakaoPay(point,params);
 	}
 
-	@Override
-	public JSONObject AshkakaoPay(Point point, String uri) throws Exception {
+	public JSONObject AshKakaoPay(Point point, String uri) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("sns KakaoPay Start service");
+		
+		System.out.println("uri는? " + uri);
+		
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	    params.add("cid", "TC0ONETIME");
+	    params.add("partner_order_id","admin");
+	    params.add("partner_user_id",point.getUser().getUserId());
+	    params.add("item_name","동물교감치유 예약");
+	    params.add("quantity", "1");//수량
+	    params.add("total_amount", new String(point.getAsh().getAshReservationPrice()+"").trim());
+	    params.add("tax_free_amount", "0");//세금
+	    params.add("approval_url", uri+"0");
+	    params.add("cancel_url", uri+"1");
+	    params.add("fail_url", uri+"2");
+		
+		return snsDAO.kakaoPay(point,params);
 	}
 
 	@Override
@@ -51,7 +66,7 @@ public class SnsServiceImpl implements SnsService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	
 	
 	

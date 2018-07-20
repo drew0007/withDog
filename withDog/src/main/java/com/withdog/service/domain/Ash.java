@@ -1,5 +1,7 @@
 package com.withdog.service.domain;
 
+import java.sql.Date;
+
 public class Ash {
 	private HealingDog healingDog;
 	private User user;
@@ -8,12 +10,14 @@ public class Ash {
 	private String ashReservationName;
 	private String ashReservationDate;
 	private String ashReservationTime;
-	private String ashReservationAddress;
+	private String ashReservationAddress1;
+	private String ashReservationAddress2;
 	private String ashReservationPhone;
 	private String ashReservationEtc;
-	private String ashReservationPrice;
+	private int ashReservationPrice;
+//	private String ashReservationColor;
 	private String paymentOption;
-	private String purchaseDate;
+	private Date purchaseDate;
 
 	public HealingDog getHealingDog() {
 		return healingDog;
@@ -71,12 +75,20 @@ public class Ash {
 		this.ashReservationTime = ashReservationTime;
 	}
 
-	public String getAshReservationAddress() {
-		return ashReservationAddress;
+	public String getAshReservationAddress1() {
+		return ashReservationAddress1;
 	}
 
-	public void setAshReservationAddress(String ashReservationAddress) {
-		this.ashReservationAddress = ashReservationAddress;
+	public void setAshReservationAddress1(String ashReservationAddress1) {
+		this.ashReservationAddress1 = ashReservationAddress1;
+	}
+	
+	public String getAshReservationAddress2() {
+		return ashReservationAddress2;
+	}
+	
+	public void setAshReservationAddress2(String ashReservationAddress2) {
+		this.ashReservationAddress2 = ashReservationAddress2;
 	}
 
 	public String getAshReservationPhone() {
@@ -95,11 +107,11 @@ public class Ash {
 		this.ashReservationEtc = ashReservationEtc;
 	}
 
-	public String getAshReservationPrice() {
+	public int getAshReservationPrice() {
 		return ashReservationPrice;
 	}
 
-	public void setAshReservationPrice(String ashReservationPrice) {
+	public void setAshReservationPrice(int ashReservationPrice) {
 		this.ashReservationPrice = ashReservationPrice;
 	}
 
@@ -111,22 +123,32 @@ public class Ash {
 		this.paymentOption = paymentOption;
 	}
 
-	public String getPurchaseDate() {
+	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(String purchaseDate) {
+	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
+//	public String getAshReservationColor() {
+//		return ashReservationColor;
+//	}
+//
+//	public void setAshReservationColor(String ashReservationColor) {
+//		this.ashReservationColor = ashReservationColor;
+//	}
+
 	@Override
 	public String toString() {
-		return "Ash [healingDog=" + healingDog + ", ashReservationNo=" + ashReservationNo + ", ashReservationCondition="
-				+ ashReservationCondition + ", ashReservationName=" + ashReservationName + ", ashReservationDate="
-				+ ashReservationDate + ", ashReservationTime=" + ashReservationTime + ", ashReservationAddress="
-				+ ashReservationAddress + ", ashReservationPhone=" + ashReservationPhone + ", ashReservationEtc="
-				+ ashReservationEtc + ", ashReservationPrice=" + ashReservationPrice + ", paymentOption="
-				+ paymentOption + ", purchaseDate=" + purchaseDate + "]";
+		return "Ash [healingDog=" + healingDog + ", user=" + user + ", ashReservationNo=" + ashReservationNo
+				+ ", ashReservationCondition=" + ashReservationCondition + ", ashReservationName=" + ashReservationName
+				+ ", ashReservationDate=" + ashReservationDate + ", ashReservationTime=" + ashReservationTime
+				+ ", ashReservationAddress1=" + ashReservationAddress1 + ", ashReservationAddress2="
+				+ ashReservationAddress2 + ", ashReservationPhone=" + ashReservationPhone + ", ashReservationEtc="
+				+ ashReservationEtc + ", ashReservationPrice=" + ashReservationPrice + ", "
+				 + ", paymentOption=" + paymentOption + ", purchaseDate=" + purchaseDate + "]";
 	}
+
 
 }

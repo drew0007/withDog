@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,9 +10,28 @@
 	<jsp:include page="/common/css.jsp" />
 
 	<title>동물교감 치유 후기 게시판</title>
+	<style type="text/css">
+	
+	</style>
 </head>
 
+
+
 <script type="text/javascript">
+$(function () {
+	$("#addAfterAshButton").on("click", function () {
+		var userId = "${user.userId}";
+		if(userId==null || userId=="" || userId==" "){
+			alert("로그인 하세요")
+			return;
+		}
+		else{
+		self.location="/afterAsh/addAfterAsh";
+		}
+	})
+})
+
+
 function changeSelect () {
 	$.ajax({
 		url : "/ash/json/getAllHealingDogList",
@@ -24,14 +44,14 @@ function changeSelect () {
 		success : function (data) {
 			console.log(data)
 			for(var i = 0; i<data.healingDogs.length; i++){
-				if($("select[name=checkSelect]").val()==0){
-					$("select[name=resultSelect]").append($('<option value=>'+data.healingDogs[i].healingDogName+'</option>'));
-				}
-				if($("select[name=checkSelect]").val()==1){
+			var healingDogNo = data.healingDogs[i].healingDogNo;
+			var healingDogName = data.healingDogs[i].healingDogName;
+			
 					$.ajax({
 						url : "/dogBreedDic/json/getDogBreed2",
 						method : "POST",
 						datatype : "json",
+						async : false,
 						data : JSON.stringify({
 							dogNo : data.healingDogs[i].healingDogBreed.dogNo
 						}),
@@ -41,32 +61,44 @@ function changeSelect () {
 						},
 						success : function (data) {
 							console.log(data)
-							$("select[name=resultSelect]").append($('<option value=>'+data.key.dogBreedKO+'</option>'));
+							$("select[name=searchKeyword]").append($('<option value='+healingDogNo+'>'+ healingDogName+' ['+data.key.dogBreedKO+']'+'</option>'));
 						}
 					})
-				}
-				if($("select[name=checkSelect]").val()==2){
-					$("select[name=resultSelect]").append($('<option value=>'+data.healingDogs[i].healingDogHealer+'</option>'));
-				}
 			}
 		}
 	})
 }
 
+
+$(function name() {
+	$("#searchButton").on("click", function () {
+		fncGetList(1)
+	})
+})
+
+
 $(function () {
 	changeSelect();
-	$("select[name=checkSelect]").on("change", function () {
-		$("select[name=resultSelect]").empty();
+	$("select[name=searchCondition]").on("change", function () {
+		$("select[name=searchKeyword]").empty();
 		changeSelect();
 	})
 })
+
+
+function fncGetList(currentPage) {
+ 	$("#currentPage").val(currentPage)
+	$("form").attr("method","post").attr("action","/afterAsh/listAfterAsh").submit();
+}
+
+
 
 </script>
 
 <body>
 
 	<jsp:include page="/layout/common-header.jsp" />
-	
+	<input type="hidden" name="userId" value="${!empty sessionUser.userId?sessionUser.userId:''}">
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">
             <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
@@ -92,19 +124,16 @@ $(function () {
 	        <div id="addcomment" class="col-md-6 col-sm-12 blog-comment-form-main center-col text-center">
 	            <div class="blog-comment-form">
 	                <form>
+	                	<input type="hidden" id="currentPage" name="currentPage" value=""/>
 	                	<!-- select -->
-	                    <select name="checkSelect" class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
-	                        <option value="0" selected="selected">치유견이름</option>
-	                        <option value="1" >치유견종</option>
-	                        <option value="2" >담당치유사</option>
-	                     </select>   
                     	<!-- end select -->
-	                    <select name="resultSelect" class="col-md-4" style="padding-bottom:13px; padding-right:10px;">
+	                    <select name="searchKeyword" class="col-md-8" style="padding-bottom:13px; padding-right:10px;">
+	                    	<option value="0">원하시는 치유견을 선택하세요.</option>
 	                    		<!-- 옵션 넣어라 -->
-	                     </select>   
+	                     </select>
                     	<!-- end select -->
                         <!-- button  -->
-                        	<a href="#" class="highlight-button-dark btn btn-medium btn-round button xs-margin-bottom-five">검색</a>
+                        	<a id="searchButton" href="#" class="highlight-button-dark btn btn-medium btn-round button xs-margin-bottom-five">검색</a>
                         <!-- end button  -->
                      </form>
                  </div>
@@ -115,10 +144,10 @@ $(function () {
         <!-- 슬라이드 영역 시작 -->
             <div class="container padding-four">
                 <div class="row text-center">
-                    <div id="owl-demo" class="owl-carousel owl-theme dark-pagination dark-pagination-without-next-prev-arrow">
-                        <div class="item"><img src="http://placehold.it/800x500" alt=""/></div>
-                        <div class="item"><img src="http://placehold.it/800x500" alt=""/></div>
-                        <div class="item"><img src="http://placehold.it/800x500" alt=""/></div>
+                    <div id="owl-demo" class="owl-carousel owl-theme dark-pagination dark-pagination-without-next-prev-arrow carousel slide">
+                        <div class="item"><img src ="/images/uploadFiles/dogInfo/${listByViewCount[0].afterASHImageList[0]}" data-slide-to="0" alt="First slide" /></div>
+                        <div class="item"><img src ="/images/uploadFiles/dogInfo/${listByViewCount[1].afterASHImageList[0]}" data-slide-to="1" alt="Second slide"/></div>
+                        <div class="item"><img src ="/images/uploadFiles/dogInfo/${listByViewCount[2].afterASHImageList[0]}" data-slide-to="2" alt="Third slide"/></div>
                     </div>
                 </div>
             </div>
@@ -128,73 +157,35 @@ $(function () {
         <section class="wow fadeIn no-padding">
             <div class="container">
                 <div class="row">
-                
+                <c:if test="${empty list}">
+	                    	<h1 align="center">등록된 후기가 없습니다.</h1>
+                </c:if>
+                <c:forEach var="list" items="${list}">
                    	<div class="col-md-4 col-sm-4">
                         <div class="blog-post">
-                            <div class="blog-post-images"><a href="getAfterASH.jsp"><img src="http://placehold.it/800x500"" alt=""></a></div>
-                            <a href="getAfterASH.jsp" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목1<i class="fa fa-heart-o pull-right" >15</i></a><br/>
-	                       <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
+                            <div class="blog-post-images"><a href="getAfterASH.jsp">
+                            
+                            <c:if test="${empty list.afterASHImage || list.afterASHImage==''}">
+                            	<a href="/afterAsh/getAfterAsh?afterASHNo=${list.afterASHNo}"><img src="http://placehold.it/800x500" alt=""></a>
+                            </c:if>
+                            <c:if test="${!empty list.afterASHImage }">
+                            	<a href="/afterAsh/getAfterAsh?afterASHNo=${list.afterASHNo}"><img src ="/images/uploadFiles/dogInfo/${list.afterASHImageList[0]}" width="800px" height="500px" alt=""/></a>
+                            </c:if>
+                            </a></div>
+                            <a href="getAfterASH.jsp" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">${list.afterASHTitle}</a><br/>
+	                       <span class="fund-raising">회원ID ${list.user.userId } | 작성일 ${list.regDate} | 조회수 : ${list.viewCount}</span>
                         </div>
                     </div> 
-                    
-                   	<div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
-                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목2<i class="fa fa-heart-o pull-right" >15</i></a><br/>
-	                       <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
-                        </div>
-                    </div>  
-                    
-                   	<div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
-                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
-	                        <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
-                        </div>
-                    </div>  
-                   </div><!-- end row -->
-                                 <div class="row">
-                
-                	<div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
-                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
-	                        <span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
-                        </div>
-                    </div>  
-                    
-                   	<div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
-                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
-	                       	<span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
-                        </div>
-                    </div>  
-                    
-                   	<div class="col-md-4 col-sm-4">
-                        <div class="blog-post">
-                            <div class="blog-post-images"><a href="#"><img src="http://placehold.it/800x500"" alt=""></a></div>
-                            <a href="#" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">동물교감 치유후기 제목<i class="fa fa-heart-o pull-right" >15</i></a><br/>
-	                      	<span class="fund-raising">회원ID aaa | Date 2018.08.17</span>
-                        </div>
-                    </div>  
+               </c:forEach>
                     
                    <!-- pagination -->
-	               <div class="pagination margin-ten no-margin-bottom">
-	                  <a href="#"><img src="../images/arrow-pre-small.png" alt=""/></a>
-	                  <a href="#">1</a>
-	                  <a href="#">2</a>
-	                  <a href="#" class="active">3</a>
-	                  <a href="#">4</a>
-	                  <a href="#">5</a>
-	                  <a href="#"><img src="../images/arrow-next-small.png" alt=""/></a>
-	               </div>
+	        		<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
                	  <!-- end pagination -->   
                     
                 </div><!-- end row -->
                    
                  <div class="text-center">
-					<a href="/afterAsh/addAfterAsh"><span class="highlight-button btn btn-medium pull-right">후기 등록하기 </span></a>
+					<a style="cursor: pointer;" id="addAfterAshButton" ><span class="highlight-button btn btn-medium pull-right">후기 등록하기 </span></a>
 				</div>
 				
               </div><!-- end container -->       

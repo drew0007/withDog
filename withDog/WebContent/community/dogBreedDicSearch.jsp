@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
 <jsp:include page="/common/css.jsp" />
 
 <title>견종백과 일반검색</title>
@@ -391,6 +391,7 @@ $(function () {
 						method : "GET" ,
 						dataType : "json",
 						success : function (data) {
+							console.log(data)
 							 googleVisionByImageURI(data.items[0].pagemap.cse_image[0].src)
 							 
 						}
@@ -435,35 +436,11 @@ $(function () {
 ////////////////////오토컴플릿
 
 ////////////////////검색버튼 눌렀을 시
-$(function () {
-	
-});
 
 			
-			
-// function getDogList() {
-// 	$("#normalSearch").attr("method" , "POST").attr("action" , "/dogBreedDic/getDogBreedInfo").submit();
-// }
-//////////////////////
-// $(function () {
-// 	alert($("#result_height2").html())
-// })
-
-$(function () {
-	$.ajax({
-		url : "/dogBreedDic/json/getAllBreedInfoListByKo",
-		method : "GET",
-		datatype : "json",
-		headers : {
-			"Accept" : "application/json",
-			"Content-Type" : "application/json"
-		},
-		success : function (data) {
+/////////// 일반검색
+$(function (data) {
 			console.log(data)
-			for(var i = 0; i<data.allDogBreedInfo.length; i++){
-				$("#selecttt").append($('<option value=>'+data.allDogBreedInfo[i].dogBreedKO+'</option>'));
-			}
-			
 			$("button:contains('검색')").on("click",function () {
 				$("#jumpingDog").css('display','none')
 				$("#normalSearchResult").css('display','');
@@ -477,7 +454,7 @@ $(function () {
 						"Content-Type" : "application/json"
 					},	
 					data : JSON.stringify({
-						dogBreedKO : $("#selecttt option:selected").text()
+						dogBreedKO : $("#selecttt option:selected").val()
 					}),
 					success : function (data) {
 						console.log(data)
@@ -496,11 +473,7 @@ $(function () {
 			})	
 			
 			
-		}
-	})
-	
-	
-})
+		})
 
 </script>
 
@@ -509,7 +482,7 @@ $(function () {
 	<jsp:include page="/layout/common-header.jsp" />
 		
 	<!-- head section -->
-	       <section class="page-title parallax3 parallax-fix page-title-blog">
+	       <section  class="page-title parallax3 parallax-fix page-title-blog">
 	          <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
 	          <img class="parallax-background-img" src="../images/sub/600_bg.jpg" alt="" />
 	          <div class="container">
@@ -562,7 +535,11 @@ $(function () {
 													<div>
 														<div id="searchKeyword" class="select-style input-round big-input">
 															<select id="selecttt">
-															
+																<c:forEach var="list" items="${list}">
+																	<option value="${list.dogBreedKO}">
+																		${list.dogBreedKO}
+																	</option>
+																</c:forEach>
 															</select>
 														</div>
 													</div>

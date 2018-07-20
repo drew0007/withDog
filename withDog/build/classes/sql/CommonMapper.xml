@@ -30,7 +30,12 @@
 	</select>
 	
 	<select id="currentPoint" parameterType="point"	resultType="int">
-		select p.CURRENT_POINT from  point p,(select Max(point_no) mp from  point where USER_ID = #{user.userId}) pn where point_no=pn.mp  group by CURRENT_POINT
+		SELECT p.current_point
+		FROM  point p,(select MAX(point_no) mp 
+								from  point 
+								where user_id = #{user.userId}) pn 
+		WHERE point_no=pn.mp  
+		GROUP by CURRENT_POINT
 	</select>
 	
 	<select id="myPointList" parameterType="map"	resultMap="pointSelectMap">
@@ -50,17 +55,18 @@
 	<insert id="addPointUse"	parameterType="point" >
 	 	INSERT
 		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
-		 <if test="fund.fundMyPriceNo != null">#{fund.fundMyPriceNo}</if>
-		 ,0,0,SYSDATE,#{usePoint},0,#{currentPoint})
-		 
-												
+		 <if test="fund != null">#{fund.fundMyPriceNo},0,0</if>
+		 <if test="ash != null">0,0,#{ash.ashReservationNo}</if>
+		 ,SYSDATE,#{usePoint},0,#{currentPoint})
 	 </insert>
+	 
 	 
 	 <insert id="addPointSave"	parameterType="point" >
 	 	INSERT
 		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
-		 <if test="fund.fundTitle!=null">#{fund.fundMyPriceNo}</if>
-		 ,0,0,SYSDATE,0,#{point},#{currentPoint})
+		 <if test="fund!=null">#{fund.fundMyPriceNo},0,0</if>
+		 <if test="ash != null">0,0,#{ash.ashReservationNo}</if>
+		 ,SYSDATE,0,#{point},#{currentPoint})
 		 										
 	 </insert>
 	

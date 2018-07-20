@@ -36,6 +36,7 @@
 	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
 	 	});
 	 	
+<<<<<<< HEAD
 	 	
 	});
 	
@@ -80,6 +81,56 @@
              <ul class="category-list">
                  <li><a href="">예약관리</a></li>
                  <li><a href="">영상상담신청관리</a></li>
+=======
+	 	$("a:contains('영상상담신청관리')").on("click",function(){
+	 		$(self.location).attr("href","/ash/getConsultingAdminList");	 			 		
+	 	});
+	 	
+	 	
+	});
+	
+	</script>
+
+</head>
+
+<body>
+		
+ <!-- sidebar  -->
+    
+     <!-- widget  -->
+     <div class="widget">
+         <h5 class="widget-title font-alt">스토어</h5>
+         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+         <div class="widget-body">
+             <ul class="category-list">
+                 <li><a href="#">판매관리</a></li>
+                 <li><a href="#">상품문의관리</a></li>
+             </ul>
+         </div>
+     </div>
+     <!-- end widget  -->
+     
+      <!-- widget  -->
+     <div class="widget">
+         <h5 class="widget-title font-alt">크라우드펀딩</h5>
+         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+         <div class="widget-body">
+             <ul class="category-list">
+                 <li><a href="#">회원별 후원내역</a></li>
+             </ul>
+         </div>
+     </div>
+     <!-- end widget  -->
+     
+     <!-- widget  -->
+     <div class="widget">
+         <h5 class="widget-title font-alt">동물교감치유</h5>
+         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+         <div class="widget-body">
+             <ul class="category-list">
+                 <li><a href="#">예약관리</a></li>
+                 <li><a href="#">영상상담신청관리</a></li>
+>>>>>>> refs/heads/master
              </ul>
          </div>
      </div>

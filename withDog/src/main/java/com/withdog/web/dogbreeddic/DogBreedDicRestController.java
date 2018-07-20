@@ -2,6 +2,9 @@ package com.withdog.web.dogbreeddic;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +29,7 @@ public class DogBreedDicRestController {
 		
 	}
 	@RequestMapping(value = "json/getDogBreed")
-	public JSONObject getDogBreed(@RequestBody DogBreedDic dogBreedDic  ) throws Exception{
+	public JSONObject getDogBreed(@RequestBody DogBreedDic dogBreedDic,HttpSession session) throws Exception{
 		
 		System.out.println("/dogBreedDic/json/getDogBreed");
 		System.out.println("»Æ¿Œ¡ﬂ"+dogBreedDic);

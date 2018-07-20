@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="/common/css.jsp" />
 
 
@@ -14,8 +15,27 @@
 </head>
 
 
-<body>
 
+
+<body>
+<script type="text/javascript">
+$(function () {
+	$("#addHealingDog").on("click", function () {
+// 		var userId = "${user.userId}";
+// 		if(userId==null || userId=="" || userId==" "){
+// 			alert("로그인 하세요")
+// 			return;
+// 		}
+// 		else{
+		self.location="/ash/addHealingDog";
+// 		}
+	})
+	
+})
+
+
+
+</script>
 
 	<jsp:include page="/layout/common-header.jsp" />
 	
@@ -47,69 +67,23 @@
                 <div class="row">
                 
                     <!-- dog 01 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
+                    <c:forEach var="list" items="${list}">
+                    <a href="/ash/getHealingDog?healingDogNo=${list.healingDogNo}">
+                    <div id="detail" class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+<!--                         <img src="http://placehold.it/400x400" alt=""/> -->
+						<img  src = "/images/uploadFiles/healingDog/${list.healingDogimage}" width="400px" height="400px" alt=""/>
+                        <span class="name black-text">${list.healingDogName}</span>
+                        <p   class="center-col width-90">${list.healingDogBreed.dogBreedKO} &nbsp; | &nbsp; ${list.healingDogBirth}살 &nbsp; | &nbsp; ${list.healingDogChar}</p>
                     </div>
+                    </a>
+                    </c:forEach>
                     <!-- end dog 01 -->
                     
-                    <!-- dog 02 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt="" />
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 02 -->
-                    
-                    <!-- dog 03 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 03 -->
-                    
-                    <!-- dog 04 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 04 -->
-                    
-                    <!-- dog 05 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 05 -->
-                    
-                    <!-- dog 06 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 06 -->
-                    
-                    <!-- dog 07 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 07 -->
-                    
-                    <!-- dog 08 -->
-                    <div class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
-                        <img src="http://placehold.it/400x400" alt=""/>
-                        <span class="name black-text">치유견 이름</span>
-                        <p class="center-col width-90">견종 &nbsp; | &nbsp; 나이 &nbsp; | &nbsp; 특징</p>
-                    </div>
-                    <!-- end dog 08 -->
-                    
+                    <!-- 나중에 관리자만 할수있도록 수정 -->
+                     <div class="text-center">
+						<a style="cursor: pointer;" id="addHealingDog" ><span class="highlight-button btn btn-medium pull-right">치유견등록</span></a>
+					</div>
+					<!-- 나중에 관리자만 할수있도록 수정 -->
                 </div>
             </div>
         </section>

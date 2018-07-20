@@ -27,9 +27,15 @@
 	 	$("a:contains('나의 포인트 내역')").on("click",function(){
 	 		$(self.location).attr("href","/common/getMyPointList");	 			 		
 	 	});
+<<<<<<< HEAD
 	 	
 	 	$("a:contains('상품문의관리리스트')").on("click",function(){
 	 		$(self.location).attr("href","/inquiry/getInquiryListAdmin");	 			 		
+=======
+	 		 	
+	 	$("a:contains('영상상담신청내역')").on("click",function(){
+	 		$(self.location).attr("href","/ash/getConsultingAdminList");	 			 		
+>>>>>>> refs/heads/master
 	 	});
 	});
 	
@@ -101,8 +107,8 @@
                             <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
                             <div class="widget-body">
                                 <ul class="category-list">
-                                    <li><a href="">나의 예약내역</a></li>
-                                    <li><a href="">영상상담신청내역</a></li>
+                                    <li><a href="/ash/getAshReservationAdminList">회원별 예약내역</a></li>
+                                    <li><a href="#">영상상담신청내역</a></li>
                                 </ul>
                             </div>
                         </div>

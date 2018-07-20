@@ -38,8 +38,11 @@ public class SnsDAOImpl implements SnsDAO {
 		    //headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		    headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
 		    headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+		    
+		    System.out.println("여깍진오냐?");
 
 		    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+		    System.out.println("여깍진오냐2222?");
 		    String response = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), request, String.class);
 		    System.out.println("여기까지");
 		    System.out.println(response);

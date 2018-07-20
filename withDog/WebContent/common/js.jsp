@@ -13,12 +13,15 @@
 <!-- javascript libraries / javascript files set #1 --> 
 
         <!-- <script type="text/javascript" src="../js/jquery.min.js"></script> -->
-<<<<<<< HEAD
 
-=======
->>>>>>> refs/heads/new/tazesign
+<!--         <script type="text/javascript" src="../js/jquery.min.js"></script> -->
+        <script type="text/javascript" src="../js/jquery.animateNumber.js"></script>
         <script type="text/javascript" src="../js/jquery.animateNumber.min.js"></script>
-        <script type="text/javascript" src="../js/modernizr.js"></script>
+        <script type="text/javascript" src="../js/modernizr.js"></script><!-- 장원캘린더 -->
+        <script src='/js/moment.min.js'></script> <!-- 장원캘린더 -->
+		<script src='/js/fullcalendar.js'></script> <!-- 장원캘린더 -->
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="../js/autocomplete.js"></script>
         <script type="text/javascript" src="../js/bootstrap.js"></script>
         <script type="text/javascript" src="../js/bootstrap-hover-dropdown.js"></script>
         <script type="text/javascript" src="../js/jquery.easing.1.3.js"></script> 

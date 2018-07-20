@@ -25,6 +25,7 @@
 		<typeAlias alias="recommendInfo" type="com.withdog.service.domain.RecommendInfo" />
 		<typeAlias alias="healingDog" type="com.withdog.service.domain.HealingDog" />
 		<typeAlias alias="afterAsh" type="com.withdog.service.domain.AfterAsh" />
+		<typeAlias alias="consulting" type="com.withdog.service.domain.Consulting" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
 		<typeAlias alias="inquiry" type="com.withdog.service.domain.Inquiry" />
 	</typeAliases>
