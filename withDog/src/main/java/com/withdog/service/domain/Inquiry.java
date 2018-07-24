@@ -16,6 +16,7 @@ public class Inquiry {
 	private String inquiryReply;
 	private String deleteFlag;
 	
+	
 	public Inquiry(){
 	}
 
@@ -129,7 +130,6 @@ public class Inquiry {
 	}
 
 
-	
-	
-	
+
+
 }

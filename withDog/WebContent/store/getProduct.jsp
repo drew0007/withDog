@@ -388,7 +388,7 @@ $(function(){
                                 <ul class="nav nav-tabs nav-tabs-light text-center">
                                     <li class="active"><a href="#tab_sec1" data-toggle="tab">상품상세정보</a></li>
                                     <li><a href="#tab_sec2" data-toggle="tab">상품후기 (10)</a></li>
-                                    <li><a href="#tab_sec3" data-toggle="tab"  id="tabInquiry">상품문의 (10)</a></li>
+                                    <li><a href="#tab_sec3" data-toggle="tab"  id="tabInquiry">상품문의 (${product.inquiryCnt})</a></li>
                                 </ul>
                                 <!-- tab end navigation -->
                             </div>
