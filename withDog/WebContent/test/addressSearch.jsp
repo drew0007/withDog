@@ -4,7 +4,7 @@
   <head>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
-  var address = encodeURIComponent('서울특별시 역삼동 강남역');
+  var address = encodeURIComponent('대전광역시 유성구 갑동로15번길 20-39 (갑동)');
   $.ajax({
 		url : 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address='+address,
 		method:'GET',
