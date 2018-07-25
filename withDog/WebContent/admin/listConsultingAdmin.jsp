@@ -98,6 +98,7 @@ $(function(){
 							$($('td:nth-child(5)')[index]).text('진행');
 							$($('a[name="btnConsulting"]')[index]).text('상담완료');
 							$($('a[name="startConsulting"]')[index]).text('다시연결');
+							popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/함깨할게", "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 						}
 					}
 				)
@@ -136,7 +137,7 @@ $(function(){
 					}
 				)
 		}else if(consultingState == '9'){
-			popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/"+userId, "popWin", "left=100, top=100, width=1400, height=800, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+			popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/함깨할게", "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 		}
 	});
 });
@@ -173,7 +174,7 @@ $(function(){
 	
 		<!-- sidebar  -->
 		<div class="col-md-2 col-sm-3 sidebar">
-			<jsp:include page="/layout/mypage-sideBar.jsp" />
+			<jsp:include page="/layout/admin-sideBar.jsp" />
 		</div>
 		<!-- end sidebar  -->
 		

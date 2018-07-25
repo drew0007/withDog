@@ -1,7 +1,8 @@
 package com.withdog.service.domain;
 
 public class AbandDog {
-	private int noticeNo;					// 공고번호
+	private String desertionNo;				// 유기견번호
+	private String noticeNo;				// 공고번호
 	private String abandDogBreed;		// 견종
 	private String abandDogGender;	// 성별
 	private String abandDogFeature;	// 특징
@@ -26,11 +27,19 @@ public class AbandDog {
 		
 	}
 
-	public int getNoticeNo() {
+	public String getDesertionNo() {
+		return desertionNo;
+	}
+
+	public void setDesertionNo(String desertionNo) {
+		this.desertionNo = desertionNo;
+	}
+
+	public String getNoticeNo() {
 		return noticeNo;
 	}
 
-	public void setNoticeNo(int noticeNo) {
+	public void setNoticeNo(String noticeNo) {
 		this.noticeNo = noticeNo;
 	}
 

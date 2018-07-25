@@ -45,12 +45,25 @@
 				return;
 			}
 			
-			self.location = "/ash/addConsulting?healingDogNo="+healingDogNo;
+			$.ajax({
+				url : "/ash/json/addConsulting/"+healingDogNo,
+				method : "GET",
+				datatype : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function (data) {		
+					popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=600, height=600, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+				}
+			}); //end of ajax
 		});
 		
 		$('#addConsulting2').on('click', function(){			
-			//popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-			self.location = "/ash/test";
+			
+			//popWin = window.open("https://withdog.herokuapp.com/chat/test/${user.userId}", "popWin", "left=200, top=50, width=1196, height=716, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+			
+			//self.location = "/abandDog/getAbanddogList";
 		});
 	});
 </script>
@@ -168,7 +181,7 @@
                             </label>
                             <!-- end radio button  -->
                         </div>
-                        <p class="no-margin-top center-col width-90">${healingDog.healingDogBirth }세 ${healingDog.healingDogGender }, ${healingDog.healingDogBreed.dogBreedKO }</p>
+                        <p class="no-margin-top no-margin-bottom center-col width-90">${healingDog.healingDogBirth }세 ${healingDog.healingDogGender }, ${healingDog.healingDogBreed.dogBreedKO }</p>
                         <span class="margin-five black-text">치유사 ${healingDog.healingDogHealer }</span>
                         <input type="hidden" name="healingDogNo" value="${healingDog.healingDogNo }"/>
                     </div>
@@ -183,7 +196,7 @@
         <div class="row text-center margin-two">
                 <!-- <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a> -->
                 <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting">신청하기</button>
-                <!-- <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting2">신청하기2</button> -->
+                <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting2">신청하기2</button>
          </div>
         <!-- end 신청하기-->
 
