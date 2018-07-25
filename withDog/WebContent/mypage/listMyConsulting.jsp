@@ -36,7 +36,7 @@ $(function(){
 	});
 	
 	$('#okModal').on('click',function(){
-		var index = $('#index').val();		
+		var index = $('#index').val();	
 		
 		var consultingState = "";
 		var consultingNo = $('#consultingNoModal').val();

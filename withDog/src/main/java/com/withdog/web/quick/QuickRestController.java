@@ -368,6 +368,7 @@ public class QuickRestController {
 	            System.out.println("==================================end");
 	            pinfolast.put("all", jsoninfo);
 	            System.out.println(pinfolast.toString());
+	            
 	            System.out.println("==================================endlast");
 	             
 	                   
@@ -392,7 +393,7 @@ public class QuickRestController {
 			
 			System.out.println("변환완료:"+lat+":::"+lng+"::"+type);
 		
-	        String apiURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lng+"&radius=500&type="+type+"&keyword=&key=AIzaSyDtz18kZbobsZXEZs7SyXN_2XBgP9kB39k&language=ko-ko"; //json
+	        String apiURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lng+"&radius=1000&type="+type+"&keyword=&key=AIzaSyDtz18kZbobsZXEZs7SyXN_2XBgP9kB39k&language=ko-ko"; //json
 	       
 	        URL url = new URL(apiURL);
 	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -429,11 +430,18 @@ public class QuickRestController {
 	        
 	        String temp="";
 	        int a=0;
-	        if(jsonArray.size()>=5) {
+	        /*if(jsonArray.size()>=5) {
 	        	a=jsonArray.size();
 	        }else {
 	        	a=jsonArray.size();
-	        }
+	        }*/
+	        if(jsonArray.size()>7) {
+            	//a=jsonArray.size();//전부받기
+            	a=7;
+            }else {
+            	a=jsonArray.size();
+            }
+	        
 	        for(int i=0;i<a;i++) {
 	        	List<String> placeinfo = new ArrayList<String>();
 	      
@@ -475,6 +483,7 @@ public class QuickRestController {
 	        System.out.println("==================================end");
 	        pinfolast.put("all", jsoninfo);
 	        System.out.println(pinfolast.toString());
+	        System.out.println("총 :"+a+" 개전송");
 	        System.out.println("==================================endlast");
 	         
 	               
@@ -497,8 +506,8 @@ public class QuickRestController {
 		}
 		
 		
-		String apiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=37.494541,127.027969&destinations=37.497942,127.027621&mode=transit&language=ko-ko&key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE"; //json
-        
+		String apiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=37.4945297241211,127.028060913086&destinations=37.49026070000001,127.0203404&mode=transit&language=ko-ko&key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE"; //json
+		
         URL url = new URL(apiURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
@@ -524,7 +533,7 @@ public class QuickRestController {
         System.out.println(jobj.get("rows"));
         String temp1=((JSONArray)jobj.get("destination_addresses")).get(0).toString();
         String temp2 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("duration")).get("text").toString();
-        String temp3 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("text").toString();
+        String temp3 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("value").toString();
         System.out.println(((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("duration")).get("text"));
         System.out.println(((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("text"));
 		

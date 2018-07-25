@@ -17,6 +17,7 @@
 		<result property="prodQuantity" 		column="prod_quantity" 			jdbcType="INTEGER" />
 		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
 		<result property="deleteFlag" 			column="delete_flag"					jdbcType="VARCHAR" />
+		<result property="inquiryCnt" 			column="inquiry_cnt"					jdbcType="INTEGER" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -29,9 +30,12 @@
  	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
-		prod_no, prod_type, prod_name, prod_content, prod_image, price, prod_quantity, reg_date, delete_flag
-		FROM product
-		WHERE prod_no = #{value}
+		p.prod_no, p.prod_type, p.prod_name, p.prod_content, p.prod_image, p.price, p.prod_quantity, p.reg_date, p.delete_flag, COUNT(i.inquiry_no) inquiry_cnt
+		FROM product p, inquiry i
+		WHERE p.prod_no=i.prod_no(+)
+						AND p.prod_no = #{value}
+						AND i.delete_flag(+) = '0'
+		GROUP BY p.prod_no, p.prod_type, p.prod_name, p.prod_content, p.prod_image, p.price, p.prod_quantity, p.reg_date, p.delete_flag					
 	 </select>
 	 
  	 <!-- SQL : UPDATE -->

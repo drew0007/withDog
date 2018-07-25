@@ -38,12 +38,36 @@ public class QuickController {
 	public QuickController() {
 		System.out.println(this.getClass());
 	}
+	@RequestMapping(value="addressSearch")
+	public String addressSearch(HttpServletRequest request)throws Exception {
+		
+		String careAddr = request.getParameter("careAddr");
+		request.setAttribute("careAddr", careAddr);
+		System.out.println("지도확인");
+		System.out.println(careAddr);
+			
+		return "forward:/test/addressSearch.jsp";
+	}
+	
+	@RequestMapping(value="GeoMap")
+	public String GeoNavigation(HttpServletRequest request)throws Exception {
+		
+		String lat = request.getParameter("lat");
+		String lng = request.getParameter("lng");
+		request.setAttribute("lat", lat);
+		request.setAttribute("lng", lng);
+			
+		return "forward:/test/GoogleMapGeo.jsp";
+	}
+	
+	
 	@RequestMapping(value="ARMap")
 	public String ARNavigation()throws Exception {
 		
 			
 		return "forward:/quick/ARMap.jsp";
 	}
+	
 	
 	@RequestMapping(value="ARGeo")
 	public String ARGeo(HttpServletRequest request)throws Exception {

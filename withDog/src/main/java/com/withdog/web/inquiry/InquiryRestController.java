@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,9 +38,8 @@ public class InquiryRestController {
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['inquiryPageSize']}")
 	int pageSize;
-	
 	
 	@RequestMapping(value = "json/addInquiry/{prodNo}")
 	public int addInquiry(@RequestBody Inquiry inquiry, @PathVariable int prodNo, HttpServletRequest request) throws Exception{
@@ -78,7 +76,7 @@ public class InquiryRestController {
 		Map<String, Object> map = inquiryService.getInquiryList(search, prodNo);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
+		
 		
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("list", map.get("list"));
@@ -87,5 +85,30 @@ public class InquiryRestController {
 		System.out.println(jsonObject);
 
 		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/deleteInquiry/{inquiryNo}")
+	public int deleteInquiry(@PathVariable int inquiryNo) throws Exception{
+		System.out.println("/inquiry/json/deleteInquiry : GET");
+		System.out.println("삭제 대상 번호 : "+inquiryNo);
+		
+		inquiryService.deleteInquiry(inquiryNo);
+		
+		return 1;
+	}
+	
+	@RequestMapping(value = "json/updateInquiry/{inquiryNo}/{inquiryContent}")
+	public int updateInquiry(@PathVariable int inquiryNo, @PathVariable String inquiryContent) throws Exception{
+		System.out.println("/inquiry/json/updateInquiry : GET");
+		System.out.println("수정 대상 번호 : "+inquiryNo);
+		System.out.println("수정 대상 내용 : "+inquiryContent);
+		
+		Inquiry inquiry = new Inquiry();
+		inquiry.setInquiryNo(inquiryNo);
+		inquiry.setInquiryContent(inquiryContent);
+		
+		inquiryService.updateInquiry(inquiry);
+		
+		return 1;
 	}
 }
