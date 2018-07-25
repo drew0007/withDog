@@ -69,7 +69,7 @@ $(function () {
                     <!-- dog 01 -->
                     <c:forEach var="list" items="${list}">
                     <a href="/ash/getHealingDog?healingDogNo=${list.healingDogNo}">
-                    <div id="detail" class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten">
+                    <div id="detail" class="col-md-3 col-sm-3 healingdog-style text-center xs-margin-bottom-ten blog-post">
 <!--                         <img src="http://placehold.it/400x400" alt=""/> -->
 						<img  src = "/images/uploadFiles/healingDog/${list.healingDogimage}" width="400px" height="400px" alt=""/>
                         <span class="name black-text">${list.healingDogName}</span>
@@ -80,11 +80,13 @@ $(function () {
                     <!-- end dog 01 -->
                     
                     <!-- 나중에 관리자만 할수있도록 수정 -->
-                     <div class="text-center">
+			<c:if test="${user.role=='admin'}">
+				<div class="text-center">
 						<a style="cursor: pointer;" id="addHealingDog" ><span class="highlight-button btn btn-medium pull-right">치유견등록</span></a>
 					</div>
-					<!-- 나중에 관리자만 할수있도록 수정 -->
-                </div>
+			</c:if>
+				<!-- 나중에 관리자만 할수있도록 수정 -->
+		</div>
             </div>
         </section>
         <!-- end content section -->

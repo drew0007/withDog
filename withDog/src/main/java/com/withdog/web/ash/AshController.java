@@ -92,7 +92,7 @@ public class AshController {
 
 		if (file.getSize() == 0) {
 			System.out.println("파일비었음");
-			healingDog.setHealingDogimage("");
+			healingDog.setHealingDogimage("이미지없음");
 		} else {
 			System.out.println("저장된 파일 : " + file.getOriginalFilename());
 			File f = new File(healingDogfilePath + (file.getOriginalFilename()));
@@ -289,7 +289,7 @@ public class AshController {
 
 		if (pointAsh.getAsh().getAshReservationPrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
 			System.out.println(123);
-			String uri = "http://192.168.0.42:8080/ash/addReservationASHView?state=";
+			String uri = "http://localhost:8080/ash/addReservationASHView?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
 			JSONObject jobj = snsService.AshKakaoPay(pointAsh, uri); // 카카오페이 다녀와서 데이터를 받는 객체
@@ -404,8 +404,8 @@ public class AshController {
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
-			search.setSearchStartDay("");
-			search.setSearchEndDay("");
+//			search.setSearchStartDay("");
+//			search.setSearchEndDay("");
 			search.setSearchKeyword("");
 		}
 		search.setPageSize(pageSize);
@@ -424,9 +424,10 @@ public class AshController {
 		return "forward:/mypage/listMyReservationASH.jsp";
 	}
 	
-	@RequestMapping(value = "getMyReservationASH/{ashReservationNo}")  //나의 예약리스트
-	public String getMyReservationASH(@PathVariable int ashReservationNo, HttpSession session, Model model) throws Exception{ //나의 예약 상세확인
+	@RequestMapping(value = "getMyReservationASH")  //나의 예약리스트
+	public String getMyReservationASH(HttpServletRequest request, HttpSession session, Model model) throws Exception{ //나의 예약 상세확인
 		System.out.println("/getMyReservationASH");
+		int ashReservationNo = Integer.parseInt(request.getParameter("ashReservationNo"));
 		Ash ash = ashService.getAshMyReservation(ashReservationNo);
 		User user = (User)session.getAttribute("user");
 		
@@ -437,22 +438,49 @@ public class AshController {
 		return "forward:/mypage/getMyReservationASH.jsp";
 	}
 	
-	@RequestMapping(value = "updateMyReservationCondition/{ashReservationNo}")  //나의 예약컨디션 수정
-	public String updateMyReservationCondition(@PathVariable int ashReservationNo,Model model) throws Exception{ //나의 예약 상세확인
+	@RequestMapping(value = "updateMyReservationCondition")  //나의 예약컨디션 수정
+	public String updateMyReservationCondition(HttpSession session,Model model, HttpServletRequest request) throws Exception{ //나의 예약 상세확인
 		System.out.println("/updateMyReservationCondition");
+		User user = (User)session.getAttribute("user");
+		String cancel = request.getParameter("cancel");
+		int ashReservationNo = Integer.parseInt(request.getParameter("ashReservationNo"));
 		Ash ash = ashService.getAshMyReservation(ashReservationNo);
-		ash.setAshReservationCondition("3");
+		String returnUri ="";
+		
+		if(cancel.equals("0")) {
+			if(user.getRole().equals("user")) { //유저가 상태업데이트
+				if(ash.getAshReservationCondition().equals("1")){ //출장확정 상태라면
+					ash.setAshReservationCondition("2"); //출장 완료로
+				}
+				returnUri = "forward:/mypage/getMyReservationASH.jsp";
+			}else if(user.getRole().equals("admin")) {
+				if(ash.getAshReservationCondition().equals("0")){ //예약완료 상태라면
+					ash.setAshReservationCondition("1"); // 출장확정으로
+				}else if(ash.getAshReservationCondition().equals("1")) { //출장확정 상태라면
+					ash.setAshReservationCondition("2"); //출장 완료로
+				}
+				returnUri = "forward:/admin/getUserReservationASH.jsp";
+			}
+		}else {
+			if(user.getRole().equals("user")) { //유저가 상태업데이트
+				ash.setAshReservationCondition("3"); //취소 상태로
+				returnUri = "forward:/mypage/getMyReservationASH.jsp";
+			}else if(user.getRole().equals("admin")) { //admin이 취소
+				ash.setAshReservationCondition("3"); //취소 상태로
+				returnUri = "forward:/admin/getUserReservationASH.jsp";
+			}
+		}
 		ashService.updateMyReservationCondition(ash);
-		System.out.println("업데이트된 컨디션 : " + ash.getAshReservationCondition());
-		
 		model.addAttribute("ash", ash);
+		System.out.println("role =user : 업데이트된 컨디션 : " + ash.getAshReservationCondition());
 		
-		return "forward:/mypage/getMyReservationASH.jsp";
+		return returnUri;
 	}
 	
-	@RequestMapping(value = "updateAshMyReservation/{ashReservationNo}", method= RequestMethod.GET)  //나의 예약 수정
-	public String updateAshMyReservation(@PathVariable int ashReservationNo,Model model) throws Exception{ //나의 예약 상세확인
+	@RequestMapping(value = "updateAshMyReservation", method= RequestMethod.GET)  //나의 예약 수정
+	public String updateAshMyReservation(HttpServletRequest request,Model model) throws Exception{ //나의 예약 상세확인
 		System.out.println("/updateAshMyReservation : GET");
+		int ashReservationNo = Integer.parseInt(request.getParameter("ashReservationNo"));
 		Ash ash = ashService.getAshMyReservation(ashReservationNo);
 		
 		model.addAttribute("ash", ash);
@@ -460,9 +488,10 @@ public class AshController {
 		return "forward:/mypage/updateMyReservationASH.jsp";
 	}
 	
-	@RequestMapping(value = "updateAshMyReservation/{ashReservationNo}")  //나의 예약 수정
-	public String updateAshMyReservation(@PathVariable int ashReservationNo,Model model,HttpServletRequest request) throws Exception{ //나의 예약 상세확인
+	@RequestMapping(value = "updateAshMyReservation", method= RequestMethod.POST)  //나의 예약 수정
+	public String updateAshMyReservation(Model model,HttpServletRequest request) throws Exception{ //나의 예약 상세확인
 		System.out.println("/updateAshMyReservation : POST");
+		int ashReservationNo = Integer.parseInt(request.getParameter("ashReservationNo"));
 		Ash ash = ashService.getAshMyReservation(ashReservationNo);
 		ash.setAshReservationAddress1(request.getParameter("ashReservationAddress1"));
 		ash.setAshReservationAddress2(request.getParameter("ashReservationAddress2"));
@@ -491,7 +520,7 @@ public class AshController {
 			search.setSearchStartDay("");
 			search.setSearchEndDay("");
 			search.setSearchKeyword("");
-			search.setSearchCondition("0");
+//			search.setSearchCondition("0");
 		}
 		search.setPageSize(pageSize);
 
@@ -507,6 +536,22 @@ public class AshController {
 		model.addAttribute("search", search);
 
 		return "forward:/admin/listReservationASHAdmin.jsp";
+	}
+	
+	@RequestMapping(value = "getUserReservationASH")  //관리자가 보는 유저별 예약
+	public String getUserReservationASH(HttpServletRequest request, Model model) throws Exception{ //나의 예약 상세확인
+		System.out.println("/getMyReservationASH");
+		int ashReservationNo = Integer.parseInt(request.getParameter("ashReservationNo"));
+		Ash ash = ashService.getAshMyReservation(ashReservationNo);
+		String userId = request.getParameter("userId");
+		System.out.println("userid ? : " + userId);
+		
+		Ash resultAsh = ashService.getAshMyReservationByUser(ash, userId);
+		System.out.println("resultAsh ? : " + resultAsh);
+		
+		model.addAttribute("ash", resultAsh);
+		
+		return "forward:/admin/getUserReservationASH.jsp";
 	}
 	
 	

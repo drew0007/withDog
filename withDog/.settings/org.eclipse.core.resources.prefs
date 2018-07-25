@@ -1,6 +1,8 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=refs/heads/master
 eclipse.preferences.version=1
-<<<<<<< HEAD
-encoding//WebContent/css/summernote-lite.css=UTF-8
-=======
+encoding//WebContent/common/chatBot.jsp=UTF-8
 encoding//WebContent/community/addDogInfoSummerNote.jsp=UTF-8
->>>>>>> refs/heads/master
+encoding//WebContent/css/summernote-lite.css=UTF-8
+encoding//WebContent/quick/chatBot.jsp=UTF-8

@@ -34,7 +34,7 @@
 		
 		//동물교감치유
 	 	$( "a:contains('예약관리')" ).on("click" , function() {
-			$(self.location).attr("href","/ASH/getAshReservationAdminList");
+			$(self.location).attr("href","/ash/getAshReservationAdminList");
  		});
 	 	
 	 	$("a:contains('영상상담신청관리')").on("click",function(){
@@ -102,6 +102,20 @@
          <div class="widget-body">
              <ul class="category-list">
                  <li><a href="#">회원관리</a></li>
+             </ul>
+         </div>
+     </div>
+     <!-- end widget  -->
+     
+     
+     <!-- widget  -->
+     <div class="widget">
+         <h5 class="widget-title font-alt">빠른 상담</h5>
+         <div class="thin-separator-line bg-dark-gray no-margin-lr"></div>
+         <div class="widget-body">
+             <ul class="category-list">
+                 <li><a href="/quick/getChatBotList">빠른상담 관리</a></li>
+                 <li><a href="#">질문 통계</a></li>
              </ul>
          </div>
      </div>

@@ -51,7 +51,7 @@ $(function () {
 			$("#dogAge").html('<span class="font-weight-600">치유견 생년월일:</span>'+data.healingDog.healingDogBirth);
 			$("#dogChar").html('<span class="font-weight-600">치유견 성격:</span>'+data.healingDog.healingDogChar);
 			$("#healer").html('<span class="font-weight-600">담당 치유사:</span>'+data.healingDog.healingDogHealer);
-			$("#healingDogImg").attr('src','/images/uploadFiles/dogInfo/'+data.healingDog.healingDogimage);
+			$("#healingDogImg").attr('src','/images/uploadFiles/healingDog/'+data.healingDog.healingDogimage);
 			
 		}
 	})
@@ -109,8 +109,8 @@ $(function () {
 	                    <!-- end section title -->
 	                </div>
 	                <div class="row margin-ten no-margin-bottom">
-	                    <div style="width: 400px;height: 200px;"class="col-md-6 col-sm-6 text-center xs-margin-bottom-ten">
-	                        <img id="healingDogImg" src = "" alt=""/>
+	                    <div class="col-md-6 col-sm-6 text-center xs-margin-bottom-ten">
+	                        <img id="healingDogImg" src = "" alt="" width="400px" height="400px"/>
 	                    </div>
 	                    <div class="col-md-6 col-sm-6 sm-margin-bottom-ten">
 	                        <div class="col-md-12 col-sm-12 no-padding">

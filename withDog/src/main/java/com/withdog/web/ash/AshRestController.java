@@ -1,5 +1,7 @@
 package com.withdog.web.ash;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,9 +69,9 @@ public class AshRestController {
 		JSONArray jsonArray = new JSONArray();
 		
 		System.out.println("list 출력 : " + list);
+		JSONObject jsonObject = new JSONObject();
 		
 		for (Ash ash : list) {
-			JSONObject jsonObject = new JSONObject();
 			
 			jsonObject.put("id", ash.getAshReservationNo()); // 예약번호
 			jsonObject.put("title", ash.getHealingDog().getHealingDogName()); //예약견 이름 
@@ -97,6 +99,15 @@ public class AshRestController {
 			}
 			jsonArray.add(jsonObject);
 		}
+		JSONObject jsonObject2 = new JSONObject();
+		SimpleDateFormat sim = new SimpleDateFormat("YYYY-MM-dd");
+		Date d = new Date();
+		String today = sim.format(d);
+		jsonObject2.put("id", "지난날"); // 예약번호
+		jsonObject2.put("title", "지난견"); //예약견 이름 
+		jsonObject2.put("start", "2005-07-22"); // 날짜
+		jsonObject2.put("end", today); // 날짜
+		jsonArray.add(jsonObject2);
 		System.out.println(jsonArray.toString());
 		
 		
@@ -140,6 +151,15 @@ public class AshRestController {
 			}
 			jsonArray.add(jsonObject);
 		}
+		JSONObject jsonObject2 = new JSONObject();
+		SimpleDateFormat sim = new SimpleDateFormat("YYYY-MM-dd");
+		Date d = new Date();
+		String today = sim.format(d);
+		jsonObject2.put("id", "지난날"); // 예약번호
+		jsonObject2.put("title", "지난견"); //예약견 이름 
+		jsonObject2.put("start", "2005-07-22"); // 날짜
+		jsonObject2.put("end", today); // 날짜
+		jsonArray.add(jsonObject2);
 		System.out.println(jsonArray.toString());
 		
 		

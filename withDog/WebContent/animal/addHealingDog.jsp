@@ -19,6 +19,14 @@
 <body>
 
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#hName').hide();
+    $('#hBirth').hide();
+    $('#hChar').hide();
+    $('#hHealer').hide();
+    $('#cancel').hide();
+};
+
 
 function fncAddHealingDog(){
 	//Form 유효성 검증
@@ -29,35 +37,44 @@ function fncAddHealingDog(){
 
 
 	if(healingDogName == null || healingDogName.length<1){
-		alert("치유견 이름을 입력하세요.");
+		$('#hName').show();
 		return;
 	}
 	
 	if(healingDogBirth == null || healingDogBirth.length<1){
-		alert("치유견 생년월일을 입력하세요.");
+		$('#hBirth').show();
 		return;
 	}
 	if(healingDogChar == null || healingDogChar.length<1){
-		alert("치유견 특징을 입력하세요.");
+		$('#hChar').show();
 		return;
 	}
 	if(healingDogHealer == null || healingDogHealer.length<1){
-		alert("담당 치유사를 입력하세요.");
+		$('#hHealer').show();
 		return;
 	}
-
-	$("form").attr("method","post").attr("action","/ash/addHealingDog").attr("enctype","multipart/form-data").submit();
+	$('#isWrite').show();
 }
 
 $(function () {
 	$("#addHealingDog").on("click", function () {
-		if (confirm("등록하시겠습니까?") == true){    //확인
 			fncAddHealingDog();
-		  }else{   //취소
-		      return;
-		  }
 	});
 })
+
+
+$(function () {
+	$("#ok").on("click", function () {
+		$('#isWrite').hide();
+		$("form").attr("method","post").attr("action","/ash/addHealingDog").attr("enctype","multipart/form-data").submit();
+		
+	})
+	$("#cancel").on("click", function () {
+		$('#isWrite').hide();
+	})
+})
+
+
 </script>
 
 	<jsp:include page="/layout/header.jsp" />
@@ -138,20 +155,11 @@ $(function () {
 						<label >치유견 성별</label>
 						<!-- end label  -->
 						<!-- input  -->
-<<<<<<< HEAD
 						<div class="wrap">
-							<input type="radio" name="radio" id="radio1" class="checkbox">
+							<input value="0" type="radio" name="healingDogGender" id="radio1" class="checkbox">
 							<label for="radio1" class="input-label radio">남아</label>
-							<input type="radio" name="radio" id="radio2" class="checkbox">
+							<input value="1" type="radio" name="healingDogGender" id="radio2" class="checkbox">
 							<label for="radio2" class="input-label radio">여아</label>
-=======
-						<div class="checks">
-							<input value="0" type="radio" id="radio1" name="healingDogGender" class="checkbox">
-							<label for="radio1" >남아</label>
-							<input value="1" type="radio" id="radio2" name="healingDogGender" class="checkbox">
-							<label for="radio2">여아</label>
->>>>>>> refs/heads/master
-						</div>
 						<!-- end input  -->
 						</div>
 
@@ -194,6 +202,82 @@ $(function () {
 	</section>
 	<!-- end content section -->
 
+
+
+<!--         모달만 모여있는곳 Start -->
+  <!-- 1. 치유견이름 모달 -->
+    <div id="hName" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />치유견 이름을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+  <!-- 1. 치유견이름 모달 -->
+      
+  <!-- 2. 치유견 생년월일 모달 -->
+    <div id="hBirth" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />치유견 생년월일을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 2. 치유견 생년월일 모달 -->
+      
+  <!-- 3. 치유견 특징 모달 -->
+    <div id="hChar" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />치유견 특징을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 치유견 특징 모달 -->
+      
+  <!-- 4. 담당치유사 모달-->
+    <div id="hHealer" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />담당치유사를 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 4. 담당치유사 모달-->
+      
+  <!-- 4. 등록 여부-->
+    <div id="isWrite" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />치유견을 등록하시겠습니까?</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span id="ok" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
+                <span id="cancel" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
+            </div>
+      </div>
+    </div>
+      <!-- 4. 등록 여부-->
+
+
+<!--         모달만 모여있는곳 End -->
 
 
 

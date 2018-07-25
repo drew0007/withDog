@@ -36,5 +36,16 @@ public class DogBreedDicController {
 		model.addAttribute("list",list);
 		return "forward:/community/dogBreedDicSearch.jsp";
 	}
+	
+	
+	@RequestMapping(value = "getRate", method = RequestMethod.POST)
+	public String html (String testa, Model model) throws Exception {
+		System.out.println("testa ดย? : " + testa);
+		model.addAttribute("testa",testa);
+		return "forward:/community/test2.jsp";
+	}
+
+	
+
 
 }

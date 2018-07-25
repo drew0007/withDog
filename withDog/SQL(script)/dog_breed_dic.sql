@@ -112,14 +112,14 @@ PRIMARY KEY (after_ash_no)
 
 CREATE TABLE chat_bot(
 question_no NUMBER(10) NOT NULL,
-user_id VARCHAR2(20) NOT NULL REFERENCES users(user_id),
 question VARCHAR2(100),
-answer VARCHAR2(300),
-question_count VARCHAR2(10),
+answer VARCHAR2(500),
+question_count NUMBER(10),
+delete_flag VARCHAR2(3) DEFAULT 0,
 PRIMARY KEY (question_no)
 );
 
-
+user_id VARCHAR2(20) NOT NULL REFERENCES users(user_id), //�ϴܖM
 
 
 

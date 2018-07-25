@@ -17,9 +17,9 @@ public interface DogInfoService {
 
 	public void updateDogInfo(DogInfo dogInfo) throws Exception;
 
-	public Map<String,Object> getDogInfoList(Search search) throws Exception;
+	public Map<String,Object> getDogInfoList(Search search,User user) throws Exception;
 
-	public void deleteDogInfo(int dogInfoNo) throws Exception;
+	public void deleteDogInfo(DogInfo dogInfo) throws Exception;
 
 	public void updateRecommend(DogInfo dogInfo) throws Exception;
 	
