@@ -3,6 +3,7 @@ package com.withdog.web.ash;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,6 +19,7 @@ import com.withdog.service.ash.AshService;
 import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Consulting;
 import com.withdog.service.domain.HealingDog;
+import com.withdog.service.domain.User;
 
 @RestController
 @RequestMapping("/ash/*")
@@ -179,6 +181,28 @@ public class AshRestController {
 		System.out.println(consulting);
 		
 		ashService.updateConsultingState(consulting);
+		
+		return 1;
+	}
+	
+	@RequestMapping(value = "json/addConsulting/{healingDogNo}")
+	public int addConsulting(@PathVariable int healingDogNo, HttpServletRequest request) throws Exception{
+		System.out.println("/json/addConsulting");
+		
+		HttpSession session = request.getSession(false);
+		User user = new User();
+		user = (User)session.getAttribute("user");
+		
+		HealingDog healingDog = new HealingDog();
+		healingDog.setHealingDogNo(healingDogNo);
+		
+		Consulting consulting = new Consulting();
+		consulting.setUser(user);
+		consulting.setHealingDog(healingDog);
+		
+		System.out.println(consulting);
+
+		ashService.addConsulting(consulting);
 		
 		return 1;
 	}

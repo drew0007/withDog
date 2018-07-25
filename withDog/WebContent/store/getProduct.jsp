@@ -21,12 +21,16 @@ $(function(){
 //문의등록실행
 function fncAddInquiry(){
 	//Form 유효성 검증
+	var userId= '${user.userId}';
 	var inquiryTitle = $("input[name='inquiryTitle']").val();
 	var inquiryContent = $("textarea[name='inquiryContent']").val();
 	var prodNo = $('input[name="prodNo"]').val();
 	var secret = $('#secret').val();
 	
-	
+	if(userId == null || userId.length<1){
+		alert("로그인이 필요한 서비스입니다.");
+		return;
+	}
 	if(inquiryTitle == null || inquiryTitle.length<1){
 		alert("문의 제목은 반드시 입력하여야 합니다.");
 		return;
@@ -83,39 +87,63 @@ function fncGetInquiryList(){
 					
 					$("#inquiryList").html("");
 					for(i=0; i<JSONData.list.length; i++){
+						
 						str='<div class="panel panel-default" id="collapse-three'+i+'">'
-							+'<div role="tablist" id="type3-heading'+i+'" class="panel-heading">'
-							+'<a data-toggle="collapse" data-parent="#collapse-one" href="#collapse-three-link'+i+'">'
-							+'<h4 class="panel-title">'+JSONData.list[i].inquiryTitle;		//	제목
+							+'<div role="tablist" id="type3-heading'+i+'" class="panel-heading">';
+							
+						if(JSONData.list[i].secret == '1' && JSONData.list[i].user.userId == '${user.userId}'){		//	작성자와 로그인유저 비교해서 열고 닫을수 있게
+							str+='<a data-toggle="collapse" data-parent="#collapse-one" href="#collapse-three-link'+i+'-secret">';
+						}else{
+							str+='<a data-toggle="collapse" data-parent="#collapse-one" href="#collapse-three-link'+i+'">';
+						}
+						
+						str+='<h4 class="panel-title">'+JSONData.list[i].inquiryTitle;		//	제목
+							
 						if(JSONData.list[i].replyCondition == '0'){
-							str=str+'&nbsp;&nbsp;<img src="/images/reply_X.png" />';
+							str+='&nbsp;&nbsp;<img src="/images/reply_X.png" />';
 						}else{
-							str=str+'&nbsp;&nbsp;<img src="/images/reply_O.png" />';
+							str+='&nbsp;&nbsp;<img src="/images/reply_O.png" />';
 						}
-						str=str+'<span class="pull-right">'
+							
+						str+='<span class="pull-right">'
 							+'<i class="fa fa-plus"></i></span><p class="text-xsmall margin-two">'
-							+JSONData.list[i].user.userId+'&nbsp;&nbsp;'+JSONData.list[i].regDate;
-						if(JSONData.list[i].secret == '0'){
-							str=str+'&nbsp;&nbsp;<i class="fa fa-unlock xsmall-icon" style="position:relative; top:0px;"></i>';
+							+JSONData.list[i].user.userId+'&nbsp;&nbsp;'+JSONData.list[i].regDate
+							+'<input type="hidden" name="inquiryUserId" value="'+JSONData.list[i].user.userId+'"/>'
+							+'<input type="hidden" name="inquirySecret" value="'+JSONData.list[i].secret+'"/>';
+							
+						if(JSONData.list[i].secret == '0'){				//	작성자와 로그인유저 비교해서 열고 닫을수 있게
+							str+='&nbsp;&nbsp;<i class="fa fa-unlock xsmall-icon" style="position:relative; top:0px;"></i>'
+								+'</p></h4></a></div>'
+								+'<div id="collapse-three-link'+i+'" class="panel-collapse collapse">';
 						}else{
-							str=str+'&nbsp;&nbsp;<i class="fa fa-lock xsmall-icon" style="position:relative; top:0px;"></i>';
-						}
-						str=str+'</p></h4></a></div>'
-							+'<div id="collapse-three-link'+i+'" class="panel-collapse collapse">'
-							+'<div class="panel-body">'+JSONData.list[i].inquiryContent		//	내용
-							+'<div class="pull-right margin-top-three">'
-							+'<a class="highlight-button3-dark" style="margin-right:5px;">수정</a>'
-							+'<a class="highlight-button3-dark" >삭제</a>'
-							+'</div>'
-							+'</div>';
+							str+='&nbsp;&nbsp;<i class="fa fa-lock xsmall-icon" style="position:relative; top:0px;"></i>'
+								+'</p></h4></a></div>'
+								+'<div id="collapse-three-link'+i+'-secret" class="panel-collapse collapse">';
+						}						
+						
+						str+='<div class="panel-body">'
+							+'<textarea rows="4" name="updateInquiryContent" style="background-color:#ffffff"'+(JSONData.list[i].user.userId == '${user.userId}' && JSONData.list[i].replyCondition == '0'?"":"disabled")+'>'+JSONData.list[i].inquiryContent+'</textarea>'
+							// 자기가 작성하고 답글이 없으면 textarea 입력가능 아니면 불가능
+							
+							+'<div class="pull-right margin-top-three" style="display: '+(JSONData.list[i].user.userId == '${user.userId}'?"block":"none")+'">'
+							// 자기가 작성한게 아니면 수정, 삭제 버튼 안보임
+							
+							+'<a class="highlight-button3-dark" style="margin-right:5px; cursor:pointer; visibility: '+(JSONData.list[i].replyCondition == '0'?"visible":"hidden")+'" name="updateInquiry">수정</a>'
+							// 자기가 작성했지만 답글이 달려있으면 수정 버튼 안보임
+							
+							+'<a class="highlight-button3-dark" style="cursor:pointer;" name="deleteInquiry">삭제</a>'
+							+'<input type="hidden" name="inquiryNo" value="'+JSONData.list[i].inquiryNo+'"/>'
+							+'</div></div>';
+							
 						if(JSONData.list[i].replyCondition == '1'){
-						str=str+'<div class="panel-body padding-four-bottom">'
-							+'<p width="90%" class="border-top"></p>'
-							+'<p class="text-xsmall margin-two"><img src="/images/reply.png" width="15"/>&nbsp;&nbsp;withDog</p>'
-							+JSONData.list[i].inquiryReply
-							+'</div>';
+							str+='<div class="panel-body padding-four-bottom">'
+								+'<p width="90%" class="border-top"></p>'
+								+'<p class="text-xsmall margin-two"><img src="/images/reply.png" width="15"/>&nbsp;&nbsp;withDog</p>'
+								+JSONData.list[i].inquiryReply
+								+'</div>';
 						}
-						str=str+'</div></div>';
+						
+						str+='</div></div>';
 			
 						$("#inquiryList").append(str);
 					}
@@ -161,10 +189,54 @@ function fncGetInquiryList(){
 					});
 				}
 			}
-		);
-	
-	
+		);	
 }
+
+
+function fncDeleteInquiry(inquiryNo){
+	$.ajax(
+			{
+				url : "/inquiry/json/deleteInquiry/"+inquiryNo,
+				method : "GET",
+				dataType : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status){
+					$('input[name="currentPage"]').val('0');
+					fncGetInquiryList();
+				}
+			}
+		)
+}
+
+function fncUpdateInquiry(inquiryNo, inquiryContent){
+	$.ajax(
+			{
+				url : "/inquiry/json/updateInquiry/"+inquiryNo+"/"+inquiryContent,
+				method : "GET",
+				dataType : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status){
+					$('input[name="currentPage"]').val('0');
+					fncGetInquiryList();
+				}
+			}
+		)
+}
+
+function fncCheckUserIdInquiry(inquiryUserId, inquirySecret){
+	var userId = '${user.userId}';
+	
+	if(inquirySecret == '1' && userId != inquiryUserId){
+		alert("작성자만 열람가능합니다.");
+	}
+}
+
 
 $(function(){
 	//문의등록버튼
@@ -192,6 +264,29 @@ $(function(){
 		var page = $($(".pageNum")[index]).text();
 		$('input[name="currentPage"]').val(page);
 		fncGetInquiryList();
+	});
+	
+	// 문의 삭제
+	$(document).on("click", "a[name='deleteInquiry']", function(){
+		var index = $("a[name='deleteInquiry']").index(this);
+		var inquiryNo = $($("input[name='inquiryNo']")[index]).val();
+		fncDeleteInquiry(inquiryNo);
+	});
+	
+	// 문의 수정
+	$(document).on("click", "a[name='updateInquiry']", function(){
+		var index = $("a[name='updateInquiry']").index(this);
+		var inquiryNo = $($("input[name='inquiryNo']")[index]).val();
+		var updateInquiryContent = $($("textarea[name='updateInquiryContent']")[index]).val();
+		fncUpdateInquiry(inquiryNo, updateInquiryContent)
+	});
+	
+	// 글 클릭했을때 자신이 작성한 비밀글이 아니면 alert 출력
+	$(document).on("click", ".panel-title", function(){
+		var index = $(".panel-title").index(this);
+		var inquiryUserId = $($("input[name='inquiryUserId']")[index]).val();
+		var inquirySecret = $($("input[name='inquirySecret']")[index]).val();
+		fncCheckUserIdInquiry(inquiryUserId, inquirySecret);
 	});
 });
 
@@ -293,7 +388,7 @@ $(function(){
                                 <ul class="nav nav-tabs nav-tabs-light text-center">
                                     <li class="active"><a href="#tab_sec1" data-toggle="tab">상품상세정보</a></li>
                                     <li><a href="#tab_sec2" data-toggle="tab">상품후기 (10)</a></li>
-                                    <li><a href="#tab_sec3" data-toggle="tab"  id="tabInquiry">상품문의 (10)</a></li>
+                                    <li><a href="#tab_sec3" data-toggle="tab"  id="tabInquiry">상품문의 (${product.inquiryCnt})</a></li>
                                 </ul>
                                 <!-- tab end navigation -->
                             </div>
@@ -374,7 +469,7 @@ $(function(){
 				                        <div class="panel-group toggles-style3" id="inquiryList">
 											<div class="panel panel-default" id="collapse-three0">
 												<div role="tablist" id="type3-heading0" class="panel-heading">
-													<a data-toggle="collapse" data-parent="#collapse-one" href="#collapse-three-link0">
+													<a data-toggle="collapse" data-parent="#collapse-three" href="#collapse-three-link0">
 														<h4 class="panel-title">
 															xxx&nbsp;&nbsp;
 															<img src="/images/reply_X.png">
@@ -443,7 +538,7 @@ $(function(){
 				              	      </div>
 				              	      
 				              	      <div class="col-md-5 col-sm-12 col-md-offset-1 blog-single-full-width-form sm-margin-top-seven">
-                                            <div class="blog-comment-form">
+                                            <div class="blog-comment-form" style="position:relative">
                                                 <!-- comment form -->
                                                 <form>
                                                     <!-- input -->
@@ -464,6 +559,10 @@ $(function(){
                                                     <!-- end button  -->
                                                 </form>
                                                 <!-- end comment form -->
+                                                
+                                                <!-- <div style="background-color:black; opacity:0.7; width:100%; height:100%; position: absolute; top:0; left:0"> -->
+                                                
+                                                </div>
                                             </div>
                                         </div>
 				              	      
