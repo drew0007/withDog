@@ -38,7 +38,7 @@ public class InquiryRestController {
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['inquiryPageSize']}")
 	int pageSize;
 	
 	@RequestMapping(value = "json/addInquiry/{prodNo}")

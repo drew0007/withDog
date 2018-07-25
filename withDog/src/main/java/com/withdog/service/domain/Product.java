@@ -14,6 +14,7 @@ public class Product {
 	private int prodQuantity;
 	private Date regDate;
 	private String deleteFlag;
+	private int inquiryCnt;
 	
 	
 	public Product(){
@@ -84,12 +85,21 @@ public class Product {
 		this.regDate = regDate;
 	}
 
+	public int getInquiryCnt() {
+		return inquiryCnt;
+	}
+
+	public void setInquiryCnt(int inquiryCnt) {
+		this.inquiryCnt = inquiryCnt;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [prodNo=" + prodNo + ", prodType=" + prodType + ", prodName=" + prodName + ", prodContent="
 				+ prodContent + ", prodImage=" + prodImage + ", price=" + price + ", prodQuantity=" + prodQuantity
-				+ ", regDate=" + regDate + ", deleteFlag=" + deleteFlag + "]";
+				+ ", regDate=" + regDate + ", deleteFlag=" + deleteFlag + ", inquiryCnt=" + inquiryCnt + "]";
 	}
+
 	
 	
 	
