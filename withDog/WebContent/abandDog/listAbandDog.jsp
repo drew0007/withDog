@@ -93,7 +93,7 @@ $(function(){
 	
 	// 견종 선택하면 조회
 	$("select[name='dogBreed']").on("change", function(){
-		$('input[name="currentPage"]').val('0');ㄴ
+		$('input[name="currentPage"]').val('0');
 		fncGetAbandDogList();
 	});
 	
@@ -121,11 +121,60 @@ $(function(){
 	});
 	
 	// 리스트 이미지 클릭
-	$("a[name='abandImage']").on("click", function(){
-		var index = $("a[name='abandImage']").index(this);
-		alert(index);
+	$(document).on("click", "a[name='abandDogImg']", function(){
+		var index = $("a[name='abandDogImg']").index(this);
+		fncGetAbandDog(index);
+	});
+	
+	$(document).on("click", "a[name='abandDog']", function(){
+		var index = $("a[name='abandDog']").index(this);
+		fncGetAbandDog(index);
 	});
 });
+
+function fncGetAbandDog(index){
+	var desertionNo = $($('input[name="desertionNoList"]')[index]).val();
+	var noticeNo = $($('input[name="noticeNoList"]')[index]).val();
+	var abandDogBreed = $($('input[name="abandDogBreedList"]')[index]).val();
+	var abandDogGender = $($('input[name="abandDogGenderList"]')[index]).val();
+	var abandDogFeature = $($('input[name="abandDogFeatureList"]')[index]).val();
+	var abandDogState = $($('input[name="abandDogStateList"]')[index]).val();
+	var abandDogImage = $($('input[name="abandDogImageList"]')[index]).val();
+	var happenPlace = $($('input[name="happenPlaceList"]')[index]).val();
+	var abandDogAge = $($('input[name="abandDogAgeList"]')[index]).val();
+	var abandDogWeight = $($('input[name="abandDogWeightList"]')[index]).val();
+	var abandDogColor = $($('input[name="abandDogColorList"]')[index]).val();
+	var abandDogNeuter = $($('input[name="abandDogNeuterList"]')[index]).val();
+	var noticeSdt = $($('input[name="noticeSdtList"]')[index]).val();
+	var noticeEdt = $($('input[name="noticeEdtList"]')[index]).val();
+	var happenDt = $($('input[name="happenDtList"]')[index]).val();
+	var careNm = $($('input[name="careNmList"]')[index]).val();
+	var careTel = $($('input[name="careTelList"]')[index]).val();
+	var orgNm = $($('input[name="orgNmList"]')[index]).val();
+	var careAddr = $($('input[name="careAddrList"]')[index]).val();
+	
+	$('input[name="desertionNo"]').val(desertionNo);
+	$('input[name="noticeNo"]').val(desertionNo);
+	$('input[name="abandDogBreed"]').val(abandDogBreed);
+	$('input[name="abandDogGender"]').val(abandDogGender);
+	$('input[name="abandDogFeature"]').val(abandDogFeature);
+	$('input[name="abandDogState"]').val(abandDogState);
+	$('input[name="abandDogImage"]').val(abandDogImage);
+	$('input[name="happenPlace"]').val(happenPlace);
+	$('input[name="abandDogAge"]').val(abandDogAge);
+	$('input[name="abandDogWeight"]').val(abandDogWeight);
+	$('input[name="abandDogColor"]').val(abandDogColor);
+	$('input[name="abandDogNeuter"]').val(abandDogNeuter);
+	$('input[name="noticeSdt"]').val(noticeSdt);
+	$('input[name="noticeEdt"]').val(noticeEdt);
+	$('input[name="happenDt"]').val(happenDt);
+	$('input[name="careNm"]').val(careNm);
+	$('input[name="careTel"]').val(careTel);
+	$('input[name="orgNm"]').val(orgNm);
+	$('input[name="careAddr"]').val(careAddr);
+	
+	$("form").attr("method", "POST").attr("action", "/abandDog/getAbandDog").submit();
+}
 
 
 function fncGetAbandDogList(){
@@ -150,12 +199,31 @@ function fncGetAbandDogList(){
 				console.log(JSONData.list[i].desertionNo);
 				var str='<li>'
                 	+'<figure>'
-                	+'<div class="gallery-img" style="height: 200px"><a href="#" style="width:100%; height:100%;"><img src="'+JSONData.list[i].abandDogImage+'" alt="" style="width:100%; height:100%; margin:0 auto;"></a></div>'
+                	+'<div class="gallery-img" style="height: 200px"><a href="#" name="abandDogImg" style="width:100%; height:100%;"><img src="'+JSONData.list[i].abandDogImage+'" alt="" style="width:100%; height:100%; margin:0 auto;"></a></div>'
                 	+'<figcaption>'
-                    +'<h3 class="dog margin-two-bottom"><a href="#">'
+                    +'<h3 class="dog margin-two-bottom"><a href="#" name="abandDog">'
                     /* +'<img src="../images/sub/'+(JSONData.list[i].abandDogGender == "M"?"male":"female")+' .png" width="40"/>' */
                     +JSONData.list[i].abandDogBreed+' - '+JSONData.list[i].abandDogAge+JSONData.list[i].abandDogGender+'</a></h3>'
                     +'<p class="text-small">'+JSONData.list[i].orgNm+'</p>'
+                    +'<input type="hidden" name="desertionNoList" value="'+JSONData.list[i].desertionNo+'"/>'
+                    +'<input type="hidden" name="noticeNoList" value="'+JSONData.list[i].noticeNo+'"/>'
+                    +'<input type="hidden" name="abandDogBreedList" value="'+JSONData.list[i].abandDogBreed+'"/>'
+                    +'<input type="hidden" name="abandDogGenderList" value="'+JSONData.list[i].abandDogGender+'"/>'
+                    +'<input type="hidden" name="abandDogFeatureList" value="'+JSONData.list[i].abandDogFeature+'"/>'
+                    +'<input type="hidden" name="abandDogStateList" value="'+JSONData.list[i].abandDogState+'"/>'
+                    +'<input type="hidden" name="abandDogImageList" value="'+JSONData.list[i].abandDogImage+'"/>'
+                    +'<input type="hidden" name="happenPlaceList" value="'+JSONData.list[i].happenPlace+'"/>'
+                    +'<input type="hidden" name="abandDogAgeList" value="'+JSONData.list[i].abandDogAge+'"/>'
+                    +'<input type="hidden" name="abandDogWeightList" value="'+JSONData.list[i].abandDogWeight+'"/>'
+                    +'<input type="hidden" name="abandDogColorList" value="'+JSONData.list[i].abandDogColor+'"/>'
+                    +'<input type="hidden" name="abandDogNeuterList" value="'+JSONData.list[i].abandDogNeuter+'"/>'
+                    +'<input type="hidden" name="noticeSdtList" value="'+JSONData.list[i].noticeSdt+'"/>'
+                    +'<input type="hidden" name="noticeEdtList" value="'+JSONData.list[i].noticeEdt+'"/>'
+                    +'<input type="hidden" name="happenDtList" value="'+JSONData.list[i].happenDt+'"/>'
+                    +'<input type="hidden" name="careNmList" value="'+JSONData.list[i].careNm+'"/>'
+                    +'<input type="hidden" name="careTelList" value="'+JSONData.list[i].careTel+'"/>'
+                    +'<input type="hidden" name="orgNmList" value="'+JSONData.list[i].orgNm+'"/>'
+                    +'<input type="hidden" name="careAddrList" value="'+JSONData.list[i].careAddr+'"/>'
                 	+'</figcaption>'
             		+'</figure>'
         			+'</li>';
@@ -283,8 +351,6 @@ function fncGetAbandDogList(){
 								<p class="borderline-gray"></p>
 							</div>
 							
-							<form>
-							
 								<!-- 조건 1 -->
 								<div class="form-group no-margin-bottom">
 									<!-- input  -->
@@ -341,9 +407,6 @@ function fncGetAbandDogList(){
 									<!-- end input  -->
 								</div>
 								<!-- end 조건 3 -->
-								
-								
-							</form>
 			
 							<!-- 버튼 -->
 							<div class="text-center no-margin-bottom">
@@ -413,6 +476,29 @@ function fncGetAbandDogList(){
                 </div>
             </div>
 	        </section>
+	        
+	        
+			<form>
+	            <input type="hidden" name="desertionNo" value=""/>
+	            <input type="hidden" name="noticeNo" value=""/>
+	            <input type="hidden" name="abandDogBreed" value=""/>
+	            <input type="hidden" name="abandDogGender" value=""/>
+	            <input type="hidden" name="abandDogFeature" value=""/>
+	            <input type="hidden" name="abandDogState" value=""/>
+	            <input type="hidden" name="abandDogImage" value=""/>
+	            <input type="hidden" name="happenPlace" value=""/>
+	            <input type="hidden" name="abandDogAge" value=""/>
+	            <input type="hidden" name="abandDogWeight" value=""/>
+	            <input type="hidden" name="abandDogColor" value=""/>
+	            <input type="hidden" name="abandDogNeuter" value=""/>
+	            <input type="hidden" name="noticeSdt" value=""/>
+	            <input type="hidden" name="noticeEdt" value=""/>
+	            <input type="hidden" name="happenDt" value=""/>
+	            <input type="hidden" name="careNm" value=""/>
+	            <input type="hidden" name="careTel" value=""/>
+	            <input type="hidden" name="orgNm" value=""/>
+	            <input type="hidden" name="careAddr" value=""/>
+			</form>
                 
      		<!-- pagination -->
             <input type="hidden" id="currentPage" name="currentPage" value="0"/>	

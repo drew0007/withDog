@@ -49,19 +49,24 @@ public class AbanddogRestController {
 	public Map<String,String> dogBreed() throws Exception{
 		
 		//오늘 날짜
-		Date today = new Date();         
-		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd"); 
-		String toDay = date.format(today);
+//		Date today = new Date();         
+//		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd"); 
+//		String toDay = date.format(today);
 		
-		//일주일전 날짜
+		//조회 종료날짜
 		Calendar week = Calendar.getInstance();
-		week.add(Calendar.DATE , -1);
+		week.add(Calendar.DATE , -10);
 		String beforeWeek = new java.text.SimpleDateFormat("yyyyMMdd").format(week.getTime());
+		
+		//조회 시작날짜
+		Calendar week2 = Calendar.getInstance();
+		week2.add(Calendar.DATE , -12);
+		String beforeWeek2 = new java.text.SimpleDateFormat("yyyyMMdd").format(week2.getTime());
 		
         String key = "vEYg%2BNRxHmeqdqQ0Ib90AFGCNR5kfBrGWu297fjkmhJ8NEby3rAPqzcJ75luVTmfoIck7Z10ZVDq6tjQ6%2F9dCQ%3D%3D";
 
         String kindPublic = "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/kind?up_kind_cd=417000&ServiceKey="+key;
-        String abandonmentPublic = "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?upkind=417000&bgnde="+beforeWeek+"&endde="+toDay+"&pageNo=1&numOfRows=10000&ServiceKey="+ key;
+        String abandonmentPublic = "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?upkind=417000&bgnde="+beforeWeek2+"&endde="+beforeWeek+"&pageNo=1&numOfRows=10000&ServiceKey="+ key;
         
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -184,24 +189,23 @@ public class AbanddogRestController {
 		
 		int totalCount = 0 ;
 		
-		//오늘 날짜
-		Date today = new Date();         
-		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd"); 
-		String toDay = date.format(today);
-		
-		//일주일전 날짜
+		//조회 종료날짜
 		Calendar week = Calendar.getInstance();
-		week.add(Calendar.DATE , -1);
+		week.add(Calendar.DATE , -10);
 		String beforeWeek = new java.text.SimpleDateFormat("yyyyMMdd").format(week.getTime());
+		
+		//조회 시작날짜
+		Calendar week2 = Calendar.getInstance();
+		week2.add(Calendar.DATE , -12);
+		String beforeWeek2 = new java.text.SimpleDateFormat("yyyyMMdd").format(week2.getTime());
 		
         //String key = "vEYg%2BNRxHmeqdqQ0Ib90AFGCNR5kfBrGWu297fjkmhJ8NEby3rAPqzcJ75luVTmfoIck7Z10ZVDq6tjQ6%2F9dCQ%3D%3D";
         String key = "ExDLAgs3qtTZPi3Fj%2BaZpRoLstLp78b8uJjdKCZYS1qKDuXGAR%2FdJD6Tfk24TXzTb%2Bv%2BduOmyBbE5emt%2F%2FF2NQ%3D%3D";
 
-        String abandonmentPublicAll = "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?upkind=417000&kind="+dogBreed+"&upr_cd="+sido+"&org_cd="+sigungu+"&state="+abandDogState+"&bgnde="+beforeWeek+"&endde="+toDay+"&pageNo=1&numOfRows=10000&ServiceKey="+ key;
+        String abandonmentPublicAll = "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?upkind=417000&kind="+dogBreed+"&upr_cd="+sido+"&org_cd="+sigungu+"&state="+abandDogState+"&bgnde="+beforeWeek2+"&endde="+beforeWeek+"&pageNo=1&numOfRows=10000&ServiceKey="+ key;
         
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        System.out.println("어디가 오래걸리나1");
 
         Document docAll = dBuilder.parse(abandonmentPublicAll);
         
@@ -209,7 +213,6 @@ public class AbanddogRestController {
         NodeList nListAll = docAll.getElementsByTagName("item");
         
         List<AbandDog> listAll = new ArrayList<>();
-        System.out.println("어디가 오래걸리나2");
         for (int i = 0; i < nListAll.getLength(); i++) {
         	
 			Node nNode = nListAll.item(i);
@@ -217,7 +220,7 @@ public class AbanddogRestController {
 				Element element = (Element) nNode;
 	        	AbandDog abandDog = new AbandDog();		
 	        	if(abandDogGender != "") {
-	        		if(abandDogGender.equals(getTagValue("sexCd",element))) {
+	        		if(abandDogGender.equals(getTagValue("sexCd",element)) && getTagValue("processState",element).equals("보호중")) {
 		        		if(totalCount>=8*(search.getCurrentPage()-1) && totalCount<8*search.getCurrentPage()) {
 		    				abandDog.setDesertionNo(getTagValue("desertionNo",element));
 		    				abandDog.setNoticeNo(getTagValue("noticeNo",element));
@@ -245,35 +248,37 @@ public class AbanddogRestController {
 			        	totalCount++;
 	        		}
 	        	}else {
-	        		if(totalCount>=8*(search.getCurrentPage()-1) && totalCount<8*search.getCurrentPage()) {
-	    				abandDog.setDesertionNo(getTagValue("desertionNo",element));
-	    				abandDog.setNoticeNo(getTagValue("noticeNo",element));
-	    				abandDog.setAbandDogBreed(getTagValue("kindCd",element).replaceAll("\\[개\\] ", ""));
-	    				abandDog.setAbandDogGender(getTagValue("sexCd",element));
-	    				abandDog.setAbandDogFeature(getTagValue("specialMark",element));
-	    				abandDog.setAbandDogState(getTagValue("processState",element));
-	    				abandDog.setAbandDogImage(getTagValue("popfile",element));
-	    				abandDog.setHappenPlace(getTagValue("happenPlace",element));
-	    				abandDog.setAbandDogAge(getTagValue("age",element));
-	    				abandDog.setAbandDogWeight(getTagValue("weight",element));
-	    				abandDog.setAbandDogColor(getTagValue("colorCd",element));
-	    				abandDog.setAbandDogNeuter(getTagValue("neuterYn",element));
-	    				abandDog.setNoticeSdt(getTagValue("noticeSdt",element));
-	    				abandDog.setNoticeEdt(getTagValue("noticeEdt",element));
-	    				abandDog.setHappenDt(getTagValue("happenDt",element));
-	    				abandDog.setCareNm(getTagValue("careNm",element));
-	    				abandDog.setCareTel(getTagValue("careTel",element));
-	    				abandDog.setOrgNm(getTagValue("orgNm",element));
-//	    				abandDog.setChargeNm(getTagValue("chargeNm",element));
-//	    				abandDog.setOfficeTel(getTagValue("officeTel",element));
-	    				abandDog.setCareAddr(getTagValue("careAddr",element));
-	    				listAll.add(abandDog);
-	        		}	       
-		        	totalCount++; 		
+	        		if(getTagValue("processState",element).equals("보호중")) {
+		        			if(totalCount>=8*(search.getCurrentPage()-1) && totalCount<8*search.getCurrentPage()) {
+		    				abandDog.setDesertionNo(getTagValue("desertionNo",element));
+		    				abandDog.setNoticeNo(getTagValue("noticeNo",element));
+		    				abandDog.setAbandDogBreed(getTagValue("kindCd",element).replaceAll("\\[개\\] ", ""));
+		    				abandDog.setAbandDogGender(getTagValue("sexCd",element));
+		    				abandDog.setAbandDogFeature(getTagValue("specialMark",element));
+		    				abandDog.setAbandDogState(getTagValue("processState",element));
+		    				abandDog.setAbandDogImage(getTagValue("popfile",element));
+		    				abandDog.setHappenPlace(getTagValue("happenPlace",element));
+		    				abandDog.setAbandDogAge(getTagValue("age",element));
+		    				abandDog.setAbandDogWeight(getTagValue("weight",element));
+		    				abandDog.setAbandDogColor(getTagValue("colorCd",element));
+		    				abandDog.setAbandDogNeuter(getTagValue("neuterYn",element));
+		    				abandDog.setNoticeSdt(getTagValue("noticeSdt",element));
+		    				abandDog.setNoticeEdt(getTagValue("noticeEdt",element));
+		    				abandDog.setHappenDt(getTagValue("happenDt",element));
+		    				abandDog.setCareNm(getTagValue("careNm",element));
+		    				abandDog.setCareTel(getTagValue("careTel",element));
+		    				abandDog.setOrgNm(getTagValue("orgNm",element));
+	//	    				abandDog.setChargeNm(getTagValue("chargeNm",element));
+	//	    				abandDog.setOfficeTel(getTagValue("officeTel",element));
+		    				abandDog.setCareAddr(getTagValue("careAddr",element));
+		    				listAll.add(abandDog);
+		        		}	       
+			        	totalCount++;
+	        		}
+	        		 		
 	        	}
 			}
         }
-        System.out.println("어디가 오래걸리나3");
         
         
         System.out.println("전체크기 : "+nListAll.getLength());

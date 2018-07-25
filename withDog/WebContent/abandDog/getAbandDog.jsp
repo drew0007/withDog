@@ -41,8 +41,8 @@
             <div class="container">
             	
             	<div class="col-md-10 col-sm-8 col-xs-11 center-col text-center margin-three-bottom">
-            		<p class="aband-detail-title black-text no-margin">견종&nbsp;<img src="../images/sub/male.png" width="40" style="position:relative; top:-4px;"/></p>
-            		<p class="text-large">출생년도(추정)&nbsp;&nbsp;|&nbsp;&nbsp;체중</p>
+            		<p class="aband-detail-title black-text no-margin">${abandDog.abandDogBreed }&nbsp;<img src="../images/sub/${abandDog.abandDogGender=='M'?'male':'female'}.png" width="40" style="position:relative; top:-4px;"/></p>
+            		<p class="text-large">${abandDog.abandDogAge }&nbsp;&nbsp;|&nbsp;&nbsp;${abandDog.abandDogWeight }</p>
             	</div>
         
         
@@ -50,7 +50,7 @@
                 
                     <!-- product images -->
                     <div class="col-md-5 col-sm-12 sm-margin-bottom-ten">
-                        <img src="http://placehold.it/600x583" alt=""/>
+                        <img src="${abandDog.abandDogImage }" alt=""/>
                     </div>
                     <!-- end product images -->
                     
@@ -58,23 +58,23 @@
                     
                         <!-- detail 01 -->
                         <p class="no-margin-bottom gray-text text-small3">공고번호</p>
-                        <div class="aband-sub-title ">010101010-ssl-99</div>
+                        <div class="aband-sub-title ">${abandDog.noticeNo }</div>
                         <!-- detail  -->
                         <!-- detail 02 -->
                         <p class="no-margin-bottom gray-text text-small3">공고기한</p>
-                        <div class="aband-sub-title">18.07.20~18.08.20</div>
+                        <div class="aband-sub-title">${abandDog.noticeSdt } ~ ${abandDog.noticeEdt }</div>
                         <!-- detail  -->
                         <!-- detail 03 -->
                         <p class="no-margin-bottom gray-text text-small3">발견장소</p>
-                        <div class="aband-sub-title">발견장소발견장소</div>
+                        <div class="aband-sub-title">${abandDog.happenPlace }</div>
                         <!-- detail  -->
                         <!-- detail 04 -->
                         <p class="no-margin-bottom gray-text text-small3">특징</p>
-                        <div class="aband-sub-title">특징특징</div>
+                        <div class="aband-sub-title">${abandDog.abandDogFeature }</div>
                         <!-- detail  -->
                         <!-- detail 05 -->
                         <p class="no-margin-bottom gray-text text-small3">중성화여부</p>
-                        <div class="aband-sub-title">중성화여부</div>
+                        <div class="aband-sub-title">${abandDog.abandDogNeuter=="Y"?"O":abandDog.abandDogNeuter=="N"?"X":abandDog.abandDogNeuter=="U"?"미상":"" }</div>
                         <!-- detail  -->
                         
                     </div>
@@ -106,28 +106,28 @@
 	                 
 	                  <div class="border-bottom padding-five">
 	                      <span class="text-small2 gray-text">보호센터이름</span>
-						  <span class="display-block margin-top-two">보호센터이름보호센터이름보호센터이름보호센터이름 </span>		                      
+						  <span class="display-block margin-top-two">${abandDog.careNm }</span>		                      
 	                  </div>
 	                  
 	                  <div class="border-bottom padding-five">
 	                      <span class="text-small2 gray-text">보호센터전화번호</span>
-						  <span  class="display-block margin-top-two">보호센터전화번호</span>	                      
+						  <span  class="display-block margin-top-two">${abandDog.careTel }</span>	                      
 	                  </div>
 	                  
 	                  <div class="border-bottom padding-five">
-	                      <span class="text-small2 gray-text">관할기관</span>
-						  <span  class="display-block margin-top-two">관할기관관할기관</span>	                      
+	                      <span class="text-small2 gray-text">보호센터주소</span>
+						  <span  class="display-block margin-top-two">${abandDog.careAddr }</span>	                      
 	                  </div>
 	                  
-	                  <div class="border-bottom padding-five">
+	                  <%-- <div class="border-bottom padding-five">
 	                      <span class="text-small2 gray-text">담당자</span>
-						  <span  class="display-block margin-top-two">담당자담당자</span>	                      
+						  <span  class="display-block margin-top-two">${abandDog.abandDogFeature }</span>	                      
 	                  </div>
 	                  
 	                  <div class="border-bottom padding-five">
 	                      <span class="text-small2 gray-text">담당자연락처</span>
-						  <span  class="display-block margin-top-two">담당자연락처</span>	                      
-	                  </div>
+						  <span  class="display-block margin-top-two">${abandDog.abandDogFeature }</span>	                      
+	                  </div> --%>
 		             	
 	             
 	             </div>

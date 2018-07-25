@@ -42,18 +42,19 @@ public class AbanddogController {
 	int pageSize;
 	
 
-	@RequestMapping(value="getAbanddogList", method=RequestMethod.GET)
-	public String getInquiryList() throws Exception{ 
+	@RequestMapping(value="getAbandDogList", method=RequestMethod.GET)
+	public String getAbandDogList() throws Exception{ 
 		
 		return "forward:/abandDog/listAbandDog.jsp";
 	}
+	
 
-	private static String getTagValue(String tag, Element eElement) {
-	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-	    Node nValue = (Node) nlList.item(0);
-	    if(nValue == null) 
-	        return null;
-	    return nValue.getNodeValue();
+	@RequestMapping(value="getAbandDog")
+	public String getAbandDog(@ModelAttribute("abandDog") AbandDog abandDog) throws Exception{ 
+		System.out.println("getAbandDog Ω√¿€");
+		System.out.println("abandDog : "+abandDog);
+		
+		return "forward:/abandDog/getAbandDog.jsp";
 	}
 
 }

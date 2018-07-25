@@ -197,12 +197,13 @@ public class AbandDog {
 
 	@Override
 	public String toString() {
-		return "AbandDog [noticeNo=" + noticeNo + ", abandDogBreed=" + abandDogBreed + ", abandDogGender="
-				+ abandDogGender + ", abandDogFeature=" + abandDogFeature + ", abandDogState=" + abandDogState
-				+ ", abandDogImage=" + abandDogImage + ", happenPlace=" + happenPlace + ", abandDogAge=" + abandDogAge
-				+ ", abandDogWeight=" + abandDogWeight + ", abandDogColor=" + abandDogColor + ", abandDogNeuter="
-				+ abandDogNeuter + ", noticeSdt=" + noticeSdt + ", noticeEdt=" + noticeEdt + ", happenDt=" + happenDt
-				+ ", careNm=" + careNm + ", careTel=" + careTel + ", orgNm=" + orgNm + ", chargeNm=" + chargeNm
-				+ ", officeTel=" + officeTel + ", careAddr=" + careAddr + "]";
+		return "AbandDog [desertionNo=" + desertionNo + ", noticeNo=" + noticeNo + ", abandDogBreed=" + abandDogBreed
+				+ ", abandDogGender=" + abandDogGender + ", abandDogFeature=" + abandDogFeature + ", abandDogState="
+				+ abandDogState + ", abandDogImage=" + abandDogImage + ", happenPlace=" + happenPlace + ", abandDogAge="
+				+ abandDogAge + ", abandDogWeight=" + abandDogWeight + ", abandDogColor=" + abandDogColor
+				+ ", abandDogNeuter=" + abandDogNeuter + ", noticeSdt=" + noticeSdt + ", noticeEdt=" + noticeEdt
+				+ ", happenDt=" + happenDt + ", careNm=" + careNm + ", careTel=" + careTel + ", orgNm=" + orgNm
+				+ ", chargeNm=" + chargeNm + ", officeTel=" + officeTel + ", careAddr=" + careAddr + "]";
 	}
+
 }
