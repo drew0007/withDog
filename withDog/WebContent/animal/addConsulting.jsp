@@ -195,8 +195,8 @@
         <!--신청하기-->
         <div class="row text-center margin-two">
                 <!-- <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a> -->
-                <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting">신청하기</button>
-                <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting2">신청하기2</button>
+                <!-- <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting">신청하기</button> -->
+                <a href="#modal-popup" class="popup-with-zoom-anim highlight-button-dark2 btn btn-big no-margin-right btn-round" id="consulting">신청하기</a>
          </div>
         <!-- end 신청하기-->
 
@@ -222,6 +222,45 @@
         </section>
 
         <!-- end 안내사항-->
+        
+        <!-- 알림팝업 -->
+		<div class="col-md-9 col-sm-9 no-padding margin-five">
+	
+			<div class="col-lg-3 col-md-4 col-sm-5 center-col">
+				<div id="modal-popup" class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white modal-popup-main">
+		
+				<div class="text-center">
+					<span id="titleModal" class="black-text">모달제목</span>
+					<p class="borderline-gray"></p>
+				</div>
+	
+				<div class="text-center">
+					<span id="regDateModal" class="text-small">신청날짜 : </span><br/>
+					<span id="userIdModal" class="text-small">신청자 : </span><br/>
+					<span id="healingDogHealerModal" class="text-small">상담사 : </span><br/>
+					<span id="healingDogNameModal" class="text-small">치유견 : </span>
+					<br/><br/>
+				</div>
+					
+				
+				<div class="text-center">
+					<p id="textModal">모달내용</p>
+				</div>
+				
+				
+				<!-- 버튼 -->
+				<div class="text-center no-margin-bottom">
+					<a href="#" id="okModal"
+						class="highlight-button-dark btn btn-medium no-margin popup-modal-dismiss">OK</a>
+					<a href="#" id="cancelModal"
+						class="highlight-button btn btn-medium no-margin-bottom popup-modal-dismiss">CANCEL</a>
+				</div>
+				<!-- end 버튼 -->
+	
+			</div>
+		  </div>
+		</div>
+		<!-- end 알림팝업 -->
         
     <jsp:include page="/layout/footer.jsp" />
 	
