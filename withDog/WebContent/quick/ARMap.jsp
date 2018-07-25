@@ -434,8 +434,8 @@
       	 });
  
   	var uluru = {lat:arlat,lng:arlng}
-    var marker = new google.maps.Marker({position: uluru, map: map});
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+   /*  var marker = new google.maps.Marker({position: uluru, map: map});
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png') */
        });
       
        function addMarkerWithTimeout(position, timeout) {
@@ -485,10 +485,10 @@
               console.log("여기보세요!")
               console.log(tem1+":::"+tem2);
               
-              
+              /* "AIzaSyDY67FTw3lBX8Xc3oIFei_nXw4vsTS6ib8" */
               $.ajax(
 						{
-							url : "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDY67FTw3lBX8Xc3oIFei_nXw4vsTS6ib8",
+							url : "https://translation.googleapis.com/language/translate/v2?key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE",
 							method : "POST",
 							dataType : "json",
 							
