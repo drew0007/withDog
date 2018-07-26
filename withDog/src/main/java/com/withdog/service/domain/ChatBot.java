@@ -5,8 +5,9 @@ public class ChatBot {
 	private int questionNo;
 	private String question;
 	private String answer;
-	private String questionCount;
+	private int questionCount;
 	private String deleteFlag;
+	private String connectAble;
 
 	public User getUser() {
 		return user;
@@ -40,11 +41,11 @@ public class ChatBot {
 		this.answer = answer;
 	}
 
-	public String getQuestionCount() {
+	public int getQuestionCount() {
 		return questionCount;
 	}
 
-	public void setQuestionCount(String questionCount) {
+	public void setQuestionCount(int questionCount) {
 		this.questionCount = questionCount;
 	}
 
@@ -55,11 +56,21 @@ public class ChatBot {
 	public void setDeleteFlag(String deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
+	public String getConnectAble() {
+		return connectAble;
+	}
+
+	public void setConnectAble(String connectAble) {
+		this.connectAble = connectAble;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatBot [user=" + user + ", questionNo=" + questionNo + ", question=" + question + ", answer=" + answer
-				+ ", questionCount=" + questionCount + ", deleteFlag=" + deleteFlag + "]";
+				+ ", questionCount=" + questionCount + ", deleteFlag=" + deleteFlag + ", connectAble=" + connectAble
+				+ "]";
 	}
+
 
 
 }

@@ -566,7 +566,8 @@ font-family: malgun;
 }
 
 #frame .content .contact-profile .social-media i {
-  margin-left: -30px;
+  margin-left: -25px;
+  position : fixed; 
   cursor: pointer;
 }
 #frame .content .contact-profile .social-media i:nth-last-child(1) {

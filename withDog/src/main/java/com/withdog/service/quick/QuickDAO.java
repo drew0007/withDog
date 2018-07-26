@@ -20,5 +20,8 @@ public interface QuickDAO {
 	public void deleteChatBot(int questionNo) throws Exception;
 	
 	public void updateQuestionCount(ChatBot chatBot) throws Exception;
+	
+	public void updateConnect(ChatBot chatBot) throws Exception;
+	
 
 }

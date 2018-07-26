@@ -214,15 +214,18 @@ function fncGetList(currentPage) {
                                 	<a class="info-like"><i class="fa fa-thumbs-o-up small-icon"></i>${list.recommended}</a>
                                 	<a class="info-dislike"><i class="fa fa-thumbs-o-down small-icon"></i>${list.notRecommended}</a></div>
                                  	<c:if test="${list.notRecommended>=10}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
-	                                		<c:if test="${list.notRecommended/(list.recommended + list.notRecommended)*100>=20}">
+	                                		<c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100>=20}">
 												<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기<span>부정확한 정보일 수 있습니다.</span></a>	
 											 </c:if>
-	                                		<c:if test="${list.notRecommended/(list.recommended + list.notRecommended)*100>=50}">
+	                                		<c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100>=50}">
 												<a id="getDogInfo" class="tip no highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기<span>부정확한 정보입니다.</span></a>	
 											 </c:if>
 									 </c:if>
-									 <c:if test="${list.notRecommended/(list.recommended + list.notRecommended)*100<=20}">
+									 <c:if test="${list.notRecommended<10}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
+									 <a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>
+									 <c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100<=20}">
                                 			<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>	
+									 </c:if>
 									 </c:if>
                             </div>
                         </div>

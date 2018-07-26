@@ -12,6 +12,7 @@
 		<result property="answer" column="answer" jdbcType="VARCHAR" />
 		<result property="questionCount" column="question_count" jdbcType="NUMERIC" />
 		<result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR" />
+		<result property="connectAble" column="connect_able" jdbcType="VARCHAR" />
 	</resultMap>
 	
 
@@ -48,6 +49,18 @@
 		<set>
 		question = #{question},
 		answer = #{answer},
+		delete_flag = #{deleteFlag}
+		</set>
+		<where>
+		question_no = #{questionNo}
+		</where>
+	</update>
+	
+	<update id="updateConnect" parameterType="chatBot">
+		UPDATE chat_bot
+		<set>
+		answer = #{answer},
+		connect_able = #{connectAble},
 		delete_flag = #{deleteFlag}
 		</set>
 		<where>

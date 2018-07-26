@@ -129,7 +129,7 @@ public class QuickController {
 
 		model.addAttribute("list", list);
 		
-		return "forward:/admin/getChatBotList.jsp";
+		return "forward:/admin/listChatBot.jsp";
 	}
 	
 	@RequestMapping(value = "addChatbot", method = RequestMethod.POST)

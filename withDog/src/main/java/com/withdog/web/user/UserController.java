@@ -3,9 +3,13 @@ package com.withdog.web.user;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +34,7 @@ import com.withdog.service.user.UserService;
 
 @Controller
 @RequestMapping("/user/*")
-public class UserController {
+public class UserController extends HttpServlet{
 	
 	///Field
 	@Autowired
@@ -57,6 +62,10 @@ public class UserController {
 		System.out.println(this.getClass());
 	}
 	
+	public void InitBinder() throws ServletException{
+		super.init();
+	}
+	
 	///Method
 	//로그인 화면 GET  (로그인 클릭했을 때 단순네비게이션)
 	@RequestMapping( value="loginUser", method=RequestMethod.GET )
@@ -70,7 +79,8 @@ public class UserController {
 	//로그인 POST
 	@RequestMapping( value="loginUser", method=RequestMethod.POST )
 	public String loginUser (@ModelAttribute("user") User user , HttpSession session, HttpServletResponse response)  throws Exception {
-
+		ServletContext a = this.getServletContext();
+		a.setAttribute("aa", "gdgd");
 		System.out.println("로그인 /user/loginUser : POST");
 		
 		//Business Logic
