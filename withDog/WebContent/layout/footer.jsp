@@ -84,6 +84,10 @@
 	webSocket = new WebSocket(serverIP);
 	webSocket.onopen = function(event) {
 		onOpen(event)
+		if("${user.role}"=='user' || "${user.role}"==""){
+// 			newMessage("고객님이 접속하셨습니다.",'user')
+			webSocket.send("고객님이 접속하셨습니다.");
+			}
 		};
 	webSocket.binaryType="arraybuffer";
 	webSocket.onerror = function(event) {

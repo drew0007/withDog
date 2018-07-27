@@ -1,6 +1,9 @@
 package com.withdog.web.user;
 
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -28,6 +31,7 @@ import org.codehaus.jackson.JsonNode;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -204,13 +208,15 @@ public class UserRestController {
 			   System.out.println("搾腰しししししししししし "+user);
 			   
 			   userService.updateUser(user);
-			   System.out.println("郊駕 鳶什趨球 端滴");
+			   User user2 = userService.getUser(user.getUserId());
+			   
+			   System.out.println("郊駕 鳶什趨球 端滴"+user2);
 			
 			   //戚五析 左鎧奄 古辞球拭 左馨 戚五析 爽社人 , 績獣 搾腔腰硲 左骸奄
 //			     String htmlText = " <h2>照括馬室推</h2><img src=\\\"cid:my-image\\\">";
 			   //String htmlText = " <h2>照括馬室推</h2><img src=\"cid:my-image\"> ";
 			   String url ="http://192.168.0.41:8080/user/loginUser";
-			  String htmlText = " <h3>照括馬室推</h3><img src=\"cid:my-image\"><h3>壱梓還税 推短生稽  績獣搾腔腰硲亜 降厭鞠醸柔艦陥.<br> 績獣搾腔腰硲 &nbsp;"+tempNo+" 脊艦陥. </h3>"
+			  String htmlText = " <h2>照括馬室推</h2><img src=\"cid:my-image\"><h3>壱梓還税 推短生稽  <span style=\"color:red;\">績獣搾腔腰硲</span>亜 降厭鞠醸柔艦陥.<br> 績獣搾腔腰硲 &nbsp;"+tempNo+" 脊艦陥. </h3>"
 			  		+ "<br><h3>稽益昔 板 搾腔腰硲研 痕井背爽室推. </h3>"
 			  		+ "<br><a href="+url+" target=\"_blank\"><img src=\"http://192.168.0.41:8080/images/icon/withdog.jpg\" /></a>";
 	
@@ -484,13 +490,14 @@ public class UserRestController {
 	
 	//SNS尻疑 :: 胡煽 DB繕噺馬壱 蒸陥檎 sns鎮軍穣汽戚闘 背爽奄
 	@RequestMapping( value="json/connectSnsId", method=RequestMethod.POST)
-	public Boolean conSnsId(@RequestBody User user,HttpSession session) throws Exception{
+	public Boolean connectSnsId(@RequestBody User user,HttpSession session) throws Exception{
 		
+		System.out.println("sns 尻疑 : POST");
 		//政煽焼戚巨 嗣奄
 		String userId = user.getUserId();
 		
 		//snsType 
-		System.out.println("溌昔+++++++++++++++++++++"+user);
+		System.out.println("+"+user);
 		int snsType= user.getSnsType();
 		
 		// ::userId >> sns~~Id  :: snsType拭 限亀系 背雁 snsId稽 set
@@ -519,7 +526,7 @@ public class UserRestController {
 			String userId2 = user2.getUserId();
 			user.setUserId(userId2);
 			System.out.println("DB亜奄穿"+user);
-			userService.updateUser(user);
+			userService.updateSnsId(user);
 			
 			check= true;
 		
@@ -551,6 +558,40 @@ public class UserRestController {
 		return user;
 		
 	}
+	
+	//革戚獄 稽益昔
+	@RequestMapping( value="json/loginWithNaver", method=RequestMethod.GET)
+	public JSONObject loginWithNaver() throws Exception{ 
+	    String clientId = "FCLaJ11V_c1179DGKDU1";//蕉巴軒追戚芝 適虞戚情闘 焼戚巨葵";
+	    String redirectURI = URLEncoder.encode("http://localhost:8080/user/loginWithNaver", "UTF-8");
+	    SecureRandom random = new SecureRandom();
+	    String state = new BigInteger(130, random).toString();
+	    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+	    apiURL += "&client_id=" + clientId;
+	    apiURL += "&redirect_uri=" + redirectURI;
+	    apiURL += "&state=" + state;
+	    //session.setAttribute("state", state);
+	    JSONObject jsonobj = new JSONObject();
+	    jsonobj.put("apiURL", apiURL);
+	    System.out.println("jsonobj : "+jsonobj);
+	    
+		return jsonobj;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

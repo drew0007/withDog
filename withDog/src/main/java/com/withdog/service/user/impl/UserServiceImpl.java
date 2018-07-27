@@ -2,6 +2,8 @@ package com.withdog.service.user.impl;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -174,10 +176,16 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	/////////////////////////////////////////////////////////////
+	//쿼츠 스케줄러
 	@Override
 	public void updateUserList() throws Exception {
 		userDAO.updateUserList();
-		
+		 System.out.println("언제 찍혔을까");
+		 long time = System.currentTimeMillis(); 
+		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+		String str = dayTime.format(new Date(time));
+		System.out.println(str);
 	}
 
 	@Override
@@ -190,17 +198,26 @@ public class UserServiceImpl implements UserService {
 
 	public boolean sendEmail(String userEmail, String htmlText) throws Exception {
 		
+			/*네이버로 보낼때
 		  String host     = "smtp.naver.com";
 		  String fromEmail   = "hyuny0126@naver.com"; //보내는 사람 이메일 주소
-		  String password  = "gogosing2014"; //보내는 사람 비밀번호
+		  String password  = ""; //보내는 사람 비밀번호
 		  String toEmail     =   userEmail ;//받는사람 이메일 주소
-
+		  */
+			//gmail로 보낼때
+		  String host     = "smtp.gmail.com";
+		  String fromEmail   = "withdog0817@gmail.com"; //보내는 사람 이메일 주소
+		  String password  = "0817withdog!"; //보내는 사람 비밀번호
+		  String toEmail     =   userEmail ;//받는사람 이메일 주소
+		  
 		  System.out.println(toEmail);
 
 
 		  // Get the session object
 
 		  Properties props = new Properties();
+		  
+		  props.put("mail.smtp.starttls.enable", "true");
 
 		  props.put("mail.smtp.host", host);
 
@@ -414,6 +431,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findSnsId(User user) throws Exception {
 		return userDAO.findSnsId(user);
+	}
+
+	@Override
+	public void  updateSnsId(User user) throws Exception {
+		userDAO.updateSnsId(user);
 	}
 
 

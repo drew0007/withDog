@@ -71,9 +71,9 @@ public class AshRestController {
 		JSONArray jsonArray = new JSONArray();
 		
 		System.out.println("list 출력 : " + list);
-		JSONObject jsonObject = new JSONObject();
 		
 		for (Ash ash : list) {
+			JSONObject jsonObject = new JSONObject();
 			
 			jsonObject.put("id", ash.getAshReservationNo()); // 예약번호
 			jsonObject.put("title", ash.getHealingDog().getHealingDogName()); //예약견 이름 

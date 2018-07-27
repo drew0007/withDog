@@ -129,9 +129,12 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User findSnsId(User user) throws Exception {
-
 			return sqlSession.selectOne("UserMapper.findSnsId", user);
-		
+	}
+
+	@Override
+	public void  updateSnsId(User user) throws Exception {
+		sqlSession.update("UserMapper.connectSnsId",user);
 	}
 	
 }//end of class

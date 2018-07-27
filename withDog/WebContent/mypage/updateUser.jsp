@@ -196,7 +196,7 @@ $(function () {
 		              success: function(res) {
 		            	  
 		                var userId = "k"+res.id;
-		                 var snsType =0; 
+		                var snsType =0; 
 		                
 		                checkUserId(userId,snsType);
 		                
@@ -535,44 +535,67 @@ $(function () {
             
 							
 							<div class="row">
-								<div class="col-xs-4 col-md-12"><strong>SNS 계정연동관리 </strong></div>
+								<div class="row">
+									<div class="col-xs-4 col-md-12"><strong>&nbsp;&nbsp;SNS 계정연동관리 </strong></div>
+								</div>
+								<hr/>
 								
 								<!-- 네이버 -->
-								<div class="col-xs-8 col-md-12">
-	                           		<div class="col-xs-4 col-md-4">네이버</div>
-	                           		<div class="col-xs-8 col-md-8">
-		                               	<input type="text" id="" name="snsNaverId" class="input-round big-input col-md-4" value="${user.snsNaverId}" readonly>
-	                                	<input type="button" id="changeNaverId" class="btn-success btn button button-3d btn-round xs-margin-bottom-fiv col-md-2" value="연결">
-                         			</div>
+								<div class="row">
+									<div class="col-xs-8 col-md-12">
+		                           		<div class="col-xs-4 col-md-4">네이버</div>
+		                           		<div class="col-xs-8 col-md-8">
+		                           			<c:choose>
+		                           				<c:when test="${user.snsNaverId==null}">연결된 정보가 없습니다.<a href="#"><img src ="../images/login/naver.png"></a></c:when>
+		                           				<c:otherwise>${user.snsNaverId}</c:otherwise>	
+		                           			</c:choose>
+	                         			</div>
+	                         		</div>	
                          		</div>	
+                         		<hr/>
                          		
                          		<!-- 카카오 -->
-								<div class="col-xs-8 col-md-12">
-	                           		<div class="col-xs-4 col-md-4">카카오</div>
-	                           		<div class="col-xs-8 col-md-8"><a href="#"><img src="../images/login/kakao_login.png"/ id="imgKakao"></a>
-		                               	<input type="text"  name="snsKakaoId" class="input-round big-input col-md-4" value="${user.snsKakaoId}" readonly>
-                         				<a href="#" id="changeKakaoId" class="col-md-2">연결</a>
-                         			</div>
-                         		</div>	
-                         		
-                         		<!-- 페이스북 -->
-								<div class="col-xs-8 col-md-12">
-	                           		<div class="col-xs-4 col-md-4">페이스북</div>
-	                           		<div class="col-xs-8 col-md-8">
-		                               	<input type="text" id="" name="snsFacebookId" class="input-round big-input col-md-4" value="${user.snsFacebookId}" readonly>
-	                                	<a href="#" id="changeFacebookId" class="col-md-2">연결</a>
-                         			</div>
-                         		</div>	
+                         		<div class="row">
+									<div class="col-xs-8 col-md-12">
+		                           		<div class="col-xs-4 col-md-4">카카오</div>
+		                           		<div class="col-xs-8 col-md-8">
+			                 				<c:choose>
+												<c:when test="${user.snsKakaoId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/kakao.png"/ id="imgKakao"></a></c:when>
+										  		<c:otherwise>${user.snsKakaoId}</c:otherwise>	
+								  			</c:choose>
+	                         			</div>
+	                         		</div>	
+                         		</div>
+                         		<hr/>
                          		
                          		<!-- 구글 -->
-								<div class="col-xs-8 col-md-12">
-	                           		<div class="col-xs-4 col-md-4">구글</div>
-	                           		<div class="col-xs-8 col-md-8"><img  id="google" src="../images/login/google.png" />
-		                               	<input type="text" id="" name="snsGoogleId" class="input-round big-input col-md-4" value="${user.snsGoogleId}" readonly>
-	                                	<input type="button" id="changeGoogleId" class="btn-danger btn button button-3d btn-round xs-margin-bottom-fiv col-md-2" value="연결">
-                         			</div>
+                         		<div class="row">
+									<div class="col-xs-8 col-md-12">
+		                           		<div class="col-xs-4 col-md-4">구글</div>
+		                           		<div class="col-xs-8 col-md-8">
+			                 				<c:choose>
+												<c:when test="${user.snsGoogleId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/google.png"/ id="imgKakao"></a></c:when>
+										  		<c:otherwise>${user.snsGoogleId}</c:otherwise>	
+								  			</c:choose>
+	                         			</div>
+	                         		</div>
                          		</div>	
-                          	 </div> 
+                         		<hr/>
+                         		
+                         		<!-- 페이스북 -->
+                         		<div class="row">
+									<div class="col-xs-8 col-md-12">
+		                           		<div class="col-xs-4 col-md-4">페이스북</div>
+		                           		<div class="col-xs-8 col-md-8">
+			                            	<c:choose>
+												<c:when test="${user.snsFacebookId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/facebook.png"/ id="imgKakao"></a></c:when>
+										  		<c:otherwise>${user.snsFacebookId}</c:otherwise>	
+								  			</c:choose>
+	                         			</div>
+	                         		</div>	
+                         		</div>
+                     
+                          </div> 
       						<hr/>
       						
       					   <!-- 어드민만 볼수있음 -->

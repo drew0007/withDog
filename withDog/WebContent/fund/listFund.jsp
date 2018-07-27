@@ -46,10 +46,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-10 text-center center-col">
-                        <span class="margin-one no-margin-top display-block letter-spacing-2">THE VIDEO CONSULTATION</span>
-                        <h1>영상상담 소개</h1>
+                        <span class="margin-one no-margin-top display-block letter-spacing-2">THE CROWD FUND</span>
+                        <h1>크라우드펀딩 소개</h1>
                         <div class="separator-line bg-black margin-two no-margin-bottom"></div>
-                        <p class="text-p width-120 center-col margin-two no-margin-bottom">영상상담 서비스를 활용하면 동물교감치유서비스 신청전 치유견을 만나볼 수 있습니다. <br> 고객은 상담사에게 전화통화만으로는 설명하기 어려웠던 불편사항을 실시간 영상으로 쉽게 설명할 수 있습니다.  <br> 또한 상담사도 고객과 함께 현상을 눈으로 보면서 문제를 정확하게 파악할 수 있습니다.</p>
+                        <p class="text-p width-120 center-col margin-two no-margin-bottom">크라우드펀딩은 군중 또는 다수를 의미하는 영어단어 크라우드(crowd)와 자금조달을 뜻하는 펀딩(funding)을 조합한 용어입니다. <br>  창의적 기업가를 비롯한 자금수요자가 인터넷 등의 온라인상에서 자금모집을 중개하는 자(온라앤소액투자중개업자)를 통하여 <br>불특정 다수의 소액투자자로부터 자금을 조달하는 행위를 의미합니다.  <br>이러한 크라우드펀딩은 자금모집 및 보상방식에 따라 통상 기부형, 후원형, 대출형, 증권형(투자형) 등으로 구분됩니다. </p>
                     </div>
                 </div>
             </div>

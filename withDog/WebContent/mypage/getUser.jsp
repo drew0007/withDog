@@ -83,7 +83,7 @@
 				
 			<!-- sidebar  -->
 			<div class="col-md-2 col-sm-3 sidebar">
-				<jsp:include page="/layout/mypage-sideBar.jsp" />
+				<jsp:include page="/layout/mypage-sideBar2.jsp" />
 			</div>
 			<!-- end sidebar  -->
 			
@@ -160,29 +160,60 @@
 					<hr/>
 					
 					<div class="row">
-				 		<div class="col-xs-4 col-md-2"><strong>snsNaverId</strong></div>
-						<div class="col-xs-8 col-md-4">${user.snsNaverId}</div>
+				 		<div class="col-xs-4 col-md-4"><strong>SNS 계정연동관리</strong></div>
+						<div class="col-xs-8 col-md-8"></div>
 					</div>
-					
-					<hr/>
-					
-					<div class="row">
-				 		<div class="col-xs-4 col-md-2"><strong>snsKakaoId</strong></div>
-						<div class="col-xs-8 col-md-4">${user.snsKakaoId}</div>
-					</div>
-					
-					<hr/>
 				
+					<hr/>
+					
+					<!-- 네이버 -->
 					<div class="row">
-				 		<div class="col-xs-4 col-md-2"><strong>snsGoogleId</strong></div>
-						<div class="col-xs-8 col-md-4">${user.snsGoogleId}</div>
+				 		<div class="col-xs-4 col-md-4"><img src ="../images/login/n_icon.png"><strong>네이버</strong></div>
+						<div class="col-xs-8 col-md-8">
+							<c:choose>
+								<c:when test="${user.snsNaverId==null}">연결된 정보가 없습니다.</c:when>
+						  		<c:otherwise>${user.snsNaverId}</c:otherwise>	
+						  	</c:choose>
+						</div>
 					</div>
 					
 					<hr/>
 					
+					<!-- 카카오 -->
 					<div class="row">
-				 		<div class="col-xs-4 col-md-2"><strong>snsFacebookId</strong></div>
-						<div class="col-xs-8 col-md-4">${user.snsFacebookId}</div>
+				 			<div class="col-xs-4 col-md-4"><img src ="../images/login/k_icon.png"><strong>카카오</strong></div>
+							<div class="col-xs-8 col-md-8">
+							<c:choose>
+								<c:when test="${user.snsKakaoId==null}">연결된 정보가 없습니다.</c:when>
+						  		<c:otherwise>${user.snsKakaoId}</c:otherwise>	
+						  	</c:choose>
+							</div>
+					</div>
+					
+					<hr/>
+					
+					<!-- 구글 -->
+					<div class="row">
+				 		<div class="col-xs-4 col-md-4"><img src ="../images/login/g_icon.png"><strong>구글</strong></div>
+				 		<div class="col-xs-8 col-md-8">
+					 		<c:choose>
+								<c:when test="${user.snsGoogleId==null}">연결된 정보가 없습니다.</c:when>
+						  		<c:otherwise>${user.snsGoogleId}</c:otherwise>	
+						  	</c:choose>
+						</div>
+					</div>
+					
+					<hr/>
+					
+					<!-- 페이스북 -->
+					<div class="row">
+				 		<div class="col-xs-4 col-md-4"><img src ="../images/login/f_icon.png"><strong>페이스북</strong></div>
+						<div class="col-xs-8 col-md-8">
+				 			<c:choose>
+								<c:when test="${user.snsFacebookId==null}">연결된 정보가 없습니다.</c:when>
+						  		<c:otherwise>${user.snsFacebookId}</c:otherwise>	
+						  	</c:choose>
+						</div>
 					</div>
 					
 					<hr/>

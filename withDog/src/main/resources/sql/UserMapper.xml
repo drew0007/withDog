@@ -105,6 +105,18 @@
 	   	WHERE user_id = #{userId}
 	 </update>
 	 
+	 <!-- SNS 연동 회원정보 수정 SQL : UPDATE -->
+	 <update	id="connectSnsId"	parameterType="user" >
+	   	UPDATE users
+	   		<trim prefix="SET" suffixOverrides=",">
+	   			<if test="snsKakaoId != null">sns_kakao_id = #{snsKakaoId},</if>
+	   			<if test="snsNaverId != null">sns_naver_id =  #{snsNaverId},</if>
+	   			<if test="snsGoogleId != null">sns_google_id = #{snsGoogleId},</if>
+	   			<if test="snsFacebookId != null">sns_facebook_id =  #{snsFacebookId},</if>
+			</trim>
+	   	WHERE user_id = #{userId}
+	 </update>
+	 
 	 <!-- 회원탈퇴SQL : UPDATE -->
 	 <update	id="deleteUser"	parameterType="user" >
 	   	UPDATE users

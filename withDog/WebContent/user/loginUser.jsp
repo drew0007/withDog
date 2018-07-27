@@ -141,7 +141,7 @@
 		              success: function(res) {
 		            	  
 		                var userId = "k"+res.id;
-		                 var snsType =0; 
+		                var snsType =0; 
 		                
 		                checkUserId(userId,snsType);
 		                
@@ -187,6 +187,47 @@
 			      
 			  };
 		    
+			  //네이버로그인
+			  $("#naver").on("click",function(){
+				  
+					$.ajax({
+							url : "/user/json/loginWithNaver" ,
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+								alert(111111111111);
+								popWin = window.open("https:\/\/nid.naver.com\/oauth2.0\/authorize?response_type=code&client_id=FCLaJ11V_c1179DGKDU1&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fuser%2FloginWithNaver&state=652521049895752180282350564520828761838", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+							}
+						});//end ajax
+						
+					
+
+
+		    	});// end 네이버 로그인
+				  
+				  
+		    	window.name = "loginView";  
+				  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
 			
 		    ////////////////////////////////////////////
 		    //SNS 아이디 체크 
@@ -325,6 +366,7 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk')); 
 	*/
+	
 	</script>	
 
 
@@ -355,60 +397,79 @@
         <!-- end head section -->
         
       	<!-- content section -->
-        <section class="wow fadeIn bg-gray">
+        <section class="wow fadeIn">
             <div class="container">
                 <div class="row">
+                
                     <div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
-                    
-                    	<form>
-                         	<span class="spanClass"></span>
-	                        <div class="col-md-12 no-padding">
-	                            <label>아이디</label>
-	                            <input type="userId" name="userId" id="userId">
-	                              <span class="spanId"></span>
-	                        </div>
-	                        
-	                        <div class="col-md-12 no-padding">
-	                            <label>비밀번호</label>
-	                            <input type="password" name="password" id="password">
-	                            
-	                        </div>
-                            
-                         </form> 
-                                                  
-                         <button class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit" id="login"}">Login</button>
-                        
-                         <a href="#" class="display-block text-uppercase" id="findUser"> >> 아이디 비밀번호 찾기</a> 
-                         
-                         <div>
-                         	<a class="highlight-button-black-border btn btn-medium" href="#" id ="join">회원가입</a>
+                    	
+                    	<div>
+	                    	<form>
+		                        <div class="col-md-12 no-padding">
+		                            <label>ID</label>
+		                            <input type="userId" name="userId" id="userId" placeholder="아이디">
+		                              <span class="spanId"></span>
+		                        </div>
+		                        
+		                        <div class="col-md-12 no-padding">
+		                            <label>Password</label>
+		                            <input type="password" name="password" id="password" placeholder="비밀번호">
+		                        	<span class="spanClass"></span>  
+		                        </div>
+		                        
+	                         </form> 
+	                         
+                          </div>   
+                          
+                          <div>
+	                          <div class="col-md-12 col-xs-11 no-padding">              
+	                        	 <button class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right" type="submit" id="login" style="width:460px;"}">Login</button>
+	                          </div>
+	                          
+	                          <div class="col-md-12 col-xs-11 no-padding">
+	                         	<a class="highlight-button btn btn-medium button text-center" href="#" id ="join" style="width:460px;">회 원 가 입</a>
+	                          </div>	
+	                         	
+	                         <div class="col-md-12 col-xs-11 no-padding margin-ten">
+	                         	<a href="#" class="display-block text-uppercase" id="findUser" style="width:460px;"> 아이디 찾기 | 비밀번호 찾기</a> 
+	                         </div>	
                          </div>
                          
-                        <div class="form-group">
-                        	<p>SNS 로그인</p>
-						    <div class="col-sm-offset-4 col-sm-6">
-						    	<!-- 카카오 -->
-								<a href="#"><img src="../images/login/kakao_login.png"/ id="imgKakao"></a>
-						
-								<!-- 구글 -->
-								<div>
-									<img  id="google" src="../images/login/google.png" />
-								</div>
+                   		  <!-- sns 로그인 -->           
+            		      <div class="col-md-12 col-xs-11">
+            		      
+            		      	<div class="row">
+            		      	 <!-- 카카오 --> 
+	                          <div class="col-md-6 col-xs-11 no-padding">  
+	                        	<a href="#"><img src="../images/login/kakao.png"/ id="imgKakao"></a>
+							  </div>
+	                                 
+	                          	<!-- 구글 -->
+								<div class="col-md-6" style="margin-left: -15px;">
+									<a href="#"><img src="../images/login/google.png" id="google" /></a>
+								</div>    
+	                          </div>
+	                          
+                             <div class="row margin-two">        
+						    	<!-- 네이버--> 
+						    	<div class="col-md-6" style="margin-left: -15px;">
+									<a href="#"><img src="../images/login/naver.png" id="naver" /></a>
+								</div>	
 								
+								<!-- 페이스북 임시--> 
+						    	<div class="col-md-6" style="margin-left: -15px;">
+									<a href="#"><img src="../images/login/facebook.png"  /></a>
+								</div>	
 								<!-- 페이스북 -->
-								<div>
-		                       	 <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-										<div class="fb-login-button" data-max-rows="1" data-size="small" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
-									</fb:login-button>
+								<div class="col-md-6">
+									<div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
 								</div>
-								
-						    </div>
-					  	</div>
-                        
-                    </div>
-                </div>
-            </div>
-        </section>
+							 </div>		
+						</div>
+					</div>
+	         </div>
+	     </div>
+	 </section>
         <!-- end content section -->
         
 <jsp:include page="../layout/footer.jsp" />
