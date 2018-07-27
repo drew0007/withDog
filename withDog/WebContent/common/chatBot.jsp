@@ -531,7 +531,7 @@
   width: 100%;
   height: 110px;
   line-height: 60px;
-  background: #C5E9F0;
+  background: #E0A33C;
 }
 #frame .content .contact-profile .logo {  /* 이미지 로고 */
   width: 50px;
@@ -565,7 +565,8 @@ font-family: malgun;
 }
 
 #frame .content .contact-profile .social-media i {
-  margin-left: -30px;
+  margin-left: -25px;
+  position : fixed; 
   cursor: pointer;
 }
 #frame .content .contact-profile .social-media i:nth-last-child(1) {

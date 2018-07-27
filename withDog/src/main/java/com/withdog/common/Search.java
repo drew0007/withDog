@@ -26,7 +26,12 @@ public class Search {
 	private String prodType;
 	private String role;
 
-	
+	//À¯±â°ß
+	private String dogBreed;
+	private String sido;
+	private String sigungu;
+	private String abandDogState;
+	private String abandDogGender;
 
 
 	///Constructor
@@ -113,15 +118,58 @@ public class Search {
 		this.searchEndDay = searchEndDay;
 	}
 
+	public String getDogBreed() {
+		return dogBreed;
+	}
+
+	public void setDogBreed(String dogBreed) {
+		this.dogBreed = dogBreed;
+	}
+
+	public String getSido() {
+		return sido;
+	}
+
+	public void setSido(String sido) {
+		this.sido = sido;
+	}
+
+	public String getSigungu() {
+		return sigungu;
+	}
+
+	public void setSigungu(String sigungu) {
+		this.sigungu = sigungu;
+	}
+
+	public String getAbandDogState() {
+		return abandDogState;
+	}
+
+	public void setAbandDogState(String abandDogState) {
+		this.abandDogState = abandDogState;
+	}
+
+	public String getAbandDogGender() {
+		return abandDogGender;
+	}
+
+	public void setAbandDogGender(String abandDogGender) {
+		this.abandDogGender = abandDogGender;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ ", priceUpDown=" + priceUpDown + ", recently=" + recently + ", sorting=" + sorting + ", prodType="
-				+ prodType + ", role=" + role + "]"
 				+ ", priceUpDown=" + priceUpDown + ", recently=" + recently + ", searchStartDay=" + searchStartDay
-				+ ", searchEndDay=" + searchEndDay + ", prodSort=" + prodSort + ", sorting=" + sorting + "]";
+				+ ", searchEndDay=" + searchEndDay + ", prodSort=" + prodSort + ", sorting=" + sorting + ", prodType="
+				+ prodType + ", role=" + role + ", dogBreed=" + dogBreed + ", sido=" + sido + ", sigungu=" + sigungu
+				+ ", abandDogState=" + abandDogState + ", abandDogGender=" + abandDogGender + "]";
 	}
+
+	
+
 
 
 

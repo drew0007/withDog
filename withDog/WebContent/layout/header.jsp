@@ -82,8 +82,8 @@ $(function(){
                                             <!-- sub menu item  -->
                                             <ul>
                                                 <li class="dropdown-header">회사소개</li>
-                                                <li><a href="../company/getCoInfo.jsp">회사소개</a></li>
-                                                <li><a href="../company/getCoActivity.jsp">활동내역</a></li>
+                                                <li><a href="/common/getCoInfo">회사소개</a></li>
+                                                <li><a href="/common/getCoActivity">활동내역</a></li>
 
                                             </ul>
                                             <!-- end sub menu item  -->
@@ -103,7 +103,7 @@ $(function(){
                                             <!-- sub menu item  -->
                                             <ul>
                                                 <li class="dropdown-header">동물교감치유 서비스</li>
-                                                <li><a href="../animal/getASHInfo.jsp">동물교감치유 서비스란</a></li>
+                                                <li><a href="/ash/getASHInfo">동물교감치유 서비스란</a></li>
                                                 <li><a href="/ash/listHealingDog">치유견 소개</a></li>
                                                 <li><a href="/ash/listAsh">예약하기</a></li>
                                                 <li><a href="/ash/getConsultingDogList">영상상담 신청<span class="menu-new">new</span></a></li>

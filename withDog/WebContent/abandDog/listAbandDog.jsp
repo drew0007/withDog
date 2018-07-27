@@ -16,7 +16,94 @@
 </head>
 
 <script type="text/javascript">
+$(function(){
+	// 견종변경시 조회
+	$("select[name='dogBreed']").on("change", function(){
+		fncGetList(1);
+	});
+	
+	// 시도변경시 조회
+	$("select[name='sido']").on("change", function(){
+		$("select[name='sigungu']").val("");
+		fncGetList(1);
+	});
+	
+	// 시도변경시 조회
+	$("select[name='sigungu']").on("change", function(){
+		fncGetList(1);
+	});
+	
+	// 상세조회 모달창에서 확인버튼
+	$("#searchModal").on("click", function(){
+		var abandDogGender = $('input[name="abandDogGenderRadio"]:checked').val();
+		$('input[name="abandDogGender"]').val(abandDogGender);
+		var abandDogState = $('input[name="abandDogStateRadio"]:checked').val();
+		$('input[name="abandDogState"]').val(abandDogState);
+		fncGetList(1);
+	});
+	
+	// 리스트 이미지 클릭
+	$(document).on("click", "img[name='abandDogImg']", function(){
+		var index = $("img[name='abandDogImg']").index(this);
+		fncGetAbandDog(index);
+	});
+	
+	$(document).on("click", "a[name='abandDog']", function(){
+		var index = $("a[name='abandDog']").index(this);
+		fncGetAbandDog(index);
+	});
+});
 
+function fncGetList(currentPage) {
+ 	$("#currentPage").val(currentPage)
+	$("form").attr("method","POST").attr("action","/abandDog/getAbandDogList").submit();
+}
+
+function fncGetAbandDog(index){
+	var desertionNo = $($('input[name="desertionNoList"]')[index]).val();
+	var noticeNo = $($('input[name="noticeNoList"]')[index]).val();
+	var abandDogBreed = $($('input[name="abandDogBreedList"]')[index]).val();
+	var abandDogGender = $($('input[name="abandDogGenderList"]')[index]).val();
+	var abandDogFeature = $($('input[name="abandDogFeatureList"]')[index]).val();
+	var abandDogState = $($('input[name="abandDogStateList"]')[index]).val();
+	var abandDogImage = $($('input[name="abandDogImageList"]')[index]).val();
+	var happenPlace = $($('input[name="happenPlaceList"]')[index]).val();
+	var abandDogAge = $($('input[name="abandDogAgeList"]')[index]).val();
+	var abandDogWeight = $($('input[name="abandDogWeightList"]')[index]).val();
+	var abandDogColor = $($('input[name="abandDogColorList"]')[index]).val();
+	var abandDogNeuter = $($('input[name="abandDogNeuterList"]')[index]).val();
+	var noticeSdt = $($('input[name="noticeSdtList"]')[index]).val();
+	var noticeEdt = $($('input[name="noticeEdtList"]')[index]).val();
+	var happenDt = $($('input[name="happenDtList"]')[index]).val();
+	var careNm = $($('input[name="careNmList"]')[index]).val();
+	var careTel = $($('input[name="careTelList"]')[index]).val();
+	var orgNm = $($('input[name="orgNmList"]')[index]).val();
+	var careAddr = $($('input[name="careAddrList"]')[index]).val();
+	
+	$('input[name="desertionNo"]').val(desertionNo);
+	$('input[name="noticeNo"]').val(desertionNo);
+	$('input[name="abandDogBreed"]').val(abandDogBreed);
+	$('input[name="abandDogGender"]').val(abandDogGender);
+	$('input[name="abandDogFeature"]').val(abandDogFeature);
+	$('input[name="abandDogState"]').val(abandDogState);
+	$('input[name="abandDogImage"]').val(abandDogImage);
+	$('input[name="happenPlace"]').val(happenPlace);
+	$('input[name="abandDogAge"]').val(abandDogAge);
+	$('input[name="abandDogWeight"]').val(abandDogWeight);
+	$('input[name="abandDogColor"]').val(abandDogColor);
+	$('input[name="abandDogNeuter"]').val(abandDogNeuter);
+	$('input[name="noticeSdt"]').val(noticeSdt);
+	$('input[name="noticeEdt"]').val(noticeEdt);
+	$('input[name="happenDt"]').val(happenDt);
+	$('input[name="careNm"]').val(careNm);
+	$('input[name="careTel"]').val(careTel);
+	$('input[name="orgNm"]').val(orgNm);
+	$('input[name="careAddr"]').val(careAddr);
+	
+	$("form").attr("method", "POST").attr("action", "/abandDog/getAbandDog").submit();
+}
+
+/* 
 $(function(){
 	// 처음에 리스트 들고옴
 	fncGetAbandDogList();
@@ -121,8 +208,8 @@ $(function(){
 	});
 	
 	// 리스트 이미지 클릭
-	$(document).on("click", "a[name='abandDogImg']", function(){
-		var index = $("a[name='abandDogImg']").index(this);
+	$(document).on("click", "img[name='abandDogImg']", function(){
+		var index = $("img[name='abandDogImg']").index(this);
 		fncGetAbandDog(index);
 	});
 	
@@ -196,13 +283,11 @@ function fncGetAbandDogList(){
 		success : function(JSONData , status) {							
 			$("#abandDogList").html("");
 			for(i=0; i<JSONData.list.length; i++){
-				console.log(JSONData.list[i].desertionNo);
 				var str='<li>'
                 	+'<figure>'
-                	+'<div class="gallery-img" style="height: 200px"><a href="#" name="abandDogImg" style="width:100%; height:100%;"><img src="'+JSONData.list[i].abandDogImage+'" alt="" style="width:100%; height:100%; margin:0 auto;"></a></div>'
+                	+'<div class="gallery-img" style="height: 200px"><img name="abandDogImg" src="'+JSONData.list[i].abandDogImage+'" alt="" style="width:100%; height:100%; margin:0 auto;"></div>'
                 	+'<figcaption>'
                     +'<h3 class="dog margin-two-bottom"><a href="#" name="abandDog">'
-                    /* +'<img src="../images/sub/'+(JSONData.list[i].abandDogGender == "M"?"male":"female")+' .png" width="40"/>' */
                     +JSONData.list[i].abandDogBreed+' - '+JSONData.list[i].abandDogAge+JSONData.list[i].abandDogGender+'</a></h3>'
                     +'<p class="text-small">'+JSONData.list[i].orgNm+'</p>'
                     +'<input type="hidden" name="desertionNoList" value="'+JSONData.list[i].desertionNo+'"/>'
@@ -273,7 +358,7 @@ function fncGetAbandDogList(){
 		
 	}); //end of ajax	
 }
-
+ */
 </script>
 
 
@@ -302,6 +387,7 @@ function fncGetAbandDogList(){
         <!-- content section -->
         <section id="key-person" class="no-padding-top animate slow-mo even fadeIn" data-anim-type="fadeIn" data-anim-delay="200">
         
+				<form>
 	        	<!-- search -->
 	        	<section class="bg-deep padding-three">
 	            <div class="container ">
@@ -312,7 +398,10 @@ function fncGetAbandDogList(){
 	                    <div class="col-md-3 col-sm-3 pull-left no-margin" style="height:47px">
 	                              <div class="select-style input-round med-input">
 	                                  <select name="dogBreed">
-	                                      <option value="">견종</option>	                                  	
+	                                      <option value="">견종</option>
+		  								  <c:forEach var="breed" items="${breed}">
+	                                      	<option value="${breed.key}" ${search.dogBreed==breed.key?'selected':''}>${breed.value}</option>
+	                                      </c:forEach>                                  	
 	                                  </select>
 	                              </div>
 	                      </div>
@@ -321,14 +410,20 @@ function fncGetAbandDogList(){
 	                              <div class="select-style input-round med-input" >
 	                                  <select name="sido">
 	                                      <option value="">시도</option>
+		  								  <c:forEach var="sido" items="${sido}">
+	                                      	<option value="${sido.key}" ${search.sido==sido.key?'selected':''}>${sido.value}</option>
+	                                      </c:forEach>
 	                                  </select>
 	                              </div>
 	                      </div>
 	                      
-	                      <div class="col-md-3 col-sm-3 pull-left no-margin" style="height:47px; display:none" id="sigungu">
+	                      <div class="col-md-3 col-sm-3 pull-left no-margin" style="height:47px; display:${empty search.sido?'none':'block'}" id="sigungu">
 	                              <div class="select-style input-round med-input">
 	                                  <select name="sigungu" >
 	                                      <option value="">시군구</option>
+		  								  <c:forEach var="sigungu" items="${sigungu}">
+	                                      	<option value="${sigungu.key}" ${search.sigungu==sigungu.key?'selected':''}>${sigungu.value}</option>
+	                                      </c:forEach>
 	                                  </select>
 	                              </div>
 	                      </div>
@@ -359,11 +454,11 @@ function fncGetAbandDogList(){
 										<label class="font-weight-600" style="margin-top:14px;">성별</label>
 										</div>
 										<div class="pull-right no-padding" style="display: flex;  justify-content: center; align-items: center;	">
-											<input type="radio" name="abandDogGender" id="abandDogGender1" class="checkbox" value="" checked>
+											<input type="radio" name="abandDogGenderRadio" id="abandDogGender1" class="checkbox" value="" ${empty search.abandDogGender?'checked':''}>
 											<label for="abandDogGender1" class="input-label radio">전체</label>
-											<input type="radio" name="abandDogGender" id="abandDogGender2" class="checkbox" value="M">
+											<input type="radio" name="abandDogGenderRadio" id="abandDogGender2" class="checkbox" value="M" ${search.abandDogGender=='M'?'checked':''}>
 											<label for="abandDogGender2" class="input-label radio">남아</label>
-											<input type="radio" name="abandDogGender" id="abandDogGender3" class="checkbox" value="F">
+											<input type="radio" name="abandDogGenderRadio" id="abandDogGender3" class="checkbox" value="F" ${search.abandDogGender=='F'?'checked':''}>
 											<label for="abandDogGender3" class="input-label radio">여아</label>
 										</div>
 									</div>
@@ -380,11 +475,11 @@ function fncGetAbandDogList(){
 										</div>
 										<div class="pull-right no-padding" style="display: flex;  justify-content: center; align-items: center;">
 											<span class="pull-right text-right">
-												<input type="radio" name="abandDogState" id="abandDogState1" class="checkbox" value="" checked>
+												<input type="radio" name="abandDogStateRadio" id="abandDogState1" class="checkbox" value="" ${empty search.abandDogState?'checked':''}>
 												<label for="abandDogState1" class="input-label radio">전체</label>
-												<input type="radio" name="abandDogState" id="abandDogState2" class="checkbox" value="notice">
+												<input type="radio" name="abandDogStateRadio" id="abandDogState2" class="checkbox" value="notice" ${search.abandDogState=='notice'?'checked':''}>
 												<label for="abandDogState2" class="input-label radio">공고중</label>
-												<input type="radio" name="abandDogState" id="abandDogState3" class="checkbox" value="protect">
+												<input type="radio" name="abandDogStateRadio" id="abandDogState3" class="checkbox" value="protect" ${search.abandDogState=='protect'?'checked':''}>
 												<label for="abandDogState3" class="input-label radio">보호중</label>
 											</span>
 										</div>
@@ -396,14 +491,14 @@ function fncGetAbandDogList(){
 								<!-- 조건 3 -->
 								<div class="form-group no-margin-bottom">
 									<!-- input  -->
-									<div class="text-center col-md-12 clearfix">
+									<!-- <div class="text-center col-md-12 clearfix">
 										<div class="no-padding pull-left">
 										<label class="font-weight-600" style="margin-top:14px;">출생년도(추정)</label>
 										</div>
 										<div class="slidecontainer">
 										  <input type="range" min="1" max="100" value="50" class="slider" id="myRange" data-slider-step="2">
 										</div>
-									</div>
+									</div> -->
 									<!-- end input  -->
 								</div>
 								<!-- end 조건 3 -->
@@ -411,7 +506,7 @@ function fncGetAbandDogList(){
 							<!-- 버튼 -->
 							<div class="text-center no-margin-bottom">
 								<a href="#" class="highlight-button btn btn-medium no-margin-bottom popup-modal-dismiss" id="searchModal">적용</a>
-								<a href="#" class="highlight-button-dark btn btn-medium no-margin" id="cancelModal">취소</a>
+								<a href="#" class="highlight-button-dark btn btn-medium no-margin popup-modal-dismiss" id="cancelModal">취소</a>
 							</div>
 							<!-- end 버튼 -->
 			
@@ -432,42 +527,36 @@ function fncGetAbandDogList(){
                             <!-- work grid -->
                             <ul class="grid masonry-items" id="abandDogList">
                                 <!-- work item -->
+                                <c:forEach var="list" items="${list}">
                                 <li>
                                     <figure>
-                                        <div class="gallery-img" style="width:300px; height:200px; margin:0 auto;"><a href="#" name="abandImage"><img src="http://placehold.it/500x400" alt="" ></a></div>
-                                        <figcaption>
-                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
-                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
-                                        </figcaption>
+					                	<div class="gallery-img" style="height: 200px"><img name="abandDogImg" src="${list.abandDogImage}" alt="" style="width:100%; height:100%; margin:0 auto;"></div>
+					                	<figcaption>
+					                    <h3 class="dog margin-two-bottom"><a href="#" name="abandDog">
+					                    ${list.abandDogBreed} - ${list.abandDogAge} - ${list.abandDogGender}</a></h3>
+					                    <p class="text-small">${list.orgNm}</p>
+					                    <input type="hidden" name="desertionNoList" value="${list.desertionNo}"/>
+					                    <input type="hidden" name="noticeNoList" value="${list.noticeNo}"/>
+					                    <input type="hidden" name="abandDogBreedList" value="${list.abandDogBreed}"/>
+					                    <input type="hidden" name="abandDogGenderList" value="${list.abandDogGender}"/>
+					                    <input type="hidden" name="abandDogFeatureList" value="${list.abandDogFeature}"/>
+					                    <input type="hidden" name="abandDogStateList" value="${list.abandDogState}"/>
+					                    <input type="hidden" name="abandDogImageList" value="${list.abandDogImage}"/>
+					                    <input type="hidden" name="happenPlaceList" value="${list.happenPlace}"/>
+					                    <input type="hidden" name="abandDogAgeList" value="${list.abandDogAge}"/>
+					                    <input type="hidden" name="abandDogWeightList" value="${list.abandDogWeight}"/>
+					                    <input type="hidden" name="abandDogColorList" value="${list.abandDogColor}"/>
+					                    <input type="hidden" name="abandDogNeuterList" value="${list.abandDogNeuter}"/>
+					                    <input type="hidden" name="noticeSdtList" value="${list.noticeSdt}"/>
+					                    <input type="hidden" name="noticeEdtList" value="${list.noticeEdt}"/>
+					                    <input type="hidden" name="happenDtList" value="${list.happenDt}"/>
+					                    <input type="hidden" name="careNmList" value="${list.careNm}"/>
+					                    <input type="hidden" name="careTelList" value="${list.careTel}"/>
+					                    <input type="hidden" name="orgNmList" value="${list.orgNm}"/>
+					                    <input type="hidden" name="careAddrList" value="${list.careAddr}"/>
                                     </figure>
                                 </li>
-                                <li>
-                                    <figure>
-                                        <div class="gallery-img" style="width:300px; height:200px; margin:0 auto;"><a href="#" name="abandImage"><img src="http://placehold.it/300x200" alt="" ></a></div>
-                                        <figcaption>
-                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
-                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
-                                        </figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <div class="gallery-img" style="width:300px; height:200px; margin:0 auto;"><a href="#" name="abandImage"><img src="http://placehold.it/300x200" alt="" ></a></div>
-                                        <figcaption>
-                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
-                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
-                                        </figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <div class="gallery-img" style="width:300px; height:200px; margin:0 auto;"><a href="#" name="abandImage"><img src="http://placehold.it/300x200" alt="" ></a></div>
-                                        <figcaption>
-                                            <h3 class="dog margin-two-bottom"><a href="#">유기견 견종</a></h3>
-                                            <p class="text-small">보호소위치보호소위치보호소위치보호소위치</p>
-                                        </figcaption>
-                                    </figure>
-                                </li>
+                                </c:forEach>
                                 <!-- end work item -->
                             </ul>
                             <!-- end work grid -->
@@ -478,13 +567,12 @@ function fncGetAbandDogList(){
 	        </section>
 	        
 	        
-			<form>
 	            <input type="hidden" name="desertionNo" value=""/>
 	            <input type="hidden" name="noticeNo" value=""/>
 	            <input type="hidden" name="abandDogBreed" value=""/>
-	            <input type="hidden" name="abandDogGender" value=""/>
+	            <input type="hidden" name="abandDogGender" value="${search.abandDogGender}"/>
 	            <input type="hidden" name="abandDogFeature" value=""/>
-	            <input type="hidden" name="abandDogState" value=""/>
+	            <input type="hidden" name="abandDogState" value="${search.abandDogState}"/>
 	            <input type="hidden" name="abandDogImage" value=""/>
 	            <input type="hidden" name="happenPlace" value=""/>
 	            <input type="hidden" name="abandDogAge" value=""/>
@@ -498,13 +586,20 @@ function fncGetAbandDogList(){
 	            <input type="hidden" name="careTel" value=""/>
 	            <input type="hidden" name="orgNm" value=""/>
 	            <input type="hidden" name="careAddr" value=""/>
+	            
+            	<input type="hidden" id="currentPage" name="currentPage" value="0"/>	
 			</form>
                 
      		<!-- pagination -->
-            <input type="hidden" id="currentPage" name="currentPage" value="0"/>	
-            <div class="pagination margin-ten no-margin" id="abandDogListPage">
-
-            </div>
+            <!-- <div class="pagination margin-ten no-margin" id="abandDogListPage">
+            </div> -->
+            
+			<div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
+				<!-- pagination -->
+				<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
+				<!-- end pagination -->
+			</div> 
+			
             <!-- end pagination -->
         </section>
         <!-- end content section -->

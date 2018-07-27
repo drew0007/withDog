@@ -25,7 +25,9 @@ public class QuickServiceImpl implements QuickService{
 
 	@Override
 	public ChatBot getChatBot(int questionNo) throws Exception {
-		// TODO Auto-generated method stub
+		ChatBot chatBot = quickDAO.getChatBot(questionNo);
+		chatBot.setQuestionCount((chatBot.getQuestionCount()+1));   
+		quickDAO.updateQuestionCount(chatBot);
 		return quickDAO.getChatBot(questionNo);
 	}
 
@@ -50,5 +52,11 @@ public class QuickServiceImpl implements QuickService{
 	@Override
 	public ChatBot getCurrentChatBot() throws Exception {
 		return quickDAO.getCurrentChatBot();
+	}
+
+	@Override
+	public void updateConnect(ChatBot chatBot) throws Exception {
+		quickDAO.updateConnect(chatBot);
+		
 	}
 }

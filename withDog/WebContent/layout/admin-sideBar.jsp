@@ -115,7 +115,7 @@
          <div class="widget-body">
              <ul class="category-list">
                  <li><a href="/quick/getChatBotList">빠른상담 관리</a></li>
-                 <li><a href="#">질문 통계</a></li>
+                 <li><a href="/quick/getRateChatBot">질문 통계</a></li>
              </ul>
          </div>
      </div>

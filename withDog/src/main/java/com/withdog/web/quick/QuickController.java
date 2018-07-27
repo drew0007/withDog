@@ -129,7 +129,7 @@ public class QuickController {
 
 		model.addAttribute("list", list);
 		
-		return "forward:/admin/getChatBotList.jsp";
+		return "forward:/admin/listChatBot.jsp";
 	}
 	
 	@RequestMapping(value = "addChatbot", method = RequestMethod.POST)
@@ -143,6 +143,13 @@ public class QuickController {
 		System.out.println("add ¿Ï·á");
 		
 		return "forward:/community/addDogInfoView.jsp";
+	}
+	
+	@RequestMapping(value = "getRateChatBot", method = RequestMethod.GET)
+	public String getRateChatBot() throws Exception{
+		System.out.println("/getRateChatBot : POST");
+		
+		return "forward:/admin/getRateChatBot.jsp";
 	}
 	
 

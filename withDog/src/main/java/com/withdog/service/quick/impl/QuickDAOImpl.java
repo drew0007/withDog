@@ -55,4 +55,12 @@ public class QuickDAOImpl implements QuickDAO {
 	public ChatBot getCurrentChatBot() throws Exception {
 		return sqlSession.selectOne("QuickMapper.getCurrentChatBot");
 	}
+
+	@Override
+	public void updateConnect(ChatBot chatBot) throws Exception {
+		System.out.println(".................../////////////////////////////////////////////");
+		System.out.println(chatBot);
+		sqlSession.update("QuickMapper.updateConnect",chatBot);
+		
+	}
 }

@@ -8,9 +8,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 
-<!-- 민우 -->	  
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
 
 <!-- 공통 -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -29,16 +26,17 @@ table td{font-size:12px;}
 
 <body>
 <script type="text/javascript">
+
 $(function () {
-	
+	var questionNo2 = "";
 	
 	$(document).on("click", ".updateButton", function(){
 		
 		var index = $(".updateButton").index(this);
-		var question =$($(".question")[index]).text();
-		var answer =$($(".answer")[index]).text();
-		var questionNo2 = $($(".questionNo")[index]).val();
-		
+		var question =$($(".question")[index]).html();
+		var answer =$($(".answer")[index]).html();
+		questionNo2 = $($(".questionNo")[index]).val();
+		console.log(questionNo2)
 		
 // 		console.log($($(".question")[index]).html());
 // 		console.log($($(".answer")[index]).html());
@@ -49,6 +47,8 @@ $(function () {
 		$("#updateButton").html('<select id="isDelete"><option value="0">공개</option><option value="1">숨김</option></select><hr><a style="cursor: pointer;" id="updateSuccess">수정</a><hr><a style="cursor: pointer;" id="deleteSuccess">삭제</a><hr><a style="cursor: pointer;" id="updateCancel">취소</a>');
 		
 		$("#updateCancel").on("click", function () {
+			questionNo2 = "";
+			console.log(questionNo2)
 			$("#addQuestion").val('');
 			$("#addAnswer").val('');
 			$("#updateButton").html('<a style="cursor: pointer;" id="addChatBot">추가</a>');
