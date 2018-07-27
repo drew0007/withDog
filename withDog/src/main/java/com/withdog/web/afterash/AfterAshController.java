@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -101,14 +102,20 @@ public class AfterAshController {
 	public String getAfterAshList(@ModelAttribute("search") Search search, Model model, HttpSession session) throws Exception {
 		System.out.println("/listAfterAsh");
 		
-		System.out.println("서치 출력 ; " + search);
-
+		User user = new User();
+		
+		if(session.getAttribute("user")==null) {
+			user.setRole("user");
+		}else {
+			user = (User)session.getAttribute("user");
+		}
+		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
 
-		Map<String, Object> map = afterAshService.getAfterAshList(search);
+		Map<String, Object> map = afterAshService.getAfterAshList(search,user);
 		System.out.println("맵확인 : " + map);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
@@ -189,6 +196,19 @@ public class AfterAshController {
 		
 		System.out.println("여까진?");
 		return "redirect:/afterAsh/getAfterAsh?afterASHNo=" + afterAsh.getAfterASHNo();
+	}
+	
+	@RequestMapping(value = "deleteAfterAsh", method = RequestMethod.GET)
+	public String deleteAfterAsh(HttpServletRequest request, HttpSession session) throws Exception {
+		System.out.println("/deleteAfterAsh : GET");
+		// Business Logic
+		int afterAshNo = Integer.parseInt(request.getParameter("afterAshNo"));
+		AfterAsh afterAsh = afterAshService.getAfterAsh(afterAshNo);
+		afterAsh.setDeleteFlag("1");
+		afterAshService.deleteAfterAsh(afterAsh);
+		
+		
+		return "forward:/afterAsh/listAfterAsh";
 	}
 
 }

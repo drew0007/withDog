@@ -28,6 +28,7 @@
 		<typeAlias alias="consulting" type="com.withdog.service.domain.Consulting" />
 		<typeAlias alias="search" type="com.withdog.common.Search" />
 		<typeAlias alias="inquiry" type="com.withdog.service.domain.Inquiry" />
+		<typeAlias alias="chatBot" type="com.withdog.service.domain.ChatBot" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -42,6 +43,7 @@
 		<mapper resource="sql/AfterASHMapper.xml"/>
 		<mapper resource="sql/InquiryMapper.xml"/>
 		<mapper resource="sql/PurchaseMapper.xml"/>
+		<mapper resource="sql/QuickMapper.xml"/>
 		
 	</mappers>
 

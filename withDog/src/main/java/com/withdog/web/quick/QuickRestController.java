@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
@@ -16,10 +17,15 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.withdog.service.domain.ChatBot;
+import com.withdog.service.domain.User;
 import com.withdog.service.quick.QuickService;
 
 @RestController
@@ -362,6 +368,7 @@ public class QuickRestController {
 	            System.out.println("==================================end");
 	            pinfolast.put("all", jsoninfo);
 	            System.out.println(pinfolast.toString());
+	            
 	            System.out.println("==================================endlast");
 	             
 	                   
@@ -386,7 +393,7 @@ public class QuickRestController {
 			
 			System.out.println("변환완료:"+lat+":::"+lng+"::"+type);
 		
-	        String apiURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lng+"&radius=500&type="+type+"&keyword=&key=AIzaSyDtz18kZbobsZXEZs7SyXN_2XBgP9kB39k&language=ko-ko"; //json
+	        String apiURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lng+"&radius=1000&type="+type+"&keyword=&key=AIzaSyDtz18kZbobsZXEZs7SyXN_2XBgP9kB39k&language=ko-ko"; //json
 	       
 	        URL url = new URL(apiURL);
 	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -423,11 +430,18 @@ public class QuickRestController {
 	        
 	        String temp="";
 	        int a=0;
-	        if(jsonArray.size()>=5) {
+	        /*if(jsonArray.size()>=5) {
 	        	a=jsonArray.size();
 	        }else {
 	        	a=jsonArray.size();
-	        }
+	        }*/
+	        if(jsonArray.size()>7) {
+            	//a=jsonArray.size();//전부받기
+            	a=7;
+            }else {
+            	a=jsonArray.size();
+            }
+	        
 	        for(int i=0;i<a;i++) {
 	        	List<String> placeinfo = new ArrayList<String>();
 	      
@@ -469,6 +483,7 @@ public class QuickRestController {
 	        System.out.println("==================================end");
 	        pinfolast.put("all", jsoninfo);
 	        System.out.println(pinfolast.toString());
+	        System.out.println("총 :"+a+" 개전송");
 	        System.out.println("==================================endlast");
 	         
 	               
@@ -491,8 +506,8 @@ public class QuickRestController {
 		}
 		
 		
-		String apiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=37.494541,127.027969&destinations=37.497942,127.027621&mode=transit&language=ko-ko&key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE"; //json
-        
+		String apiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=37.4945297241211,127.028060913086&destinations=37.49026070000001,127.0203404&mode=transit&language=ko-ko&key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE"; //json
+		
         URL url = new URL(apiURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
@@ -518,7 +533,7 @@ public class QuickRestController {
         System.out.println(jobj.get("rows"));
         String temp1=((JSONArray)jobj.get("destination_addresses")).get(0).toString();
         String temp2 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("duration")).get("text").toString();
-        String temp3 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("text").toString();
+        String temp3 = ((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("value").toString();
         System.out.println(((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("duration")).get("text"));
         System.out.println(((JSONObject)((JSONObject)((JSONArray)((JSONObject)((JSONArray)jobj.get("rows")).get(0)).get("elements")).get(0)).get("distance")).get("text"));
 		
@@ -538,5 +553,143 @@ public class QuickRestController {
         
 		return resjobj;
 	}
+	
+	
+	@RequestMapping(value = "json/addChatbot")
+	public JSONObject addChatbot(@RequestBody ChatBot chatBot) throws Exception{
+		
+		System.out.println(chatBot);
+		quickService.addChatBot(chatBot);
+		System.out.println("add 완료");
+		
+		
+		ChatBot chatBot2 = quickService.getCurrentChatBot();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot2);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getChatbot/{questionNo}")
+	public JSONObject getChatbot(@PathVariable int questionNo) throws Exception{
+		
+		System.out.println(questionNo);
+		ChatBot chatBot = quickService.getChatBot(questionNo);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getCurrentChatBot")
+	public JSONObject getChatbot() throws Exception{
+		
+		ChatBot chatBot = quickService.getCurrentChatBot();
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/updateChatbot")
+	public JSONObject updateChatbot(@RequestBody ChatBot chatBot) throws Exception{
+		
+		System.out.println(chatBot);
+		quickService.updateChatBot(chatBot);
+		System.out.println("update 완료");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/updateConnect/{state}")
+	public JSONObject updateConnect(@PathVariable int state) throws Exception{
+		String answer = "";
+		
+		ChatBot chatBot = new ChatBot();
+		
+
+		if(state==1 || state==0) { //상담사가 부재중으로 설정했다면
+			answer = "현재 상담사가 부재중입니다. 상담 가능시간은 14:00~16:00시 입니다.";
+			chatBot = quickService.getCurrentChatBot();
+			chatBot.setAnswer(answer);
+			chatBot.setDeleteFlag("1");
+			chatBot.setConnectAble("1");
+		}
+		if(state==2 || state==4) { //상담사 연결 가능상태라면
+			answer = "아래 링크를 통해 접속해 주십시요. 응답시간은 10분 내외입니다.<button id=\"start\">상담시작</button>";
+			chatBot = quickService.getCurrentChatBot();
+			chatBot.setAnswer(answer);
+			chatBot.setDeleteFlag("0");
+			chatBot.setConnectAble("2");
+		}
+		if(state==3) { //상담사가 상담중이라면
+			answer = "현재 상담사가 상담중입니다. 잠시후에 다시 신청해주세요";
+			chatBot = quickService.getCurrentChatBot();
+			chatBot.setAnswer(answer);
+			chatBot.setConnectAble("2");
+		}
+		
+		System.out.println("업데이트된 챗봇 ; " + chatBot);
+		quickService.updateConnect(chatBot);
+		System.out.println("update 완료");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/deleteChatbot")
+	public JSONObject deleteChatbot(@RequestBody ChatBot chatBot) throws Exception{
+		
+		System.out.println(chatBot);
+		quickService.deleteChatBot(chatBot.getQuestionNo());
+		System.out.println("delete 완료");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getChatBotList")
+	public JSONObject getChatBotList(HttpSession session) throws Exception {
+		System.out.println("json/getChatBotList");
+		
+		User user = new User();
+		if (session.getAttribute("user")==null) {
+			user.setRole("user");
+		}else {
+			user = (User)session.getAttribute("user");
+		}
+		
+		List<ChatBot> list = quickService.getChatBotList(user);
+		System.out.println("list확인 : " + list);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", list);
+		
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getRateChatBot")
+	public JSONObject getRateChatBot(HttpSession session) throws Exception {
+		System.out.println("json/getRateChatBot");
+		
+		User user = new User();
+		if (session.getAttribute("user")==null) {
+			user.setRole("admin");
+		}else {
+			user = (User)session.getAttribute("user");
+		}
+		
+		List<ChatBot> list = quickService.getChatBotList(user);
+		System.out.println("list확인 : " + list);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", list);
+		
+		return jsonObject;
+	}
+	
+	
+	
 
 }

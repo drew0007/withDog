@@ -18,11 +18,16 @@
 
 
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#loginModal').hide();
+};
+
+
 $(function () {
 	$("#addAfterAshButton").on("click", function () {
 		var userId = "${user.userId}";
 		if(userId==null || userId=="" || userId==" "){
-			alert("로그인 하세요")
+			$("#loginModal").show(); // 로그인하세요
 			return;
 		}
 		else{
@@ -172,7 +177,7 @@ function fncGetList(currentPage) {
                             	<a href="/afterAsh/getAfterAsh?afterASHNo=${list.afterASHNo}"><img src ="/images/uploadFiles/dogInfo/${list.afterASHImageList[0]}" width="800px" height="500px" alt=""/></a>
                             </c:if>
                             </a></div>
-                            <a href="getAfterASH.jsp" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">${list.afterASHTitle}</a><br/>
+                            <a href="getAfterASH.jsp" class="fund-title border-bottom border-gray" style="padding-bottom:10px;">${list.afterASHTitle} <a style="color: red">${list.deleteFlag==1?"(삭제된게시물)":""}</a></a><br/>
 	                       <span class="fund-raising">회원ID ${list.user.userId } | 작성일 ${list.regDate} | 조회수 : ${list.viewCount}</span>
                         </div>
                     </div> 
@@ -192,6 +197,20 @@ function fncGetList(currentPage) {
 
          </section>
     	 <!-- end 리스트 -->
+    	 
+	<!-- 1. 로그인하세요 모달 -->   	 
+    <div id="loginModal" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />로그인 후 이용가능합니다.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 1. 로그인하세요 모달 -->
 	
 	<jsp:include page="/layout/footer.jsp" />
 	

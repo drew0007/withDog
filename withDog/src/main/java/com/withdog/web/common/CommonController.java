@@ -52,6 +52,18 @@ public class CommonController {
 	String path;
 	
 	
+	@RequestMapping(value="getCoInfo")
+	public String getCoInfo() throws Exception { //회사소개
+		
+		return "forward:/company/getCoInfo.jsp";
+	}
+	
+	@RequestMapping(value="getCoActivity")
+	public String getCoActivity() throws Exception { //활동내역
+		
+		return "forward:/company/getCoActivity.jsp";
+	}
+	
 	@RequestMapping(value="/mainPage")
 	public String getMainPage() throws Exception {
 		

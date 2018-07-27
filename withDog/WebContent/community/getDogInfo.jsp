@@ -7,17 +7,64 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-<jsp:include page="/common/css.jsp" />
 
+<jsp:include page="/common/css.jsp" />
+<style type="text/css">
+        .info-dislike i:hover{
+        	color: #FB373E;
+        }
+        .info-like i:hover{
+        	color: #4B68FB;
+        }
+
+
+</style>
 <title>애견상식 상세</title>
 <script type="text/javascript">
+
+function close_pop(flag) {
+    $('#recommendModal').hide();
+    $('#notRecommendModal').hide();
+};
+
+$(function () {
+	$( ".recommend" ).tooltip({
+	      show: null,
+	      position: {
+	        my: "left top",
+	        at: "left bottom"
+	      },
+	      open: function( event, ui ) {
+	        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+	      }
+	    });
+})
+
+$(function () {
+	$("a[name=deleteDogInfo]").on("click", function () {
+		$('#isDelete').show();
+	})
+})
+
+$(function () {
+	$("#ok").on("click", function () {
+		$('#isDelete').hide();
+		self.location = "/dogInfo/deleteDogInfo?dogInfoNo=${dogInfo.dogInfoNo}";
+		
+	})
+	$("#cancel").on("click", function () {
+		$('#isDelete').hide();
+	})
+})
+
+
 $(function () {
 	$("input[name=send]").on("click", function () {
 		self.location="/dogInfo/listDogInfo"
 	})
 	
 	$("input[name=updateDogInfo]").on("click", function () {
-		self.location="/dogInfo/updateDogInfo?dogInfoNo=${dogInfo.dogInfoNo}"
+		self.location="/dogInfo/updateDogInfo?dogInfoNo=${dogInfo.dogInfoNo}";
 	})
 	
 	$(".recommend").on("click", function () {
@@ -42,19 +89,17 @@ $(function () {
 					}
 				}else if(data.dogInfo.recommendCondition.recommendCondition==0){//추천상태
 					if(kind==0){
-						alert("추천 합니다.");
-						$("a[name=0]").html('<i class="fa fa-thumbs-o-up small-icon"></i>추천누름'+data.dogInfo.recommended);
+						$("a[name=0]").html('<i style="color: #4B68FB" class="fa fa-thumbs-o-up small-icon"></i>'+data.dogInfo.recommended);
 					}else if(kind==1){
-						alert("이미 추천 상태입니다.");
+						$("#recommendModal").show(); //이미 추천상태입니다.
 						$("a[name=1]").html('<i class="fa fa-thumbs-o-down small-icon"></i>'+data.dogInfo.notRecommended);
 					}
 				}else if(data.dogInfo.recommendCondition.recommendCondition==1){//비추천상태
 					if(kind==0){
-						alert("이미 비추천 상태입니다.");
+						$("#notRecommendModal").show(); //이미 추천상태입니다.
 						$("a[name=0]").html('<i class="fa fa-thumbs-o-up small-icon"></i>'+data.dogInfo.recommended);
 					}else if(kind==1){
-						alert("비추천 합니다.")
-						$("a[name=1]").html('<i class="fa fa-thumbs-o-down small-icon"></i>비추천 누름'+data.dogInfo.notRecommended);
+						$("a[name=1]").html('<i style="color: #FB373E" class="fa fa-thumbs-o-down small-icon"></i>'+data.dogInfo.notRecommended);
 					}
 				}
 				
@@ -152,24 +197,29 @@ $(function () {
                         
                         <div class="text-center border-bottom border-top margin-ten padding-four no-margin-bottom">
                         	<c:if test="${dogInfo.recommendCondition==null}">
-                            	<a  name="0" class="info-like margin-three-right recommend"><i class="fa fa-thumbs-o-up small-icon"></i>${dogInfo.recommended}</a>
-                            	<a  name="1" class="info-dislike recommend"><i class="fa fa-thumbs-o-down small-icon"></i>${dogInfo.notRecommended}</a>
+                            	<a title="이 글을 추천합니다." style="cursor: pointer;" name="0" class="info-like margin-three-right recommend"><i style="" class="fa fa-thumbs-o-up small-icon"></i>${dogInfo.recommended}</a>
+                            	<a title="이 글을 비추천합니다." style="cursor: pointer;" name="1" class="info-dislike recommend"><i class="fa fa-thumbs-o-down small-icon "></i>${dogInfo.notRecommended}</a>
                             </c:if>
                         	<c:if test="${dogInfo.recommendCondition.recommendCondition==0}">
-                            	<a  name="0" class="info-like margin-three-right recommend"><i class="fa fa-thumbs-o-up small-icon"></i>추천누름${dogInfo.recommended}</a>
-                            	<a  name="1" class="info-dislike recommend"><i class="fa fa-thumbs-o-down small-icon"></i>${dogInfo.notRecommended}</a>
+                            	<a title="이 글을 추천합니다." style="cursor: pointer;" name="0" class="info-like margin-three-right recommend"><i style="color: #4B68FB" class="fa fa-thumbs-o-up small-icon"></i>${dogInfo.recommended}</a>
+                            	<a title="이 글을 비추천합니다." style="cursor: pointer;" name="1" class="info-dislike recommend"><i class="fa fa-thumbs-o-down small-icon"></i>${dogInfo.notRecommended}</a>
                             </c:if>
                         	<c:if test="${dogInfo.recommendCondition.recommendCondition==1}">
-                            	<a  name="0" class="info-like margin-three-right recommend"><i class="fa fa-thumbs-o-up small-icon"></i>${dogInfo.recommended}</a>
-                            	<a  name="1" class="info-dislike recommend"><i class="fa fa-thumbs-o-down small-icon"></i>비추천누름${dogInfo.notRecommended}</a>
+                            	<a title="이 글을 추천합니다." style="cursor: pointer;" name="0" class="info-like margin-three-right recommend"><i class="fa fa-thumbs-o-up small-icon"></i>${dogInfo.recommended}</a>
+                            	<a title="이 글을 비추천합니다." style="cursor: pointer;" name="1" class="info-dislike recommend"><i style="color: #FB373E" class="fa fa-thumbs-o-down small-icon"></i>${dogInfo.notRecommended}</a>
                             </c:if>
                         </div>
                         <!-- end line icon -->
                         
                          <!-- button  -->
                          <input type="submit" name="send" value="목록으로" class="highlight-button-dark btn btn-medium no-margin-bottom">
-                         <c:if test="${dogInfo.user.userId==user.userId}">
+                         <c:if test="${user.role != 'admin' && dogInfo.user.userId==user.userId}">
                          <input type="submit" name="updateDogInfo" value="수정" class="highlight-button-dark btn btn-medium no-margin-bottom">
+                         <a style="cursor: pointer;" name="deleteDogInfo" value="삭제" class="highlight-button-dark btn btn-medium no-margin-bottom">삭제</a>
+                         </c:if>
+                         <c:if test="${user.role=='admin'}">
+                         <input type="submit" name="updateDogInfo" value="수정" class="highlight-button-dark btn btn-medium no-margin-bottom">
+                         <a style="cursor: pointer;" name="deleteDogInfo" value="삭제" class="highlight-button-dark btn btn-medium no-margin-bottom">삭제</a>
                          </c:if>
                          
                          <!-- end button  -->
@@ -183,7 +233,51 @@ $(function () {
 		    </div>
         </section>
         <!-- end content section -->
-        
+        <!--         모달만 모여있는곳 Start -->
+  <!-- 1. 추천합니다.. -->
+    <div id="recommendModal" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />이미 추천 상태입니다.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+   <!-- 1. 추천합니다.. -->
+      
+  <!-- 2. 비추천 모달 -->
+    <div id="notRecommendModal" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />이미 비추천 상태입니다.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 2. 비추천 모달 -->
+       <!-- 3. 삭제여부 모달 -->
+    <div id="isDelete" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />삭제하시겠습니까?</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span id="ok" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
+                <span id="cancel" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 삭제여부 모달 -->
+
+
+<!--         모달만 모여있는곳 End -->
 	
 	<jsp:include page="/layout/footer.jsp" />
 	

@@ -15,6 +15,7 @@ import com.withdog.service.afterash.AfterAshService;
 import com.withdog.service.ash.AshDAO;
 import com.withdog.service.domain.AfterAsh;
 import com.withdog.service.domain.DogInfo;
+import com.withdog.service.domain.User;
 
 @Service("afterAshServiceImpl")
 public class AfterAshServiceImpl implements AfterAshService {
@@ -53,10 +54,10 @@ public class AfterAshServiceImpl implements AfterAshService {
 	}
 
 	@Override
-	public Map<String,Object> getAfterAshList(Search search) throws Exception {
+	public Map<String,Object> getAfterAshList(Search search,User user) throws Exception {
 		Map<String, Object> map = new HashMap<String,Object>();
-		List<AfterAsh> list = afterAshDao.getAfterAshList(search);
-		int totalCount = afterAshDao.getTotalCount(search);
+		List<AfterAsh> list = afterAshDao.getAfterAshList(search,user);
+		int totalCount = afterAshDao.getTotalCount(search,user);
 		
 		map.put("list", list);
 		map.put("totalCount", totalCount);
@@ -66,7 +67,7 @@ public class AfterAshServiceImpl implements AfterAshService {
 
 	@Override
 	public void deleteAfterAsh(AfterAsh afterAsh) throws Exception {
-		// TODO Auto-generated method stub
+		afterAshDao.deleteAfterAsh(afterAsh);
 
 	}
 

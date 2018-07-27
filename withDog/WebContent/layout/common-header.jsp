@@ -26,7 +26,7 @@ $(function(){
 	 });
 	
 	//로고 클릭시
-	$( ".logo-logo-dark" ).on("click" , function() {
+	$( ".logo-dark" ).on("click" , function() {
 		self.location = "/common/mainPage";
 	 });
 	
@@ -88,8 +88,8 @@ $(function(){
                                             <!-- sub menu item  -->
                                             <ul>
                                                 <li class="dropdown-header">회사소개</li>
-                                                <li><a href="../company/getCoInfo.jsp">회사소개</a></li>
-                                                <li><a href="../company/getCoActivity.jsp">활동내역</a></li>
+                                                <li><a href="/common/getCoInfo">회사소개</a></li>
+                                                <li><a href="/common/getCoActivity">활동내역</a></li>
 
                                             </ul>
                                             <!-- end sub menu item  -->
@@ -109,7 +109,7 @@ $(function(){
                                             <!-- sub menu item  -->
                                             <ul>
                                                 <li class="dropdown-header">동물교감치유 서비스</li>
-                                                <li><a href="../animal/getASHInfo.jsp">동물교감치유 서비스란</a></li>
+                                                <li><a href="/ash/getASHInfo">동물교감치유 서비스란</a></li>
                                                 <li><a href="/ash/listHealingDog">치유견 소개</a></li>
                                                 <li><a href="/ash/listAsh">예약하기</a></li>
                                                 <li><a href="/ash/getConsultingDogList">영상상담 신청<span class="menu-new">new</span></a></li>
@@ -131,7 +131,7 @@ $(function(){
                                             <ul>
                                                 <li class="dropdown-header">유기견 입양</li>
                                                 <li><a href="../adopt/getAbandDogInfo.jsp">유기견 입양 안내</a></li>
-                                                <li><a href="../adopt/listAbandDog.jsp">유기견 분양 공고</a></li>
+                                                <li><a href="/abandDog/getAbandDogList">유기견 분양 공고</a></li>
                                             </ul>
                                             <!-- end sub menu item  -->
                                         </li>

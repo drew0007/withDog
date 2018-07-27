@@ -4,9 +4,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	
-	
-	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 
@@ -111,8 +108,8 @@
 			 // 입력값 길이 저장
 	        var textlength = userId.length;
 			 
-	        if(textlength < 5 ){
-                $(".changeSpanId").html('아이디는 4자리 이상 입력해주세요').css('color','red');
+	        if(textlength < 3 ){
+                $(".changeSpanId").html('아이디는 3자리 이상 입력해주세요').css('color','red');
                 return false;
         	}
 	        
@@ -138,6 +135,7 @@
 							},
 						success : function(JSONData , status){
 							var check = JSONData;
+							//체크값이 true이면 DB에 유저정보 없는것
 							if(check){
 								$(".changeSpanId").html("사용 가능한 아이디입니다.").css('color','blue');
 							}else{
@@ -181,41 +179,7 @@
 			
 		});//end 이메일 입력방식
 		
-		//이메일 인증 checkEmail
-		
-		$("#checkEmail").on("click",function(){ 
-			
-			var email1 = $("").val;
-			var email2 = $("").val;
-			
-			
-			$.ajax(
-					{
-						url : "/user/json/checkEmail",
-						method : "post",
-						dataType : "json",
-						data: JSON.stringify({
-							email1 : email1,
-							email2 : email2,
-						}),
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-					success : function(JSONData , status){
-						
-						//이메일 발송 >>링크 클릭시 인증으로 됨
-						var check = JSONData;
-						if(check){
-							$(".changeSpanId").html("사용 가능한 아이디입니다.").css('color','blue');
-						}else{
-							$(".changeSpanId").html("중복 아이디입니다.").css('color','red');
-						}
-					}
-				});
 
-			
-		});//end 이메일 인증 checkEmail
 
 		//도로명 주소  우편번호 검색 클릭시
 		$("#searchPost").on("click" , function() {
@@ -224,7 +188,7 @@
 						
 		function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
 			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
-			//alert(roadFullAddr);
+// 			alert(roadFullAddr);
 			$("#postNo").val(zipNo);
 			$("#address1").val(roadAddrPart1);
 			$("#address2").val(addrDetail);
@@ -236,18 +200,22 @@
 		//회원가입 연결
 		$("#join").on("click" , function() {
 			 
- 			alert(2222);
 			//가입으로 넘기기전 체크사항   email
 			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 , @ 더해주기
  			if($("#email2").val()=='1' ){
+ 				
  				var email2= '@'+$("#emailText").val();
  				$("#email2 option:selected").val(email2);
+ 				
  			}else{
  				
  				var email2= '@'+$("#email2").val();
  				$("#email2 option:selected").val(email2);
- 				alert(email2+"email2");
  			}
+			
+			var email1 = $("#email1").val();
+			var email2 = $("#email2").val();
+			$("#email").val(email1+email2);
 			
 			///2.좋아하는 견종 :: option value값이 String => 도메인이 int 이므로 바꿔서
  			var dogNo = $("#combobox").val()*1;
@@ -305,6 +273,10 @@
 	
 		$("input:hidden[name='phone']").val( value );
 		*/
+		
+		alert($("#email").val()+"이메일");
+		alert($("#email1").val()+"이메일1");
+		alert($("#email2").val()+"이메일2");
 		$("form").attr("method","POST").attr("action","/user/addUser").submit();
 	
 	}//end addUser()
@@ -314,11 +286,10 @@
 </head>
 
 <body>
-<<<<<<< HEAD
-		<jsp:include page="../layout/common-header2.jsp" />
-=======
-		<jsp:include page="../layout/common-header.jsp" />
->>>>>>> refs/heads/new/tazesign
+
+	<jsp:include page="../layout/common-header2.jsp" />
+
+
 		
 	 <!-- head section -->
          <section class="page-title parallax3 parallax-fix page-title-blog">
@@ -356,7 +327,7 @@
 					
 					<div class="form-group">
 				        <label for="textbox" class="text-uppercase">아이디 :</label>
-				        <input type="text" id="userId" name="userId" class="input-round big-input" placeholder="아이디는 공백없이  4자 이상 ~8자 이하">
+				        <input type="text" id="userId" name="userId" class="input-round big-input" placeholder="아이디는 공백없이  3자 이상 ~8자 이하">
 				          <span class="changeSpanId"></span>
 				    </div>
 					
@@ -401,7 +372,7 @@
 									<option value="nate.com">nate.com</option>
 								</select>
 				            </div>
-				        
+				        <input type="hidden" name="email" id="email">
 			         </div> 
 				    
 				    <div class="form-group">

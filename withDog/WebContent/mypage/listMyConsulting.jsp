@@ -33,10 +33,11 @@ $(function(){
 		var index = $('a[name="connectConsulting"]').index(this);
 		var userId = $($('input[name="userId"]')[index]).val();
 		var consultingNo = $($('input[name="consultingNoList"]')[index]).val();
+		popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/"+userId, "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 	});
 	
 	$('#okModal').on('click',function(){
-		var index = $('#index').val();		
+		var index = $('#index').val();	
 		
 		var consultingState = "";
 		var consultingNo = $('#consultingNoModal').val();

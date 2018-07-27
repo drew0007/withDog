@@ -50,14 +50,14 @@ public class DogInfoServiceImpl implements DogInfoService {
 	}
 
 	@Override
-	public Map<String,Object> getDogInfoList(Search search) throws Exception {
+	public Map<String,Object> getDogInfoList(Search search,User user) throws Exception {
 		Map<String, Object> map = new HashMap<String,Object>();
-		List<DogInfo> list = dogInfoDAO.getDogInfoList(search);
-		int totalCount = dogInfoDAO.getTotalCount(search);
+		List<DogInfo> list = dogInfoDAO.getDogInfoList(search, user);
+		int totalCount = dogInfoDAO.getTotalCount(search,user);
 		List<Integer> topicCount = new ArrayList<Integer>();
 		
 		for(int i = 1; i<9; i++) { // 주제마다 몇개 씩 있는지
-			topicCount.add(dogInfoDAO.getTopicCount(Integer.toString(i)));	
+			topicCount.add(dogInfoDAO.getTopicCount(Integer.toString(i),user));	
 		}
 		
 		map.put("list", list);
@@ -68,8 +68,8 @@ public class DogInfoServiceImpl implements DogInfoService {
 	}
 
 	@Override
-	public void deleteDogInfo(int dogInfoNo) throws Exception {
-		// TODO Auto-generated method stub
+	public void deleteDogInfo(DogInfo dogInfo) throws Exception {
+		dogInfoDAO.deleteDogInfo(dogInfo);
 
 	}
 

@@ -12,16 +12,69 @@
 
 <title>애견상식</title>
 
+<style type="text/css">
+/* start 툴팁 css꾸미기 */
+	a.tip {
+	    position: relative;
+	}
+	
+	a.tip span {
+	    display: none;
+	    position: absolute;
+	    top: -80px;
+	    width: 400px;
+	    height : 50px;
+	    line-height: 40px;
+	    opacity:0.7;
+	    text-align : center;
+	    vertical-align : middle;
+	    padding: 5px;
+	    z-index: 100;
+	    background: #F59F16;
+	    color: #fff;
+	    -moz-border-radius: 5px; /* 파폭 박스 둥근 정도 */
+	    -webkit-border-radius: 5px; /* 사파리 박스 둥근 정도 */
+	}
+	a.tip.no span {
+	    display: none;
+	    position: absolute;
+	    top: -80px;
+	    width: 400px;
+	    height : 50px;
+	    line-height: 40px;
+	    opacity:0.7;
+	    align-content : center;
+	    padding: 5px;
+	    z-index: 100;
+	    background: RED;
+	    color: #fff;
+	    -moz-border-radius: 5px; /* 파폭 박스 둥근 정도 */
+	    -webkit-border-radius: 5px; /* 사파리 박스 둥근 정도 */
+	}
+	
+	a:hover.tip span {
+	    display: block;
+	}
+	/* end 툴팁 css꾸미기 */
+	
+
+</style>
+
 </head>
 
 <body>
 
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#loginModal').hide();
+};
+
 $(function () {
 	$("#addDogInfoButton").on("click", function () {
 		var userId = $("input[name=userId]").val()
 		if(userId==null || userId=="" || userId==" "){
-			alert("로그인 하세요")
+			$("#loginModal").show(); // 로그인하세요
+			return;
 		}
 		else{
 		self.location="/dogInfo/addDogInfo";
@@ -153,11 +206,27 @@ function fncGetList(currentPage) {
                             	</c:when> 
                             </c:choose>
                                  |  조회수 ${list.viewCount}</div>
-                                <div class="info-title">${list.dogInfoTitle}</div>작성자ID : ${list.user.userId}
+                                <div class="info-title">${list.dogInfoTitle} <a style="color: red">${list.deleteFlag==1?"(삭제된게시물)":""}</a></div>
+                                작성자ID : ${list.user.userId}
                                 <div>${list.dogInfoContent}</div>
                                 <div class="separator-line bg-black no-margin-lr margin-four"></div>
-                                <div><a href="#" class="info-like"><i class="fa fa-thumbs-o-up small-icon"></i>${list.recommended}</a><a href="#" class="info-dislike"><i class="fa fa-thumbs-o-down small-icon"></i>${list.notRecommended}</a></div>
-                                <a id="getDogInfo" class="highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>
+                                <div>
+                                	<a class="info-like"><i class="fa fa-thumbs-o-up small-icon"></i>${list.recommended}</a>
+                                	<a class="info-dislike"><i class="fa fa-thumbs-o-down small-icon"></i>${list.notRecommended}</a></div>
+                                 	<c:if test="${list.notRecommended>=10}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
+	                               		<c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100>=20 && list.notRecommended/(list.recommended + list.notRecommended)*100<50}">
+											<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기<span>부정확한 정보일 수 있습니다.</span></a>	
+										 </c:if>
+	                               		<c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100>=50}">
+											<a id="getDogInfo" class="tip no highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기<span>부정확한 정보입니다.</span></a>	
+										 </c:if>
+									 </c:if>
+									 <c:if test="${list.notRecommended<10}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
+									 	<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>
+									 <c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100<=20}">
+                               			<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>	
+									 </c:if>
+									 </c:if>
                             </div>
                         </div>
                         <!-- end post item -->
@@ -228,7 +297,19 @@ function fncGetList(currentPage) {
         </section>
         <!-- end content section -->
         
-        
+   	<!-- 1. 로그인하세요 모달 -->   	 
+    <div id="loginModal" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+   		 <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />로그인 후 이용가능합니다.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 1. 로그인하세요 모달 -->
         
 	
 	<jsp:include page="/layout/footer.jsp" />

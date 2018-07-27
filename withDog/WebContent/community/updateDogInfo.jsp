@@ -12,6 +12,14 @@
 <title>애견상식 수정</title>
 
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#selectDate').hide();
+    $('#writeTitle').hide();
+    $('#writeContent').hide();
+    $('#cancel').hide();
+};
+
+
 function fncUpdateDogInfo(){
 	//Form 유효성 검증
  	var dogInfoTopic = $('#dogInfoTopic option:selected').val();
@@ -19,30 +27,36 @@ function fncUpdateDogInfo(){
 	var dogInfoContent = $('textarea[name=dogInfoContent]').val();	
 
 	if(dogInfoTopic == null || dogInfoTopic.length<1){
-		alert("주제를 선택하세요.");
+		$('#selectTopic').show();
 		return;
 	}
 	if(dogInfoTitle == null || dogInfoTitle.length<1){
-		alert("제목을 작성하세요.");
+		$('#writeTitle').show();
 		return;
 	}
 	if(dogInfoContent == null || dogInfoContent.length<1){
-		alert("내용을 입력하세요.");
+		$('#writeContent').show();
 		return;
 	}
-
-	$("form").attr("method","post").attr("action","/dogInfo/updateDogInfo").attr("enctype","multipart/form-data").submit();
+	$('#isUpdate').show();
+	
 }
 
 
 $(function () {
-	$("#asdf").on("click", function () {
-		if (confirm("수정하시겠습니까?") == true){    //확인
+	$("#submit").on("click", function () {
 			fncUpdateDogInfo();
-		  }else{   //취소
-		      return;
-		  }
-	});
+	})
+})
+$(function () {
+	$("#ok").on("click", function () {
+		$('#isUpdate').hide();
+		$("form").attr("method","post").attr("action","/dogInfo/updateDogInfo").attr("enctype","multipart/form-data").submit();
+		
+	})
+	$("#cancel").on("click", function () {
+		$('#isUpdate').hide();
+	})
 })
 
 </script>
@@ -118,7 +132,9 @@ $(function () {
                             </form>
                             
                             <!-- button  -->
-                            <input id="asdf" type="submit" name="send" value="수정하기" class="highlight-button-dark btn btn-medium no-margin-bottom">
+				               <div class="text-center">
+										<span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium">수정</span>
+								</div>
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
                         </div>
@@ -132,6 +148,66 @@ $(function () {
         </section>
         <!-- end content section -->
         
+<!--         모달만 모여있는곳 Start -->
+  <!-- 1. 주제작성 모달 -->
+    <div id="selectTopic" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />주제를 선택해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+  <!-- 1. 주제작성 모달 -->
+      
+  <!-- 2. 제목작성 모달 -->
+    <div id="writeTitle" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />제목을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 2. 제목작성 모달 -->
+      
+  <!-- 3. 내용작성 모달 -->
+    <div id="writeContent" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />내용을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 내용작성 모달 -->
+      
+  <!-- 4. 수정여부 모달 -->
+    <div id="isUpdate" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />애견상식을 수정하시겠습니까?</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span id="ok" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
+                <span id="cancel" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
+            </div>
+      </div>
+    </div>
+      <!-- 4. 수정여부 모달 -->
+
+
+<!--         모달만 모여있는곳 End -->
 	
 	<jsp:include page="/layout/footer.jsp" />
 	

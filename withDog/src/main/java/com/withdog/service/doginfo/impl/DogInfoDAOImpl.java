@@ -54,14 +54,17 @@ public class DogInfoDAOImpl implements DogInfoDAO {
 	}
 
 	@Override
-	public List<DogInfo> getDogInfoList(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("DogInfoMapper.getDogInfoList", search);
+	public List<DogInfo> getDogInfoList(Search search, User user) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("user", user);
+		
+		return sqlSession.selectList("DogInfoMapper.getDogInfoList", map);
 	}
 
 	@Override
-	public void deleteDogInfo(int dogInfoNo) throws Exception {
-		// TODO Auto-generated method stub
+	public void deleteDogInfo(DogInfo dogInfo) throws Exception {
+		sqlSession.update("DogInfoMapper.deleteDogInfo",dogInfo);
 
 	}
 
@@ -72,8 +75,11 @@ public class DogInfoDAOImpl implements DogInfoDAO {
 	}
 
 	@Override
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("DogInfoMapper.getTotalCount", search);
+	public int getTotalCount(Search search,User user) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("user", user);
+		return sqlSession.selectOne("DogInfoMapper.getTotalCount", map);
 	}
 
 	@Override
@@ -108,7 +114,10 @@ public class DogInfoDAOImpl implements DogInfoDAO {
 	}
 
 	@Override
-	public int getTopicCount(String dogInfoTopic) throws Exception {
-		return sqlSession.selectOne("DogInfoMapper.countDogInfoTopic", dogInfoTopic);
+	public int getTopicCount(String dogInfoTopic,User user) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dogInfoTopic", dogInfoTopic);
+		map.put("user", user);
+		return sqlSession.selectOne("DogInfoMapper.countDogInfoTopic", map);
 	}
 }

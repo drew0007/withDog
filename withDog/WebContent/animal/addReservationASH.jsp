@@ -12,6 +12,13 @@
 </head>
 <body>
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#insertAddress').hide();
+    $('#insertAddress2').hide();
+    $('#insertPhone').hide();
+};
+
+
 $(function () {
 	//도로명 주소  우편번호 검색 클릭시
 	$("#searchPost").on("click" , function() {
@@ -31,6 +38,19 @@ $(function () {
 ///////////////카카오페이
 $(function () {
 	$("#kakaoPay").on("click", function () {
+		if($("input[name=ashReservationAddress1]").val()==""){
+			$("#insertAddress").show(); //주소 입력해라
+			return;
+		}
+		if($("input[name=ashReservationAddress2]").val()==""){
+			$("#insertAddress2").show(); //상세주소 입력해라
+			return;
+		}
+		if($("input[name=ashReservationPhone]").val()==null || $("input[name=ashReservationPhone]").val()==""){
+			$("#insertPhone").show(); //번호 입력해라
+			return;
+		}
+		
 	usePoint = 	$("input[name=usePoint]").val();
 		window.open("", "popup_window", "left=300,width=500,height=500,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
 		$("form").attr("method","post").attr("target","popup_window").attr("action","/ash/kakaoPay/"+usePoint).submit();
@@ -214,6 +234,46 @@ function uncomma(str) {
 
        	
 	</section>
+	
+	  <!-- 1. 주소입력 모달 -->
+    <div id="insertAddress" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />주소를 입력하세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 1. 주소입력 모달 -->
+	  <!-- 2. 상세주소입력 모달 -->
+    <div id="insertAddress2" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />상세주소를 입력하세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 2. 상세주소입력 모달 -->
+	  <!-- 3. 번호입력 모달 -->
+    <div id="insertPhone" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />전화번호를 입력하세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 번호입력 모달 -->
 
 
 	<jsp:include page="/layout/footer.jsp" />
