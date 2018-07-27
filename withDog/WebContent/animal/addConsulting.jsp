@@ -7,6 +7,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<style type="text/css">
+            #dialog-background {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,.3);
+                z-index: 10;
+            }
+            
+            #my-dialog {
+                display: none;
+                z-index: 11;
+                position: fixed;
+            }
+
+</style>
 <script type="text/javascript">
 	$(function(){
 		$('img[name="healingDogimage"]').on('click', function(){
@@ -17,20 +34,28 @@
 				selectDog = 0;
 			}
 			
-			$('img[name="checkImg"]')[selectDog].src = '';
-			$('img[name="checkImg"]')[index].src = '/images/uploadFiles/healingDog/circle.png';
+			//$('img[name="checkImg"]')[selectDog].src = '';
+			$($('img[name="healingDogimage"]')[selectDog]).css("border", "");
+			$($('img[name="healingDogimage"]')[index]).css("border", "6px solid");
+			//$('img[name="checkImg"]')[index].src = '/images/uploadFiles/healingDog/circle.png';
 			
 			$('input[name="selectDog"]').val(index);
+			
+			var healingDogHealer = $($('input[name="healingDogHealer"]')[index]).val();
+			var healingDogName = $($('input[name="healingDogName"]')[index]).val();
+
+			$('#healingDogHealerModal').text("상담사 : "+healingDogHealer);
+			$('#healingDogNameModal').text("치유견 : "+healingDogName);
 		});
 		
 
-		$('img[name="checkImg"]').on('click', function(){
+		/* $('img[name="checkImg"]').on('click', function(){
 			var index = $('img[name="checkImg"]').index(this);
 			$('input[name="selectDog"]').val('');
 			$('img[name="checkImg"]')[index].src = '';
-		});
+		}); */
 		
-		$('#addConsulting').on('click', function(){
+		$('#consulting').on('click', function(){
 			var selectDog = $('input[name="selectDog"]').val();
 			var userId = '${user.userId}';
 			var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
@@ -45,6 +70,16 @@
 				return;
 			}
 			
+			$("#my-dialog, #dialog-background").toggle();			
+		});
+		
+		/* $('#dialog-background').on('click', function(){
+			$("#my-dialog, #dialog-background").toggle();	
+		}); */
+		
+		$('#addConsulting').on('click', function(){
+			var selectDog = $('input[name="selectDog"]').val();
+			var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
 			$.ajax({
 				url : "/ash/json/addConsulting/"+healingDogNo,
 				method : "GET",
@@ -55,27 +90,24 @@
 				},
 				success : function (data) {		
 					popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=600, height=600, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+					$("#my-dialog, #dialog-background").toggle();	
 				}
 			}); //end of ajax
 		});
 		
-		$('#addConsulting2').on('click', function(){			
-			
-			//popWin = window.open("https://withdog.herokuapp.com/chat/test/${user.userId}", "popWin", "left=200, top=50, width=1196, height=716, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-			
-			//self.location = "/abandDog/getAbanddogList";
+		$('#cancelModal').on('click', function(){
+			$("#my-dialog, #dialog-background").toggle();	
 		});
 	});
 </script>
 
 <style>
 
-	.checkImg {
+	/* .checkImg {
 		position: absolute;
 		top: calc(50% - 107px);
 		left: calc(50% - 60px);
-		/* visibility: hidden; */
-	}
+	} */
 
 </style>
 
@@ -156,6 +188,7 @@
         <!-- end 영상신청방법 --> 
 
         <!-- 강아지 소개 -->
+        <div class="container">
         <section class="no-padding-bottom">
             <div class="container">
                 <div class="row">
@@ -172,9 +205,9 @@
                   
                   <input type="hidden" value="" name="selectDog"/>
                   <c:forEach var="healingDog" items="${list}">
-                    <div class="col-md-3 col-sm-6 testimonial-style2 text-center wow fadeInUp no-margin-top">
+                    <div class="col-md-3 col-sm-6 healingdog-style text-center wow fadeInUp no-margin-top" style="margin-bottom: 30px">
                         <img class="margin-two" src="/images/uploadFiles/healingDog/${healingDog.healingDogimage }" name="healingDogimage" alt="" style="cursor:pointer;"/>
-                        <img class="checkImg" src="" name="checkImg" alt="" style="cursor:pointer;"/>
+                        <!-- <img class="checkImg" src="" name="checkImg" alt="" style="cursor:pointer;"/> -->
                         <div class="no-margin-bottom">
                             <!-- radio button  -->
                             <label class="font-weight-700 text-p black-text"> ${healingDog.healingDogName }
@@ -184,6 +217,8 @@
                         <p class="no-margin-top no-margin-bottom center-col width-90">${healingDog.healingDogBirth }세 ${healingDog.healingDogGender }, ${healingDog.healingDogBreed.dogBreedKO }</p>
                         <span class="margin-five black-text">치유사 ${healingDog.healingDogHealer }</span>
                         <input type="hidden" name="healingDogNo" value="${healingDog.healingDogNo }"/>
+                        <input type="hidden" name="healingDogHealer" value="${healingDog.healingDogHealer }"/>
+                        <input type="hidden" name="healingDogName" value="${healingDog.healingDogName }"/>
                     </div>
                   </c:forEach>
                   
@@ -196,7 +231,7 @@
         <div class="row text-center margin-two">
                 <!-- <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a> -->
                 <!-- <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting">신청하기</button> -->
-                <a href="#modal-popup" class="popup-with-zoom-anim highlight-button-dark2 btn btn-big no-margin-right btn-round" id="consulting">신청하기</a>
+                <a class="popup-with-zoom-anim highlight-button-dark2 btn btn-big no-margin-right btn-round" id="consulting">신청하기</a>
          </div>
         <!-- end 신청하기-->
 
@@ -213,54 +248,46 @@
                         <p class="no-margin-bottom">
                             1. 영상상담 신청 후 일정 시간이 소요 될 수 있습니다.</br>
                             2. 치유견과 치유담당사의 변동이 있을 수 있습니다.<br>
-                            3. 치유견 및 치유사 영상 상담 준비 후 영상상담 신청 알람을 발송합니다. .<br>
+                            3. 치유견 및 치유사 영상 상담 준비 후 영상상담 신청 알람을 발송합니다.<br>
                             4. 알람을 수락한 후 영상상담 연결이 됩니다.
                         </p>
                     </div>  
                 </div>
             </div>
         </section>
-
+		</div>
         <!-- end 안내사항-->
         
         <!-- 알림팝업 -->
-		<div class="col-md-9 col-sm-9 no-padding margin-five">
-	
-			<div class="col-lg-3 col-md-4 col-sm-5 center-col">
-				<div id="modal-popup" class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white modal-popup-main">
-		
-				<div class="text-center">
-					<span id="titleModal" class="black-text">모달제목</span>
-					<p class="borderline-gray"></p>
-				</div>
-	
-				<div class="text-center">
-					<span id="regDateModal" class="text-small">신청날짜 : </span><br/>
-					<span id="userIdModal" class="text-small">신청자 : </span><br/>
-					<span id="healingDogHealerModal" class="text-small">상담사 : </span><br/>
-					<span id="healingDogNameModal" class="text-small">치유견 : </span>
-					<br/><br/>
-				</div>
+            <!-- <div id="dialog-background" class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+            </div> -->
+        
+    		<div id="my-dialog" style="background-color: rgba(0,0,0,0.3); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+		      	<div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+					<div class="text-center">
+						<span id="titleModal" class="black-text">영상상담 신청</span>
+						<p class="borderline-gray"></p>
+					</div>
+					<div class="text-center">
+						<span id="userIdModal" class="text-small">신청자 : ${user.userId }</span><br/>
+						<span id="healingDogHealerModal" class="text-small">상담사 : </span><br/>
+						<span id="healingDogNameModal" class="text-small">치유견 : </span>
+						<br/><br/>
+					</div>
+						
 					
-				
-				<div class="text-center">
-					<p id="textModal">모달내용</p>
-				</div>
-				
-				
-				<!-- 버튼 -->
-				<div class="text-center no-margin-bottom">
-					<a href="#" id="okModal"
-						class="highlight-button-dark btn btn-medium no-margin popup-modal-dismiss">OK</a>
-					<a href="#" id="cancelModal"
-						class="highlight-button btn btn-medium no-margin-bottom popup-modal-dismiss">CANCEL</a>
-				</div>
-				<!-- end 버튼 -->
-	
-			</div>
-		  </div>
-		</div>
+					<div class="text-center">
+						<p id="textModal">영상상담을 신청하시겠습니까?</p>
+					</div>
+	                <div style="cursor:pointer; text-align: center;padding-top: 10px;">
+	                    <span id="addConsulting" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
+	                    <span id="cancelModal" class="highlight-button btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
+	                </div>
+	            </div>
+            </div>
 		<!-- end 알림팝업 -->
+		
+		
         
     <jsp:include page="/layout/footer.jsp" />
 	

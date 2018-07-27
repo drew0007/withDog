@@ -142,11 +142,15 @@
         <!-- end button -->
 
         <section>
+           	
             <div class="container">
+            <div class="col-md-10 col-sm-8 col-xs-11 center-col text-center margin-three-bottom">
+           		<p class="aband-detail-title black-text no-margin text-center">보호센터 위치</p>
+           	</div>
                 <div class="row">
+                
                     <div class="col-md-12 col-sm-12">
                         <!-- tab -->
-                        <div class="tab-style1">
                             <div class="">
                                 <!-- 보호소위치 -->
                                 <div class="tab-pane med-text fade in active">
@@ -159,8 +163,7 @@
                                 </div>
                                 <!-- end 보호소위치 -->
                             </div>
-                        </div>
-                        
+							                        
                         
                         <!-- end tab -->
                     </div>
