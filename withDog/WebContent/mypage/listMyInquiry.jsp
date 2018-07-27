@@ -101,11 +101,12 @@
 				<div class="panel-group accordion-style3" id="accordion-three">
 					<!-- accordion item -->
 					<form>
+						<c:set var="i" value="0" />
 						<c:forEach var="inquiry" items="${list}">
-
+							<c:set var="i" value="${i+1}" />
 							<div class="panel panel-default">
-								<div class="panel-heading active-accordion overflow-hidden">
-									<a data-toggle="collapse" data-parent="#accordion-three" href="#accordion-three-link">
+								<div class="panel-heading active-accordion">
+									<a data-toggle="collapse" data-parent="#accordion-three" href="#accordion-three-link${i}">
 
 										<h4 class="panel-title">
 											<p class="text-xsmall " style="position: relative; top: 30px;">
@@ -129,26 +130,22 @@
 												</c:otherwise>
 											</c:choose>
 
-											<p class="pull-right">
-												<i class="fa fa-angle-up"></i>
-											</p>
+											<span class="pull-right">
+												<i class="fa fa-angle-${i=='1'?'up':'down'}"></i>
+											</span>
 										</h4>
 									</a>
 								</div>
-								<div id="accordion-three-link" 	class="panel-collapse collapse in padding-three-bottom">
+								<div id="accordion-three-link${i}" 	class="panel-collapse collapse ${i=='1'?'in':'' }">
 									<div class="panel-body" >
-										<c:choose>
-											<c:when test="${inquiry.replyCondition == '0'}">
+											<div style="display:${inquiry.replyCondition == '0'?'block':'none'}">
 												<textarea rows="4" name="inquiryContent" value="${inquiry.inquiryContent}">${inquiry.inquiryContent}</textarea>
 												<div class="text-right">
 													<a class="highlight-button input-round"  name="updateInquiry">수정</a>
 													<a class="highlight-button-dark input-round"  name="deleteInquiry">삭제</a>
 												</div>
-											</c:when>
-											<c:otherwise>
-												${inquiry.inquiryContent}
-											</c:otherwise>
-										</c:choose>
+											</div>
+												${inquiry.replyCondition == '0'?'':inquiry.inquiryContent}
 									</div>
 
 									<c:if test="${inquiry.replyCondition == '1' }">
@@ -156,6 +153,7 @@
 										<p class="text-sxmall text-gray border-bottom"><img src="/images/reply.png" width="10" style="margin-top:-4px"/>&nbsp;답변</p>
 										${inquiry.inquiryReply}
 									</div>
+									<div style="height:30px;"></div>
 									</c:if>
 
 								</div>

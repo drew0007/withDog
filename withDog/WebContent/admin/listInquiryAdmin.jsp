@@ -12,30 +12,23 @@
 	
 	//답변등록
 	 $(function(){
-		$("input[name='addReply']").on("click", function(){
-			var index = $("input[name='addReply']").index(this);
-			alert(index + "index찍기")
-			var inquiryNo = $($("input[name='inquiryNo']")[index]).val();
-			var reply = $($("textarea[name='inquiryReply']")[index]).val();
-			alert(reply);
-			alert(inquiryNo);
+		 $("input[name='reply']").on("click", function(){
+			 	var index = $("input[name='reply']").index(this);
+				var inquiryNo = $($("input[name='inquiryNo']")[index]).val();
+				var reply = $($("textarea[name='inquiryReply']")[index]).val();
+				
+				if(reply == null || reply.length<1){
+					alert('답변 내용은 반드시 입력하셔야 합니다.');
+					return;
+				}
+				var btnVal = $($("input[name='reply']")[index]).val();
 
-			self.location="/inquiry/updateInquiryReplyAdmin?inquiryNo=" + inquiryNo + "&inquiryReply=" + reply;
-		});
-	}); 
-	
-	//답변수정
-	 $(function(){
-		$("input[name='updateReply']").on("click", function(){
-			var index = $("input[name='updateReply']").index(this);
-			alert(index + "index찍기")
-			var inquiryNo = $($("input[name='inquiryNo']")[index]).val();
-			var reply = $($("textarea[name='inquiryReply']")[index]).val();
-			alert(reply);
-			alert(inquiryNo);
-
-			self.location="/inquiry/updateInquiryReplyAdmin?inquiryNo=" + inquiryNo + "&inquiryReply=" + reply;
-		});
+				if(btnVal == '답변등록'){
+					self.location="/inquiry/updateInquiryReplyAdmin?inquiryNo=" + inquiryNo + "&inquiryReply=" + reply;
+				}else{
+					self.location="/inquiry/updateInquiryReplyAdmin?inquiryNo=" + inquiryNo + "&inquiryReply=" + reply;
+				}
+		 });
 	}); 
 	
 	</script>
@@ -111,11 +104,12 @@
                         <div class="panel-group accordion-style3" id="accordion-three">
                             <!-- accordion item -->
                             <form>
+                            <c:set var="i" value="0" />
                             <c:forEach var="inquiry" items="${list}">
-                            
+                           	<c:set var="i" value="${i+1}" />
                             <div class="panel panel-default">
-                                <div class="panel-heading active-accordion overflow-hidden">
-                                    <a data-toggle="collapse" data-parent="#accordion-three" href="#accordion-three-link1">
+                                <div class="panel-heading active-accordion">
+                                    <a data-toggle="collapse" data-parent="#accordion-three" href="#accordion-three-link${i}">
                                			
                                     	<h4 class="panel-title">
                                    		 	<p class="text-xsmall " style="position:relative; top:30px;">
@@ -140,28 +134,24 @@
 												</c:otherwise>
 											</c:choose>
                                     		
-                                    		<p class="pull-right"><i class="fa fa-angle-up"></i></p>
+                                    		<span class="pull-right">
+                                    			<i class="fa fa-angle-${i=='1'?'up':'down'}"></i>
+                                   			</span>
                                     	</h4>
                                    	</a>
                                 </div>
-                                <div id="accordion-three-link1" class="panel-collapse collapse in padding-three-bottom">
+                                <div id="accordion-three-link${i}" class="panel-collapse collapse ${i=='1'?'in':'' }">
                                     <div class="panel-body">
                                     	<p class="text-sxmall gray-text border-bottom">${inquiry.product.prodName}&nbsp;&nbsp;|&nbsp;&nbsp;${inquiry.product.prodNo} </p>
                                        ${inquiry.inquiryContent}
                                     </div>
                                     
                                     <div class="panel-body bg-ddd padding-two">
-                                    	<p class="text-sxmall text-gray">답변</p>
+                                    	<p class="text-sxmall text-gray"><img src="/images/reply.png" width="10" style="margin-top:-4px"/>&nbsp;답변</p>
                                     	<textarea rows="4" cols="" name="inquiryReply" placeholder="답변을 입력하세요.">${inquiry.inquiryReply}</textarea>
-                                    	<c:choose>
-                                    	<c:when test="${inquiry.replyCondition == '0'}">
-                             	       		<input type="button" class="highlight-button col-md-2 pull-right" value="답변등록" name="addReply" />
-                                    	</c:when>
-                                    	<c:otherwise>
-                             	       		<input type="button" class="highlight-button col-md-2 pull-right" value="답변수정" name="updateReply" />
-                            	       		</c:otherwise>
-                             	       	</c:choose>
+                                    	<input type="button" class="highlight-button col-md-2 pull-right" value="${inquiry.replyCondition == '0'?'답변등록':'답변수정'}" name="reply" />
                                     </div>
+                                    <div style="height:30px;"></div>
                                     
                                 </div>
                             </div>

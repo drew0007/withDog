@@ -151,7 +151,7 @@
                             <!-- work grid -->
                             <ul class="grid masonry-items">
                                 <!-- work item -->
-                                <li>
+                                <li >
                                     <figure>
                                         <div class="gallery-img"><a href="#"><img src="http://placehold.it/800x500" alt=""></a></div>
                                         <figcaption>
