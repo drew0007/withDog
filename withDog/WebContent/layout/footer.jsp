@@ -84,6 +84,10 @@
 	webSocket = new WebSocket(serverIP);
 	webSocket.onopen = function(event) {
 		onOpen(event)
+		if("${user.role}"=='user' || "${user.role}"==""){
+// 			newMessage("고객님이 접속하셨습니다.",'user')
+			webSocket.send("고객님이 접속하셨습니다.");
+			}
 		};
 	webSocket.binaryType="arraybuffer";
 	webSocket.onerror = function(event) {
@@ -204,7 +208,6 @@ function abc(message) {
 			if(message == null){
 				message =""				
 			}
-			console.log(data)
 			for(var i = 0; i<data.list.length; i++){
 				message += "<a class= 'que' style='cursor:pointer;color: #516378'>"+data.list[i].question+"</a><br><input type='hidden' class='queNo' value='"+data.list[i].questionNo+"'/>  ";
 			}
@@ -235,7 +238,6 @@ $(function () { // 상담시작 버튼을 눌렀을 경우 실행
 				method:"get",
 				dataType :"json",
 				success : function (data) {
-					console.log(data)				
 				} //end success
 				}) //end ajax	
 		}
@@ -257,7 +259,6 @@ $(function () { // 상담시작 버튼을 눌렀을 경우 실행
 			method :"get",
 			dataType : "json",
 			success : function (data) {
-				console.log(data)
 				var message = data.chatBot.question
 				var answer = data.chatBot.answer
 				$('<li class="replies"><img src="/images/chatbotuser.png" alt="" /><p style="font-weight: bold;">' + message + '</p></li>').appendTo($('.messages ul'));
@@ -284,8 +285,6 @@ $( '#closeButton' ).click( function() { //닫기버튼누를경우
 });
         
 $(function () { //상담상태 변경
-	console.log($("#isPossible").html())
-	console.log($("#isPossible2").html())
 	$("#changState").on("change", function () {
 		var state = $("#changState").val();
 		if(state==0){

@@ -71,27 +71,28 @@ public class AshRestController {
 		JSONArray jsonArray = new JSONArray();
 		
 		System.out.println("list 출력 : " + list);
-		JSONObject jsonObject = new JSONObject();
 		
 		for (Ash ash : list) {
+			JSONObject jsonObject = new JSONObject();
 			
 			jsonObject.put("id", ash.getAshReservationNo()); // 예약번호
 			jsonObject.put("title", ash.getHealingDog().getHealingDogName()); //예약견 이름 
 			jsonObject.put("image", ash.getHealingDog().getHealingDogimage()); //예약견 사진 
 			jsonObject.put("start", ash.getAshReservationDate()); // 날짜
+			System.out.println("날짜출력 : " + ash.getAshReservationDate());
 			switch(ash.getHealingDog().getHealingDogNo()) {
-			case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
-				break;
-			case 10016 :jsonObject.put("color", "GREEN"); //달력 색
-				break;
-			case 10017:jsonObject.put("color", "BLUE"); //달력 색
-				break;
-			case 10018 :jsonObject.put("color", "GRAY"); //달력 색
-				break;
-			case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
-				break;
-			case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
-				break;
+				case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
+					break;
+				case 10016 :jsonObject.put("color", "GREEN"); //달력 색
+					break;
+				case 10017:jsonObject.put("color", "BLUE"); //달력 색
+					break;
+				case 10018 :jsonObject.put("color", "GRAY"); //달력 색
+					break;
+				case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
+					break;
+				case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
+					break;
 			}
 			
 			if(ash.getAshReservationTime().equals("0")) { // 시간 0이면 오전 1이면 오후
@@ -126,24 +127,23 @@ public class AshRestController {
 		
 		for (Ash ash : list) {
 			JSONObject jsonObject = new JSONObject();
-			
 			jsonObject.put("id", ash.getAshReservationNo()); // 예약번호
 			jsonObject.put("title", ash.getHealingDog().getHealingDogName()); //예약견 이름 
 			jsonObject.put("image", ash.getHealingDog().getHealingDogimage()); //예약견 사진 
 			jsonObject.put("start", ash.getAshReservationDate()); // 날짜
 			switch(ash.getHealingDog().getHealingDogNo()) {
-			case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
-				break;
-			case 10016 :jsonObject.put("color", "GREEN"); //달력 색
-				break;
-			case 10017:jsonObject.put("color", "BLUE"); //달력 색
-				break;
-			case 10018 :jsonObject.put("color", "GRAY"); //달력 색
-				break;
-			case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
-				break;
-			case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
-				break;
+				case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
+					break;
+				case 10016 :jsonObject.put("color", "GREEN"); //달력 색
+					break;
+				case 10017:jsonObject.put("color", "BLUE"); //달력 색
+					break;
+				case 10018 :jsonObject.put("color", "GRAY"); //달력 색
+					break;
+				case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
+					break;
+				case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
+					break;
 			}
 			
 			if(ash.getAshReservationTime().equals("0")) { // 시간 0이면 오전 1이면 오후
@@ -163,7 +163,6 @@ public class AshRestController {
 		jsonObject2.put("end", today); // 날짜
 		jsonArray.add(jsonObject2);
 		System.out.println(jsonArray.toString());
-		
 		
 		return  jsonArray.toString();
 	}
