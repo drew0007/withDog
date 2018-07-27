@@ -11,6 +11,22 @@
 
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+	<!-- 제이쿼리 달력  -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<!-- 제이쿼리 달력 :: 크롬에서 년도 안에 글씨 작게 -->
+	<style type="text/css">
+	.ui-datepicker .ui-datepicker-title select {
+    font-size: 12px;
+	}
+	</style>
+	<!-- 제이쿼리 달력 기본값 세팅 -->
+	<script src="../js/datepicker.js"></script>
+	<!-- end 제이쿼리 달력 -->
+	
 	<script type="text/javascript">
 	
 	$( function() {
@@ -26,7 +42,7 @@
 				dataType : "json",
 				data: JSON.stringify({
 					userName:$("#userName").val(),
-					birth:$("#birth").val(),
+					birth:$("#datepicker").val(),
 				}),
 				headers : {
 					"Accept" : "application/json",
@@ -39,7 +55,18 @@
 					if(check==null){
 						$(".spanId").html("해당 정보 확인이 되지 않습니다.").css('color','red');
 					}else{
-						$(".spanId").html("고객님의 ID는 "+check+"입니다.").css('color','blue');	
+						
+						//원래 아이디 길이
+						var showIdNo = check.length;
+						showIdNo = showIdNo-3;
+						//아이디 앞에서 3개
+						var showId = check.substring(0,3);
+						
+						for(i=0;i<showIdNo;i++){
+							showId+="*";
+						}
+						
+						$(".spanId").html("고객님의 ID는 "+showId+"입니다.").css('color','blue');	
 					}
 				}
 			});// end ajax
@@ -47,6 +74,8 @@
 		 });//end 아이디 중복검사
 	
 		
+		 
+		 
 		//이메일 입력방식 선택 
 		$("#email2").change(function(){ 
 			$("#email2 option:selected").each(function () { 
@@ -62,24 +91,34 @@
 			
 		});//end 이메일 입력방식
 		
+		
 		//비밀번호 찾기 연결
 		$("#findPW").on("click" , function() {
 			
-			//가입으로 넘기기전 체크사항   email
-			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 
-			if($("#email2").val()=='1' ){
-				var email2= '@'+$("#emailText").val();
-				$("#email2 option:selected").val(email2);
-			}
 			
+			//넘기기전 체크사항   email
+			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 ,email2 밸류에 @추가해주기
+			if($("#email2").val()=='1' ){
+ 				
+ 				var email2= '@'+$("#emailText").val();
+ 				$("#email2 option:selected").val(email2);
+ 				
+ 			}else{
+ 				
+ 				var email2= '@'+$("#email2").val();
+ 				$("#email2 option:selected").val(email2);
+ 			}
+			
+			$("input[name='email']").val($("#email1").val()+$("#email2").val());
+			
+		
 			$.ajax({
 				url : "/user/json/findUserPW",
 				method : "POST",
 				dataType : "json",
 				data: JSON.stringify({
 					userId:$("#userId").val(),
-					email1:$("#email1").val(),
-					email2:$("#email2").val(),
+					email:$("input[name='email']").val(),
 				}),
 				headers : {
 					"Accept" : "application/json",
@@ -106,7 +145,7 @@
 </head>
 <body>
 		
-		<jsp:include page="../layout/header.jsp" />
+		<jsp:include page="../layout/header2.jsp" />
 		
 		<!-- head section -->
          <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
@@ -143,7 +182,7 @@
                             
                              <div class="col-md-12 no-padding">
                                 <label>생년월일 :</label>
-                                <input type="text" name="birth" id="birth">
+                                <input type="text" name="birth" id="datepicker">
                                 <span class="spanId"></span>
                             </div>
                              
@@ -168,22 +207,24 @@
                                 <input type="text" name="userId" id="userId">
                             </div>
                             
-                            <div class="col-md-12 no-padding">
-                                <p style="margin-bottom:10px">이메일:</p>
-                                <input type="text" name="email1" class="col-md-4" id="email1">
-                                <input type="text" name="emailText"class="col-md-4" id="emailText">
-                             	<div class="col-md-4 input-round">
-									<select name="email2" id="email2">
-										<option value="1">직접입력</option>
-										<option value="@naver.com">@naver.com</option>
-										<option value="@daum.net">@daum.net</option>
-										<option value="@gmail.com">@gmail.com</option>
-										<option value="@hotmail.com">@hotmail.com</option>
-										<option value="@nate.com">@nate.com</option>
-									</select>
-                            	</div>
-                            <span class="spanId2"></span>	
-                            </div>
+			   		    	<div class="form-group">
+						    	<p>이메일 :  </p>  
+					        	<input type="text" name="email1" class="col-md-4" id="email1">
+				                <input type="text" class="col-md-1 no-border" placeholder="@">
+				                <input type="text" name="emailText"class="col-md-3" id="emailText">
+					                <div class="col-md-4">
+										<select name="email2" id="email2">
+											<option value="1">직접입력</option>
+											<option value="naver.com">naver.com</option>
+											<option value="daum.net">daum.net</option>
+											<option value="gmail.com">gmail.com</option>
+											<option value="hotmail.com">hotmail.com</option>
+											<option value="nate.com">nate.com</option>
+										</select>
+						            </div>
+						           <span class="spanId2"></span>  
+						           <input type="hidden" name="email">
+					        </div> 
                             
                         </form> 
                         

@@ -6,11 +6,21 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+	
 	<jsp:include page="../common/css.jsp" />
+	
 	<title>로그인</title>
 	
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+	<!-- 카카오 로그인 -->
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	
+	<!-- 구글 로그인 -->
+	<meta name="google-signin-client_id" content="730614234797-kcpkvfk21csstmbunn2hh21tcqjsik71.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/api:client.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<script type="text/javascript">
 	
 		$( function() {
@@ -27,7 +37,7 @@
 				self.location = "/user/findUser"
 			});
 			
-			//로그인 연결
+			//로그인 연결 
 			$("#login").on("click" , function() {
 				
 				//유효성체크
@@ -67,11 +77,11 @@
 							},
 							success : function(JSONData , status){
 								
-								var userCondition = JSONData.userCondition;
+								var userConCheck = JSONData.userConCheck;
 								
-								if(userCondition=='1'){
+								if(userConCheck=='1'){
 									self.location = "/common/mainPage";
-								}else if(userCondition=='0'){
+								}else if(userConCheck=='0'){
 									//휴면회원
 									alert("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다.");
 									self.location = "/user/changeUserCon";
@@ -88,6 +98,8 @@
 						
 		 				});//end of Ajax
 		 				
+		 				
+		 				
 			});// end 로그인
 			
 	
@@ -102,54 +114,220 @@
 			       if(event.keyCode==13){
 			    	   $('#login').trigger('click');
 			        }
-			    });
+			});
 			
 
-		});
-		
-		////////////////SNS로그인////////////////
-		//카카오 로그인
-		$(function(){
-			$("img[src='/images/login/kakao_login.png']").on("mouseover" , function() {
-				$(this).attr("src", "/images/login/kakao_login_ov.png");
-			});
-			
-			$("img[src='/images/login/kakao_login.png']").on("mouseout" , function() {
-				$(this).attr("src", "/images/login/kakao_login.png");
-			});
-			
-			$("img[src='/images/login/kakao_login.png']").on("click" , function() {
-				
-				loginWithKakao();
-			});
-		});
-		
-		
-		Kakao.init('1d3fddc61b788ab458254eb1f4ea00ae');
-	    function loginWithKakao() {
-	      // 로그인 창을 띄웁니다.
-	      Kakao.Auth.login({
-	        success: function(authObj) {
-	            // 로그인 성공시, API를 호출합니다.
-	            Kakao.API.request({
-	              url: '/v1/user/me',
-	              success: function(res) {
-	                //alert(JSON.stringify(res));
-	                checkUser(res);
-	              },
-	              fail: function(error) {
-	                alert(JSON.stringify(error));
-	              }
-	            });
-	          },
-	          fail: function(err) {
-	            alert(JSON.stringify(err));
-	          }
-	      });
-	    };
-
-	</script>	
+	}); //end 제이쿼리
 	
+	
+	/////////////////////////////////////////////////////
+	//SNS로그인
+	$(function(){
+			
+			//카카오 로그인
+			$("#imgKakao").on("click" , function() {
+				loginWithKakao()
+			});// end 카카오 로그인
+			
+			Kakao.init('5200ef0db37c84d21094845a8d36eb70');
+			
+		    function loginWithKakao() {
+		      // 로그인 창을 띄웁니다.
+		      Kakao.Auth.login({
+		        success: function(authObj) {
+		            // 로그인 성공시, API를 호출합니다.
+		            Kakao.API.request({
+		              url: '/v1/user/me',
+		              success: function(res) {
+		            	  
+		                var userId = "k"+res.id;
+		                 var snsType =0; 
+		                
+		                checkUserId(userId,snsType);
+		                
+		              },
+		              fail: function(error) {
+		                alert(JSON.stringify(error));
+		              }
+		            });
+		          },
+		          fail: function(err) {
+		            alert(JSON.stringify(err));
+		          }
+		      });
+		    };// end function loginWithKakao()
+		    
+		    
+		    //구글로그인
+	        $(function googleLogin() {
+			    gapi.load('auth2', function(){
+			    	// GoogleAuth 라이브러리에 대한 싱글 톤을 가져 와서 클라이언트를 설정합니다.
+			      auth2 = gapi.auth2.init({
+			        client_id: '371079507586-pinccq21oaes42c1j79usq7k6588c7jn.apps.googleusercontent.com',
+			        //클라이언트 ID
+			        cookiepolicy: 'single_host_origin'
+			        // Request scopes in addition to 'profile' and 'email'
+		//	         scope: 'profile email',
+		//	         fetch_basic_profile: 'false',
+			    
+			      });
+		      attachSignin(document.getElementById("google"));
+		    });
+		  });
+			    
+	        function attachSignin(element) {
+	  		  
+			    console.log(element.id);
+			    auth2.attachClickHandler(element, {},
+			       function(googleUser) {
+			    	 var userId ="g"+googleUser.getBasicProfile().getId();
+			    	 var snsType =2;
+			    	 checkUserId(userId,snsType);
+			        })
+			      
+			  };
+		    
+			
+		    ////////////////////////////////////////////
+		    //SNS 아이디 체크 
+		    function checkUserId(userId,snsType){
+		    	
+		    	var snsType =snsType*1;
+		    	
+		    	$.ajax({
+						url : "/user/json/checkSnsUserId",
+						method : "POST" ,
+						dataType : "json",
+						data: JSON.stringify({
+							userId : userId,
+							snsType : snsType
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						
+						success : function(JSONData , status) {
+							
+							if(JSONData){
+								self.location = "/common/mainPage";
+							}else{
+								self.location = "/user/addSnsUser";
+							}
+						}
+					});//end of ajax
+					
+		    }//end function checkUserId() 
+	
+	});//end 제이쿼리 
+	
+
+</script>
+	<!-- 페이스북 로그인 1-->	
+	<script type="text/javascript">
+	
+		  // This is called with the results from from FB.getLoginStatus().
+		  function statusChangeCallback(response) {
+		    console.log('statusChangeCallback');
+		    console.log(response);
+		    if (response.status === 'connected') {
+		   
+		      testAPI();
+		    } else {
+		   
+		      document.getElementById('status').innerHTML = 'Please log ' +
+		        'into this app.';
+		    }
+		  }
+		
+		  
+		  function checkLoginState() {
+		    FB.getLoginStatus(function(response) {
+		      statusChangeCallback(response);
+		    });
+		  }
+		
+		  window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '{207057253249778}',
+		      cookie     : true,  // enable cookies to allow the server to access 
+		                          // the session
+		      xfbml      : true,  // parse social plugins on this page
+		      version    : 'v2.8' // use graph api version 2.8
+		    });
+		
+		   
+		
+		   FB.getLoginStatus(function(response) {
+		      statusChangeCallback(response);
+		      // alert(JSON.stringify(response)); 
+		    });
+		
+		  };
+		  
+		
+		 
+		  function testAPI() {
+		    console.log('Welcome!  Fetching your information.... ');
+		    FB.api('/me', function(response) {
+		    	// alert(JSON.stringify(response.id)); 
+		    	//var name = response.name;
+		    	var userId = "f"+response.id;
+		    	var snsType = 3;
+		    	checkUserId(userId,snsType);
+		    	
+		    });
+		    
+		    ////////////////////////////////////////////
+		    //SNS 아이디 체크 
+		    function checkUserId(userId,snsType){
+		    	
+		    	alert(userId+"userId");
+		    	
+		    	$.ajax({
+						url : "/user/json/checkSnsUserId",
+						method : "POST" ,
+						dataType : "json",
+						data: JSON.stringify({
+							userId : userId,
+							snsType : snsType,
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						
+						success : function(JSONData , status) {
+							
+							if(JSONData){
+								self.location = "/common/mainPage";
+							}else{
+								self.location = "/user/addSnsUser";
+							}
+						}
+					});//end of ajax
+					
+		    }//end function checkUserId() 
+		    
+		  }
+	  
+	</script>
+
+	<!-- 페이스북 로그인 2 -->
+	
+	<script type="text/javascript">
+	/*
+	(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.0&appId=207057253249778&autoLogAppEvents=1';
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk')); 
+	*/
+	</script>	
+
+
 </head>
 
 <body>
@@ -177,7 +355,7 @@
         <!-- end head section -->
         
       	<!-- content section -->
-        <section class="wow fadeIn">
+        <section class="wow fadeIn bg-gray">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
@@ -209,7 +387,21 @@
                         <div class="form-group">
                         	<p>SNS 로그인</p>
 						    <div class="col-sm-offset-4 col-sm-6">
-								<img src="../images/login/kakao_login.png" />
+						    	<!-- 카카오 -->
+								<a href="#"><img src="../images/login/kakao_login.png"/ id="imgKakao"></a>
+						
+								<!-- 구글 -->
+								<div>
+									<img  id="google" src="../images/login/google.png" />
+								</div>
+								
+								<!-- 페이스북 -->
+								<div>
+		                       	 <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+										<div class="fb-login-button" data-max-rows="1" data-size="small" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+									</fb:login-button>
+								</div>
+								
 						    </div>
 					  	</div>
                         

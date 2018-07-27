@@ -16,7 +16,7 @@
 	$( function() {
 		
 		$("#userName").focus();
-		
+
 		//핸드폰 인증
 		$("#check").on("click" , function() {
 			
@@ -36,13 +36,13 @@
 				success : function(JSONData , status){
 					
 					var check = JSONData.check;
-					var textNum = JSONData.textNum;
+					var tempNo = JSONData.tempNo;
 					
 					if(!check){
 						$(".spanId").html("해당 정보 확인이 되지 않습니다.").css('color','red');
 					}else{
 						//고유번호 숨기기
-						$("#textNum").val(textNum);
+						$("#tempNo").val(tempNo);
 						$(".changeDiv1").html('<div class="col-md-12"><input type="text" id="userTextNum" class="col-md-8"><button type="button" class="highlight-button col-md-4 pull-right" id="checkTextNum" >확인</button></div');
 						$("#check").hide();						
 						$(".changeDiv2").html("고객님의 인증번호를 입력해주세요").css('color','blue');	
@@ -67,60 +67,26 @@
 	
 	//발송한 숫자와 고객이 입력한 숫자 비교
 	$(document).on("click","#checkTextNum",function() {
-		
-		
 		//숨겨놓은 발송 숫자
 		var textNum = $("#textNum").val();
 		alert("textNum"+textNum);
-		
 		//고객이 입력한 값
 		var userTextNum = $("#userTextNum").val();
 		alert("userTextNum"+userTextNum);
-		
 		if(textNum!=userTextNum){
-			
 			alert("인증번호를 잘못 입력하였습니다.");
 			$(".changeDiv1").remove();
 			$(".changeDiv2").remove();
 			$("#check").show();
-			
 		}else{
-			
 			update();
-			
 			alert("일반회원으로 전환되었습니다.로그인 페이지로 이동합니다.");
-			
-
-			
-			/*
-			//휴면 >> 정상회원으로 
-			$.ajax({
-				
-					url : "/user/json/changeUserCondition",
-					method : "POST",
-					dataType : "json",
-					data: JSON.stringify({
-						userId : userId
-					}),
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					success : function(JSONData , status){
-						
-						self.location = "/user/loginUser";
-					}
-				
-			});// end ajax
-			*/
-			
-			
-	
-			
-		});// end ajax
-			
-			
 		}//end of if
+	});
+// 	$(document).on("click","#checkTextNum",function() {
+		
+
+// 	)};
 		
 		function update() {
 			
@@ -129,7 +95,6 @@
 			alert("userId"+userId);
 			
 			$.ajax({
-					
 					url : "/user/json/changeUserConditionTest/"+userId,
 					method : "GET",
 					dataType : "json",
@@ -141,9 +106,9 @@
 						
 						self.location = "/user/loginUser";
 					}
-		};
+			});
 		
-	});
+		}
 	</script>	
 
 	
@@ -193,7 +158,7 @@
                             </div>
                             <div class="changeDiv1"></div>
                             <div class="changeDiv2"></div>
-                            <input type="hidden" id="textNum" value="">
+                            <input type="hidden" id="tempNo" value="">
                              
                          </form> 
                          

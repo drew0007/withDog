@@ -40,11 +40,24 @@
    <!--    <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">당신의 후원을 기다립니다.</span> -->  
         
         <!-- content section -->
-        <section class="wow fadeIn">
-        
+ 
+         <!-- 영상삼담 소개 -->
+        <section class="padding-two wow fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-10 text-center center-col">
+                        <span class="margin-one no-margin-top display-block letter-spacing-2">THE VIDEO CONSULTATION</span>
+                        <h1>영상상담 소개</h1>
+                        <div class="separator-line bg-black margin-two no-margin-bottom"></div>
+                        <p class="text-p width-120 center-col margin-two no-margin-bottom">영상상담 서비스를 활용하면 동물교감치유서비스 신청전 치유견을 만나볼 수 있습니다. <br> 고객은 상담사에게 전화통화만으로는 설명하기 어려웠던 불편사항을 실시간 영상으로 쉽게 설명할 수 있습니다.  <br> 또한 상담사도 고객과 함께 현상을 눈으로 보면서 문제를 정확하게 파악할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end 영상삼담 소개 -->
                           
         
-            <div class="container">
+            <div class="container margin-two wow fadeIn">
                 <div class="row">
                     <!-- content  -->
                    
@@ -52,20 +65,22 @@
 						<div class="row">
                             <!-- <div class="col-lg-6 col-md-6 case-study-img cover-background no-padding" style="background-image:url('http://placehold.it/800x400');"> --> 
                             <div class="col-lg-6 col-md-6 case-study-img cover-background no-padding">
-                            <img alt="" src="../images/fund/${fund.fundImage}">
+                            <img src="../images/fund/flower.jpg" alt="">
                             </div>
-                            <div class="col-lg-6 col-md-6 case-study-details2 no-margin-top" style="border: 5px solid #d7d7d7;">	
+                            <div class="col-lg-6 col-md-6 case-study-details2 no-margin-top" style="border-left: 1px solid #ffffff; background-color:#fae3ed;">	
                              <%--  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                     <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">${fund.fundTitle}</span>
                                 </div> --%>
-                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 about-text position-relative xs-text-center">
-                                    <p class="fund-title2" style="margin-top:30px;" align="center">${fund.fundTitle}</p>
-                                    <div class="borderline"></div>
-                                    <span class="fund-center">모집기관 : ${fund.fundCenter}</span><br>
-                                    <span class="fund-center">모집기간 : ${fund.fundTerm}</span><br>
-                                    <span class="fund-center">모집금액 : ${fund.fundRaising} 원</span>
-                                    <p class="width-100 xs-width-100"></p>
-                                    <a href="getFund?fundNo=${fund.fundNo}"  class="highlight-button btn btn-medium no-margin sm-no-margin">상세정보</a>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 about-text position-relative xs-text-center margin-nine">
+                                    <h2 class="font-weight-700 text-center" style="margin-top:30px;" align="center">${fund.fundTitle}</h2>
+                                    <div class="borderline-1px"></div>
+                                    <ul>
+                                    <li class="text-p margin-two">모집기관 : ${fund.fundCenter}</li>
+                                    <li class="text-p margin-two">모집기간 : ${fund.fundTerm}</li>
+                                    <li class="text-p margin-two">모집금액 : ${fund.fundRaising} 원</li>
+                                    <p class="width-100 xs-width-100 margin-ten"></p>
+                                    <a href="getFund?fundNo=${fund.fundNo}"  class="highlight-button-dark3 btn no-margin sm-no-margin btn-round">상세정보</a>
+                                    </ul>
                                 </div>
                             </div>
                           </div>
@@ -79,12 +94,12 @@
                             <div class="post-details">
                                 <a href="" class="fund-title">${list.fundTitle}</a>
                                 <span class="fund-center">${list.fundCenter}</span>
-                                <div class="borderline"></div>
+                                <div class="borderline-1px"></div>
                                 <span class="fund-term">후원모집기간 : ${list.fundTerm}</span><br/>
                                 <span class="fund-raising">모인금액 : ${list.fundRaising} 원</span>
                                 
                             </div>
-                                <a class="highlight-button btn-medium button margin-five" href="getFund?fundNo=${list.fundNo}">상세정보</a>
+                                <a class="highlight-button btn-medium button margin-five btn-round" href="getFund?fundNo=${list.fundNo}">상세정보</a>
                         </div>
                     </div>
                     </c:forEach>
@@ -96,9 +111,7 @@
         		</div>
         		</c:if>        
             </div>
-        </section>
-        <!-- end content section -->
-        
+
         
         
 	

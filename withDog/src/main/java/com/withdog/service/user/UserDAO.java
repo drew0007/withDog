@@ -54,4 +54,7 @@ public interface UserDAO {
 	//휴면 회원 해제 :: 휴면 > 정상 
 	public void updateUserCon(String userId) throws Exception;
 	
+	//snsID찾기 :: sns 로그인 , sns 연동
+	public User findSnsId(User user)throws Exception;
+	
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import com.withdog.service.dogbreeddic.DogBreedDicService;
 import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
 import com.withdog.service.user.UserService;
+import com.withdog.service.user.impl.UserServiceImpl;
 
 @Controller
 @RequestMapping("/user/*")
@@ -67,6 +69,7 @@ public class UserController {
 		return "forward:/user/loginUser.jsp";
 	} 
 	
+	/* 레스트로 옮김
 	//로그인 POST
 	@RequestMapping( value="loginUser", method=RequestMethod.POST )
 	public String loginUser (@ModelAttribute("user") User user , HttpSession session, HttpServletResponse response)  throws Exception {
@@ -97,6 +100,7 @@ public class UserController {
 		return "forward:/common/index.jsp";
 
 	}
+	*/
 	
 	//로그아웃 GET changeUserCon
 	@RequestMapping( value="logoutUser", method=RequestMethod.GET )
@@ -124,7 +128,7 @@ public class UserController {
 														throws Exception {
 
 		System.out.println("회원가입 :: /user/addUser : POST");
-
+		System.out.println("컨특롤러 확인"+user.getEmail());
 		//Business Logic
 		userService.addUser(user);
 		
@@ -232,6 +236,7 @@ public class UserController {
 		return "forward:/mypage/deleteUser.jsp";
 	}
 	
+	/*레스트로 옮김
 	///회원탈퇴 POST
 	@RequestMapping( value="deleteUser", method=RequestMethod.POST )
 	public String deleteUser(User user, HttpSession session,HttpServletResponse response ) throws Exception{
@@ -248,6 +253,7 @@ public class UserController {
 		
 		return "forward:/common/mainPage";
 	}
+	*/
 	
 	//ID 찾기 GET (로그인 클릭했을 때 단순네비게이션)
 		@RequestMapping( value="findUser", method=RequestMethod.GET )
@@ -337,6 +343,92 @@ public class UserController {
 				return "forward:/user/getUserListAdmin";
 			}	
 
+			//Sns 간편 회원가입 화면 GET 
+			@RequestMapping( value="addSnsUser", method=RequestMethod.GET )
+			public String addSnsUser() throws Exception {
+
+				System.out.println("회원가입 입력창 :: /user/addSnsUser : GET");
+				
+				return "forward:/user/addSnsUser.jsp";
+			}
+			
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		///////카카오 로그인//////
+			@RequestMapping(value = "/kakaoLogin" , produces = "application/json", method = {RequestMethod.GET, RequestMethod.POST})
+			public String kakaoLogin(@RequestParam("code") String code , HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+
+				 JsonNode token = UserServiceImpl.getAccessToken(code);
+
+				  JsonNode profile = UserServiceImpl.getKakaoUserInfo(token.path("access_token").toString());
+				  System.out.println("카카오에서 받은것"+profile);
+				  User user = UserServiceImpl.changeData(profile);
+				 // user.setUserId(userId);
+				  //vo.setUser_snsId("ka"+vo.getUser_snsId());
+				  
+				  
+				  ////////////////////////////////////////
+				  String userId = "ka"+user.getUserId();
+				  Boolean check = false; 
+				  
+				  System.out.println("우리디비가기전 userId"+userId);
+				  
+				  //담겨진 userId로 우리 DB에 등록되어있는지 확인
+				  User dbUser =  userService.getUser(userId);
+				  
+				  System.out.println("디비유저"+dbUser);
+				  
+				  //db유저가 null이라면 가입이 안된 상태 >> 회원가입창으로
+				  if(dbUser.getUserId()!=null) {
+
+					  System.out.println("디비에 유저있을때 이것을 타느냐");
+					  session.setAttribute("user", dbUser);
+					  check = true;
+					  
+				  }else {
+
+					  //"ka"더해진 아이디를 넣음
+					  user.setUserId(userId);
+					  session.setAttribute("user", user);
+					  System.out.println("카카오 아이디 디비에 없을때"+user);
+				  }
+				  
+				  
+				  session.setAttribute("user", user);
+				  System.out.println("담겨져있는거확인"+user.toString());
+
+				 //user = service.kakaoLogin(vo);  
+					return "forward:/user/addSnsUser.jsp";
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/////////////////////////////////////////////////////////
 		
 		//장원이 테스트 2
 		@RequestMapping( value="test", method=RequestMethod.GET )

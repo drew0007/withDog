@@ -9,8 +9,7 @@ public class User {
 	private String password;
 	private String userName;
 	private String birth;
-	private String email1;
-	private String email2;
+	private String email;
 	private String phone;
 	private String postNo;
 	private String address1;
@@ -27,14 +26,19 @@ public class User {
 	private String snsKakaoId;
 	private String snsGoogleId;
 	private String snsFacebookId;
+	private int snsType; // sns 가입시 타입 ::  k = kakao, n= naver, g= google, f=faceBook
 
 	/// Constructor
 	public User() {
 	}
-
+	
 	/// Method
 	public String getUserId() {
 		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getPassword() {
@@ -61,20 +65,12 @@ public class User {
 		this.birth = birth;
 	}
 
-	public String getEmail1() {
-		return email1;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmail1(String email1) {
-		this.email1 = email1;
-	}
-
-	public String getEmail2() {
-		return email2;
-	}
-
-	public void setEmail2(String email2) {
-		this.email2 = email2;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPhone() {
@@ -205,21 +201,25 @@ public class User {
 		this.snsFacebookId = snsFacebookId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public int getSnsType() {
+		return snsType;
+	}
+
+	public void setSnsType(int snsType) {
+		this.snsType = snsType;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password + ", userName=" + userName + ", birth=" + birth
-				+ ", email1=" + email1 + ", email2=" + email2 + ", phone=" + phone + ", postNo=" + postNo
-				+ ", address1=" + address1 + ", address2=" + address2 + ", dogNo=" + dogNo + ", userCondition="
-				+ userCondition + ", recentlyDate=" + recentlyDate + ", joinDate=" + joinDate + ", leaveDate="
-				+ leaveDate + ", leaveReason=" + leaveReason + ", role=" + role + ", currentPoint=" + currentPoint
-				+ ", snsNaverId=" + snsNaverId + ", snsKakaoId=" + snsKakaoId + ", snsGoogleId=" + snsGoogleId
-				+ ", snsFacebookId=" + snsFacebookId + "]";
+				+ ", email=" + email + ", phone=" + phone + ", postNo=" + postNo + ", address1=" + address1
+				+ ", address2=" + address2 + ", dogNo=" + dogNo + ", userCondition=" + userCondition + ", recentlyDate="
+				+ recentlyDate + ", joinDate=" + joinDate + ", leaveDate=" + leaveDate + ", leaveReason=" + leaveReason
+				+ ", role=" + role + ", currentPoint=" + currentPoint + ", snsNaverId=" + snsNaverId + ", snsKakaoId="
+				+ snsKakaoId + ", snsGoogleId=" + snsGoogleId + ", snsFacebookId=" + snsFacebookId + ", snsType="
+				+ snsType + "]";
 	}
 
-	
+
 
 }
