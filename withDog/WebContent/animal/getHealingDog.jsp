@@ -252,10 +252,11 @@ $(function () {
                                 <!-- end content -->
                                  
                         </div>
-                        
+                        <c:if test="${user.role=='admin'}">
                         <div class="text-center">
 							<a href="/ash/updateHealingDog?healingDogNo=${healingDog.healingDogNo}" class="highlight-button-dark btn btn-medium">치유견 정보 수정</a>
 						</div>
+						</c:if>
                     </div>
                 </div>
             </div>

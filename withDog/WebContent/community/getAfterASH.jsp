@@ -15,6 +15,24 @@
 </head>
 <script type="text/javascript">
 $(function () {
+	$("a[name=deleteAfterAsh]").on("click", function () {
+		$('#isDelete').show();
+	})
+})
+
+$(function () {
+	$("#ok").on("click", function () {
+		$('#isDelete').hide();
+		self.location = "/afterAsh/deleteAfterAsh?afterAshNo=${afterAsh.afterASHNo}";
+		
+	})
+	$("#cancel").on("click", function () {
+		$('#isDelete').hide();
+	})
+})
+
+
+$(function () {
 	var healingDogNo = ${afterAsh.healingDog.healingDogNo}
 	$.ajax({
 		url : "/ash/json/getHealingDog/"+healingDogNo,
@@ -45,7 +63,7 @@ $(function () {
 			$("#dogAge").html('<span class="font-weight-600">치유견 생년월일:</span>'+data.healingDog.healingDogBirth);
 			$("#dogChar").html('<span class="font-weight-600">치유견 성격:</span>'+data.healingDog.healingDogChar);
 			$("#healer").html('<span class="font-weight-600">담당 치유사:</span>'+data.healingDog.healingDogHealer);
-			$("#healingDogImg").attr('src','/images/uploadFiles/dogInfo/'+data.healingDog.healingDogimage);
+			$("#healingDogImg").attr('src','/images/uploadFiles/healingDog/'+data.healingDog.healingDogimage);
 			
 		}
 	})
@@ -106,7 +124,7 @@ $(function () {
 	                <div class="row margin-ten no-margin-bottom">
 	                    <div class="col-md-6 col-sm-6 text-center xs-margin-bottom-ten">
 <!-- 	                        <img src="http://placehold.it/300x300" alt=""/> -->
-	                        <img id="healingDogImg" src = "" alt=""/>
+	                        <img id="healingDogImg" src = "" alt="" width="400px" height="400px"/>
 	                    </div>
 	                    <div class="col-md-6 col-sm-6 sm-margin-bottom-ten">
 	                        <div class="col-md-12 col-sm-12 no-padding">
@@ -232,6 +250,10 @@ $(function () {
 					<a href="/afterAsh/listAfterAsh"><span class="highlight-button btn btn-medium pull-right">목록으로</span></a>
 					<c:if test="${user.userId==afterAsh.user.userId}">
 					<a href="/afterAsh/updateAfterAsh?afterASHNo=${afterAsh.afterASHNo}"><span class="highlight-button btn btn-medium pull-right">수정</span></a>
+					<a style="cursor: pointer;" name="deleteAfterAsh"><span class="highlight-button btn btn-medium pull-right">삭제</span></a>
+					</c:if>
+					<c:if test="${user.role=='admin'}">
+					<a style="cursor: pointer;" name="deleteAfterAsh"><span class="highlight-button btn btn-medium pull-right">삭제</span></a>
 					</c:if>
 				</div>
             </div>
@@ -248,7 +270,21 @@ $(function () {
             
         </section> 
         <!-- end 내용 영역  -->
-
+        
+    <!-- 1. 삭제여부 모달 -->
+    <div id="isDelete" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />삭제하시겠습니까?</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span id="ok" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
+                <span id="cancel" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
+            </div>
+      </div>
+    </div>
+      <!-- 1. 삭제여부 모달 -->
 	
 	<jsp:include page="/layout/footer.jsp" />
 	

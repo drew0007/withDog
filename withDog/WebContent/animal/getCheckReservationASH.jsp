@@ -35,6 +35,10 @@
 
 <body>
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#notReservation').hide();
+};
+
 $(function () {
 	$("#addReservationASH").on("click", function () {
 		$("form").attr("method","post").attr("action","/ash/addReservationASH").submit();
@@ -56,6 +60,10 @@ var healingDogNo = ${healingDog.healingDogNo};
 		      eventRender: function(event, eventElement) { if (event.imageurl) { eventElement.find("span.fc-title").prepend("<img src='" + event.imageurl +"' width='20' height='20'>"); } },
 			  
 		  	  dayClick: function(date) {
+		  		if(date<new Date()){
+		  			$("#notReservation").show(); //해당날짜 예약 불가
+		  			  return;
+		  		  }
 		  			  $.ajax({
 		  				  url : "/ash/json/getAshReservationTimeCount/"+date.format()+"?healingDogNo="+healingDogNo,
 		  				  method : "GET",
@@ -75,7 +83,7 @@ var healingDogNo = ${healingDog.healingDogNo};
 		  						  $("#ashReservationTime option").remove();
 		  						  $("#ashReservationTime").append('<option value="0">오전 10:00~ 13:00</option>');
 		  					  }else if(data.ash.ashReservationTime==2){
-		  						  alert("해당 날짜는 예약 불가능합니다.")
+		  							$("#notReservation").show(); //해당날짜 예약 불가
 		  					  }else if(data.ash.ashReservationTime==3){
 		  						$("input[name=ashReservationDate]").val(date.format());
 		  						$("#ashReservationTime option").remove();
@@ -124,21 +132,35 @@ function getAllReservation() { 	//////// 전체 이벤트 받아오기
    					console.log(data)
 	    				for (var i = 0; i < data.length; i++) {
 	    				
-							var date = moment(data[i].start);
+	    					var date = moment(data[i].start); // 시작날 2005년
+							var date2 = moment(data[i].end); //오늘날
+							if(i<data.length-1){
 								if (date.isValid()) {
 									$('#calendar').fullCalendar('renderEvent', {
 										title : data[i].title+" "+data[i].time,
 										color: data[i].color,
 										start : date,
 										allDay : true,
-										imageurl: "/images/uploadFiles/healingDog/"+data[i].image
+										imageurl: "/images/uploadFiles/healingDog/"+data[i].image,
 										
 								});
-							} else {
-								alert('Invalid date.');
+							} 
+							}else if(i>=data.length-1){
+								if (date.isValid()) {
+									$('#calendar').fullCalendar('renderEvent', {
+										title : data[i].title+" "+data[i].time,
+										color: data[i].color,
+										start : date,
+										end : date2,
+										allDay : true,
+										imageurl: "/images/uploadFiles/healingDog/"+data[i].image,
+										rendering: 'background',
+										color: "#FCF5D1",
+								});
+							} 
 							}
-						}
-   			}//end for
+						}//end for
+   			}
 					})
 	
 }
@@ -258,7 +280,19 @@ function getAllReservation() { 	//////// 전체 이벤트 받아오기
 			</div>	 
 	 </section> 
 	<!--  예약 하단 끝 -->
-	
+	 <!-- 1. 날짜 예약 불가 모달 -->
+    <div id="notReservation" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />해당 날짜는 예약 불가능합니다.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 1. 날짜 예약 불가 모달 -->
 	<jsp:include page="/layout/footer.jsp" />
 	
 	<jsp:include page="/common/js.jsp" />

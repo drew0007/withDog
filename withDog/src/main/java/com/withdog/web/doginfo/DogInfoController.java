@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,7 +70,7 @@ public class DogInfoController {
 		
 		if(file[0].getSize()==0) {
 			System.out.println("파일비었음");
-			dogInfo.setDogInfoImage("");
+			dogInfo.setDogInfoImage("이미지없음");
 		}else {
 			for (MultipartFile multipartFile : file) {
 				if (multipartFile.getOriginalFilename().equals("") || multipartFile == null) {
@@ -80,7 +81,7 @@ public class DogInfoController {
 				System.out.println("저장된 파일들 : " + multipartFile.getOriginalFilename());
 				File f = new File(dogInfofilePath + (dateFormat.format(date)+multipartFile.getOriginalFilename()).toString());
 				System.out.println(dogInfofilePath);
-				
+					
 				multipartFile.transferTo(f); // 위의 경로에 파일 저장
 			}
 			dogInfo.setDogInfoImage(a.substring(0, a.length()-1));
@@ -101,13 +102,21 @@ public class DogInfoController {
 	@RequestMapping(value = "listDogInfo")
 	public String getDogInfoList(@ModelAttribute("search") Search search, Model model, HttpSession session) throws Exception {
 		System.out.println("/listDogInfo");
-		User sessionUser = (User)session.getAttribute("user");
+		
+		User user = new User();
+		
+		if(session.getAttribute("user")==null) {
+			user.setRole("user");
+		}else {
+			user = (User)session.getAttribute("user");
+		}
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		Map<String, Object> map = dogInfoService.getDogInfoList(search);
+		System.out.println("유저 : " + user);
+		Map<String, Object> map = dogInfoService.getDogInfoList(search,user);
 		System.out.println("맵확인 : " + map);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
@@ -115,7 +124,7 @@ public class DogInfoController {
 		System.out.println("리스트 넘기기전 리스트 확인 : " + map.get("list"));
 
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("sessionUser", sessionUser);
+		model.addAttribute("sessionUser", user);
 		model.addAttribute("topicCount", map.get("topicCount"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search); // 생략가능
@@ -157,6 +166,21 @@ public class DogInfoController {
 		model.addAttribute("dogInfo", dogInfo);
 
 		return "forward:/community/updateDogInfo.jsp";
+	}
+	
+	@RequestMapping(value = "deleteDogInfo", method = RequestMethod.GET)
+	public String deleteDogInfo(HttpServletRequest request, HttpSession session) throws Exception {
+		System.out.println("/deleteDogInfo : GET");
+		// Business Logic
+		int dogInfoNo = Integer.parseInt(request.getParameter("dogInfoNo"));
+		User sessionUser = (User)session.getAttribute("user");
+		DogInfo dogInfo = dogInfoService.getDogInfo(dogInfoNo,sessionUser);
+		dogInfo.setDeleteFlag("1");
+		dogInfoService.deleteDogInfo(dogInfo);
+		
+		// Model 과 View 연결
+		
+		return "forward:/dogInfo/listDogInfo";
 	}
 
 	@RequestMapping(value = "updateDogInfo", method = RequestMethod.POST)

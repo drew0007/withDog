@@ -72,6 +72,11 @@
 <body>
 
 <script>
+function close_pop(flag) {
+    $('#noSearch').hide();
+};
+
+
 
 $(function () {
 	
@@ -348,8 +353,8 @@ $(function () {
 	$(".getInfo").on("click", function () {
 		$("#imageSearchResult").css('display',"")
 		if($(".percent",this).text()=="0"){
-			alert("이미지분석 결과가 없습니다.")
-			$("#ddddd").css('display',"none")
+			$('#noSearch').show();
+			$("#imageSearchResult").css('display',"none")
 			return;
 		}
 			//$("#result_image").attr('src',"/images/result_image.png")
@@ -688,7 +693,19 @@ $(function (data) {
 		</div><!-- end container --> 
 	</section>
 	<!-- end 내용  section -->
-  
+    <!-- 1. 이미지서치 결과없음 모달 -->
+    <div id="noSearch" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />이미지 분석결과가 없습니다.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+  <!-- 1. 이미지서치 결과없음 모달 -->
        
     <jsp:include page="/layout/footer.jsp" />
 	

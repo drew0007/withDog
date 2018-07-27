@@ -114,9 +114,9 @@ hs(function(){
                                             <ul>
                                                 <li class="dropdown-header">동물교감치유 서비스</li>
                                                 <li><a href="../animal/getASHInfo.jsp">동물교감치유 서비스란</a></li>
-                                                <li><a href="../animal/listHealingDog.jsp">치유견 소개</a></li>
-                                                <li><a href="../animal/listReservationASH.jsp">예약하기</a></li>
-                                                <li><a href="../animal/addConsulting.jsp">영상상담 신청<span class="menu-new">new</span></a></li>
+                                                <li><a href="/ash/listHealingDog">치유견 소개</a></li>
+                                                <li><a href="/ash/listAsh">예약하기</a></li>
+                                                <li><a href="/ash/getConsultingDogList">영상상담 신청<span class="menu-new">new</span></a></li>
                                             </ul>
                                             <!-- end sub menu item  -->
                                         </li>
@@ -173,9 +173,9 @@ hs(function(){
                                             <!-- sub menu item  -->
                                             <ul id="collapse5" class="dropdown-menu mega-menu panel-collapse">
 		                                        <li class="dropdown-header">커뮤니티</li>
-		                                        <li><a href="../community/dogBreedDicSearch.jsp">견종백과</a></li>
-		                                        <li><a href="../community/listDogInfo.jsp">애견상식</a></li>
-		                                        <li><a href="../community/listAfterASH.jsp">동물교감치유후기</a></li>
+		                                        <li><a href="/dogBreedDic/getDogBreed">견종백과</a></li>
+		                                        <li><a href="/dogInfo/listDogInfo">애견상식</a></li>
+		                                        <li><a href="/afterAsh/listAfterAsh">동물교감치유후기</a></li>
 		                                        <li><a href="../community/listOutSideSNS.jsp">SNS게시판</a></li>
 		                                        <li><a href="../community/listChatRoom.jsp">채팅방</a></li>
 		                                    </ul>

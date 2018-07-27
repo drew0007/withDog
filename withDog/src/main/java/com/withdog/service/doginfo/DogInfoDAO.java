@@ -23,9 +23,9 @@ public interface DogInfoDAO {
 
 	public void updateDogInfo(DogInfo dogInfo) throws Exception;
 
-	public List<DogInfo> getDogInfoList(Search search) throws Exception;
+	public List<DogInfo> getDogInfoList(Search search,User user) throws Exception;
 
-	public void deleteDogInfo(int dogInfoNo) throws Exception;
+	public void deleteDogInfo(DogInfo dogInfo) throws Exception;
 
 	public void updateRecommend(DogInfo dogInfo) throws Exception;
 
@@ -33,8 +33,8 @@ public interface DogInfoDAO {
 	
 	public void updateViewCount(DogInfo dogInfo) throws Exception;
 	
-	public int getTopicCount(String dogInfoTopic) throws Exception;
+	public int getTopicCount(String dogInfoTopic,User user) throws Exception;
 	
-	public int getTotalCount(Search search) throws Exception;
+	public int getTotalCount(Search search,User user) throws Exception;
 
 }

@@ -30,6 +30,12 @@
 
 
 <script type="text/javascript">
+function close_pop(flag) {
+    $('#selectDate').hide();
+    $('#writeTitle').hide();
+    $('#writeContent').hide();
+};
+
 $(function () {
 	$("#fd-but-afterASHDate").attr('class','fa fa-calendar small-icon form-group');
 })
@@ -43,53 +49,36 @@ function fncAddAfterAsh(){
 
 
 	if(afterASHTitle == null || afterASHTitle.length<1){
-		alert("제목을 작성하세요.");
+		$('#writeTitle').show();
 		return;
 	}
 	
 	if(afterASHContent == null || afterASHContent.length<1){
-		alert("내용을 입력하세요.");
+		$('#writeContent').show();
 		return;
 	}
 	if(afterASHDate == null || afterASHDate.length<1){
-		alert("날짜를 입력하세요.");
+		$('#selectDate').show();
 		return;
 	}
-
-	$("form").attr("method","post").attr("action","/afterAsh/addAfterAsh").attr("enctype","multipart/form-data").submit();
+	$('#isWrite').show();
+	
 }
 
-// $(function () {
-// 	$("#submit").on("click", function () {
-// 		if (confirm("등록하시겠습니까?") == true){    //확인
-// 			fncAddAfterAsh();
-// 		  }else{   //취소
-// 		      return;
-// 		  }
-// 	});
-// })
 $(function () {
 	$("#submit").on("click", function () {
-		$( "#dialog-confirm" ).dialog( "open" );
+		fncAddAfterAsh();
 	});
 })
 $(function () {
-	    $( "#dialog-confirm" ).dialog({
-	    	dialogClass: "no-close",
-	    	autoOpen: false,
-	        resizable: false,
-	        height: "auto",
-	        width: 400,
-	        modal: true,	
-	        buttons: {
-	          "확인": function() {
-	        	  fncAddAfterAsh();
-	          },
-	          "취소": function() {
-	            $( this ).dialog( "close" );
-	          }
-	        }
-	      });
+	$("#ok").on("click", function () {
+		$('#isWrite').hide();
+		$("form").attr("method","post").attr("action","/afterAsh/addAfterAsh").attr("enctype","multipart/form-data").submit();
+		
+	})
+	$("#cancel").on("click", function () {
+		$('#isWrite').hide();
+	})
 })
 
 
@@ -261,11 +250,67 @@ $(function () {
 	</section>
 	<!-- end content section -->
 
-<div id="dialog-confirm" title="동물교감치유 후기 등록">
-  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>게시글을 등록하시겠습니까?</p>
-</div>
+
+<!--         모달만 모여있는곳 Start -->
+  <!-- 1. 이용기간작성 모달 -->
+    <div id="selectDate" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />이용기간을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+  <!-- 1. 이용기간작성 모달 -->
+      
+  <!-- 2. 제목작성 모달 -->
+    <div id="writeTitle" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />제목을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 2. 제목작성 모달 -->
+      
+  <!-- 3. 내용작성 모달 -->
+    <div id="writeContent" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />내용을 작성해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 내용작성 모달 -->
+      
+  <!-- 4. 등록여부 모달 -->
+    <div id="isWrite" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />후기를 등록하시겠습니까?</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span id="ok" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
+                <span id="cancel" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
+            </div>
+      </div>
+    </div>
+      <!-- 4. 내용작성 모달 -->
 
 
+<!--         모달만 모여있는곳 End -->
 
 	<jsp:include page="/layout/footer.jsp" />
 

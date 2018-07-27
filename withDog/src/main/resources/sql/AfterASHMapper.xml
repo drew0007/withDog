@@ -53,21 +53,24 @@
 		WHERE after_ash_no = #{value}
 	</select>
 	
-	<select id="getAfterAshList" parameterType="search" resultMap="AfterAshSelectMap">
+	<select id="getAfterAshList" parameterType="java.util.Map" resultMap="AfterAshSelectMap">
 		SELECT *
 		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
 					FROM( SELECT * 
 									FROM after_ash
-											<if test="searchKeyword != null and searchKeyword !=0">
 												<where>
-													<if test="searchKeyword !='' ">
-										 				healing_Dog_no LIKE '%'||#{searchKeyword}||'%'
+													<if test="user.role=='user' ">
+														delete_flag = '0'
+													</if>
+													<if test="search.searchKeyword != null and search.searchKeyword !=0">
+														<if test="search.searchKeyword !='' ">
+											 				AND healing_Dog_no LIKE '%'||#{search.searchKeyword}||'%'
+														</if>
 													</if>
 												</where>
-											</if>
 									) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+						WHERE ROWNUM &lt;= #{search.endRowNum} )
+					WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	</select>
 	
 	<select id="getAfterAshListByViewCount" resultMap="AfterAshSelectMap">
@@ -80,13 +83,16 @@
 		SELECT COUNT(*)
 	  	FROM(	SELECT * 
 						FROM after_ash
-							<if test="searchKeyword != null and searchKeyword !=0">
-								<where>
-									<if test="searchKeyword !='' ">
-						 				healing_Dog_no LIKE '%'||#{searchKeyword}||'%'
+							<where>
+								<if test="user.role=='user' ">
+									delete_flag = '0'
+								</if>
+								<if test="search.searchKeyword != null and search.searchKeyword !=0">
+									<if test="search.searchKeyword !='' ">
+					 					AND healing_Dog_no LIKE '%'||#{search.searchKeyword}||'%'
 									</if>
-								</where>
-							</if>
+								</if>
+						</where>
 						) countTable					
 	</select>	  
 	 
@@ -98,6 +104,16 @@
 			<where> 
 			after_ash_no = #{afterASHNo}
 			</where>
+	</update>
+	
+	<update id="deleteAfterASH" parameterType="afterAsh">
+		UPDATE after_ash
+		<set>
+		delete_flag = #{deleteFlag}
+		</set>
+		<where>
+		after_ash_no = #{afterASHNo}
+		</where>
 	</update>
 		
 	<update id="updateAfterAsh" parameterType="afterAsh">

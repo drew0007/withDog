@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
@@ -16,10 +17,15 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.withdog.service.domain.ChatBot;
+import com.withdog.service.domain.User;
 import com.withdog.service.quick.QuickService;
 
 @RestController
@@ -547,5 +553,123 @@ public class QuickRestController {
         
 		return resjobj;
 	}
+	
+	
+	@RequestMapping(value = "json/addChatbot")
+	public JSONObject addChatbot(@RequestBody ChatBot chatBot) throws Exception{
+		
+		System.out.println(chatBot);
+		quickService.addChatBot(chatBot);
+		System.out.println("add 완료");
+		
+		
+		ChatBot chatBot2 = quickService.getCurrentChatBot();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot2);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getChatbot/{questionNo}")
+	public JSONObject getChatbot(@PathVariable int questionNo) throws Exception{
+		
+		System.out.println(questionNo);
+		ChatBot chatBot = quickService.getChatBot(questionNo);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getCurrentChatBot")
+	public JSONObject getChatbot() throws Exception{
+		
+		ChatBot chatBot = quickService.getCurrentChatBot();
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/updateChatbot")
+	public JSONObject updateChatbot(@RequestBody ChatBot chatBot) throws Exception{
+		
+		System.out.println(chatBot);
+		quickService.updateChatBot(chatBot);
+		System.out.println("update 완료");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/updateConnect/{state}")
+	public JSONObject updateConnect(@PathVariable int state) throws Exception{
+		String answer = "";
+		
+		ChatBot chatBot = new ChatBot();
+		
+
+		if(state==1 || state==0) { //상담사가 부재중으로 설정했다면
+			answer = "현재 상담사가 부재중입니다. 상담 가능시간은 14:00~16:00시 입니다.";
+			chatBot = quickService.getCurrentChatBot();
+			chatBot.setAnswer(answer);
+			chatBot.setDeleteFlag("1");
+			chatBot.setConnectAble("1");
+		}
+		if(state==2 || state==4) { //상담사 연결 가능상태라면
+			answer = "아래 링크를 통해 접속해 주십시요. 응답시간은 10분 내외입니다.<button id=\"start\">상담시작</button>";
+			chatBot = quickService.getCurrentChatBot();
+			chatBot.setAnswer(answer);
+			chatBot.setDeleteFlag("0");
+			chatBot.setConnectAble("2");
+		}
+		if(state==3) { //상담사가 상담중이라면
+			answer = "현재 상담사가 상담중입니다. 잠시후에 다시 신청해주세요";
+			chatBot = quickService.getCurrentChatBot();
+			chatBot.setAnswer(answer);
+			chatBot.setConnectAble("2");
+		}
+		
+		System.out.println("업데이트된 챗봇 ; " + chatBot);
+		quickService.updateConnect(chatBot);
+		System.out.println("update 완료");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/deleteChatbot")
+	public JSONObject deleteChatbot(@RequestBody ChatBot chatBot) throws Exception{
+		
+		System.out.println(chatBot);
+		quickService.deleteChatBot(chatBot.getQuestionNo());
+		System.out.println("delete 완료");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("chatBot", chatBot);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getChatBotList")
+	public JSONObject getChatBotList(HttpSession session) throws Exception {
+		System.out.println("json/getChatBotList");
+		
+		User user = new User();
+		if (session.getAttribute("user")==null) {
+			user.setRole("user");
+		}else {
+			user = (User)session.getAttribute("user");
+		}
+		
+		List<ChatBot> list = quickService.getChatBotList(user);
+		System.out.println("list확인 : " + list);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", list);
+		
+		return jsonObject;
+	}
+	
+	
+	
 
 }

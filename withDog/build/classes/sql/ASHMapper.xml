@@ -246,7 +246,7 @@
 									SELECT ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer
 									FROM ash_reservation ar, healing_dog hd
 									WHERE ar.healing_dog_no = hd.healing_dog_no AND ar.user_id = #{userId}
-									<if test="search.searchStartDay=='' and search.sorting !=0">
+									<if test="search.searchStartDay==null and search.sorting !=0">
 											<if test="search.sorting==1">
 												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
@@ -257,7 +257,7 @@
 												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-6)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 									</if>
-									<if test="search.searchStartDay!=''  and search.sorting ==0 ">
+									<if test="search.searchStartDay!=null  and search.sorting ==0 ">
 										 		AND ar.ash_reservation_date BETWEEN TO_DATE(#{search.searchStartDay},'YYYY-MM-DD') AND TO_DATE(#{search.searchEndDay},'YYYY-MM-DD')
 									</if>
 									ORDER BY ar.ash_reservation_no desc
@@ -273,7 +273,7 @@
 	  					SELECT ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer
 						FROM ash_reservation ar, healing_dog hd
 						WHERE ar.healing_dog_no = hd.healing_dog_no AND ar.user_id=#{userId}
-							<if test="search.searchStartDay=='' and search.sorting !=0">
+							<if test="search.searchStartDay==null and search.sorting !=0">
 									<if test="search.sorting==1">
 										AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 									</if>
@@ -286,7 +286,7 @@
 									<if test="search.sorting==4">
 									</if>
 							</if>
-							<if test="search.searchStartDay!=''  and search.sorting ==0 ">
+							<if test="search.searchStartDay!=null and search.sorting ==0 ">
 								 		AND ar.ash_reservation_date BETWEEN TO_DATE(#{search.searchStartDay},'YYYY-MM-DD') AND TO_DATE(#{search.searchEndDay},'YYYY-MM-DD')
 							</if>
 						) countTable					

@@ -2,10 +2,12 @@ package com.withdog.service.domain;
 
 public class ChatBot {
 	private User user;
-	private String questionNo;
+	private int questionNo;
 	private String question;
 	private String answer;
-	private String questionCount;
+	private int questionCount;
+	private String deleteFlag;
+	private String connectAble;
 
 	public User getUser() {
 		return user;
@@ -15,11 +17,11 @@ public class ChatBot {
 		this.user = user;
 	}
 
-	public String getQuestionNo() {
+	public int getQuestionNo() {
 		return questionNo;
 	}
 
-	public void setQuestionNo(String questionNo) {
+	public void setQuestionNo(int questionNo) {
 		this.questionNo = questionNo;
 	}
 
@@ -39,18 +41,36 @@ public class ChatBot {
 		this.answer = answer;
 	}
 
-	public String getQuestionCount() {
+	public int getQuestionCount() {
 		return questionCount;
 	}
 
-	public void setQuestionCount(String questionCount) {
+	public void setQuestionCount(int questionCount) {
 		this.questionCount = questionCount;
+	}
+
+	public String getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(String deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+	public String getConnectAble() {
+		return connectAble;
+	}
+
+	public void setConnectAble(String connectAble) {
+		this.connectAble = connectAble;
 	}
 
 	@Override
 	public String toString() {
-		return "ChatBot [questionNo=" + questionNo + ", question=" + question + ", answer=" + answer
-				+ ", questionCount=" + questionCount + "]";
+		return "ChatBot [user=" + user + ", questionNo=" + questionNo + ", question=" + question + ", answer=" + answer
+				+ ", questionCount=" + questionCount + ", deleteFlag=" + deleteFlag + ", connectAble=" + connectAble
+				+ "]";
 	}
+
+
 
 }
