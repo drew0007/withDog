@@ -145,5 +145,12 @@ public class QuickController {
 		return "forward:/community/addDogInfoView.jsp";
 	}
 	
+	@RequestMapping(value = "getRateChatBot", method = RequestMethod.GET)
+	public String getRateChatBot() throws Exception{
+		System.out.println("/getRateChatBot : POST");
+		
+		return "forward:/admin/getRateChatBot.jsp";
+	}
+	
 
 }

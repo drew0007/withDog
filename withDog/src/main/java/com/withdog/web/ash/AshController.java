@@ -74,6 +74,11 @@ public class AshController {
 
 	@Value("#{commonProperties['healingDogfilePath']}")
 	String healingDogfilePath;
+	
+	@RequestMapping(value = "getASHInfo", method = RequestMethod.GET)
+	public String getASHINfo() throws Exception {
+		return "forward:/animal/getASHInfo.jsp";
+	}
 
 	@RequestMapping(value = "addHealingDog", method = RequestMethod.GET)
 	public String addHealingDog(Model model) throws Exception {

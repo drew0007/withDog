@@ -669,6 +669,26 @@ public class QuickRestController {
 		return jsonObject;
 	}
 	
+	@RequestMapping(value = "json/getRateChatBot")
+	public JSONObject getRateChatBot(HttpSession session) throws Exception {
+		System.out.println("json/getRateChatBot");
+		
+		User user = new User();
+		if (session.getAttribute("user")==null) {
+			user.setRole("admin");
+		}else {
+			user = (User)session.getAttribute("user");
+		}
+		
+		List<ChatBot> list = quickService.getChatBotList(user);
+		System.out.println("list»Æ¿Œ : " + list);
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", list);
+		
+		return jsonObject;
+	}
+	
 	
 	
 

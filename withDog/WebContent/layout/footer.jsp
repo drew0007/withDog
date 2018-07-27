@@ -342,6 +342,24 @@ $(function () { //처음시작할때 상태 받아와서 상담가능인지 불�
 	})
 })
 
+$(function () { // 버튼 클릭시 내비게이션
+	$(document).on("click", "#goHealingDog", function(){
+		self.location = "/ash/listHealingDog"
+	})
+	$(document).on("click", "#goASHInfo", function(){
+		self.location = "/ash/getASHInfo"
+	})
+	$(document).on("click", "#goAshReservation", function(){
+		self.location = "/ash/listAsh"
+	})
+	$(document).on("click", "#goWithDog", function(){
+		self.location = "/common/getCoInfo"
+	})
+	$(document).on("click", "#goAbandon", function(){
+		self.location = "/abandDog/getAbandDogList"
+	})
+})
+
 
 
     </script>
@@ -405,7 +423,7 @@ $(function () { //처음시작할때 상태 받아와서 상담가능인지 불�
         
 <!--   챗봇 -->
 	      
-     	<img id="clickChatBot" class="top animated zoomIn" style="width: 145px; height: 60px; cursor: pointer;" src="/images/oneone.png"/>
+     	<img id="clickChatBot" class="top animated zoomIn" style="width: 145px; height: 60px;z-index:99;  cursor: pointer;" src="/images/oneone.png"/>
     
     
 

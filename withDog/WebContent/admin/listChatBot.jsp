@@ -28,14 +28,14 @@ table td{font-size:12px;}
 <script type="text/javascript">
 
 $(function () {
-	
+	var questionNo2 = "";
 	
 	$(document).on("click", ".updateButton", function(){
 		
 		var index = $(".updateButton").index(this);
 		var question =$($(".question")[index]).html();
 		var answer =$($(".answer")[index]).html();
-		var questionNo2 = $($(".questionNo")[index]).val();
+		questionNo2 = $($(".questionNo")[index]).val();
 		console.log(questionNo2)
 		
 // 		console.log($($(".question")[index]).html());
@@ -55,7 +55,6 @@ $(function () {
 		})
 		
 		$(document).on("click", "#updateSuccess", function(){
-			console.log(questionNo2)
 			$.ajax({
 				url : "/quick/json/updateChatbot",
 				method : "post",
