@@ -85,8 +85,12 @@ $(function () {
 
 function close_pop(flag) {
     $('#notReservation').hide();
-    $('#loginModal').hide();
     $('#selectDateModal').hide();
+};
+
+function close_login_pop(flag){
+	self.location = "/user/loginUser";
+    $('#loginModal').hide();
 };
 
 
@@ -387,7 +391,7 @@ $(function() {
                 <p class="borderline-gray"></p>
                 <p style="text-align: center; line-height: 1.5;"><br />로그인 후 이용가능합니다.</p>
                 <p><br /></p>
-            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_login_pop();">
                 <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
             </div>
       </div>

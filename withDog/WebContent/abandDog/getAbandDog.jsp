@@ -13,8 +13,51 @@
 
 </head>
 
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script>
+   var address = encodeURIComponent('${abandDog.careAddr}');
+  /* var address = encodeURIComponent('강남역'); */
+  
+  $.ajax({
+	  
+		url : 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address='+address,
+		method:'GET',
+		headers:{
+			'Accept' : 'application/json',
+			'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		success:function(location,status){
+			var lat = location.results[0].geometry.location.lat;
+			var lng = location.results[0].geometry.location.lng;
+			
+			console.log(location)
+			console.log(location.results[0].geometry.location)
+			console.log(location.results[0].geometry.location.lat)
+			console.log(location.results[0].geometry.location.lng)
+			
+			initMap(lat, lng);	
+		}
+	});
+  
+  	function initMap(lat, lng) {
+	  // The location of Uluru
+	  var uluru = {lat: parseFloat(lat), lng: parseFloat(lng)};
+	 // var uluru = {lat: 36.3631355, lng: 127.2867408};
+	  // The map, centered at Uluru
+	  var map = new google.maps.Map(
+	      document.getElementById('map'), {zoom: 16, center: uluru});
+	  // The marker, positioned at Uluru
+	  var marker = new google.maps.Marker({position: uluru, map: map});
+	  marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+	}
+  </script>
+  
+  <script async defer
+  	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyJUiL4ifUuucPRfc1SDXbO1kv-ci_CtE&callback=initMap">
+  </script>
 
-<body>
+
+<body onunLoad="return window.location.replace(self.location);">
 
 	<jsp:include page="/layout/common-header.jsp" />
 	
@@ -156,15 +199,14 @@
                                 <div class="tab-pane med-text fade in active">
                                     <div class="row">
                                         <div class="col-md-10 col-sm-12 center-col">
-                                            <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1582.7835459038783!2d127.02758299999999!3d37.494541!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca15aee9ab0cb%3A0x31793fc63e0cf9d3!2z67mE7Yq47Lqg7ZSE!5e0!3m2!1sko!2skr!4v1532231935449" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
-                                            <iframe src="/quick/addressSearch?careAddr=${abandDog.careAddr}" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                            <div id="map" style="width:100%; height:450px;">
+                                            	
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- end 보호소위치 -->
                             </div>
-							                        
-                        
                         <!-- end tab -->
                     </div>
                 </div>

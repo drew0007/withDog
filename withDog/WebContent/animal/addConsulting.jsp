@@ -22,6 +22,12 @@
                 z-index: 11;
                 position: fixed;
             }
+            
+            #loginModal {
+                display: none;
+                z-index: 11;
+                position: fixed;
+            }
 
 </style>
 <script type="text/javascript">
@@ -34,10 +40,8 @@
 				selectDog = 0;
 			}
 			
-			//$('img[name="checkImg"]')[selectDog].src = '';
 			$($('img[name="healingDogimage"]')[selectDog]).css("border", "");
 			$($('img[name="healingDogimage"]')[index]).css("border", "6px solid");
-			//$('img[name="checkImg"]')[index].src = '/images/uploadFiles/healingDog/circle.png';
 			
 			$('input[name="selectDog"]').val(index);
 			
@@ -48,12 +52,6 @@
 			$('#healingDogNameModal').text("치유견 : "+healingDogName);
 		});
 		
-
-		/* $('img[name="checkImg"]').on('click', function(){
-			var index = $('img[name="checkImg"]').index(this);
-			$('input[name="selectDog"]').val('');
-			$('img[name="checkImg"]')[index].src = '';
-		}); */
 		
 		$('#consulting').on('click', function(){
 			var selectDog = $('input[name="selectDog"]').val();
@@ -61,7 +59,7 @@
 			var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
 			
 			if(userId == null || userId.length<1){
-				alert("로그인을 해야지만 이용 가능한 서비스입니다.");
+				$("#loginModal").toggle();
 				return;
 			}
 			
@@ -98,18 +96,14 @@
 		$('#cancelModal').on('click', function(){
 			$("#my-dialog, #dialog-background").toggle();	
 		});
+		
+		$('#cancelLoginModal').on('click', function(){
+			self.location = "/user/loginUser";
+			$("#loginModal").toggle();
+		});
 	});
 </script>
 
-<style>
-
-	/* .checkImg {
-		position: absolute;
-		top: calc(50% - 107px);
-		left: calc(50% - 60px);
-	} */
-
-</style>
 
 <jsp:include page="/common/css.jsp" />
 
@@ -286,6 +280,20 @@
 	            </div>
             </div>
 		<!-- end 알림팝업 -->
+		
+	    <!-- 2. 로그인하세요 모달 -->
+	    <div id="loginModal" style="background-color: rgba(0,0,0,0.3); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+	      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+	                <p class="borderline-gray"></p>
+	                <p style="text-align: center; line-height: 1.5;"><br />로그인 후 이용가능합니다.</p>
+	                <p><br /></p>
+	            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+	                <span id="cancelLoginModal" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+	            </div>
+	      </div>
+	    </div>
+	    <!-- 2. 로그인하세요 모달 -->
 		
 		
         
