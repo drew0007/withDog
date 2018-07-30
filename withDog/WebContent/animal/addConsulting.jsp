@@ -7,29 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<style type="text/css">
-            #dialog-background {
-                display: none;
-                position: fixed;
-                top: 0; left: 0;
-                width: 100%; height: 100%;
-                background: rgba(0,0,0,.3);
-                z-index: 10;
-            }
-            
-            #my-dialog {
-                display: none;
-                z-index: 11;
-                position: fixed;
-            }
-            
-            #loginModal {
-                display: none;
-                z-index: 11;
-                position: fixed;
-            }
-
-</style>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('img[name="healingDogimage"]').on('click', function(){
@@ -48,8 +26,8 @@
 			var healingDogHealer = $($('input[name="healingDogHealer"]')[index]).val();
 			var healingDogName = $($('input[name="healingDogName"]')[index]).val();
 
-			$('#healingDogHealerModal').text("상담사 : "+healingDogHealer);
-			$('#healingDogNameModal').text("치유견 : "+healingDogName);
+			$('#healingDogHealerModal').val(healingDogHealer);
+			$('#healingDogNameModal').val(healingDogName);
 		});
 		
 		
@@ -58,48 +36,50 @@
 			var userId = '${user.userId}';
 			var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
 			
+			var healingDogHealer = $('#healingDogHealerModal').val();
+			var healingDogName = $('#healingDogNameModal').val();
+			
 			if(userId == null || userId.length<1){
-				$("#loginModal").toggle();
+				swal("알 림", "로그인 후 이용가능합니다.").then(function(value){
+					self.location = "/user/loginUser";
+				});
 				return;
 			}
 			
 			if(selectDog == null || selectDog.length<1){
-				alert("치유견을 선택해주세요.");
+				swal("알 림", "치유견을  선택해주세요.");
 				return;
 			}
+
+			swal({
+				  title: "영상상담 신청",
+				  text: "신청자 : "+userId+"\n상담사 : "+healingDogHealer+"\n치유견 : "+healingDogName+"\n\n영상상담을 신청하시겠습니까?",
+				  //icon: "warning",
+				  buttons: true,
+				  //dangerMode: true,
+				}).then(function(value){
+					if(value){
+						swal("영상상담 신청을 하였습니다.", {
+						      icon: "success",
+						    });
+
+						var selectDog = $('input[name="selectDog"]').val();
+						var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
+						$.ajax({
+							url : "/ash/json/addConsulting/"+healingDogNo,
+							method : "GET",
+							datatype : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function (data) {		
+								popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=590, height=370, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+							}
+						}); //end of ajax
+					}
+			});
 			
-			$("#my-dialog, #dialog-background").toggle();			
-		});
-		
-		/* $('#dialog-background').on('click', function(){
-			$("#my-dialog, #dialog-background").toggle();	
-		}); */
-		
-		$('#addConsulting').on('click', function(){
-			var selectDog = $('input[name="selectDog"]').val();
-			var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
-			$.ajax({
-				url : "/ash/json/addConsulting/"+healingDogNo,
-				method : "GET",
-				datatype : "json",
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				success : function (data) {		
-					popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=590, height=370, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-					$("#my-dialog, #dialog-background").toggle();	
-				}
-			}); //end of ajax
-		});
-		
-		$('#cancelModal').on('click', function(){
-			$("#my-dialog, #dialog-background").toggle();	
-		});
-		
-		$('#cancelLoginModal').on('click', function(){
-			self.location = "/user/loginUser";
-			$("#loginModal").toggle();
 		});
 	});
 </script>
@@ -216,6 +196,9 @@
                     </div>
                   </c:forEach>
                   
+                  <input type="hidden" id="healingDogHealerModal" value=""/>
+                  <input type="hidden" id="healingDogNameModal" value=""/>
+                  
                 </div>
             </div>
         </section>
@@ -251,49 +234,6 @@
         </section>
 		</div>
         <!-- end 안내사항-->
-        
-        <!-- 알림팝업 -->
-            <!-- <div id="dialog-background" class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
-            </div> -->
-        
-    		<div id="my-dialog" style="background-color: rgba(0,0,0,0.3); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
-		      	<div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
-					<div class="text-center">
-						<span id="titleModal" class="black-text">영상상담 신청</span>
-						<p class="borderline-gray"></p>
-					</div>
-					<div class="text-center">
-						<span id="userIdModal" class="text-small">신청자 : ${user.userId }</span><br/>
-						<span id="healingDogHealerModal" class="text-small">상담사 : </span><br/>
-						<span id="healingDogNameModal" class="text-small">치유견 : </span>
-						<br/><br/>
-					</div>
-						
-					
-					<div class="text-center">
-						<p id="textModal">영상상담을 신청하시겠습니까?</p>
-					</div>
-	                <div style="cursor:pointer; text-align: center;padding-top: 10px;">
-	                    <span id="addConsulting" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
-	                    <span id="cancelModal" class="highlight-button btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >취소</span>
-	                </div>
-	            </div>
-            </div>
-		<!-- end 알림팝업 -->
-		
-	    <!-- 2. 로그인하세요 모달 -->
-	    <div id="loginModal" style="background-color: rgba(0,0,0,0.3); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
-	      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
-	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
-	                <p class="borderline-gray"></p>
-	                <p style="text-align: center; line-height: 1.5;"><br />로그인 후 이용가능합니다.</p>
-	                <p><br /></p>
-	            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
-	                <span id="cancelLoginModal" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
-	            </div>
-	      </div>
-	    </div>
-	    <!-- 2. 로그인하세요 모달 -->
 		
 		
         

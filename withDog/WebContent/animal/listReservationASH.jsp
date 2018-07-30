@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <link href='/css/fullcalendar.css' rel='stylesheet' />
 
@@ -78,19 +79,31 @@ $(function () {
 	$(".popup-with-zoom-anim").on("click", function () {
 		var index = $(".popup-with-zoom-anim").index(this);
 		$("#selectDogName").html($($(".name")[index]).text()+ "<br /> 동물교감치유를 예약하시겠습니까?")
+		
+		swal({
+			  title: "예약 확인",
+			  text: $($(".name")[index]).text()+"\n동물교감치유를 예약하시겠습니까?",
+			  //icon: "warning",
+			  buttons: true,
+			  //dangerMode: true,
+			}).then(function(value){
+				if(value){
+					$("form").attr("method","post").attr("action","/ash/getCheckReservationASH").attr("enctype","multipart/form-data").submit();
+				}
+		});
 	})
 	
 })
 
 
 function close_pop(flag) {
-    $('#notReservation').hide();
-    $('#selectDateModal').hide();
+    //$('#notReservation').hide();
+    //$('#selectDateModal').hide();
 };
 
 function close_login_pop(flag){
-	self.location = "/user/loginUser";
-    $('#loginModal').hide();
+	//self.location = "/user/loginUser";
+    //$('#loginModal').hide();
 };
 
 
@@ -112,7 +125,8 @@ $(function() {
 			  
 		  	  dayClick: function(date) {
 		  		  if(date.format()<=new Date().format('yyyy-MM-dd')){
-		  			$("#notReservation").show(); //해당날짜 예약 불가
+					swal("알 림", "해당 날짜는 예약 불가능합니다.");
+		  			//$("#notReservation").show(); //해당날짜 예약 불가
 
 		  			  return;
 		  		  }
@@ -143,16 +157,20 @@ $(function() {
 	  $(".goModal").on("click", function() { //동물 선택 시 도그넘버 form -> input에 입력
 		  var userId = "${user.userId}";
 			if(userId==null || userId=="" || userId==" "){
-				$("#loginModal").show(); // 로그인하세요
+				swal("알 림", "로그인 후 이용가능합니다.").then(function(value){
+					self.location = "/user/loginUser";
+				});
+				//$("#loginModal").show(); // 로그인하세요
 				return;
 			}
 			 if($("input[name=reservationDate]").val()==""){
-				$("#selectDateModal").show(); // 날짜를 선택하세요
+				swal("알 림", "예약하실 날짜를 선택하세요.");
+				//$("#selectDateModal").show(); // 날짜를 선택하세요
 				return;
 			 }
 		  
 		  
-		  var index = $(".goModal").attr('href','#modal-popup');
+		  //var index = $(".goModal").attr('href','#modal-popup');
 		  var index = $(".goModal").index(this);
 		  var dogNo =$($(".healingDogNo")[index]).val() 
 		  $("input[name=healingDogNo]").val(dogNo)
@@ -334,9 +352,9 @@ $(function() {
 									<a id="ok" style="cursor: pointer;" class="highlight-button-dark btn btn-medium no-margin">OK</a>
 								</div>
 								<!-- end 버튼 -->
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
 				
 				
                         </div>

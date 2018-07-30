@@ -99,6 +99,26 @@ ul, ol, dl {list-style-position: outside;}
     Typography
 ====================================== */
 
+
+/*=================
+	SweetAlert용
+===================*/
+.swal-footer {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.swal-button--confirm{
+	background-color: #000;
+	border: 2px solid #000;
+}
+
+.swal-button--cancel{
+	background-color: #fff;
+	border: 2px solid #000;
+}
+
+
 /* font family */
 .alt-font {font-family: "Oswald",sans-serif !important;}
 .main-font {font-family: 'Open Sans', sans-serif !important;}
