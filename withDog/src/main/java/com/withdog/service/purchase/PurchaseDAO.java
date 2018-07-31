@@ -13,8 +13,8 @@ public interface PurchaseDAO {
 	// INSERT 상품구매
 	public int addPurchase(Purchase  purchase) throws Exception ;
 
-//	// SELECT ONE 구매 상세조회 
-//	public Purchase getPurchase(int purchaseNo) throws Exception ;
+	// SELECT ONE 나의구매내역 상세조회 
+	public Purchase getMyPurchase(int purchaseNo) throws Exception ;
 
 	// SELECT LIST 나의구매내역리스트
 	public  List<Purchase> getMyPurchaseList(Search search, User user) throws Exception ;

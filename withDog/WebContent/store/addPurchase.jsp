@@ -143,19 +143,19 @@ $(function () {
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>수령인:</label>
-                                <input type="text" name="receiverName" value="${purchase.receiverName}">
+                                <input type="text" name="receiverName" value="${purchase.user.userName}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>배송주소:</label>
                             </div>
                             <div class="col-md-12 no-padding">
-                                <input type="text" name="receiverAddr1" id="address1" class="col-md-9" value="${purchase.receiverAddr2}">
+                                <input type="text" name="receiverAddr1" id="address1" class="col-md-9" value="${purchase.user.address1}">
                                 <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3"  id="searchPost" value="우편번호검색" placeholder="'-'제외하고 숫자만 입력">
-                                <input type="text" name="receiverAddr2" id="address2" value="${purchase.receiverAddr2}">
+                                <input type="text" name="receiverAddr2" id="address2" value="${purchase.user.address2}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>연락처:</label>
-                                <input type="text" name="receiverPhone" value="${purchase.receiverPhone}">
+                                <input type="text" name="receiverPhone" value="${purchase.user.phone}" placeholder="'-'없이 입력해주세요.">
                                 
                             </div>
                             <div class="col-md-12 no-padding">

@@ -8,14 +8,40 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="/common/css.jsp" />
+<% System.out.println("제에스피넘어옴");%>
 <title>결제완료</title>
 
 <script type="text/javascript">
+$(function(){
+	if('${state}'=='1'){
+		alert("결제가 취소 되었습니다.");
+		window.close();
+	}
+	if('${state}'=='2'){
+		alert("결제실패!!! 다시시도해 주세요");
+		window.close();
+	}
+	if('${state}'=='0'){
+		var a = ${pointPurchase.purchase.purchaseNo};
+		window.close();
+		opener.location.href='/purchase/addPurchaseDone?state=3&purchaseNo='+a;
+	}
 	
+	alert("다시돌아옴");
+});
+
+$(function(){
+	$("#confirm").on("click", function(){
+		self.location = "/product/listProduct?prodType=0";
+	})	
+});
+
 </script>
 </head>
 
 <body>
+
+		<c:if test="${state=='3'}">
 
 		<jsp:include page="/layout/store-sub-header.jsp" />
 		
@@ -43,7 +69,7 @@
             	<div class="col-md-8 col-sm-10 col-xs-11 center-col xs-no-padding">
             	
             	
-                <div class="row">
+                <div class="row text-center">
                     <div class="col-md-10 col-sm-12 col-xs-11 text-center center-col margin-ten no-margin-bottom">
                         <!-- logo -->
                         <img class="logo-style-2" src="../images/logo-sky.png" alt="" >
@@ -63,19 +89,21 @@
                     	
 					
 						<div class="row">
-					  		<div class="col-xs-4 col-md-2 font-weight-600">결제금액</div>
+					  		<div class="col-xs-4 col-md-2 font-weight-600 text-left">결제금액</div>
 							<div class="col-xs-8 col-md-4 center-col text-center">${pointPurchase.purchase.purchasePrice}</div>
 						</div>
 					
 						<hr/>
 						
 						<div class="row">
-					  		<div class="col-xs-4 col-md-2 font-weight-600">사용포인트</div>
+					  		<div class="col-xs-4 col-md-2 font-weight-600 text-left">사용포인트</div>
 							<div class="col-xs-8 col-md-4 center-col text-center">${pointPurchase.usePoint}</div>
 						</div>
 						
                     
                     </div>
+                    
+                    <a href="#" id="confirm" class="box-sky btn btn-large">확인</a>
                 </div>
                 
                 
@@ -84,13 +112,10 @@
         </section>
         <!-- end content section -->
         
-        
-        
-
-
 		<jsp:include page="/layout/footer.jsp" />
 	
 		<jsp:include page="/common/js.jsp" />
+		</c:if>
 
 </body>
 </html>

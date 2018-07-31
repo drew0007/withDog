@@ -7,19 +7,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-	function fncGetList(currentPage) {
-		$("#currentPage").val(currentPage)
-	   	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();		
-	}
+// 	//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  function명 바꾸기
+// 	function fncGetList(currentPage) {
+// 		$("#currentPage").val(currentPage)
+// 	   	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();		
+// 	}
 	
-	//============= "검색"  Event  처리 =============	
-	 $(function() {
-		 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( "#searchBtn" ).on("click" , function() {
-			fncGetList(1);
-		});
-	 });
+// 	//============= "검색"  Event  처리 =============	
+// 	 $(function() {
+// 		 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 		$( "#searchBtn" ).on("click" , function() {
+// 			fncGetList(1);
+// 		});
+// 	 });
 	
 	
 	$(function(){

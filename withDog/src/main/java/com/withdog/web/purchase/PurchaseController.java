@@ -189,10 +189,9 @@ public class PurchaseController {
 		Product product = productService.getProduct(prodNo);
 		purchase.setProduct(product);
 		
-		System.out.println("디비들어가기전" + purchase);
-		purchaseService.addPurchase(purchase);		
+		/*System.out.println("디비들어가기전" + purchase);
+		purchaseService.addPurchase(purchase);		*/
 		
-		System.out.println("디비갓다왓니" + purchase);
 		//상품수량
 		int prodQuantity = product.getProdQuantity();
 		
@@ -206,7 +205,6 @@ public class PurchaseController {
 		//프로덕트정보업데이트
 		productService.updateProductAdmin(product);
 
-		int price = 0;
 		int kakaoUsePoint = 0;
 
 		/// 영수증.jsp로 카드 결제시 callback 되는지
@@ -216,18 +214,11 @@ public class PurchaseController {
 		pointPurchase.setUser(user);
 		pointPurchase.setPurchase(purchase);
 		
-		System.out.println(pointPurchase.getPurchase().getPurchasePrice() + "111111111111111111111111111");
-		if (pointPurchase.getPurchase().getPurchasePrice() != 0) { 
-			
-			price = pointPurchase.getPurchase().getPurchasePrice();
-			System.out.println("1111111111111111111111111111111111");
-		}
+		System.out.println(usePoint + "111");
 		if (Integer.parseInt(usePoint) != 0) { // 사용한 포인트가 0이 아니라면
 			pointPurchase.setUsePoint(Integer.parseInt(usePoint));
 			kakaoUsePoint = Integer.parseInt(usePoint);
 		}
-		System.out.println(price + "::" + kakaoUsePoint);
-		
 		
 		if (pointPurchase.getPurchase().getPurchasePrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
 			String uri = "http://localhost:8080/purchase/addPurchaseDone?state=";
@@ -239,8 +230,9 @@ public class PurchaseController {
 			String url = (String) jobj.get("next_redirect_pc_url");
 			System.out.println("next_redirect_pc_url ? " + url); // 결제창
 			session.setAttribute("url", url);
-		} else { // 포인트로만 결제시
-			forwardUri = "forward:/purchase/addPurchaseDone";
+			
+		} else { // 포인트로만 결제시 카카오페이넘어가지않고 바로 결제완료창
+			forwardUri = "forward:/purchase/addPurchaseDone?state=0";
 		}
 
 		// 임시처리
@@ -253,6 +245,7 @@ public class PurchaseController {
 		System.out.println("사용한 포인트는 ? : " + pointPurchase.getUsePoint());
 		point.setUsePoint(pointPurchase.getUsePoint());
 
+		System.out.println("세션담기전포인트" +point);
 		session.setAttribute("pointPurchase", point);
 
 		return forwardUri;
@@ -286,8 +279,10 @@ public class PurchaseController {
 				request.setAttribute("state", "1");
 				
 			}
-			else {
+			else if(state.equals("0")) {
 				System.out.println("결제성공");
+				request.setAttribute("state", "0");
+				
 				
 				if(session.getAttribute("pointPurchase")!=null) {
 					point = (Point)session.getAttribute("pointPurchase");
@@ -296,9 +291,10 @@ public class PurchaseController {
 					
 					
 				    //구매 번호 가져오기
+					System.out.println("디비가기전" + purchase);
 					int purchaseNo = purchaseService.addPurchase(purchase);
 					purchase.setPurchaseNo(purchaseNo);
-				    
+					System.out.println("포인트 가기전"+purchase);
 				    point.setPurchase(purchase);//후원,구매,예약 구분을 위해
 				    
 				    double savePoint = purchase.getPurchasePrice()*0.01;
@@ -308,11 +304,32 @@ public class PurchaseController {
 				    
 				   	commonService.addPointinfo(point);
 				}
+				
+			}else {
+				request.setAttribute("state", "3");
+				
+				if(session.getAttribute("pointPurchase")!=null) {
+					point = (Point)session.getAttribute("pointPurchase");
+					purchase = point.getPurchase();
+					user = point.getUser();
+					
+					
+				    //구매 번호 가져오기
+				    point.setPurchase(purchase);//후원,구매,예약 구분을 위해
+				    
+				    double savePoint = purchase.getPurchasePrice()*0.01;
+				    System.out.println("적립포인트"+savePoint);
+				    int resultpoint = (int)savePoint;
+				    point.setPoint(resultpoint);
+				    
+				}
+				
+				
 			}
 	}
-		System.out.println(point+"ksjfldskjfkldsjfkldsjfl");
+		System.out.println("리퀘스트담기전포인트" +point);
 		request.setAttribute("pointPurchase", point);
-		
+		System.out.println("화면뿌려지기전" + purchase);
 		return "forward:/store/addPurchaseConfirm.jsp";
 }
 	
@@ -348,5 +365,21 @@ public class PurchaseController {
 		return "forward:/mypage/listMyPurchase.jsp";
 	}
 	
+	
+	@RequestMapping(value = "getMyPurchase")
+	public String getMyPurchase(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/getMyPurchase : 나의구매상세정보");
+		
+		System.out.println(purchaseNo + "넘어온넘버111111");
+
+		Purchase purchase = purchaseService.getMyPurchase(purchaseNo);
+		
+		System.out.println(purchase + "서비스갔다온펄체이스");
+		
+		model.addAttribute("purchase", purchase);
+		
+		return "forward:/mypage/getMyPurchase.jsp";
+	}
 
 }

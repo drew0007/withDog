@@ -11,8 +11,10 @@
 		<result property="user.userId"								column="user_id"									jdbcType="VARCHAR" />
 		<result property="product.prodNo"						column="prod_no"									jdbcType="INTEGER" />
 		<result property="product.prodName"				column="prodName" 								jdbcType="VARCHAR" />
-		<result property="product.prodImage"				column="prodImage" 								jdbcType="VARCHAR" />
+		<result property="product.prodImage"				column="prodImage" 							jdbcType="VARCHAR" />
 		<result property="purchaseNo"								column="purchase_no"							jdbcType="INTEGER" />
+		<result property="usePoint"									column="usePoint"									jdbcType="INTEGER" />
+		<result property="cartNo"										column="cart_no"									jdbcType="INTEGER" />
 		<result property="receiverName" 							column="receiver_name" 						jdbcType="VARCHAR" />
 		<result property="receiverPhone" 						column="receiver_phone"			 		jdbcType="VARCHAR" />
 		<result property="receiverAddr1" 						column="receiver_addr1" 					jdbcType="VARCHAR" />
@@ -34,17 +36,19 @@
 	<!-- SQL : INSERT  -->
 	<insert 	id="addPurchase" parameterType="purchase" >
 	INSERT
-		INTO purchase (user_id, prod_no, purchase_no, receiver_name, receiver_phone, receiver_addr1, receiver_addr2, divy_request, purchase_quantity, purchase_price, purchase_date, purchase_condition, payment_option) 
-		VALUES (#{user.userId}, #{product.prodNo}, #{purchaseNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr1}, #{receiverAddr2}, #{divyRequest}, #{purchaseQuantity}, #{purchasePrice}, SYSDATE, '1',  '0')
+		INTO purchase (user_id, prod_no, cart_no, purchase_no, receiver_name, receiver_phone, receiver_addr1, receiver_addr2, divy_request, purchase_quantity, purchase_price, purchase_date, purchase_condition, payment_option) 
+		VALUES (#{user.userId}, #{product.prodNo},  seq_cart_cart_no.NEXTVAL, #{purchaseNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr1}, #{receiverAddr2}, #{divyRequest}, #{purchaseQuantity}, #{purchasePrice}, SYSDATE, '1',  '0')
 	 </insert>
 	 
 	 
  	 <!--SQL : SELECT ONE -->
-	 <select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap">
+	 <select 	id="getMyPurchase"	parameterType="int"	resultMap="purchaseSelectMap">
 		SELECT
-		tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date, order_data, tran_status_code, quantity
-		FROM purchase
-		WHERE tran_no = #{value}
+		po.use_point, p.prod_name prodName, p.prod_image prodImage, pc.purchase_no,  pc.cart_no, pc.user_id, pc.purchase_price, pc.purchase_condition, TO_CHAR(pc.purchase_date, 'YYYY-MM-DD HH:MI:SS') purchase_date, pc.purchase_quantity, pc.receiver_name, pc.receiver_addr1, pc.receiver_addr2
+		FROM purchase pc, product p, (SELECT use_point, purchase_no FROM point WHERE purchase_no = 10114 AND point=0) po
+		WHERE
+		pc.prod_no = p.prod_no
+		AND pc.purchase_no = po.purchase_no
 	 </select>
 	 
 	 
@@ -92,7 +96,7 @@
 	  				 <where>
 	  				 pc.prod_no = p.prod_no
 	  				 <if test="userId != null">
-		  				 pc.user_id = #{user.userId}
+		  				 AND pc.user_id = #{user.userId}
 	  				 </if>
 	  				 </where>
 	  				  ) inner_table

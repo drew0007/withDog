@@ -9,6 +9,46 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 
+//"장바구니" 이벤트 연결
+$(function() {
+	
+		$( "#addCart" ).on("click" , function() {
+			var purchaseQuantity=$("#purchaseQuantity option:selected").val()*1;
+			var prodQuantity=$("#prodQuantity").val();
+			var prodNo=$('input[name="prodNo"]').val();
+		
+			if(parseInt(purchaseQuantity) > parseInt(prodQuantity)){
+				alert("재고 수량을 초과할 수 없습니다. 수량을 다시 선택해주세요");
+				return;
+			}
+			
+			$.ajax( 
+					{
+						url : "/cart/json/addCart",
+						method : "POST" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify({
+							prodNo : prodNo,
+							tranCnt : tranCnt
+						}),
+						success : function(JSONData , status) {
+							if (confirm("상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?")){
+								$(self.location).attr("href","/cart/listCart");
+							}
+						}
+					});
+			
+			//$("form").attr("method" , "POST").attr("action" , "/cart/addCart").submit();
+		});
+	});
+	
+	
+	
+
 //"바로구매" 버튼 이벤트 연결
 $(function(){
 	$("#purchase").on("click", function(){
@@ -377,7 +417,7 @@ $(function(){
                         <div class="col-md-12 col-sm-9 no-padding">
                             <c:choose>
                          	   <c:when test="${product.prodQuantity > 0 }">
-                            		<a class="highlight-button btn btn-medium button" href="#" ><i class="icon-basket"></i>장바구니 담기</a>
+                            		<a class="highlight-button btn btn-medium button" href="#"  id="addCart"><i class="icon-basket"></i>장바구니 담기</a>
                             		<a class="highlight-button-dark btn btn-medium button" href="#" id="purchase">바로구매</a>
                             	</c:when>
                             <c:otherwise>

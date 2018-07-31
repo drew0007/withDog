@@ -1,24 +1,14 @@
 package com.withdog.service.cart.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.withdog.service.cart.CartService;
+import com.withdog.service.domain.Cart;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+public class CartServiceImpl implements CartService {
 
-import com.withdog.service.chat.ChatService;
-import com.withdog.service.domain.Chat;
-import com.withdog.service.domain.Point;
+	@Override
+	public void addCart(Cart cart) throws Exception {
+		// TODO Auto-generated method stub
 
-
-public class CartServiceImpl{
-	
-
-
-
+	}
 
 }

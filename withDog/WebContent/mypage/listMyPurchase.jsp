@@ -6,19 +6,34 @@
 <head>
 <title>나의 구매내역</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport"
-	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<meta name="viewport" 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <link rel="stylesheet" href="../css/purchase.css" />
 
 <!-- 공통 -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 <script type="text/javascript">
-	function fncGetList(currentPage) {
-		$("#currentPage").val(currentPage)
-		$("form").attr("method", "POST").attr("action",
-				"/common/getMyPointList").submit();
-	}
+
+//pageNavigation
+function fncGetList(currentPage) {
+	$("#currentPage").val(currentPage)
+	alert(currentPage)
+	$("form").attr("method", "POST").attr("action", 	"/purchase/getMyPurchaseList").submit();
+}
+
+	//상세정보버튼
+	$(function() {
+		$(".getPurchase").on("click", function() {
+				var index = $(".getPurchase").index(this);
+				alert(index + "index찍기")
+				var purchaseNo = $($("input[name='purchaseNo']")[index]).val();
+				alert(purchaseNo)
+				
+				self.location = "/purchase/getMyPurchase?purchaseNo=" + purchaseNo;
+// 				("form").attr("method", "POST").attr("action", "/purchase/getMyPurchase?purchaseNo=" + purchaseNo).submit();
+		});
+	});
+	
 </script>
 
 <style type="text/css">
@@ -69,13 +84,16 @@ table td {
 			<!-- end sidebar  -->
 
 			
-
-			
 			<!-- content -->
 			<div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-1">
+				
+				<form>
+					<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+					<input type="hidden" id="currentPage" name="currentPage" value=""/>
+				
 			
 				<h1 class="margin-four-bottom" align="center">나의 구매내역</h1>
-
+				
 				<c:forEach var="purchase" items="${list}">
 				<div class="my-purchase-list__item">
 					<div class="my-purchase-list__item-head">
@@ -129,6 +147,7 @@ table td {
 
 													<div class="my-order-unit__info-ea">
 														<p class="gray-text" style="margin-bottom:5px; font-size:12px">구매번호 : ${purchase.purchaseNo}</p>
+														<input type="hidden" name="purchaseNo" value="${purchase.purchaseNo}" />
 														${purchase.purchasePrice}<span class="text-xsmall">원</span> / ${purchase.purchaseQuantity}<span class="text-xsmall">개</span>
 													</div>
 
@@ -168,9 +187,9 @@ table td {
 								</tr>
 							</tbody>
 						</table>
-
-
+						
 					</div>
+					
 				</c:forEach>
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
@@ -179,7 +198,7 @@ table td {
 					<!-- end pagination -->
 				</div>
 				
-				
+				</form>
 				</div>
 
 			</div>

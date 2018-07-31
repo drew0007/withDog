@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.withdog.common.Search;
+import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Purchase;
 import com.withdog.service.domain.User;
@@ -45,7 +46,6 @@ public class PurchaseServiceImpl implements PurchaseService  {
 		
 		//나의구매내역
 		@Override
-		
 		public Map<String,Object> getMyPurchaseList(Search search, User user) throws Exception {
 			
 			Map<String,Object> map = new HashMap<String,Object>();
@@ -59,6 +59,12 @@ public class PurchaseServiceImpl implements PurchaseService  {
 			map.put("totalCount",totalCount);
 			
 			return map;
+		}
+		
+		//나의구매상세정보
+		@Override
+		public Purchase getMyPurchase(int purchaseNo) throws Exception {
+			return purchaseDAO.getMyPurchase(purchaseNo);
 		}
 		
 //		//구매목록조회

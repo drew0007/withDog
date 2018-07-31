@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.withdog.service.chat.ChatDAO;
+import com.withdog.service.domain.Cart;
 import com.withdog.service.domain.Chat;
 
 //@Repository("cartDAOImpl")
@@ -25,6 +26,11 @@ public class CartDAOImpl {
 
 	public CartDAOImpl() {
 		System.out.println(this.getClass());
+	}
+	
+	//장바구니 담기
+	public void addCart(Cart cart) throws Exception{
+		sqlSession.insert("CartMapper.addCart", cart);
 	}
 
 }

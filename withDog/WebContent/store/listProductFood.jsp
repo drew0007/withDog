@@ -10,11 +10,11 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 
-	function fncGetList(currentPage) {
-		$("#currentPage").val(currentPage)
-		alert("현재페이지");
-		$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=1").submit();
-	}
+function fncGetList(currentPage) {
+	$("#currentPage").val(currentPage)
+	alert(currentPage)
+	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=1").submit();
+}
 	
 	//상품이미지 클릭시 이벤트 getProduct 연결
 	$(function(){
