@@ -7,6 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<jsp:include page="/common/css.jsp" />
 
 	<title>동물교감 치유 후기 게시판</title>
@@ -19,6 +20,7 @@
 
 <script type="text/javascript">
 function close_pop(flag) {
+	self.location = "/user/loginUser";
     $('#loginModal').hide();
 };
 
@@ -27,7 +29,10 @@ $(function () {
 	$("#addAfterAshButton").on("click", function () {
 		var userId = "${user.userId}";
 		if(userId==null || userId=="" || userId==" "){
-			$("#loginModal").show(); // 로그인하세요
+			swal("알 림", "로그인 후 이용가능합니다.").then(function(value){
+				self.location = "/user/loginUser";
+			});
+			//$("#loginModal").show(); // 로그인하세요
 			return;
 		}
 		else{

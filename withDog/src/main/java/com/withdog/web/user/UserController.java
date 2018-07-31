@@ -77,8 +77,12 @@ public class UserController {
 	///Method
 	//로그인 화면 GET  (로그인 클릭했을 때 단순네비게이션)
 	@RequestMapping( value="loginUser", method=RequestMethod.GET )
-	public String loginUser ()  throws Exception {
+	public String loginUser (HttpServletRequest request)  throws Exception {
+		String referrer = request.getHeader("Referer");
+		request.getSession().setAttribute("prevPage", referrer);
 
+		System.out.println("referrer : "+request.getSession().getAttribute("prevPage"));
+		
 		System.out.println("로그인 화면으로 /user/loginUser : GET");
 		
 		return "forward:/user/loginUser.jsp";
@@ -123,9 +127,10 @@ public class UserController {
 		
 		System.out.println("로그아웃 /user/logout : GET");
 		
-		session.invalidate();
+		//session.invalidate();
+		session.removeAttribute("user");
 		
-		return "forward:/user/loginUser.jsp";
+		return "forward:/user/loginUser";
 	}
 	
 	//회원가입 화면 GET (회원가입 클릭했을 때 단순네비게이션)

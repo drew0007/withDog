@@ -73,8 +73,8 @@ public class UserRestController {
 	///Method
 	//로그인 POST
 	@RequestMapping( value="json/loginUser", method=RequestMethod.POST )
-	public JSONObject loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response)  throws Exception {
-
+	public JSONObject loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response, HttpServletRequest request)  throws Exception {
+		
 		System.out.println("제이슨 로그인 /user/loginUser : POST");
 		
 		System.out.println("입력힌user내용 확인"+user);
@@ -127,9 +127,13 @@ public class UserRestController {
 			}//end of if :: userCondition 체크
 			
 		}//end of  if  :: dbUser null 체크
+
+		// 로그인 이전 페이지
+		String prevPage = session.getAttribute("prevPage").toString();
 		
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("userConCheck", userConCheck);
+		jsonObject.put("prevPage", prevPage);
 		
 		System.out.println("로그인 다시 보내기전에"+jsonObject.toString());
 		return jsonObject;
