@@ -16,6 +16,8 @@ public interface DogBreedDicDAO {
 	
 	public List<DogBreedDic> getAllDogBreedInfoListByKo() throws Exception;
 	
+	public List<DogBreedDic> getAllDogBreedNameListByKo() throws Exception;
+	
 	public int addDogBreedInfo(DogBreedDic dogBreedDic) throws Exception; // 包府磊
 	
 	public int updateDogBreedInfo(DogBreedDic dogBreedDic) throws Exception; // 包府磊

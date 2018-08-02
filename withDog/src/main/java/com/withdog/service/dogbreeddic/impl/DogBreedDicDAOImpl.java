@@ -70,6 +70,9 @@ public class DogBreedDicDAOImpl implements DogBreedDicDAO {
 		return sqlSession.selectList("DogBreedDicMapper.getAllDogBreedInfoListByKo");
 	}
 
-
+	@Override
+	public List<DogBreedDic> getAllDogBreedNameListByKo() throws Exception {
+		return sqlSession.selectList("DogBreedDicMapper.getAllDogBreedNameListByKo");
+	}
 
 }

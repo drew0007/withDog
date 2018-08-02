@@ -53,6 +53,12 @@
 		FROM dog_breed_dic
 		ORDER BY dog_breed_Ko
 	</select>
+	
+	<select id="getAllDogBreedNameListByKo" resultMap="dogBreedDicSelectMap">
+		SELECT dog_breed_ko
+		FROM dog_breed_dic
+		ORDER BY dog_breed_Ko
+	</select>
 
 
 </mapper>
