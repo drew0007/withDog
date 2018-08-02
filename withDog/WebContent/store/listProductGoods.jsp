@@ -12,7 +12,6 @@
 
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		alert(currentPage)
 		$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();
 	}
 	
@@ -22,7 +21,6 @@
 			var role = "${sessionScope.user.role}";
 			var index = $(".prodImage").index(this);
 			var prodNo = $($("input[name='prodNo']")[index]).val();
-			alert(role + "[" + prodNo+ "]");
 
 			 if(role == 'admin'){
 				 self.location = "/product/updateProductAdmin?prodNo="+prodNo;

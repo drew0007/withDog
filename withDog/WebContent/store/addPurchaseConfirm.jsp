@@ -27,7 +27,6 @@ $(function(){
 		opener.location.href='/purchase/addPurchaseDone?state=3&purchaseNo='+a;
 	}
 	
-	alert("다시돌아옴");
 });
 
 $(function(){

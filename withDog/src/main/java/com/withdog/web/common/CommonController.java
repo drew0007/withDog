@@ -120,9 +120,13 @@ public class CommonController {
 		
 		int currentPoint = commonService.getCurrentPoint(point);
 		Map<String,Object> map = commonService.getMyPointList(search,user.getUserId());
+		System.out.println("@@@@@");
 		List<Point> list = (List<Point>)map.get("list");
-		List<Point> resultList = new ArrayList<Point>(); 
+		System.out.println("@@@@@");
+		List<Point> resultList = new ArrayList<Point>();
+		System.out.println("@@@@@");
 		for (int i = 0; i <list.size(); i++) {
+			System.out.println(list.size());
 			System.out.println(list.get(i).toString());
 			point=list.get(i);
 			if(point.getFund().getFundMyPrice()!=0) {

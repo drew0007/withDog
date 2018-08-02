@@ -115,13 +115,20 @@ public class PurchaseController {
 	
 	//장바구니에서 리스트가지고 넘어왔을때 로직
 	@RequestMapping(value="addPurchaseView")
-	public String addPurchaseView(@RequestParam(value="prodNo", required=false) int prodNo, @ModelAttribute Purchase purchase, @RequestParam(value="cartList", required=false) String cartList, Model model, HttpSession session) throws Exception{
+	public String addPurchaseView(@RequestParam(value="prodNo", required=false) String prodNo, 
+									@ModelAttribute Purchase purchase, 
+									@RequestParam(value="cartList", required=false) String cartList, 
+									Model model, 
+									HttpSession session) throws Exception{
 		
-		System.out.println("/purchase/addPurchaseView : 장바구니에서 구매");
+		System.out.println("/purchase/addPurchaseView : 구매화면");
 		
-		if(prodNo != 0) {
-			//프로덕트 객체를 펄체이스 필드에 담기
-			Product product = productService.getProduct(prodNo);
+		//장바구니에서 구매로 넘어올때는 cartNo로 넘어오고, 바로구매에서 넘어올때는 prodNo로 넘어오기때문에  
+		//prodNo가 0이 아닐때 (바로구매시)
+		if(prodNo != null) {
+			
+			System.out.println("/purchase/addPurchaseView : 바로구매" + prodNo);
+			Product product = productService.getProduct(Integer.parseInt(prodNo));
 			
 			Cart cart = new Cart();
 			cart.setProduct(product);
@@ -132,18 +139,21 @@ public class PurchaseController {
 			list.add(cart);
 			User user = (User)session.getAttribute("user");
 			
-			//임시
+			//현재포인트
 			Point point = new Point();
 			point.setUser(user);
-			
 			int currentPoint=commonService.getCurrentPoint(point);
 			
 			model.addAttribute("currentPoint", currentPoint);
 			model.addAttribute("list", list);
 			
 		}else {
+			
+			System.out.println("/purchase/addPurchaseView : 장바구니에서 구매");
+			
 			Map<String, Object> map = cartService.getSelectCartList(cartList);
-			//임시
+			
+			//현재포인트
 			Point point = new Point();
 			User user = (User)session.getAttribute("user");
 			point.setUser(user);
@@ -159,7 +169,7 @@ public class PurchaseController {
 	}
 	
 	
-	@RequestMapping(value="addPurchase")
+	/*@RequestMapping(value="addPurchase")
 	public String addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") int prodNo, HttpSession session, HttpServletRequest req,  Model model) throws Exception{
 		
 		System.out.println("/purchase/addPurchase : POST");
@@ -223,40 +233,68 @@ public class PurchaseController {
 		model.addAttribute("usePoint", point.getUsePoint());
 		
 		return "forward:/store/addPurchaseConfirm.jsp";
-	}
+	}*/
 	
 	
 	@RequestMapping(value = "kakaoPay")
-	private String kakaoPay(@ModelAttribute Purchase purchase, @RequestParam("prodNo") int prodNo, @RequestParam("usePoint") String usePoint, HttpSession session, HttpServletRequest request, Model model) throws Exception {
+	private String kakaoPay(@ModelAttribute Purchase purchase, @RequestParam("prodNo") String prodNo,
+							@RequestParam("cartQuantity") String cartQuantity, 
+							//@RequestParam("price") String price, 
+							@RequestParam("cartNo") String cartNo, @RequestParam("usePoint") String usePoint,
+							HttpSession session, HttpServletRequest request, Model model) throws Exception {
 		
 		System.out.println("/purchase/kakaoPay Start==================================");
 		System.out.println("넘어온 사용포인트" +usePoint);
 		System.out.println("넘어온 객체" + purchase);
+		System.out.println("cartNo" + cartNo);
+		//System.out.println("price" + price);
+		System.out.println("cartQuantity" + cartQuantity);
+		
+		//,,로 들고온 정보들 파싱
+		String[] parseProdNo = prodNo.split(",");
+		String[] parseCartQuantity = cartQuantity.split(",");
+		//String[] parsePrice = price.split(",");
+		String[] parseCartNo = cartNo.split(",");
+		
+		for(int i=0; i<parseProdNo.length; i++) {
+			System.out.println(parseProdNo[i] + "," + parseCartQuantity[i] + "," + parseCartNo[i]);
+		}
+		
+		List<Purchase> list = new ArrayList<Purchase>();
+		for(int i=0; i<parseProdNo.length; i++) {
+			Purchase pur = new Purchase();
+			
+			Product pro = productService.getProduct(Integer.parseInt(parseProdNo[i]));
+			pur.setProduct(pro);
+			
+			User user = (User)session.getAttribute("user");
+			pur.setUser(user);
+			
+			pur.setReceiverName(purchase.getReceiverName());
+			pur.setReceiverPhone(purchase.getReceiverPhone());
+			pur.setReceiverAddr1(purchase.getReceiverAddr1());
+			pur.setReceiverAddr2(purchase.getReceiverAddr2());
+			pur.setDivyRequest(purchase.getDivyRequest());
+			pur.setPurchaseQuantity(Integer.parseInt(parseCartQuantity[i]));
+			pur.setPurchasePrice(purchase.getPurchasePrice());		
+			if(Integer.parseInt(parseCartNo[i]) == 0) {
+				pur.setCartNo(purchaseService.addCartSeq());
+			}else {
+				pur.setCartNo(Integer.parseInt(parseCartNo[i]));
+			}
+			
+			list.add(pur);
+		}
+		
+		for(int i = 0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		
+		
 		
 		//세션에서 user정보 꺼내서 user객체에 담고 purchase 필드에 심기
 		User user = (User)session.getAttribute("user");
-		purchase.setUser(user);
 		
-		//프로덕트 객체를 펄체이스 필드에 담기
-		Product product = productService.getProduct(prodNo);
-		purchase.setProduct(product);
-		
-		/*System.out.println("디비들어가기전" + purchase);
-		purchaseService.addPurchase(purchase);		*/
-		
-		//상품수량
-		int prodQuantity = product.getProdQuantity();
-		
-		//구매수량
-		int purchaseQuantity = purchase.getPurchaseQuantity();
-		//상품수량-구매수량 = 상품수량
-		prodQuantity = prodQuantity - purchaseQuantity;
-		//연산된 상품수량을 프로덕트 객체에 담기
-		product.setProdQuantity(prodQuantity);
-		
-		//프로덕트정보업데이트
-		productService.updateProductAdmin(product);
-
 		int kakaoUsePoint = 0;
 
 		/// 영수증.jsp로 카드 결제시 callback 되는지
@@ -264,7 +302,7 @@ public class PurchaseController {
 		// snsKakaoPay를 위한 로직
 		Point pointPurchase = new Point();
 		pointPurchase.setUser(user);
-		pointPurchase.setPurchase(purchase);
+		pointPurchase.setPurchaseList(list);
 		
 		System.out.println(usePoint + "111");
 		if (Integer.parseInt(usePoint) != 0) { // 사용한 포인트가 0이 아니라면
@@ -272,7 +310,7 @@ public class PurchaseController {
 			kakaoUsePoint = Integer.parseInt(usePoint);
 		}
 		
-		if (pointPurchase.getPurchase().getPurchasePrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
+		if (pointPurchase.getPurchaseList().get(0).getPurchasePrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
 			String uri = "http://localhost:8080/purchase/addPurchaseDone?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
@@ -293,7 +331,7 @@ public class PurchaseController {
 		// 포인트 이것만 긁기
 		purchase.setUser(user);
 		point.setUser(user);// userid
-		point.setPurchase(purchase);
+		point.setPurchaseList(list);
 		System.out.println("사용한 포인트는 ? : " + pointPurchase.getUsePoint());
 		point.setUsePoint(pointPurchase.getUsePoint());
 
@@ -311,6 +349,7 @@ public class PurchaseController {
 		System.out.println("/purchase/addPurchaseDone : 결제성공");
 
 		Point point = new Point();
+		List<Purchase> list = new ArrayList<>();
 		Purchase purchase = new Purchase();
 		User user = new User();
 
@@ -338,22 +377,46 @@ public class PurchaseController {
 				
 				if(session.getAttribute("pointPurchase")!=null) {
 					point = (Point)session.getAttribute("pointPurchase");
-					purchase = point.getPurchase();
+					list = point.getPurchaseList();
 					user = point.getUser();
 					
+					int nextPurchaseNo = purchaseService.addPurchaseSeq();
 					
-				    //구매 번호 가져오기
-					System.out.println("디비가기전" + purchase);
-					int purchaseNo = purchaseService.addPurchase(purchase);
-					purchase.setPurchaseNo(purchaseNo);
-					System.out.println("포인트 가기전"+purchase);
-				    point.setPurchase(purchase);//후원,구매,예약 구분을 위해
+					for(int i=0; i<list.size(); i++) {
+						purchase = list.get(i);
+						purchase.setPurchaseNo(nextPurchaseNo);
+						purchaseService.addPurchase(purchase);
+						list.get(i).setPurchaseNo(nextPurchaseNo);
+						
+						Product product = new Product();
+						product = productService.getProduct(purchase.getProduct().getProdNo());
+						
+					    //상품수량
+						int prodQuantity = product.getProdQuantity();
+						
+						//구매수량
+						int purchaseQuantity = purchase.getPurchaseQuantity();
+						
+						//상품수량-구매수량 = 상품수량
+						prodQuantity = prodQuantity - purchaseQuantity;
+						//연산된 상품수량을 프로덕트 객체에 담기
+						product.setProdQuantity(prodQuantity);
+						
+						//프로덕트정보업데이트
+						productService.updateProductAdmin(product);
+						
+						int cartNo = purchase.getCartNo();
+						cartService.deleteCart(cartNo);
+					}
+					
+				    point.setPurchaseList(list);//후원,구매,예약 구분을 위해
+				    point.setPurchase(purchase);
 				    
-				    double savePoint = purchase.getPurchasePrice()*0.01;
+				    double savePoint = list.get(0).getPurchasePrice()*0.01;
 				    System.out.println("적립포인트"+savePoint);
 				    int resultpoint = (int)savePoint;
 				    point.setPoint(resultpoint);
-				    
+
 				   	commonService.addPointinfo(point);
 				}
 				
@@ -362,20 +425,19 @@ public class PurchaseController {
 				
 				if(session.getAttribute("pointPurchase")!=null) {
 					point = (Point)session.getAttribute("pointPurchase");
-					purchase = point.getPurchase();
+					list = point.getPurchaseList();
 					user = point.getUser();
 					
 					
 				    //구매 번호 가져오기
-				    point.setPurchase(purchase);//후원,구매,예약 구분을 위해
+				    point.setPurchaseList(list);//후원,구매,예약 구분을 위해
 				    
-				    double savePoint = purchase.getPurchasePrice()*0.01;
+				    double savePoint = list.get(0).getPurchasePrice()*0.01;
 				    System.out.println("적립포인트"+savePoint);
 				    int resultpoint = (int)savePoint;
 				    point.setPoint(resultpoint);
 				    
 				}
-				
 				
 			}
 	}

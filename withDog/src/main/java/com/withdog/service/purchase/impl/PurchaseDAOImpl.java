@@ -36,11 +36,19 @@ public class PurchaseDAOImpl implements PurchaseDAO{
 	@Override
 	public int addPurchase(Purchase purchase) throws Exception {
 		System.out.println("펄체이스 다오 시작");
-		//시퀀스넘버를 가져옴 
-		int purchaseNo = sqlSession.selectOne("PurchaseMapper.addPurchaseSeq");
-		purchase.setPurchaseNo(purchaseNo);
-		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
-		return purchaseNo;
+	
+		return sqlSession.insert("PurchaseMapper.addPurchase", purchase);
+	}
+	
+	// 다음 purchaseNo
+	public int addPurchaseSeq() throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.addPurchaseSeq");
+	}
+
+	// 다음 cartNo
+	@Override
+	public int addCartSeq() throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.addCartSeq");
 	}
 	
 	//나의구매내역리스트

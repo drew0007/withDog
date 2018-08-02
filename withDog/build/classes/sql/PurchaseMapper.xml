@@ -33,11 +33,15 @@
 		SELECT seq_purchase_purchase_no.NEXTVAL from dual
 	</select>
 	
+	<select id="addCartSeq" resultType="int">
+		SELECT seq_cart_cart_no.NEXTVAL from dual
+	</select>
+	
 	<!-- SQL : INSERT  -->
 	<insert 	id="addPurchase" parameterType="purchase" >
 	INSERT
 		INTO purchase (user_id, prod_no, cart_no, purchase_no, receiver_name, receiver_phone, receiver_addr1, receiver_addr2, divy_request, purchase_quantity, purchase_price, purchase_date, purchase_condition, payment_option) 
-		VALUES (#{user.userId}, #{product.prodNo},  seq_cart_cart_no.NEXTVAL, #{purchaseNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr1}, #{receiverAddr2}, #{divyRequest}, #{purchaseQuantity}, #{purchasePrice}, SYSDATE, '1',  '0')
+		VALUES (#{user.userId}, #{product.prodNo},  #{cartNo}, #{purchaseNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr1}, #{receiverAddr2}, #{divyRequest}, #{purchaseQuantity}, #{purchasePrice}, SYSDATE, '1',  '0')
 	 </insert>
 	 
 	 

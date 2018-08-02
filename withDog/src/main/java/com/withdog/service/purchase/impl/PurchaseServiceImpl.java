@@ -44,6 +44,17 @@ public class PurchaseServiceImpl implements PurchaseService  {
 			return purchaseDAO.addPurchase(purchase);
 		}
 		
+		// 다음 purchaseNo
+		public int addPurchaseSeq() throws Exception {
+			return purchaseDAO.addPurchaseSeq();
+		}
+		
+		// 다음 cartNo
+		@Override
+		public int addCartSeq() throws Exception {
+			return purchaseDAO.addCartSeq();
+		}
+		
 		//나의구매내역
 		@Override
 		public Map<String,Object> getMyPurchaseList(Search search, User user) throws Exception {

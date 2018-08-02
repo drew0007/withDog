@@ -25,7 +25,6 @@ $(function() {
 				return;
 			}
 
-			alert(prodNo)
 			$.ajax( 
 					{
 						url : "/cart/json/addCart",
@@ -72,7 +71,6 @@ $(function() {
 $(function(){
 	
 	$("#addPurchase").on("click", function(){
-		alert("ssss")
 		var prodQuantity = $("#prodQuantity").val();//상품수량
 		var purchaseQuantity = $("#purchaseQuantity option:selected").val()*1; // 구매수량
 		var prodNo = $('input[name="prodNo"]').val();
@@ -84,7 +82,7 @@ $(function(){
 		if(purchaseQuantity>prodQuantity){
 			swal("알 림", "재고 수량을 초과할 수 없습니다.\n수량을 다시 선택해주세요.");
 		}else{
-			$("form[name='purchaseform']").attr("method", "POST").attr("action", "/purchase/addPurchaseView?prodNo=" +prodNo).submit();
+			$("form[name='purchaseform']").attr("method", "POST").attr("action", "/purchase/addPurchaseView").submit();
 		}
 		
 	});
