@@ -9,6 +9,7 @@ public class Purchase {
 	
 	private User user;
 	private Product product;
+	private int usePoint;
 	private int cartNo;
 	private int purchaseNo;
 	private String receiverName;
@@ -26,6 +27,17 @@ public class Purchase {
 	
 	public Purchase(){
 	}
+
+	
+	public int getUsePoint() {
+		return usePoint;
+	}
+
+
+	public void setUsePoint(int usePoint) {
+		this.usePoint = usePoint;
+	}
+
 
 	public User getUser() {
 		return user;
@@ -155,18 +167,17 @@ public class Purchase {
 		this.paymentOption = paymentOption;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Purchase [user=" + user + ", product=" + product + ", cartNo=" + cartNo + ", purchaseNo=" + purchaseNo
-				+ ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone + ", receiverAddr1="
-				+ receiverAddr1 + ", receiverAddr2=" + receiverAddr2 + ", divyRequest=" + divyRequest
-				+ ", purchaseQuantity=" + purchaseQuantity + ", purchasePrice=" + purchasePrice + ", purchaseDate="
-				+ purchaseDate + ", purchaseCondition=" + purchaseCondition + ", cancelDate=" + cancelDate
-				+ ", divyDate=" + divyDate + ", paymentOption=" + paymentOption + "]";
+		return "Purchase [user=" + user + ", product=" + product + ", usePoint=" + usePoint + ", cartNo=" + cartNo
+				+ ", purchaseNo=" + purchaseNo + ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone
+				+ ", receiverAddr1=" + receiverAddr1 + ", receiverAddr2=" + receiverAddr2 + ", divyRequest="
+				+ divyRequest + ", purchaseQuantity=" + purchaseQuantity + ", purchasePrice=" + purchasePrice
+				+ ", purchaseDate=" + purchaseDate + ", purchaseCondition=" + purchaseCondition + ", cancelDate="
+				+ cancelDate + ", divyDate=" + divyDate + ", paymentOption=" + paymentOption + "]";
 	}
 
-	
-	
 	
 	
 }

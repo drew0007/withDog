@@ -5,7 +5,7 @@ import java.util.Map;
 import com.withdog.common.Search;
 import com.withdog.service.domain.Cart;
 
-public interface CartService {
+public interface CartDAO {
 	
 	//장바구니 담기
 	public void addCart(Cart cart) throws Exception;
@@ -26,6 +26,6 @@ public interface CartService {
 	public void deleteAllCart(String userId) throws Exception;
 	
 	//선택한 장바구니 리스트
-	public Map<String,Object> getSelectCartList(String cartNo) throws Exception;	
-
+	public Map<String,Object> getSelectCartList(String cartNo) throws Exception;
+	
 }
