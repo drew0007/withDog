@@ -279,6 +279,7 @@ public class ProductController {
 		
 		String result = "";
 		if(prodType.equals("0")) {
+			System.out.println("局斑侩前");
 			result = "forward:/store/listProductGoods.jsp";
 		}else {
 			System.out.println("局斑侥前");
