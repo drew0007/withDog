@@ -7,6 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<jsp:include page="/common/css.jsp" />
 <link href='/css/fullcalendar.css' rel='stylesheet' />
 	<title>예약시간 선택</title>
@@ -61,7 +62,8 @@ var healingDogNo = ${healingDog.healingDogNo};
 			  
 		  	  dayClick: function(date) {
 		  		if(date<new Date()){
-		  			$("#notReservation").show(); //해당날짜 예약 불가
+					swal("알 림", "해당 날짜는 예약 불가능합니다.");
+		  			//$("#notReservation").show(); //해당날짜 예약 불가
 		  			  return;
 		  		  }
 		  			  $.ajax({

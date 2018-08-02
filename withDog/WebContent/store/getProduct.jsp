@@ -7,14 +7,84 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
+
+//"장바구니" 이벤트 연결
+$(function() {
+	
+		$( "#addCart" ).on("click" , function() {
+			var purchaseQuantity=$("#purchaseQuantity option:selected").val()*1;
+			var prodQuantity=$("#prodQuantity").val();
+			var prodNo=$('input[name="prodNo"]').val();
+// 			alert(purchaseQuantity)
+// 			alert(prodQuantity)
+		
+			if(parseInt(purchaseQuantity) > parseInt(prodQuantity)){
+				swal("알 림", "재고 수량을 초과할 수 없습니다.\n수량을 다시 선택해주세요.");
+				return;
+			}
+
+			$.ajax( 
+					{
+						url : "/cart/json/addCart",
+						method : "POST" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify({
+							prodNo : prodNo,
+							purchaseQuantity : purchaseQuantity
+						}),
+						success : function(JSONData , status) {
+							getToolCartList();
+							//스윗얼러트
+							swal({
+								 //세팅
+								  title: "장바구니담기",
+								  text: "상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?",
+								  icon: "success",
+								  buttons: true,
+								  //dangerMode: true,
+								})
+							//오케이 누르면 밸류에 트루값 넣어주면서 이프문 실행
+							.then(function(value){
+								if(value){
+									$(self.location).attr("href","/cart/getCartList");
+								}
+							});
+							
+						}
+					});
+			
+			//$("form").attr("method" , "POST").attr("action" , "/cart/addCart").submit();
+		});
+	});
+	
+	
+	
+	
 
 //"바로구매" 버튼 이벤트 연결
 $(function(){
-	$("#purchase").on("click", function(){
-		var prodNo = ${product.prodNo};
-		alert(prodNo);
-		self.location = "/purchase/addPurchase?prodNo=${product.prodNo}" ;
+	
+	$("#addPurchase").on("click", function(){
+		var prodQuantity = $("#prodQuantity").val();//상품수량
+		var purchaseQuantity = $("#purchaseQuantity option:selected").val()*1; // 구매수량
+		var prodNo = $('input[name="prodNo"]').val();
+		
+// 		alert("상품수량" + prodQuantity);
+// 		alert("구매수량" + purchaseQuantity);
+// 		alert("상품번호" + prodNo);
+		
+		if(purchaseQuantity>prodQuantity){
+			swal("알 림", "재고 수량을 초과할 수 없습니다.\n수량을 다시 선택해주세요.");
+		}else{
+			$("form[name='purchaseform']").attr("method", "POST").attr("action", "/purchase/addPurchaseView").submit();
+		}
+		
 	});
 });
 
@@ -28,16 +98,18 @@ function fncAddInquiry(){
 	var secret = $('#secret').val();
 	
 	if(userId == null || userId.length<1){
-		alert("로그인이 필요한 서비스입니다.");
+		swal("알 림", "로그인 후 이용가능합니다.").then(function(value){
+			self.location = "/user/loginUser";
+		});
 		return;
 	}
 	if(inquiryTitle == null || inquiryTitle.length<1){
-		alert("문의 제목은 반드시 입력하여야 합니다.");
+		swal("알 림", "문의 제목은 반드시 입력하여야 합니다.");
 		return;
 	}
 	
 	if(inquiryContent == null || inquiryContent.length<1){
-		alert("문의 내용은 반드시 입력하셔야 합니다.");
+		swal("알 림", "문의 내용은 반드시 입력하셔야 합니다.");
 		return;
 	}
 	
@@ -62,6 +134,9 @@ function fncAddInquiry(){
 					$('#secret1').trigger('click');
 					
 					$('input[name="currentPage"]').val('0');
+
+					swal("알 림", "등록이 완료되었습니다.", "success");
+					
 					fncGetInquiryList();
 				}
 			}
@@ -233,7 +308,7 @@ function fncCheckUserIdInquiry(inquiryUserId, inquirySecret){
 	var userId = '${user.userId}';
 	
 	if(inquirySecret == '1' && userId != inquiryUserId){
-		alert("작성자만 열람가능합니다.");
+		swal("알 림", "작성자만 열람가능합니다.");
 	}
 }
 
@@ -346,24 +421,35 @@ $(function(){
                         <div class="col-md-3 col-sm-3 no-padding-left margin-five">
                             <div class="select-style med-input xs-med-input shop-shorting-details no-border-round">
                                 <!-- product qty -->
-                                <select>
-                                    <option selected>1</option>
+                                <form name="purchaseform">
+                                <select id="purchaseQuantity" name="purchaseQuantity">
+                                    <option selected="selected">1</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option>
                                 </select>
                                 <!-- end product qty -->
+                                <input type="hidden" id="prodQuantity" name="prodQuantity" value="${product.prodQuantity}" />
+                                <input type="hidden" name="prodNo" value="${product.prodNo}" />
+                                </form> 
                             </div>
                         </div>
+                        
+                        
                         <div class="col-md-12 col-sm-9 no-padding">
-                            <!-- add to bag button -->
-                            <a class="highlight-button btn btn-medium button" href="#" ><i class="icon-basket"></i>장바구니 담기</a>
-                            <!-- end add to bag button -->
-                            <!-- add to purchase button -->
-                            <a class="highlight-button-dark btn btn-medium button" href="#" id="purchase">바로구매</a>
-                            <!-- end add to purchase button -->
+                            <c:choose>
+                         	   <c:when test="${product.prodQuantity > 0 }">
+                            		<a class="highlight-button btn btn-medium button" id="addCart" style="cursor:pointer;"><i class="icon-basket"></i>장바구니 담기</a>
+                            		<a class="highlight-button-dark btn btn-medium button" href="#" id="addPurchase">바로구매</a>
+                            	</c:when>
+                            <c:otherwise>
+                            <a class="highlight-button-dark btn btn-medium button"  disabled>품절</a>
+                            </c:otherwise>
+                            </c:choose>
                         </div>
+                        
+                        
                         <div class="col-md-9 col-sm-9 product-details-social no-padding-left margin-five" style="display:block;">
                             <!-- social media sharing -->
                             <span class="black-text text-uppercase text-small margin-right-five">Share on</span>
@@ -560,7 +646,6 @@ $(function(){
                                                 </form>
                                                 <!-- end comment form -->
                                                 
-                                                <!-- <div style="background-color:black; opacity:0.7; width:100%; height:100%; position: absolute; top:0; left:0"> -->
                                                 
                                                 </div>
                                             </div>

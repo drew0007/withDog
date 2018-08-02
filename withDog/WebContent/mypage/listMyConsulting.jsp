@@ -10,6 +10,7 @@
 
 <!-- 공통 -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 
 <script type="text/javascript">
@@ -25,8 +26,39 @@ $(function(){
 		var userId = $($('input[name="userId"]')[index]).val();
 		var consultingNo = $($('input[name="consultingNoList"]')[index]).val();
 		
-		$('#consultingNoModal').val(consultingNo);
-		$('#index').val(index);
+		//$('#consultingNoModal').val(consultingNo);
+		//$('#index').val(index);
+		
+		swal({
+			  title: "영상상담 신청취소",
+			  text: "영상상담 신청을 취소하시겠습니까?",
+			  //icon: "warning",
+			  buttons: true,
+			  //dangerMode: true,
+			}).then(function(value){
+				if(value){
+					swal("영상상담 신청을 취소하였습니다.", {
+					      icon: "success",
+					    });
+					
+					$.ajax(
+							{
+								url : "/ash/json/updateConsultingState/"+consultingNo+"/3",
+								method : "GET",
+								dataType : "json",
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(JSONData , status){
+									$($('td:nth-child(4)')[index]).text('취소');
+									$($('a[name="cancelConsulting"]')[index]).css('display','none');
+									$($('a[name="connectConsulting"]')[index]).css('display', 'none');
+								}
+							}
+						); //end of ajax
+				}
+		});
 	});
 
 	$('a[name="connectConsulting"]').on('click', function(){
@@ -34,31 +66,6 @@ $(function(){
 		var userId = $($('input[name="userId"]')[index]).val();
 		var consultingNo = $($('input[name="consultingNoList"]')[index]).val();
 		popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/"+userId, "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-	});
-	
-	$('#okModal').on('click',function(){
-		var index = $('#index').val();	
-		
-		var consultingState = "";
-		var consultingNo = $('#consultingNoModal').val();
-		//$("#myConsulting").attr("method","POST").attr("action","/ash/updateConsultingState").submit();
-		
-		$.ajax(
-				{
-					url : "/ash/json/updateConsultingState/"+consultingNo+"/3",
-					method : "GET",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					success : function(JSONData , status){
-						$($('td:nth-child(4)')[index]).text('취소');
-						$($('a[name="cancelConsulting"]')[index]).css('display','none');
-						$($('a[name="connectConsulting"]')[index]).css('display', 'none');
-					}
-				}
-			)
 	});
 });
 
@@ -137,7 +144,7 @@ $(function(){
 				  <td align="center" style="white-space: nowrap;">${list.healingDog.healingDogName}</td>
 				  <td align="center" style="white-space: nowrap;">${list.consultingState=='0'?"대기":list.consultingState=='1'?"진행":list.consultingState=='2'?"완료":"취소"}</td>
 				  <td align="center" style="white-space: nowrap;">
-				  		<div><a href="#modal-popup" class="highlight-button-dark popup-with-zoom-anim margin-three-bottom" name="cancelConsulting" style='display: ${list.consultingState=="0"||list.consultingState=="1"?"":"none"};'>상담취소</a></div>
+				  		<div><a href="#" class="highlight-button-dark popup-with-zoom-anim margin-three-bottom" name="cancelConsulting" style='display: ${list.consultingState=="0"||list.consultingState=="1"?"":"none"};'>상담취소</a></div>
 				  		<div><a href="#" class="highlight-button-dark popup-with-zoom-anim" name="connectConsulting" style='display: ${list.consultingState=="1"?"":"none"};'>상담연결</a></div>
 				  		<input type="hidden" name="userId" value="${user.userId }"/>
 				  		<input type="hidden" name="consultingNoList" value="${list.consultingNo }"/>

@@ -1,10 +1,12 @@
 package com.withdog.service.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Point {
 
 	private User user;
+	private List<Purchase> purchaseList;
 	private Purchase purchase;
 	private Ash ash;
 	private Fund fund;
@@ -25,6 +27,14 @@ public class Point {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Purchase> getPurchaseList() {
+		return purchaseList;
+	}
+
+	public void setPurchaseList(List<Purchase> purchaseList) {
+		this.purchaseList = purchaseList;
 	}
 
 	public Purchase getPurchase() {
@@ -101,10 +111,11 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "Point [user=" + user + ", purchase=" + purchase + ", ash=" + ash + ", fund=" + fund + ", pointNo="
-				+ pointNo + ", pointDate=" + pointDate + ", usePoint=" + usePoint + ", point=" + point
-				+ ", currentPoint=" + currentPoint + ", pointHistory=" + pointHistory + "]";
+		return "Point [user=" + user + ", purchaseList=" + purchaseList + ", purchase=" + purchase + ", ash=" + ash
+				+ ", fund=" + fund + ", pointNo=" + pointNo + ", pointDate=" + pointDate + ", usePoint=" + usePoint
+				+ ", point=" + point + ", currentPoint=" + currentPoint + ", pointHistory=" + pointHistory + "]";
 	}
+
 
 		
 	

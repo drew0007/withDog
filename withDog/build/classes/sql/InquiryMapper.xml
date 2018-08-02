@@ -8,17 +8,17 @@
  	
  	
 	<resultMap id="inquirySelectMap" type="inquiry">
-		<result property="inquiryNo" 		column="inquiry_no" 						jdbcType="INTEGER"/>
-		<result property="product.prodNo"	column="prod_no" 							jdbcType="INTEGER" />
-		<result property="product.prodName"		column="prodName" 		jdbcType="VARCHAR" />
-		<result property="user.userId"				column="user_id" 								jdbcType="VARCHAR" />
-		<result property="inquiryTitle"	 			column="inquiry_title" 							jdbcType="VARCHAR" />
-		<result property="inquiryContent" 		column="inquiry_content"		 	jdbcType="VARCHAR" />
-		<result property="regDate" 					column="reg_date" 							jdbcType="DATE" />
-		<result property="secret" 					column="secret" 										jdbcType="VARCHAR" />
-		<result property="replyCondition"	 	column="reply_condition" 			jdbcType="VARCHAR" />
-		<result property="inquiryReply"	 	column="inquiry_reply" 					jdbcType="VARCHAR" />
-		<result property="deleteFlag" 			column="delete_flag"							jdbcType="VARCHAR" />
+		<result property="inquiryNo" 						column="inquiry_no" 						jdbcType="INTEGER"/>
+		<result property="product.prodNo"				column="prod_no" 								jdbcType="INTEGER" />
+		<result property="product.prodName"		column="prodName" 							jdbcType="VARCHAR" />
+		<result property="user.userId"						column="user_id" 								jdbcType="VARCHAR" />
+		<result property="inquiryTitle"	 					column="inquiry_title" 						jdbcType="VARCHAR" />
+		<result property="inquiryContent" 				column="inquiry_content"		 		jdbcType="VARCHAR" />
+		<result property="regDate" 							column="reg_date" 							jdbcType="DATE" />
+		<result property="secret" 								column="secret" 									jdbcType="VARCHAR" />
+		<result property="replyCondition"			 	column="reply_condition" 				jdbcType="VARCHAR" />
+		<result property="inquiryReply"	 				column="inquiry_reply" 					jdbcType="VARCHAR" />
+		<result property="deleteFlag" 						column="delete_flag"							jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->

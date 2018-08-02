@@ -10,6 +10,7 @@
 
 <!-- 공통 -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 	  
   
@@ -32,21 +33,69 @@ $(function(){
 		var consultingNo = $($('input[name="consultingNoList"]')[index]).val();
 		
 		if(btnConsulting == '상담취소'){
-			$('#titleModal').text('영상상담 취소');
-			$('#textModal').text('영상상담 취소 처리하시겠습니까?');
-			$('input[name="consultingState"]').val('3');
+			swal({
+				  title: "영상상담 취소",
+				  text: "신청일자 : "+regDate+"\n신청자 : "+userId+"\n상담사 : "+healingDogHealer+"\n치유견 : "+healingDogName+"\n\n영상상담 취소 처리하시겠습니까?",
+				  //icon: "warning",
+				  buttons: true,
+				  //dangerMode: true,
+				}).then(function(value){
+					if(value){
+						swal("영상상담 신청을 취소하였습니다.", {
+						      icon: "success",
+						    });
+						
+						$.ajax(
+								{
+									url : "/ash/json/updateConsultingState/"+consultingNo+"/3",
+									method : "GET",
+									dataType : "json",
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status){
+										$($('td:nth-child(5)')[index]).text('취소');
+										$($('a[name="btnConsulting"]')[index]).css('display','none');
+										$($('a[name="startConsulting"]')[index]).css('display','none');
+									}
+								}
+							); //end of ajax
+					}
+			});
+			
 		}else{
-			$('#titleModal').text('영상상담 완료');
-			$('#textModal').text('영상상담 완료 처리하시겠습니까?');
-			$('input[name="consultingState"]').val('2');
-		}
-		$('#regDateModal').text('신청일자 : '+regDate);
-		$('#userIdModal').text('신청자 : '+userId);
-		$('#healingDogHealerModal').text('상담사 : '+healingDogHealer);
-		$('#healingDogNameModal').text('치유견 : '+healingDogName);
-		$('#consultingNoModal').val(consultingNo);
-		$('#consultingUserId').val(userId);
-		$('#index').val(index);
+			swal({
+				  title: "영상상담 완료",
+				  text: "신청일자 : "+regDate+"\n신청자 : "+userId+"\n상담사 : "+healingDogHealer+"\n치유견 : "+healingDogName+"\n\n영상상담 완료 처리하시겠습니까?",
+				  //icon: "warning",
+				  buttons: true,
+				  //dangerMode: true,
+				}).then(function(value){
+					if(value){
+						swal("영상상담을 완료하였습니다.", {
+						      icon: "success",
+						    });
+						
+						$.ajax(
+								{
+									url : "/ash/json/updateConsultingState/"+consultingNo+"/2",
+									method : "GET",
+									dataType : "json",
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status){
+										$($('td:nth-child(5)')[index]).text('완료');
+										$($('a[name="btnConsulting"]')[index]).css('display','none');
+										$($('a[name="startConsulting"]')[index]).css('display','none');
+									}
+								}
+							); //end of ajax
+					}
+			});
+		}		
 	});
 	
 	$('a[name="startConsulting"]').on('click', function(){
@@ -60,86 +109,52 @@ $(function(){
 		var consultingNo = $($('input[name="consultingNoList"]')[index]).val();
 		
 		if(startConsulting == '상담시작'){
-			$('#titleModal').text('영상상담 시작');
-			$('#textModal').text('영상상담을 시작하시겠습니까?');
-			$('input[name="consultingState"]').val('1');
+			swal({
+				  title: "영상상담 시작",
+				  text: "신청일자 : "+regDate+"\n신청자 : "+userId+"\n상담사 : "+healingDogHealer+"\n치유견 : "+healingDogName+"\n\n영상상담을 시작하시겠습니까?",
+				  //icon: "warning",
+				  buttons: true,
+				  //dangerMode: true,
+				}).then(function(value){
+					if(value){
+						swal("영상상담을 시작하였습니다.", {
+						      icon: "success",
+						    });
+						
+						$.ajax(
+								{
+									url : "/ash/json/updateConsultingState/"+consultingNo+"/1",
+									method : "GET",
+									dataType : "json",
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status){
+										$($('td:nth-child(5)')[index]).text('진행');
+										$($('a[name="btnConsulting"]')[index]).text('상담완료');
+										$($('a[name="startConsulting"]')[index]).text('다시연결');
+										popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/함깨할게", "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+									}
+								}
+							); //end of ajax
+					}
+			});
 		}else{
-			$('#titleModal').text('다시연결');
-			$('#textModal').text('영상상담을 다시연결하시겠습니까?');
-			$('input[name="consultingState"]').val('9');
+			swal({
+				  title: "영상상담 다시연결",
+				  text: "신청일자 : "+regDate+"\n신청자 : "+userId+"\n상담사 : "+healingDogHealer+"\n치유견 : "+healingDogName+"\n\n영상상담을 다시연결하시겠습니까?",
+				  //icon: "warning",
+				  buttons: true,
+				  //dangerMode: true,
+				}).then(function(value){
+					if(value){
+						popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/함깨할게", "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+					}
+			});
 		}
-		$('#regDateModal').text('신청일자 : '+regDate);
-		$('#userIdModal').text('신청자 : '+userId);
-		$('#healingDogHealerModal').text('상담사 : '+healingDogHealer);
-		$('#healingDogNameModal').text('치유견 : '+healingDogName);
-		$('#consultingNoModal').val(consultingNo);
-		$('#consultingUserId').val(userId);
-		$('#index').val(index);
 	});
 	
-	$('#okModal').on('click',function(){
-		var index = $('#index').val();	
-		
-		var consultingState = $('input[name="consultingState"]').val();
-		var consultingNo = $('#consultingNoModal').val();
-		var userId = $('#consultingUserId').val();
-		
-		if(consultingState == '1'){
-			$.ajax(
-					{
-						url : "/ash/json/updateConsultingState/"+consultingNo+"/"+consultingState,
-						method : "GET",
-						dataType : "json",
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData , status){
-							$($('td:nth-child(5)')[index]).text('진행');
-							$($('a[name="btnConsulting"]')[index]).text('상담완료');
-							$($('a[name="startConsulting"]')[index]).text('다시연결');
-							popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/함깨할게", "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-						}
-					}
-				)
-		}else if(consultingState == '2'){
-			$.ajax(
-					{
-						url : "/ash/json/updateConsultingState/"+consultingNo+"/"+consultingState,
-						method : "GET",
-						dataType : "json",
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData , status){
-							$($('td:nth-child(5)')[index]).text('완료');
-							$($('a[name="btnConsulting"]')[index]).css('display','none');
-							$($('a[name="startConsulting"]')[index]).css('display','none');
-						}
-					}
-				)
-		}else if(consultingState == '3'){
-			$.ajax(
-					{
-						url : "/ash/json/updateConsultingState/"+consultingNo+"/"+consultingState,
-						method : "GET",
-						dataType : "json",
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData , status){
-							$($('td:nth-child(5)')[index]).text('취소');
-							$($('a[name="btnConsulting"]')[index]).css('display','none');
-							$($('a[name="startConsulting"]')[index]).css('display','none');
-						}
-					}
-				)
-		}else if(consultingState == '9'){
-			popWin = window.open("https://withdog.herokuapp.com/chat/"+consultingNo+"/함깨할게", "popWin", "left=200, top=20, width=1200, height=725, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-		}
-	});
 });
 
 </script>
@@ -218,8 +233,8 @@ $(function(){
 				  <td align="center" style="white-space: nowrap;">${list.healingDog.healingDogName}</td>
 				  <td align="center" style="white-space: nowrap;">${list.consultingState=='0'?"대기":list.consultingState=='1'?"진행":list.consultingState=='2'?"완료":"취소"}</td>
 				  <td align="center" style="white-space: nowrap;">
-				  	<div><a href="#modal-popup" class="popup-with-zoom-anim highlight-button-dark margin-three" name="btnConsulting" style='display: ${list.consultingState=="2"||list.consultingState=="3"?"none":""};'>${list.consultingState=="0"?"상담취소":"상담완료"}</a></div>
-				  	<div><a href="#modal-popup" class="popup-with-zoom-anim highlight-button-dark" name="startConsulting" style='display: ${list.consultingState=="0"||list.consultingState=="1"?"":"none"};'>${list.consultingState=="0"?"상담시작":"다시연결"}</a></div>
+				  	<div><a href="#" class="popup-with-zoom-anim highlight-button-dark margin-three" name="btnConsulting" style='display: ${list.consultingState=="2"||list.consultingState=="3"?"none":""};'>${list.consultingState=="0"?"상담취소":"상담완료"}</a></div>
+				  	<div><a href="#" class="popup-with-zoom-anim highlight-button-dark" name="startConsulting" style='display: ${list.consultingState=="0"||list.consultingState=="1"?"":"none"};'>${list.consultingState=="0"?"상담시작":"다시연결"}</a></div>
 			  		
 			  		<input type="hidden" name="userId" value="${list.user.userId }"/>
 			  		<input type="hidden" name="regDate" value="${list.regDate }"/>
@@ -243,47 +258,6 @@ $(function(){
                 <!-- end pagination -->
             </div> 
             
-            
-             <!-- 알림팝업 -->
-			<div class="col-md-9 col-sm-9 no-padding margin-five">
-		
-				<div class="col-lg-3 col-md-4 col-sm-5 center-col">
-					<div id="modal-popup" class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white modal-popup-main">
-			
-					<div class="text-center">
-						<span id="titleModal" class="black-text">모달제목</span>
-						<p class="borderline-gray"></p>
-					</div>
-		
-					<div class="text-center">
-						<span id="regDateModal" class="text-small">신청날짜 : </span><br/>
-						<span id="userIdModal" class="text-small">신청자 : </span><br/>
-						<span id="healingDogHealerModal" class="text-small">상담사 : </span><br/>
-						<span id="healingDogNameModal" class="text-small">치유견 : </span>
-						<br/><br/>
-					</div>
-						
-					
-					<div class="text-center">
-						<p id="textModal">모달내용</p>
-					</div>
-					
-					
-					<!-- 버튼 -->
-					<div class="text-center no-margin-bottom">
-						<a href="#" id="okModal"
-							class="highlight-button-dark btn btn-medium no-margin popup-modal-dismiss">OK</a>
-						<a href="#" id="cancelModal"
-							class="highlight-button btn btn-medium no-margin-bottom popup-modal-dismiss">CANCEL</a>
-					</div>
-					<!-- end 버튼 -->
-		
-				</div>
-			  </div>
-			</div>
-			<!-- end 알림팝업 -->
-
-
 		</div>
 		<!-- end content  -->
 	

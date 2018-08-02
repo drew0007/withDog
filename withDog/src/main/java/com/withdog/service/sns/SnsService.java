@@ -8,6 +8,6 @@ public interface SnsService {
 	
 	public JSONObject FundkakaoPay(Point point,String uri) throws Exception;
 	public JSONObject AshKakaoPay(Point point,String uri) throws Exception;
-	public JSONObject PurchasekakaoPay(Point point,String uri) throws Exception;
+	public JSONObject PurchaseKakaoPay(Point point,String uri) throws Exception;
 		
 }

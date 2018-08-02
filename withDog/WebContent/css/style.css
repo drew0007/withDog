@@ -99,6 +99,26 @@ ul, ol, dl {list-style-position: outside;}
     Typography
 ====================================== */
 
+
+/*=================
+	SweetAlert용
+===================*/
+.swal-footer {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.swal-button--confirm{
+	background-color: #000;
+	border: 2px solid #000;
+}
+
+.swal-button--cancel{
+	background-color: #fff;
+	border: 2px solid #000;
+}
+
+
 /* font family */
 .alt-font {font-family: "Oswald",sans-serif !important;}
 .main-font {font-family: 'Open Sans', sans-serif !important;}
@@ -150,6 +170,7 @@ h1.page-title { margin:95px auto 0; width: 100%; }
 .orange-light-text{ color:#ef824c !important}
 .deep-red-text{ color:#e75e50 !important}
 .black-text{ color:#000 !important}
+.sky-text{ color:#709dbd !important;}
 .yellow-text{ color:#e6af2a !important}
 .yellow-light-text{color: #ffd200 !important}
 .fast-yellow-text{ color:#f7d23d !important}
@@ -313,6 +334,7 @@ i { color: #9a9a9a; margin: 0 3px}
 .padding-two { padding-top:2% !important; padding-bottom:2% !important}
 .padding-three { padding-top:3% !important; padding-bottom:3% !important}
 .padding-four { padding-top:4% !important; padding-bottom:4% !important}
+.padding-four-top { padding-top:4% !important;}
 .padding-five { padding-top:5% !important; padding-bottom:5% !important}
 .padding-six { padding-top:3% !important; padding-left:3% !important; padding-right:3% !important;}
 .padding-seven { padding:6%} 
@@ -398,12 +420,14 @@ p.uppercase a:hover { text-decoration: none;}
 .border-white { border:1px solid #FFF}
 .border-top { border-top: 1px solid #e5e5e5; }
 .border { border: 1px solid #e5e5e5;  }
+.border-tb{border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; }
 .border-right { border-right: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 .border-left { border-left: 4px solid #fff; }
 .border-color-black { border-color: #000 !important}
 .border-color-white { border-color: #fff !important}
 .border-gray { border-color:#d7d7d7 !important}
+.border-gray2 { border:3px solid #efefef;}
 .border-color-orange { border-color:#ff513b !important}
 .no-border { border:none !important}
 .border-top-light { border-top: 1px solid rgba(0, 0, 0, 0.1);}
@@ -748,7 +772,7 @@ input.checkbox + label.input-label:active::before {
 input.checkbox:checked + label.input-label::before {
   display: inline-block; 
   font-family: FontAwesome; 
-  color:#68d9d9;
+  color:#96c5c5;
   -webkit-transform: scale3d(1,1,1);
   -moz-transform: scale3d(1,1,1);
   -ms-transform: scale3d(1,1,1);
@@ -1564,6 +1588,17 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .highlight-button i { color: #000}
 .highlight-button:hover i {color:#fff}
 
+.highlight-button-navy1 { border-radius:5px; border:1.5px solid #408080; display: inline-block; padding: 8px 8px 9px; font-size: 13px; color:#fff; background-color: #408080; }
+.highlight-button-navy1:hover { background-color: transparent; border: 1.5px solid #408080; color:#408080}
+.highlight-button-navy1 i { color: #408080}
+.highlight-button-navy1:hover i {color:#fff}
+
+.highlight-box-red { border:2px solid #d94378; display: inline-block; padding: 8px 20px 9px; font-size: 10px; color:#d94378; background-color: transparent; }
+
+.highlight-box-sky { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#709dbd; background-color: transparent; }
+.highlight-box-sky:hover { background-color: #709dbd; border: 1.5px solid #709dbd; color:#fff;}
+.box-sky { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#fff; background-color: #709dbd; }
+.box-sky:hover { background-color: transparent; border: 1.5px solid #709dbd; color:#5a7d96}
 
 .highlight-button-sky { border:2px solid #819bad; display: inline-block; padding: 8px 20px 9px; font-size: 13px; color:#819bad; background-color: transparent;  border-radius: 10px; }
 .highlight-button-sky:hover { background-color: #819bad; border: 2px solid #819bad; color:#fff;border-radius: 10px;}
@@ -2055,6 +2090,7 @@ ul.list-line li span {min-width:130px; display:inline-block}
 .shop-cart .shop-shorting { width: 63px !important; }
 thead th.first { padding-left: 0 !important; }
 .product-thumbnail { padding-left: 0 !important; }
+.product-thumbnail-round { padding-left: 0 !important; border-radius:100%; border:1px solid #d2d2d2;}
 .cupon { display: inline-block; width: 100%; }
 .cupon .form-inline .btn { margin-left: 10px !important; padding-top: 9px; }
 .continue-shopping { margin-left: 15px !important; }
@@ -2165,6 +2201,7 @@ thead th.first { padding-left: 0 !important; }
 .dateline-search {position: relative;}
 .reservation-name:before {position: absolute; right: 32px; top: 16px; font-family: FontAwesome; content: "\f007"; font-size: 16px; color: #575757;}
 .reservation-date:before {position: absolute; right: 32px; top: 16px; font-family: FontAwesome; content: "\f073"; font-size: 16px; color: #575757;}
+.reservation-date2:before {position: absolute; right: 32px; top: 10px; font-family: FontAwesome; content: "\f073"; font-size: 16px; color: #575757;}
 .special-dishes-price { bottom: -2px; color: #d50f0f; font-family: "Oswald",sans-serif; font-size: 16px; font-weight: 400; letter-spacing: 1px; padding: 12px 22px; position: absolute; right: 0; }
 .restaurant-services { background:rgba(0,0,0,.8)}
 

@@ -80,7 +80,8 @@
 								var userConCheck = JSONData.userConCheck;
 								
 								if(userConCheck=='1'){
-									self.location = "/common/mainPage";
+									//self.location = "/common/mainPage";
+									self.location = JSONData.prevPage;
 								}else if(userConCheck=='0'){
 									//휴면회원
 									alert("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다.");

@@ -10,11 +10,10 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 
-	function fncGetList(currentPage) {
-		$("#currentPage").val(currentPage)
-		alert("현재페이지");
-		$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=1").submit();
-	}
+function fncGetList(currentPage) {
+	$("#currentPage").val(currentPage)
+	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=1").submit();
+}
 	
 	//상품이미지 클릭시 이벤트 getProduct 연결
 	$(function(){
@@ -22,7 +21,6 @@
 			var role = "${sessionScope.user.role}";
 			var index = $(".prodImage").index(this);
 			var prodNo = $($("input[name='prodNo']")[index]).val();
-			alert(role + "[" + prodNo+ "]");
 
 			 if(role == 'admin'){
 				 self.location = "/product/updateProductAdmin?prodNo="+prodNo;
@@ -148,7 +146,7 @@
                             
                             </div>
                             
-                            <c:if test="${user.role == 'admin'}">
+                            <c:if test="${sessionScope.user.role == 'admin'}">
                             <div class="text-right">
                           	  <button id="add" type="button" class="highlight-button btn btn-medium">상품등록</button>
                       	   </div>

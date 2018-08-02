@@ -54,28 +54,44 @@ function fncGetList(currentPage) {
         </section>
         <!-- end head section -->
    <!--    <span class="about-number1 font-weight-400 letter-spacing-2 xs-no-border xs-no-padding-left xs-display-none">당신의 후원을 기다립니다.</span> -->  
-        
+        <!-- 영상삼담 소개 -->
+        <section class="padding-two wow fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-10 text-center center-col">
+                        <span class="margin-one no-margin-top display-block letter-spacing-2">THE CROWD FUND</span>
+                        <h1>완료된펀딩 목록</h1><hr/>
+                        <!-- <div class="separator-line bg-black margin-two no-margin-bottom"></div> -->
+                        <!-- <p class="text-p width-120 center-col margin-two no-margin-bottom">크라우드펀딩은 군중 또는 다수를 의미하는 영어단어 크라우드(crowd)와 자금조달을 뜻하는 펀딩(funding)을 조합한 용어입니다. <br>  창의적 기업가를 비롯한 자금수요자가 인터넷 등의 온라인상에서 자금모집을 중개하는 자(온라앤소액투자중개업자)를 통하여 <br>불특정 다수의 소액투자자로부터 자금을 조달하는 행위를 의미합니다.  <br>이러한 크라우드펀딩은 자금모집 및 보상방식에 따라 통상 기부형, 후원형, 대출형, 증권형(투자형) 등으로 구분됩니다. </p> -->
+                        
+                        <div class="form-group col-md-8" style="float: right;">
+		                	
+						    <select class="form-control" name="searchCondition" style="width: 20%;display:inline-block;">
+								<option id="check" value="0" ${search.searchCondition =="0"? "selected" : ""}>펀딩제목</option>
+							</select>
+						    <label class="sr-only" for="searchKeyword">검색어</label>
+						    <input type="text" class="form-control"  name="searchKeyword"  placeholder="검색어" id="tags"
+						    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" style=" width: 50%;display:inline-block;">
+						     <button type="button" class="highlight-button btn-medium button margin-five" id="key">검색</button>
+						 </div>
+					    </div>
+					     
+					
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        <!-- end 영상삼담 소개 -->
         <!-- content section -->
         <section class="wow fadeIn">
         
                           
         
-            <div class="container">
+            
                
-               <div class="row" style="display:inline;">
-                <div class="form-group col-md-4 col-sm-4" align="right">
-				    <select class="form-control" name="searchCondition" >
-						<option id="check" value="0" ${search.searchCondition =="0"? "selected" : ""}>펀딩제목</option>
-					</select>
-				  
-				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control"  name="searchKeyword"  placeholder="검색어" id="tags"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};">
-				    <button type="button" class="highlight-button btn-medium button margin-five" id="key">검색</button>
-				     
-				</div>
-				
-                  </div>
+               
+            
                
                   
                   
@@ -119,7 +135,26 @@ function fncGetList(currentPage) {
         </section>
         <!-- end content section -->
         
-        
+        <section class="no-padding-top margin-two">
+            <div class="container bg-gray border-round padding-one">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6"></div>           
+                    <div class="col-md-1 col-sm-6">
+                    <i class="icon-megaphone"></i><br>
+                    <strong>안내사항</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-6">   
+                        <p class="no-margin-bottom">
+                            1. 해당 펀딩은 철저한 검토후 진행됩니다.</br>
+                            2. 후원금액의 사용처는 완료된 펀딩 목록 카테고리에서 확인가능합니다.<br>
+                            3. 후원한 금액은 불가피한 사유가 없는한 환불이 불가능합니다.<br>
+                            4. 불가피한 사유로 환불요청시 전화상으로만 가능합니다.
+                        </p>
+                    </div>  
+                </div>
+            </div>
+        </section>
+		</div>
         
 	
 	<jsp:include page="/layout/footer.jsp" />
