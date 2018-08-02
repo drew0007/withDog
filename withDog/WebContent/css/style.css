@@ -772,7 +772,7 @@ input.checkbox + label.input-label:active::before {
 input.checkbox:checked + label.input-label::before {
   display: inline-block; 
   font-family: FontAwesome; 
-  color:#68d9d9;
+  color:#96c5c5;
   -webkit-transform: scale3d(1,1,1);
   -moz-transform: scale3d(1,1,1);
   -ms-transform: scale3d(1,1,1);
@@ -1593,6 +1593,7 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .highlight-button-navy1 i { color: #408080}
 .highlight-button-navy1:hover i {color:#fff}
 
+.highlight-box-red { border:2px solid #d94378; display: inline-block; padding: 8px 20px 9px; font-size: 10px; color:#d94378; background-color: transparent; }
 
 .highlight-box-sky { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#709dbd; background-color: transparent; }
 .highlight-box-sky:hover { background-color: #709dbd; border: 1.5px solid #709dbd; color:#fff;}

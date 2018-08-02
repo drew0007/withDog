@@ -82,7 +82,7 @@ $(function () {
 
 });
 
-//그냥결제
+// 그냥결제
 // $(function(){
 // 	$("#addPurchase").on("click", function () {
 // 		var prodNo = ${purchase.product.prodNo};
@@ -91,15 +91,15 @@ $(function () {
 // });
 
 
-//카카오페이
-$(function () {
-	$("#kakaoPay").on("click", function () {
-		var usePoint = 	$("input[name=usePoint]").val();
-		var prodNo = ${purchase.product.prodNo};
-		window.open("", "popup_window", "left=300,width=500,height=500,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
-		$("form").attr("method","post").attr("target","popup_window").attr("action","/purchase/kakaoPay?userPoint="+usePoint + "&prodNo=" + prodNo).submit();
-	})
-});
+// //카카오페이
+// $(function () {
+// 	$("#kakaoPay").on("click", function () {
+// 		var usePoint = 	$("input[name=usePoint]").val();
+// 		var prodNo = ${purchase.product.prodNo};
+// 		window.open("", "popup_window", "left=300,width=500,height=500,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+// 		$("form").attr("method","post").attr("target","popup_window").attr("action","/purchase/kakaoPay?userPoint="+usePoint + "&prodNo=" + prodNo).submit();
+// 	})
+// });
 </script>
 </head>
 <body>
@@ -139,23 +139,23 @@ $(function () {
                         <form>
                             <div class="col-md-12 no-padding">
                                 <label>구매자이름:</label>
-                                <input type="text" name="userName" value="${purchase.user.userName}" readonly>
+                                <input type="text" name="userName" value="${user.userName}" readonly>
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>수령인:</label>
-                                <input type="text" name="receiverName" value="${purchase.user.userName}">
+                                <input type="text" name="receiverName" value="${user.userName}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>배송주소:</label>
                             </div>
                             <div class="col-md-12 no-padding">
-                                <input type="text" name="receiverAddr1" id="address1" class="col-md-9" value="${purchase.user.address1}">
+                                <input type="text" name="receiverAddr1" id="address1" class="col-md-9" value="${user.address1}">
                                 <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3"  id="searchPost" value="우편번호검색" placeholder="'-'제외하고 숫자만 입력">
-                                <input type="text" name="receiverAddr2" id="address2" value="${purchase.user.address2}">
+                                <input type="text" name="receiverAddr2" id="address2" value="${user.address2}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>연락처:</label>
-                                <input type="text" name="receiverPhone" value="${purchase.user.phone}" placeholder="'-'없이 입력해주세요.">
+                                <input type="text" name="receiverPhone" value="${user.phone}" placeholder="'-'없이 입력해주세요.">
                                 
                             </div>
                             <div class="col-md-12 no-padding">
@@ -208,24 +208,26 @@ $(function () {
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody><!--list[0] 장바구니에서 넘어온 리스트나 바로구매로 넘어온 상품이나 무조건 0은 있기때문  -->
+                            	<c:forEach var="cart" items="${list}">
                                 <tr>
                                     <td class="product-thumbnail text-left">
-                                        <img src = "/images/store/${purchase.product.prodImage}" width="120" height="120"/>
+                                        <img src = "/images/store/${cart.product.prodImage}" width="120" height="120"/>
                                     </td>
                                     <td class="text-left">
-                                        <a href="#">${purchase.product.prodName}</a>
-                                        <span class="text-uppercase display-block text-small margin-two">상품번호: ${purchase.product.prodNo}</span>
+                                        <a href="#">${cart.product.prodName}</a>
+                                        <span class="text-uppercase display-block text-small margin-two">상품번호: ${cart.product.prodNo}</span>
                                         <a href="#" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
                                     </td>
                                     <td class="product-quantity">
-                                            <input type="text" name="purchaseQuantity" value="${purchase.purchaseQuantity}" class="col-md-3 text-center" readonly/>
+                                            <input type="text" name="purchaseQuantity" value="${cart.cartQuantity}" class="col-md-3 text-center" readonly/>
                                     </td>
-                                    <td class="product-subtotal text-left">${purchase.product.price}원<input type="hidden" name="price" value="${purcahse.product.price}"></td>
+                                    <td class="product-subtotal text-left">${cart.product.price}원<input type="hidden" name="price" value="${cart.product.price}"></td>
                                     <td class="product-remove text-center">
                                         <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -279,7 +281,7 @@ $(function () {
         
 		
 		
-		<jsp:include page="../layout/footer.jsp" />
+<%-- 		<jsp:include page="../layout/footer.jsp" /> --%>
 	
 		<jsp:include page="../common/js.jsp" />
 </body>

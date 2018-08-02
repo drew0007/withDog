@@ -27,8 +27,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.withdog.common.Page;
 import com.withdog.common.Search;
+import com.withdog.service.cart.CartService;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Ash;
+import com.withdog.service.domain.Cart;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
 import com.withdog.service.domain.Product;
@@ -51,6 +53,10 @@ public class PurchaseController {
 	private ProductService productService;
 	
 	@Autowired
+	@Qualifier("cartServiceImpl")
+	private CartService cartService;
+	
+	@Autowired
 	@Qualifier("commonServiceImpl")
 	private CommonService commonService;
 	
@@ -71,26 +77,60 @@ public class PurchaseController {
 	int pageSize;
 	
 	
+//	//하나씩 구매시 로직 
+//	@RequestMapping(value="addPurchaseView", method=RequestMethod.POST)
+//	public String addPurchaseView(@RequestParam("prodNo") int prodNo, @ModelAttribute Purchase purchase, HttpServletRequest request, Model model, HttpSession session) throws Exception{
+//		
+//		System.out.println("/purchase/addPurchaseView : POST");
+//		
+//		System.out.println(purchase);
+//		
+//		//프로덕트 객체를 펄체이스 필드에 담기
+//		Product product = productService.getProduct(prodNo);
+//		purchase.setProduct(product);
+//		
+//		System.out.println("프로덕트객체======================="+product);
+//		
+//		if(session.getAttribute("user")!=null) {
+//			System.out.println("이프문");
+//			//세션에서 user정보 꺼내서 user객체에 담고 purchase 필드에 심기
+//			User user = (User)session.getAttribute("user");
+//			purchase.setUser(user);
+//			System.out.println(user.getUserId());
+//			
+//			//임시
+//			Point point = new Point();
+//			point.setUser(user);
+//			
+//			int currentPoint=commonService.getCurrentPoint(point);
+//			
+//			model.addAttribute("currentPoint", currentPoint);
+//		}
+//		
+//		System.out.println("펄체이스객체=========================" +purchase);
+//		model.addAttribute("purchase", purchase);
+//		
+//		return "forward:/store/addPurchase.jsp";
+//	}
 	
-	@RequestMapping(value="addPurchaseView", method=RequestMethod.POST)
-	public String addPurchaseView(@RequestParam("prodNo") int prodNo, @ModelAttribute Purchase purchase, HttpServletRequest request, Model model, HttpSession session) throws Exception{
+	//장바구니에서 리스트가지고 넘어왔을때 로직
+	@RequestMapping(value="addPurchaseView")
+	public String addPurchaseView(@RequestParam(value="prodNo", required=false) int prodNo, @ModelAttribute Purchase purchase, @RequestParam(value="cartList", required=false) String cartList, Model model, HttpSession session) throws Exception{
 		
-		System.out.println("/purchase/addPurchaseView : POST");
+		System.out.println("/purchase/addPurchaseView : 장바구니에서 구매");
 		
-		System.out.println(purchase);
-		
-		//프로덕트 객체를 펄체이스 필드에 담기
-		Product product = productService.getProduct(prodNo);
-		purchase.setProduct(product);
-		
-		System.out.println("프로덕트객체======================="+product);
-		
-		if(session.getAttribute("user")!=null) {
-			System.out.println("이프문");
-			//세션에서 user정보 꺼내서 user객체에 담고 purchase 필드에 심기
+		if(prodNo != 0) {
+			//프로덕트 객체를 펄체이스 필드에 담기
+			Product product = productService.getProduct(prodNo);
+			
+			Cart cart = new Cart();
+			cart.setProduct(product);
+			cart.setCartQuantity(purchase.getPurchaseQuantity());
+			
+			List<Cart> list = new ArrayList<Cart>();
+			
+			list.add(cart);
 			User user = (User)session.getAttribute("user");
-			purchase.setUser(user);
-			System.out.println(user.getUserId());
 			
 			//임시
 			Point point = new Point();
@@ -99,13 +139,25 @@ public class PurchaseController {
 			int currentPoint=commonService.getCurrentPoint(point);
 			
 			model.addAttribute("currentPoint", currentPoint);
+			model.addAttribute("list", list);
+			
+		}else {
+			Map<String, Object> map = cartService.getSelectCartList(cartList);
+			//임시
+			Point point = new Point();
+			User user = (User)session.getAttribute("user");
+			point.setUser(user);
+			
+			int currentPoint=commonService.getCurrentPoint(point);
+			
+			model.addAttribute("currentPoint", currentPoint);
+			model.addAttribute("list", map.get("list"));
 		}
 		
-		System.out.println("펄체이스객체=========================" +purchase);
-		model.addAttribute("purchase", purchase);
 		
 		return "forward:/store/addPurchase.jsp";
 	}
+	
 	
 	@RequestMapping(value="addPurchase")
 	public String addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") int prodNo, HttpSession session, HttpServletRequest req,  Model model) throws Exception{

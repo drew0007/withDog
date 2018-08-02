@@ -17,12 +17,15 @@ $(function() {
 			var purchaseQuantity=$("#purchaseQuantity option:selected").val()*1;
 			var prodQuantity=$("#prodQuantity").val();
 			var prodNo=$('input[name="prodNo"]').val();
+// 			alert(purchaseQuantity)
+// 			alert(prodQuantity)
 		
 			if(parseInt(purchaseQuantity) > parseInt(prodQuantity)){
-				alert("재고 수량을 초과할 수 없습니다. 수량을 다시 선택해주세요");
+				swal("알 림", "재고 수량을 초과할 수 없습니다.\n수량을 다시 선택해주세요.");
 				return;
 			}
-			
+
+			alert(prodNo)
 			$.ajax( 
 					{
 						url : "/cart/json/addCart",
@@ -34,12 +37,26 @@ $(function() {
 						},
 						data : JSON.stringify({
 							prodNo : prodNo,
-							tranCnt : tranCnt
+							purchaseQuantity : purchaseQuantity
 						}),
 						success : function(JSONData , status) {
-							if (confirm("상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?")){
-								$(self.location).attr("href","/cart/listCart");
-							}
+							getToolCartList();
+							//스윗얼러트
+							swal({
+								 //세팅
+								  title: "장바구니담기",
+								  text: "상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?",
+								  icon: "success",
+								  buttons: true,
+								  //dangerMode: true,
+								})
+							//오케이 누르면 밸류에 트루값 넣어주면서 이프문 실행
+							.then(function(value){
+								if(value){
+									$(self.location).attr("href","/cart/getCartList");
+								}
+							});
+							
 						}
 					});
 			
@@ -49,10 +66,13 @@ $(function() {
 	
 	
 	
+	
 
 //"바로구매" 버튼 이벤트 연결
 $(function(){
-	$("#purchase").on("click", function(){
+	
+	$("#addPurchase").on("click", function(){
+		alert("ssss")
 		var prodQuantity = $("#prodQuantity").val();//상품수량
 		var purchaseQuantity = $("#purchaseQuantity option:selected").val()*1; // 구매수량
 		var prodNo = $('input[name="prodNo"]').val();
@@ -65,7 +85,6 @@ $(function(){
 			swal("알 림", "재고 수량을 초과할 수 없습니다.\n수량을 다시 선택해주세요.");
 		}else{
 			$("form[name='purchaseform']").attr("method", "POST").attr("action", "/purchase/addPurchaseView?prodNo=" +prodNo).submit();
-// 			location.href = "/purchase/addPurchase?prodNo="+prodNo + "&purchaseQuantity=" + purchaseQuantity;
 		}
 		
 	});
@@ -423,8 +442,8 @@ $(function(){
                         <div class="col-md-12 col-sm-9 no-padding">
                             <c:choose>
                          	   <c:when test="${product.prodQuantity > 0 }">
-                            		<a class="highlight-button btn btn-medium button" href="#"  id="addCart"><i class="icon-basket"></i>장바구니 담기</a>
-                            		<a class="highlight-button-dark btn btn-medium button" href="#" id="purchase">바로구매</a>
+                            		<a class="highlight-button btn btn-medium button" id="addCart" style="cursor:pointer;"><i class="icon-basket"></i>장바구니 담기</a>
+                            		<a class="highlight-button-dark btn btn-medium button" href="#" id="addPurchase">바로구매</a>
                             	</c:when>
                             <c:otherwise>
                             <a class="highlight-button-dark btn btn-medium button"  disabled>품절</a>
