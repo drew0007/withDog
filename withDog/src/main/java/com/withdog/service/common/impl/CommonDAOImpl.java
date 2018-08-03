@@ -52,9 +52,6 @@ public class CommonDAOImpl implements CommonDAO {
 			
 			
 			System.out.println(point.toString());
-			System.out.println("구매번호 확인~~~~~");
-			System.out.println(point.getPurchase());
-			System.out.println("구매번호 확인~~~~~");
 			sqlSession.insert("CommonMapper.addPointSave",point);
 			System.out.println("FundPointSAVE END");
 		
@@ -108,8 +105,11 @@ public class CommonDAOImpl implements CommonDAO {
 
 
 	@Override
-	public int getTotalCount(String userId) throws Exception {
-		return sqlSession.selectOne("CommonMapper.getTotalCount",userId);
+	public int getTotalCount(Search search,String userId) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		map.put("search", search);
+		return sqlSession.selectOne("CommonMapper.getTotalCount",map);
 	}
 
 

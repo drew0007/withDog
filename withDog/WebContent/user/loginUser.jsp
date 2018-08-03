@@ -38,7 +38,7 @@
 			});
 			
 			//로그인 연결 
-			$("#login").on("click" , function() {
+			$("#loginBtn").on("click" , function() {
 				
 				//유효성체크
 				var userId=$("#userId").val();
@@ -80,8 +80,8 @@
 								var userConCheck = JSONData.userConCheck;
 								
 								if(userConCheck=='1'){
-									//self.location = "/common/mainPage";
-									self.location = JSONData.prevPage;
+									
+									self.location = "/common/mainPage";
 								}else if(userConCheck=='0'){
 									//휴면회원
 									alert("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다.");
@@ -107,15 +107,11 @@
 			//엔터키 이벤트 ( 로그인 클릭한것처럼)
 			$("#password").keydown(function(event){
 		       if(event.keyCode==13){
-		    	   $('#login').trigger('click');
+		    	   $('#loginBtn').trigger('click');
 		        }
 		    });
 			
-			$("#userId").keydown(function(event){
-			       if(event.keyCode==13){
-			    	   $('#login').trigger('click');
-			        }
-			});
+	
 			
 
 	}); //end 제이쿼리
@@ -213,21 +209,6 @@
 				  
 		    	window.name = "loginView";  
 				  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
 			  
 			
 		    ////////////////////////////////////////////
@@ -370,7 +351,6 @@
 	
 	</script>	
 
-
 </head>
 
 <body>
@@ -405,7 +385,7 @@
                     <div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
                     	
                     	<div>
-	                    	<form>
+<!-- 	                    	<form> -->
 		                        <div class="col-md-12 no-padding">
 		                            <label>ID</label>
 		                            <input type="userId" name="userId" id="userId" placeholder="아이디">
@@ -418,17 +398,17 @@
 		                        	<span class="spanClass"></span>  
 		                        </div>
 		                        
-	                         </form> 
+<!-- 	                         </form>  -->
 	                         
                           </div>   
                           
                           <div>
-	                          <div class="col-md-12 col-xs-11 no-padding">              
-	                        	 <button class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right" type="submit" id="login" style="width:460px;"}">Login</button>
+	                          <div class="col-md-12 col-xs-11 no-padding xs-center-col">
+	                           <input type="button"  class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right" type="submit" id="loginBtn" value="Login"/>             
 	                          </div>
 	                          
-	                          <div class="col-md-12 col-xs-11 no-padding">
-	                         	<a class="highlight-button btn btn-medium button text-center" href="#" id ="join" style="width:460px;">회 원 가 입</a>
+	                          <div class="col-md-12 col-xs-11 no-padding xs-center-col">
+	                         	<a class="highlight-button btn btn-medium button text-center col-md-12 col-xs-12" href="#" id ="join">회 원 가 입</a>
 	                          </div>	
 	                         	
 	                         <div class="col-md-12 col-xs-11 no-padding margin-ten">
@@ -456,15 +436,17 @@
 						    	<div class="col-md-6" style="margin-left: -15px;">
 									<a href="#"><img src="../images/login/naver.png" id="naver" /></a>
 								</div>	
-								
+
 								<!-- 페이스북 임시--> 
 						    	<div class="col-md-6" style="margin-left: -15px;">
 									<a href="#"><img src="../images/login/facebook.png"  /></a>
 								</div>	
+
 								<!-- 페이스북 -->
 								<div class="col-md-6">
 									<div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
 								</div>
+								
 							 </div>		
 						</div>
 					</div>
@@ -473,7 +455,7 @@
 	 </section>
         <!-- end content section -->
         
-<jsp:include page="../layout/footer.jsp" />
+<jsp:include page="../layout/footer3.jsp" />
 
 <jsp:include page="../common/js.jsp" />
 </body>

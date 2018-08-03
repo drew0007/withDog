@@ -80,25 +80,16 @@ function fncGetList(currentPage) {
                     </div>
                     
                 </div>
-            </div>
+            
         </section>
         <!-- end 영상삼담 소개 -->
         <!-- content section -->
-        <section class="wow fadeIn">
+        <section class="wow fadeIn no-padding-top">
         
-                          
         
-            
-               
-               
-            
-               
-                  
-                  
+               <div class="container">   
                 <div class="row">
                     <!-- content  -->
-                   
-                   
                    
                                        
                     <!-- 펀딩 item 01 -->
@@ -131,7 +122,7 @@ function fncGetList(currentPage) {
                         <!-- end pagination -->
                     </div>        
             </div>
-            </form>
+            
         </section>
         <!-- end content section -->
         
@@ -154,9 +145,9 @@ function fncGetList(currentPage) {
                 </div>
             </div>
         </section>
-		</div>
+		
         
-	
+	</form>
 	<jsp:include page="/layout/footer.jsp" />
 	
 	<jsp:include page="/common/js.jsp" />

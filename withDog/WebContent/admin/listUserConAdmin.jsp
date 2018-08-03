@@ -7,8 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 	
-<title>회원 관리 리스트</title>
+<title>오늘 기준 휴면회원 리스트</title>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>	  
+
+
 <script type="text/javascript">
 
 	$(function() {
@@ -26,62 +28,19 @@
 	        }
 	    });
 	
-		/*
-		//회원정보 간략보기
-		$(  "td:nth-child(6)" ).on("click" , function() {
-			
-				var userId = $(this).children().children().children().val();
-				
-				$.ajax( 
-						{
-							url : "/user/json/getUser/"+userId ,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-
-								var displayValue = "<h6>"
-															+"휴대폰 : <br/>"+JSONData.phone+"<br/>"
-															+"가입일 : <br/>"+JSONData.joinDate+"<br/>"
-															+"포인트 : <br/>"+JSONData.currentPoint+"<br/>"
-															+"ROLE : <br/>"+JSONData.role+"<br/>"
-															+"</h6>";
-								$("h6").remove();
-								$( "#"+userId+"" ).html(displayValue);
-							}
-					});
-									
-		});*/
-		
-		
-		//userId 에 회원정보보기  Event 처리(Click)
-		 $(function() {
-			
-			$( "td:nth-child(3)" ).on("click" , function() {
-				
-				 self.location ="/user/getUserAdmin?userId="+$(this).text().trim();
-			});
-						
-			
-		});	
-		
-		
 		
 	}); //제이쿼리 끝
 		
-	
 		
 	//하단 페이지 클릭시
 	function fncGetList(currentPage) {
 		alert(currentPage);
 		$("#currentPage").val(currentPage)
-		$("form").attr("method", "POST").attr("action", "/user/getUserListAdmin").submit();
+		$("form").attr("method", "POST").attr("action", "/user/getUserConListAdmin").submit();
 	}
 	
-</script>	
+</script>
+
 
 </head>
 
@@ -125,43 +84,26 @@
 		    <!-- content -->
 		    <div class="col-md-9 col-sm-9 col-md-offset-1">
 		    
-			    <h2 align="center">회원관리리스트</h2>
-			    <hr/>
-			    
-			    	<div class="col-md-6" style="margin-top:50px">
+			    <h2 align="center">최근 5일 기준 회원 리스트</h2>
+			
+		    
+			   <form>
+				  <div class="form-group col-md-3">
+					  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+					  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  </div>
+				</form>  
+				
+		
+				<jsp:include page="getUserConAdmin.jsp" />
+		
+				<!--  table Start /////////////////////////////////////-->
+				    <div class="col-md-6" style="margin-top:100px;"  >
 		    			<p class="text-primary">
 		    				전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    			</p>
 		    		</div>	
-		    
-			   <form>
-			    
-				  <div class="form-group col-md-3">
-				  
-				   <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>계정상태 :휴면</option>
-						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>계정상태 :정상</option>
-						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>계정상태 :탈퇴</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group col-md-3">
-				     	<label class="sr-only" for="searchKeyword">검색어</label>
-					    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-					    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-					  	
-						  	<input type="button" class="highlight-button-dark btn no-margin post-search" id="search" value="검색"/>
-				 
-							  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-							  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  </div>
-				</form>  
 				
-				<hr/>
-		
-				<!--  table Start /////////////////////////////////////-->
 			      <table class="table table-hover table-striped" >
 			        
                      <thead>
@@ -170,7 +112,8 @@
                          	<th align="left">계정상태</th>
      						<th align="left" >회원 ID</th>
      						<th align="left">회원명</th>
-   							<th align="left">최근접속일</th>
+    						<th align="left">최근접속일</th>
+     						<th align="left">휴면회원으로 변경일</th>
                          </tr>
                      </thead>
                     
@@ -192,6 +135,7 @@
 							  <td align="left" value="${user.userId}"><a href="#">${user.userId}</a></td>
 							  <td align="left">${user.userName}</td>
 							  <td align="left">${user.recentlyDate}</td>
+							  <td align="left">${user.changeDate}</td>
 						</tr>
 	    			 	</c:forEach>
 					</tbody>

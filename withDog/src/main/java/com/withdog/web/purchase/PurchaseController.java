@@ -1,7 +1,9 @@
 package com.withdog.web.purchase;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,7 @@ import com.withdog.service.domain.User;
 import com.withdog.service.product.ProductService;
 import com.withdog.service.purchase.PurchaseService;
 import com.withdog.service.sns.SnsService;
+import com.withdog.service.user.UserService;
 
 @Controller
 @RequestMapping("/purchase/*")
@@ -63,6 +66,10 @@ public class PurchaseController {
 	@Autowired
 	@Qualifier("snsServiceImpl")
 	private SnsService snsService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 
 
 	public PurchaseController() {
@@ -311,7 +318,7 @@ public class PurchaseController {
 		}
 		
 		if (pointPurchase.getPurchaseList().get(0).getPurchasePrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
-			String uri = "http://localhost:8080/purchase/addPurchaseDone?state=";
+			String uri = "http://192.168.0.34:8080/purchase/addPurchaseDone?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
 			JSONObject jobj = snsService.PurchaseKakaoPay(pointPurchase, uri); // 카카오페이 다녀와서 데이터를 받는 객체
@@ -418,6 +425,58 @@ public class PurchaseController {
 				    point.setPoint(resultpoint);
 
 				   	commonService.addPointinfo(point);
+				   	
+				   	
+					/////////////예약완료 이메일 보내기 시작////////////////////
+					//메일주소
+					String userEmail ="withdog0817@naver.com" ;
+					
+					 //달력가져오기
+					 Date today = new Date();   
+					 
+					 //오늘
+					 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+					 String toDay = date.format(today);
+					
+					// 메일 내용 작성 ::  이메일주소, 메일제목 , 내용
+					String title ="[함께할개]상품구매가 완료되었습니다.";    
+					String url ="http://192.168.0.34:8080/";
+					String htmlText ="<body style=\"box-sizing: border-box; line-height: 24px; font-family: '맑은고딕', 'malgun gothic', 'dotum', sans-serif;\">\r\n" + 
+							"	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://192.168.0.41:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n" + 
+							"		<div style=\"font-size: 30px; text-align:center; margin-bottom: 60px; margin-top: 44px; color: #fff;\">\r\n" + 
+							"			<p style=\"padding-top:78px; margin-bottom: 13px;\">"+purchase.getUser().getUserName()+"고객님</p> 상품구매가 완료되었습니다. \r\n" + 
+							"		</div>\r\n" + 
+							"	</div>\r\n" + 
+							"	<div style=\"width:640px; padding:20px 0; margin:0 auto; margin-top:50px\">\r\n" + 
+							"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">예약내역정보 </p>\r\n" + 
+							"			<ul style=\"font-size:17px;\">\r\n" + 
+							"				<li>구매번호: "+purchase.getPurchaseNo()+"</li>\r\n" + 
+							"				<li>구매일시:"+ today+"</li>\r\n" + 
+							"				<li>배송지:"+purchase.getReceiverAddr1()+purchase.getReceiverAddr2()+"</li>\r\n" +
+							"				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
+							"			</ul>\r\n" + 
+							"	</div>\r\n" + 
+							"	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n" + 
+							"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">결제정보</p>\r\n" + 
+							"			<ul style=\"font-size:17px;\">\r\n" + 
+							"				<li>결제금액: "+purchase.getPurchasePrice()+"</li>\r\n" + 
+							"				<li>결제수단: 카카오페이</li>\r\n" + 
+							"			</ul>\r\n" + 
+							"	</div>\r\n" + 
+							"	<div style=\"background-color: #eee; margin:0 auto; width: 750px\">\r\n" + 
+							"		<ul style=\"font-size:13px; padding: 30px 0 30px 36px; color: #868686; list-style: none;\">\r\n" + 
+							"			<li>1. 본 메일은 함께할개 서비스 운영 상 공지 목적으로 발송되는 발신 전용 메일입니다.</li>\r\n" + 
+							"			<li>2. 문의사항은 함께할개 홈페이지 내 고객센터를 이용해주세요.</li>\r\n" + 
+							"			<li>COPYRIGHT 2018. WITH DOG INC. ALL RIGHTS RESERVED</li>\r\n" + 
+							"		</ul>\r\n" + 
+							"	</div>\r\n" + 
+							"</body>";
+
+					//이메일 보내기 메서드
+					boolean sendOk =userService.sendConfirmEmail(userEmail, htmlText, title);
+					/////////////예약완료 이메일 보내기 끝////////////////////
+				   	
+				   	
 				}
 				
 			}else {

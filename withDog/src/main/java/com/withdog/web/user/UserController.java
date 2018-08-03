@@ -77,12 +77,8 @@ public class UserController {
 	///Method
 	//로그인 화면 GET  (로그인 클릭했을 때 단순네비게이션)
 	@RequestMapping( value="loginUser", method=RequestMethod.GET )
-	public String loginUser (HttpServletRequest request)  throws Exception {
-		String referrer = request.getHeader("Referer");
-		request.getSession().setAttribute("prevPage", referrer);
+	public String loginUser ()  throws Exception {
 
-		System.out.println("referrer : "+request.getSession().getAttribute("prevPage"));
-		
 		System.out.println("로그인 화면으로 /user/loginUser : GET");
 		
 		return "forward:/user/loginUser.jsp";
@@ -127,10 +123,9 @@ public class UserController {
 		
 		System.out.println("로그아웃 /user/logout : GET");
 		
-		//session.invalidate();
-		session.removeAttribute("user");
+		session.invalidate();
 		
-		return "forward:/user/loginUser";
+		return "forward:/user/loginUser.jsp";
 	}
 	
 	//회원가입 화면 GET (회원가입 클릭했을 때 단순네비게이션)
@@ -222,22 +217,7 @@ public class UserController {
 		return "forward:/mypage/updatePassword.jsp";
 	} 
 	
-	//비밀번호 수정 POST
-	@RequestMapping( value="updatePassword", method=RequestMethod.POST )
-	public String updatePassword (User user, HttpServletResponse response)  throws Exception {
 
-		System.out.println("비밀번호 수정 /user/updatePassword : POST");
-		System.out.println(" 수정전 유저확인"+user);
-		
-		//Business Logic
-		userService.updateUser(user);
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<script>alert('비밀번호 변경 완료 되었습니다'); </script>");
-		out.flush();
-
-		return "forward:/mypage/getUser.jsp";
-	} 
 	
 	///회원탈퇴 GET
 	@RequestMapping( value="deleteUser", method=RequestMethod.GET )
@@ -462,44 +442,46 @@ public class UserController {
 			}
 
 
+			//회원전체통계 페이지 단순네비게이션_어드민
+			@RequestMapping( value="getRateAllUserCon", method=RequestMethod.GET )
+			public String getRateAllUserCon() throws Exception {
+
+				System.out.println("회원가입 입력창 :: /admin/getRateAllUserCon : GET");
+				
+				return "forward:/admin/listAllUserRateAdmin.jsp";
+			}
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+			//회원계정상태에 따른 리스트_어드민_오늘기준 가져오기	
+			@RequestMapping( value="getUserConListAdmin" )
+			public String getUserConListAdmin(@ModelAttribute("search") Search search,HttpSession session,Model model) throws Exception{
+				
+				System.out.println("회원계정상태관리 리스트으로 /user/getUserConListAdmin ");
+				
+				if(search.getCurrentPage() ==0 ){
+					search.setCurrentPage(1);
+				}
+				search.setPageSize(pageSize);
+				
+				search.setSearchCondition("2");
+				
+				System.out.println(">>>>>>>>>>>>>>>>>>확인중"+search);
+				// Business logic 수행
+				Map<String , Object> map=userService.getUserConListAdmin(search);
+				
+				System.out.println(">>>>>>>>>>>>>>>>>>다녀온거니"+map);
+				
+				Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+				
+				// Model 과 View 연결
+				model.addAttribute("list", map.get("list"));
+				model.addAttribute("resultPage", resultPage);
+				model.addAttribute("search", search);
+				
+				return "forward:/admin/listUserConAdmin.jsp";
+			}
 			
 			
 			
@@ -553,8 +535,6 @@ public class UserController {
 				 //user = service.kakaoLogin(vo);  
 					return "forward:/user/addSnsUser.jsp";
 			}
-			
-			
 			
 			
 			

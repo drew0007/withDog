@@ -41,6 +41,7 @@ import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
 import com.withdog.service.sns.SnsDAO;
 import com.withdog.service.sns.SnsService;
+import com.withdog.service.user.UserService;
 
 @Controller
 @RequestMapping("/ash/*")
@@ -61,6 +62,10 @@ public class AshController {
 	@Autowired
 	@Qualifier("snsServiceImpl")
 	private SnsService snsService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 
 	public AshController() {
 		System.out.println(this.getClass());
@@ -395,7 +400,56 @@ public class AshController {
 		session.removeAttribute("ashPoint");
 
 		System.out.println("카카오페이 끝났고, 이동합니다.");
+		
+		/////////////예약완료 이메일 보내기 시작////////////////////
+		//메일주소
+		String userEmail ="withdog0817@naver.com" ;
+		
+		 //달력가져오기
+		 Date today = new Date();   
+		 
+		 //오늘
+		 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+		 String toDay = date.format(today);
+		
+		// 메일 내용 작성 ::  이메일주소, 메일제목 , 내용
+		String title ="[함께할개]동물교감치유서비스 예약이 완료되었습니다.";    
+		String url ="http://192.168.0.34:8080/";
+		String htmlText ="<body style=\"box-sizing: border-box; line-height: 24px; font-family: '맑은고딕', 'malgun gothic', 'dotum', sans-serif;\">\r\n" + 
+				"	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://192.168.0.41:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n" + 
+				"		<div style=\"font-size: 30px; text-align:center; margin-bottom: 60px; margin-top: 44px; color: #fff;\">\r\n" + 
+				"			<p style=\"padding-top:78px; margin-bottom: 13px;\">"+ash.getAshReservationName()+"고객님</p> 교감치유 서비스 예약이 완료되었습니다. \r\n" + 
+				"		</div>\r\n" + 
+				"	</div>\r\n" + 
+				"	<div style=\"width:640px; padding:20px 0; margin:0 auto; margin-top:50px\">\r\n" + 
+				"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">예약내역정보 </p>\r\n" + 
+				"			<ul style=\"font-size:17px;\">\r\n" + 
+				"				<li>예약번호: "+ash.getAshReservationNo()  +"</li>\r\n" + 
+				"				<li>예약일시:"+ash.getAshReservationDate()+"</li>\r\n" + 
+				"				<li>치유견이름:"+ash.getHealingDog().getHealingDogName()+"</li>\r\n" +
+				"				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
+				"			</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n" + 
+				"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">결제정보</p>\r\n" + 
+				"			<ul style=\"font-size:17px;\">\r\n" + 
+				"				<li>결제금액: 100,000원</li>\r\n" + 
+				"				<li>결제수단: 카카오페이</li>\r\n" + 
+				"			</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"	<div style=\"background-color: #eee; margin:0 auto; width: 750px\">\r\n" + 
+				"		<ul style=\"font-size:13px; padding: 30px 0 30px 36px; color: #868686; list-style: none;\">\r\n" + 
+				"			<li>1. 본 메일은 함께할개 서비스 운영 상 공지 목적으로 발송되는 발신 전용 메일입니다.</li>\r\n" + 
+				"			<li>2. 문의사항은 함께할개 홈페이지 내 고객센터를 이용해주세요.</li>\r\n" + 
+				"			<li>COPYRIGHT 2018. WITH DOG INC. ALL RIGHTS RESERVED</li>\r\n" + 
+				"		</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"</body>";
 
+		//이메일 보내기 메서드
+		boolean sendOk =userService.sendConfirmEmail(userEmail, htmlText, title);
+		/////////////예약완료 이메일 보내기 끝////////////////////
+		
 		return "forward:/animal/addReservationASHView.jsp";
 	}
 

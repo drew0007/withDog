@@ -21,11 +21,15 @@
 	</resultMap>
 	
 
-	<select id="getTotalCount" parameterType="string" resultType="int" >
+	<select id="getTotalCount" parameterType="map" resultType="int" >
 		SELECT COUNT(*)
 	  	FROM(	SELECT * 
 						FROM point
-						where user_Id=#{value}
+						where user_Id=#{userId}
+						<if test="search != null">
+								<if test="search.sorting == 1">and use_point=0</if>
+								<if test="search.sorting == 2">and point=0</if>
+						</if>
 						ORDER BY reg_date desc) countTable					
 	</select>
 	
@@ -45,6 +49,10 @@
 									FROM point 
 									where 
 									USER_ID=#{userId}
+									<if test="search != null">
+										<if test="search.sorting == 1">and use_point=0</if>
+										<if test="search.sorting == 2">and point=0</if>
+									</if>
 									ORDER BY reg_date desc) if
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
 		 where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}

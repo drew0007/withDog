@@ -50,10 +50,6 @@ $(function(){
 	$("span:contains('펀딩삭제')").on("click",function(){
 		self.location.href="/fund/deleteFund?fundNo=${fund.fundNo}";
 	});
-	
-	$("#modal-popup").on("click", function(){
-		
-	});
 });
 
 
@@ -132,7 +128,7 @@ $(function(){
 	                        <div class="col-md-9 col-sm-9 no-padding margin-five">
 	                        
 	                            <!-- button -->
-		                        <a class="highlight-button btn btn-medium button no-margin-right popup-with-zoom-anim no-margin-bottom" id="modal-popup" href="#modal-popup2">후원하기</a>
+		                        <a class="highlight-button btn btn-medium button no-margin-right popup-with-zoom-anim no-margin-bottom" href="#modal-popup2">후원하기</a>
 	                            <!-- end button -->
 	                            
 	                            <!-- modal popup -->

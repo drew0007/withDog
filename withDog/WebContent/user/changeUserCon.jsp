@@ -68,7 +68,7 @@
 	//발송한 숫자와 고객이 입력한 숫자 비교
 	$(document).on("click","#checkTextNum",function() {
 		//숨겨놓은 발송 숫자
-		var textNum = $("#textNum").val();
+		var textNum = $("#tempNo").val();
 		alert("textNum"+textNum);
 		//고객이 입력한 값
 		var userTextNum = $("#userTextNum").val();

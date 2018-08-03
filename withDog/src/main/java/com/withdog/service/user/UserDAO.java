@@ -59,4 +59,16 @@ public interface UserDAO {
 	
 	//snsID 연동 
 	public void  updateSnsId(User user)throws Exception;
+	
+	//회원 컨디션 비율 
+	public   Map<String, Object>  getUserConRate()throws Exception;
+	
+	//오늘기준 휴면 리스트_어드민
+	public Map<String, Object> getUserConListAdmin(Search search) throws Exception;
+	
+	//최근 5일 기준 회원 통계 _어드민
+		public Map<String, Object> getUserCount5day(Search search) throws Exception;
+		
+		// 회원가입시 이메일 중복 확인
+		public User checkUserEmail(String email) throws Exception;
 }

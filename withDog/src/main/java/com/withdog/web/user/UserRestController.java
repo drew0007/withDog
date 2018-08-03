@@ -4,8 +4,15 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -28,6 +35,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpRequest;
 import org.codehaus.jackson.JsonNode;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.withdog.common.Search;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
@@ -73,8 +82,8 @@ public class UserRestController {
 	///Method
 	//로그인 POST
 	@RequestMapping( value="json/loginUser", method=RequestMethod.POST )
-	public JSONObject loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response, HttpServletRequest request)  throws Exception {
-		
+	public JSONObject loginUser (@RequestBody User user , HttpSession session, HttpServletResponse response)  throws Exception {
+
 		System.out.println("제이슨 로그인 /user/loginUser : POST");
 		
 		System.out.println("입력힌user내용 확인"+user);
@@ -116,6 +125,8 @@ public class UserRestController {
 					
 					//정상회원일 경우 세션에 유저 도메인 넣기
 					session.setAttribute("user", dbUser);
+					User user33 = (User)session.getAttribute("user");
+					System.out.println("세션확인"+user33);
 					
 					// 정상회원일 경우 최근접속일 업데이트
 					userService.updateRecentlyDate(dbUser.getUserId());
@@ -127,15 +138,12 @@ public class UserRestController {
 			}//end of if :: userCondition 체크
 			
 		}//end of  if  :: dbUser null 체크
-
-		// 로그인 이전 페이지
-		String prevPage = session.getAttribute("prevPage").toString();
 		
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("userConCheck", userConCheck);
-		jsonObject.put("prevPage", prevPage);
 		
 		System.out.println("로그인 다시 보내기전에"+jsonObject.toString());
+
 		return jsonObject;
 
 	}//end 로그인
@@ -157,6 +165,22 @@ public class UserRestController {
 		return check;
 	}//end of checkPassword
 
+	
+	//비밀번호 수정 POST
+	@RequestMapping( value="json/updatePassword", method=RequestMethod.POST )
+	public boolean updatePassword (@RequestBody User user)  throws Exception {
+
+		System.out.println("비밀번호 수정 /user/updatePassword : POST");
+		System.out.println(" 수정전 유저확인"+user);
+		
+		//Business Logic
+		userService.updateUser(user);
+
+		return true;
+	} 
+	
+	
+	
 	//ID 중복확인
 	//회원가입시 id 중복체크
 	@RequestMapping( value="json/checkUserId/{userId}", method=RequestMethod.GET )
@@ -212,21 +236,27 @@ public class UserRestController {
 			   System.out.println("비번ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ "+user);
 			   
 			   userService.updateUser(user);
+
+			   System.out.println("바뀐 패스워드 체크");
+
 			   User user2 = userService.getUser(user.getUserId());
 			   
 			   System.out.println("바뀐 패스워드 체크"+user2);
+
 			
 			   //이메일 보내기 매서드에 보낼 이메일 주소와 , 임시 비밀번호 보낵기
 //			     String htmlText = " <h2>안녕하세요</h2><img src=\\\"cid:my-image\\\">";
 			   //String htmlText = " <h2>안녕하세요</h2><img src=\"cid:my-image\"> ";
 			   String url ="http://192.168.0.41:8080/user/loginUser";
-			  String htmlText = " <h2>안녕하세요</h2><img src=\"cid:my-image\"><h3>고객님의 요청으로  <span style=\"color:red;\">임시비밀번호</span>가 발급되었습니다.<br> 임시비밀번호 &nbsp;"+tempNo+" 입니다. </h3>"
+			   String htmlText = " <h2>안녕하세요</h2><img src=\"cid:my-image\"><h3>고객님의 요청으로  <span style=\"color:red;\">임시비밀번호</span>가 발급되었습니다.<br> 임시비밀번호 &nbsp;"+tempNo+" 입니다. </h3>"
 			  		+ "<br><h3>로그인 후 비밀번호를 변경해주세요. </h3>"
 			  		+ "<br><a href="+url+" target=\"_blank\"><img src=\"http://192.168.0.41:8080/images/icon/withdog.jpg\" /></a>";
 	
-			     String userEmail = emilDB;
+			    String userEmail = emilDB;
+			    
 			 boolean sendOk =userService.sendEmail(userEmail, htmlText);
-			
+			 String title ="[함께할개]예약서비스가 완료되었습니다.";    
+		
 			if(sendOk) {
 			check=true;
 			}
@@ -256,25 +286,6 @@ public class UserRestController {
 
 	
 	
-	//회원관리리스트 간략보기
-	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.POST )
-	public User getUser( @PathVariable String userId,User user,Point point ) throws Exception{
-		
-		System.out.println("/user/json/getUser : GET");
-		
-		//유저 정보 조회
-		user = userService.getUser(userId);
-		
-		 //포인트 조회;
-		user.setUserId(userId);
-		 point.setUser(user);
-		
-		 int userPoint= commonService.getCurrentPoint(point);
-		 user.setCurrentPoint(userPoint);
-	
-		return  user;
-	}
-
 	
 	//휴면 > 일반  해제 :: 이름과 전화번호로 검색 후 일치하면 인증번호 전송
 	@RequestMapping( value="json/changeUserCon", method=RequestMethod.POST )
@@ -360,28 +371,6 @@ public class UserRestController {
 		return check;
 	}	
 	
-	//가입시 이메일 인증  :: 고유번호 세션 + 메일 전송
-	@RequestMapping( value="json/checkEmail", method=RequestMethod.POST )
-	public JSONObject checkEmail (@RequestBody User user , HttpSession session) throws Exception{
-		
-		System.out.println("가입시 이메일 인증");
-		
-		//1.인증번호 랜덤번호로 생성
-		int  textNum = createTempNo();
-		
-		//2. 인증번호 세션에 넣기
-		session.setAttribute("textNum", textNum);
-		
-		//3. 이메일 링크 전송
-		
-		//4. 고유번호 
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("textNum", textNum);
-		
-		System.out.println(jsonObject.toJSONString());
-			
-		return jsonObject;
-	}	
 	
 	///회원탈퇴 POST
 	@RequestMapping( value="json/deleteUser", method=RequestMethod.POST )
@@ -446,6 +435,7 @@ public class UserRestController {
 		
 		if(dbUser!=null) {
 			
+			//db유저가 널이 아니라면 계정상태 체크 ** 추후에 할것
 			System.out.println("유저가 널이 아님");
 			// 예) k864371031 아이디가 있다면 true를 리턴, 세션에 유저 넣기(로그인 성공) 
 			session.setAttribute("user", dbUser);
@@ -582,51 +572,275 @@ public class UserRestController {
 		return jsonobj;
 	}
 	
+	//회원비율 가져오기
+	@RequestMapping( value="json/getRateUserCon", method=RequestMethod.GET)
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/////////////////////////////////////////////////////
-	//장원이 테스트
-	//아이디/비밀번호 찾기에서 id 찾기
-	@RequestMapping( value="json/test", method=RequestMethod.GET )
-	public JSONObject  findUserId () throws Exception{
-		
-		System.out.println("제이슨 테스트 ");
-		//이름,생일 일치할것
-		List<String> aaa = new ArrayList<String>() ;
+	public JSONObject getRateUserCon(Map map) throws Exception{ 
 
-		aaa.add(0, "10");
-		aaa.add(1, "20");
-		aaa.add(2, "30");
-		aaa.add(3, "40");
+		 map = userService.getUserConRate();
+		 //전체회원
+		 int allUser =(int) map.get("allUser");
+		 //정상회원
+		 int userCon0int =(int) map.get("userCon0");
+		 //휴면회원
+		 int userCon1int =(int) map.get("userCon1");
+		 //탈퇴회원
+		 int userCon2int =(int) map.get("userCon2");
+ 
+		 double userCon0d = (double)((double)userCon0int/(double) allUser)*100;
+		 double userCon1d= (double)userCon1int/(double)allUser*100;
+		 double userCon2d=(double) userCon2int/(double)allUser*100;
+	
+		 String  pattern = "0.##";
+		 DecimalFormat format = new DecimalFormat(pattern);
+		 
+		String userCon0 = format.format(userCon0d);
+		String userCon1 =format.format(userCon1d);
+		String userCon2 =format.format(userCon2d); 
+		 
+		 
+	    //최종 완성될 JSONObject 선언(전체)
+        JSONObject jsonObject = new JSONObject();
+ 
+        //JSON정보를 담을 Array 선언
+        JSONArray userConRateArray = new JSONArray();
+        
+        //person의 한명 정보가 들어갈 JSONObject 선언
+        JSONObject userConInfo = new JSONObject();
 		
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("key", aaa);
+        //정보 입력 :: 0 휴면회원
+		userConInfo.put("language", "휴면회원");
+		userConInfo.put("percent",userCon0);
+	     userConRateArray.add(userConInfo);
+        
+        //person의 한명 정보가 들어갈 JSONObject 선언
+	   userConInfo = new JSONObject();
+ 
+	    //정보 입력 :: 1 휴면회원
+        userConInfo.put("language", "정상회원");
+		userConInfo.put("percent",userCon1);
+		 userConRateArray.add(userConInfo);
 		
-		System.out.println(jsonObject.toJSONString());
-		
+        //person의 한명 정보가 들어갈 JSONObject 선언
+        userConInfo = new JSONObject();
+        
+		//정보 입력
+        userConInfo.put("language", "탈퇴회원");
+        userConInfo.put("percent",userCon2);
+        userConRateArray.add(userConInfo);
+       
+ 
+        //전체의 JSONObject에 사람이란 name으로 JSON의 정보로 구성된 Array의 value를 입력
+        jsonObject.put("key", userConRateArray);
+	    
+	     System.out.println("jsonObject>>>>>>>>>>>>>> : "+jsonObject);
 		return jsonObject;
 	}
 	
+	//회원통계 가져오기 https://js.devexpress.com/Demos/WidgetsGallery/Demo/Charts/SideBySideBar/jQuery/Light/
+		@RequestMapping( value="json/getCountUserCon", method=RequestMethod.GET)
+		public JSONObject getCountUserCon(Map map, Search search) throws Exception{ 
+				
+			//search.setSearchCondition("2");
+			 map = userService.getUserCount5day(search);
+			 
+			 ///map에서 꺼내기
+			 //휴면회원 5일간
+			 double userConZeroToday = (int) map.get("userConZeroToday");
+			 double userConZeroCheck1 = (int) map.get("userConZeroCheck1");
+			 double userConZeroCheck2 = (int) map.get("userConZeroCheck2");
+			 double userConZeroCheck3 = (int) map.get("userConZeroCheck3");
+			 double userConZeroCheck4 = (int) map.get("userConZeroCheck4");
 
+			 //정상회원 5일간
+			 double userConOneToday = (int) map.get("userConOneToday");
+			 double userConOneCheck1 = (int) map.get("userConOneCheck1");
+			 double userConOneCheck2 = (int) map.get("userConOneCheck2");
+			 double userConOneCheck3 = (int) map.get("userConOneCheck3");
+			 double userConOneCheck4 = (int) map.get("userConOneCheck4");
+			 
+			 //탈퇴회원 5일간
+			 double userConTwoToday = (int) map.get("userConTwoToday");
+			 double userConTwoCheck1 = (int) map.get("userConTwoCheck1");
+			 double userConTwoCheck2 = (int) map.get("userConTwoCheck2");
+			 double userConTwoCheck3 = (int) map.get("userConTwoCheck3");
+			 double userConTwoCheck4 = (int) map.get("userConTwoCheck4");
+			 
+
+			 //달력가져오기
+			 Date today = new Date();   
+			 
+			 //오늘
+			 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+			 String toDay = date.format(today);
+			 
+			 //1일전
+			 Calendar day = Calendar.getInstance();
+			 day.add(Calendar.DATE , -1);
+			 String dayCheck1 = new java.text.SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+			 
+			 //2일전
+			 day = Calendar.getInstance();
+			 day.add(Calendar.DATE , -2);
+			 String dayCheck2 = new java.text.SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+			 
+			 //3일전
+			 day = Calendar.getInstance();
+			 day.add(Calendar.DATE , -3);
+			 String dayCheck3 = new java.text.SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+			 
+			 //4일전
+			 day = Calendar.getInstance();
+			 day.add(Calendar.DATE , -4);
+			 String dayCheck4 = new java.text.SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+
+			 ////////////////////////////////////////////////////////////////////////
+			 
+		    //최종 완성될 JSONObject 선언(전체)
+	        JSONObject jsonObject = new JSONObject();
+	      
+	        //JSON정보를 담을 Array 선언
+	        JSONArray userConRateArray = new JSONArray();
+			 
+	        //JSONObject 선언
+	        JSONObject userCon = new JSONObject();
+	        
+	        //오늘기준
+	        userCon.put("state",toDay );
+	        userCon.put("zero",userConZeroToday );
+	        userCon.put("one", userConOneToday+0.02);
+	        userCon.put("two", userConTwoToday);
+	        
+	        userConRateArray.add(userCon);
+	        
+	        //1일전 기준
+	        userCon = new JSONObject();
+	        userCon.put("state",dayCheck1 );
+	        userCon.put("zero",userConZeroCheck1 );
+	        userCon.put("one", userConOneCheck1);
+	        userCon.put("two", userConTwoCheck1);
+	        
+	        userConRateArray.add(userCon);
+	        
+	        
+	        //2일전 기준
+	        userCon = new JSONObject();
+	        userCon.put("state",dayCheck2);
+	        userCon.put("zero",userConZeroCheck2 );
+	        userCon.put("one", userConOneCheck2);
+	        userCon.put("two", userConTwoCheck2);
+	        
+	        userConRateArray.add(userCon);
+	        
+	        
+	        //3일전 기준
+	        userCon = new JSONObject();
+	        userCon.put("state",dayCheck3);
+	        userCon.put("zero",userConZeroCheck3 );
+	        userCon.put("one", userConOneCheck3);
+	        userCon.put("two", userConTwoCheck3);
+	        
+	        userConRateArray.add(userCon);
+	        
+	        //4일전 기준
+	        userCon = new JSONObject();
+	        userCon.put("state",dayCheck4);
+	        userCon.put("zero",userConZeroCheck4 );
+	        userCon.put("one", userConOneCheck4);
+	        userCon.put("two", userConTwoCheck4);
+	        
+	        userConRateArray.add(userCon);
+	        
+	        //마지막
+	        jsonObject.put("key", userConRateArray);
+	        
+		     System.out.println("jsonObject>>>>>>>>>>>>>> : "+jsonObject);
+		    
+			return jsonObject;
+		}
+
+		///메일////////////////////////////////////////////////////////////////////////////////////////////////
+	
+		
+		//이메일 인증
+		@RequestMapping( value="json/checkEmail")
+		public JSONObject  checkEmail (@RequestBody User user)  throws Exception {
+
+			System.out.println("이메일 체크checkEmail ");
+			
+			//메일 주소 중복확인
+			String userEmail = user.getEmail();
+			User dbUser = userService.checkUserEmail(userEmail);
+			
+			
+			JSONObject jsonObject = new JSONObject();
+			
+			if(dbUser!=null) {
+				
+				boolean check = false;
+				jsonObject.put("check", check);	
+			}else {
+			
+			
+			//1.1  인증번호 랜덤번호로 생성,  오늘날짜
+			int  tempNo = createTempNo();
+			
+			 //달력가져오기
+			 Date today = new Date();   
+			 
+			 //오늘
+			 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+			 String toDay = date.format(today);
+			
+			//1.2 메일 내용 작성 ::  이메일주소, 메일제목 , 내용
+			String title ="[함께할개]메일 인증을 위한 인증코드를 안내해드립니다.";    
+			String url ="http://192.168.0.34:8080/";
+			String htmlText ="<body style=\"box-sizing: border-box; line-height: 24px; font-family: '맑은고딕', 'malgun gothic', 'dotum', sans-serif;\">\r\n" + 
+					"	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://192.168.0.41:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n" + 
+					"		<div style=\"font-size: 30px; text-align:center; margin-bottom: 60px; margin-top: 44px; color: #fff;\">\r\n" + 
+					"			<p style=\"padding-top:78px; margin-bottom: 13px;\">이메일 인증 코드를 알려드려요!</p> \r\n" + 
+					"		</div>\r\n" + 
+					"	</div>\r\n" + 
+					"	<div style=\"width:640px; padding:20px 0; margin:0 auto; margin-top:50px\">\r\n" + 
+					"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">인증코드 입력란에 아래 인증코드를 입력하세요!  </p>\r\n" + 
+					"			<ul style=\"font-size:17px;\">\r\n" + 
+					"				<li>인증코드: "+tempNo  +"</li>\r\n" + 
+					"				<li>발송일시:"+toDay+"</li>\r\n" + 
+					"				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
+					"			</ul>\r\n" + 
+					"	</div>\r\n" + 
+					"	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n" + 
+					"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">메일인증이 왜 필요한가요?</p>\r\n" + 
+					"			<ul style=\"font-size:17px;\">\r\n" + 
+					"				<li>고객님의 개인정보 보호하여 보다 안전하게 사이트를 이용하시도록 하기위한 함께할개의 노력입니다.</li>\r\n" + 
+					"				<li>위조 또는 타인의 메일주소를 도용하여 가입/활동하는 경우를 방지하고자</br>\r\n" + 
+					"				인증절차를 통해 회원님이 해당 메일 주소의 소유자임을 확인하고 있습니다.</li>\r\n" + 
+					"			</ul>\r\n" + 
+					"	</div>\r\n" + 
+					"	<div style=\"background-color: #eee; margin:0 auto; width: 750px\">\r\n" + 
+					"		<ul style=\"font-size:13px; padding: 30px 0 30px 36px; color: #868686; list-style: none;\">\r\n" + 
+					"			<li>1. 본 메일은 함께할개 서비스 운영 상 공지 목적으로 발송되는 발신 전용 메일입니다.</li>\r\n" + 
+					"			<li>2. 문의사항은 함께할개 홈페이지 내 고객센터를 이용해주세요.</li>\r\n" + 
+					"			<li>COPYRIGHT 2018. WITH DOG INC. ALL RIGHTS RESERVED</li>\r\n" + 
+					"		</ul>\r\n" + 
+					"	</div>\r\n" + 
+					"</body>";
+
+			//1.3 문자보내기 메서드
+			boolean sendOk =userService.sendConfirmEmail(userEmail, htmlText, title);
+			
+			jsonObject.put("tempNo", tempNo);
+			jsonObject.put("check", sendOk);	
+			
+		
+			
+			}
+			
+			System.out.println("확인"+jsonObject.toJSONString());
+			return jsonObject;
+
+		} 
+		
 	
 	
 }//end of class

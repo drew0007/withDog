@@ -19,6 +19,6 @@ public interface CommonDAO {
 	
 	public List<Point> getMyPointList(Search search ,String userId) throws Exception;
 	
-	public int getTotalCount(String userId) throws Exception;
+	public int getTotalCount(Search search,String userId) throws Exception;
 		
 }
