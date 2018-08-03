@@ -89,7 +89,7 @@
 					"Content-Type" : "application/json"
 				},
 				success : function (data) {		
-					popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=600, height=600, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+					popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=590, height=370, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 					$("#my-dialog, #dialog-background").toggle();	
 				}
 			}); //end of ajax

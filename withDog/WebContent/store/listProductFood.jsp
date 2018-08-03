@@ -148,7 +148,7 @@
                             
                             </div>
                             
-                            <c:if test="${user.role == 'admin'}">
+                            <c:if test="${sessionScope.user.role == 'admin'}">
                             <div class="text-right">
                           	  <button id="add" type="button" class="highlight-button btn btn-medium">상품등록</button>
                       	   </div>

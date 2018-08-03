@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,17 +12,11 @@
 <title>구매하기 - 결제정보입력</title>
 
 <script type="text/javascript">
-//"결제하기" 버튼 이벤트 연결
-$(function(){
-	$("#add").on("click", function(){
-		fncAddProduct();
-	});
-});
+
 
 //도로명 주소  우편번호 검색 클릭시
 $(function(){
 		$("#searchPost").on("click" , function() {
-			alert("sss")
 			var pop = window.open("http://localhost:8080/user/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 		});
 						
@@ -31,6 +26,79 @@ $(function(){
 			$("#address1").val("[" + zipNo + "]"+ roadAddrPart1);
 			$("#address2").val(addrDetail);
 		}	
+		window.jusoCallBack = jusoCallBack;
+});
+
+
+//사용포인트와 총금액 이벤트
+$(function () {
+		//현재포인트를 변수에 담기
+		var currentPoint = ${currentPoint};
+		alert("현재포인트 : " + currentPoint);
+		
+		//프로덕트*구매수량을 totalPrice에 담기
+		var totalPrice = 	${purchase.product.price * purchase.purchaseQuantity};
+		alert(totalPrice)
+		
+		//사용포인트 변수선언
+		var usePoint;
+		
+		//totalPrice를 콤마메소드를 통해 자릿수마다 콤마붙여서 #purchasePrice에 있는 텍스트 변경
+		$("#purchasePrice").text(comma(totalPrice));
+		$("#savePoint").text(comma(Math.floor(totalPrice*0.01)));
+		//바인딩용
+		$("input[name=purchasePrice]").val(totalPrice);
+		
+		//유즈포인트입력창에서 키보드에 손을 떼는 순간
+		$("input[name=usePoint]").on("keyup", function () {
+			//입력된 사용포인트 value를 유즈포인트에 담기 
+			usePoint = $("input[name=usePoint]").val();
+			
+			//현재포인트보다 사용포인트가 크면
+			if(usePoint>currentPoint){
+				//사용포인트입력창에 현재포인트값으로 변경
+				$("input[name=usePoint]").val(currentPoint);
+				//다시 변경된 포인트값을 유즈포인트에 담기
+				usePoint = 	$("input[name=usePoint]").val();	
+			}
+			
+			//입력된 사용포인트로 #usePoint에 있는 텍스트(0)를 변경
+			$("#usePoint").text(comma(usePoint));
+			
+			//토탈값 빼기 유즈포인트한 값으로 #purchasePrice에 있는 텍스트를 변경
+			$("#purchasePrice").text(comma(totalPrice-usePoint));
+			$("#savePoint").text(comma(Math.floor((totalPrice-usePoint)*0.01)));
+			
+			//바인딩용
+			var i = totalPrice-usePoint;
+			$("input[name=purchasePrice]").val(i);
+		})
+		
+		//금액 세자리수마다 콤마찍기
+		function comma(str) { 
+		    str = String(str); 
+		    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'); 
+		} 
+
+});
+
+//그냥결제
+// $(function(){
+// 	$("#addPurchase").on("click", function () {
+// 		var prodNo = ${purchase.product.prodNo};
+//  		$("form").attr("method", "POST").attr("action", "/purchase/addPurchase?prodNo=" +prodNo).submit();
+// 	})
+// });
+
+
+//카카오페이
+$(function () {
+	$("#kakaoPay").on("click", function () {
+		var usePoint = 	$("input[name=usePoint]").val();
+		var prodNo = ${purchase.product.prodNo};
+		window.open("", "popup_window", "left=300,width=500,height=500,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		$("form").attr("method","post").attr("target","popup_window").attr("action","/purchase/kakaoPay?userPoint="+usePoint + "&prodNo=" + prodNo).submit();
+	})
 });
 </script>
 </head>
@@ -68,55 +136,62 @@ $(function(){
                 <div class="row margin-five no-margin-top">
                     <div class="col-md-6 col-sm-12 center-col sm-margin-bottom-seven">
                         <p class="black-text font-weight-600 text-uppercase text-large">배송정보</p>
-                        <form id="billing-form" method="post" action="javascript:void(0)" name="billing-form">
+                        <form>
                             <div class="col-md-12 no-padding">
                                 <label>구매자이름:</label>
-                                <input type="text" name="userName" value="${purchase.user.userName}">
+                                <input type="text" name="userName" value="${purchase.user.userName}" readonly>
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>수령인:</label>
-                                <input type="text" name="receiverName">
+                                <input type="text" name="receiverName" value="${purchase.receiverName}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>배송주소:</label>
-                                <span class="text-right" id="postNo"></span>
                             </div>
                             <div class="col-md-12 no-padding">
-                                <input type="text" name="address1" id="address1" class="col-md-9">
-                                <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3" id="searchPost" value="우편번호검색">
-                                <input type="text" name="address2" id="address2">
+                                <input type="text" name="receiverAddr1" id="address1" class="col-md-9" value="${purchase.receiverAddr2}">
+                                <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3"  id="searchPost" value="우편번호검색" placeholder="'-'제외하고 숫자만 입력">
+                                <input type="text" name="receiverAddr2" id="address2" value="${purchase.receiverAddr2}">
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>연락처:</label>
-                                <input type="text" name="Phone">
+                                <input type="text" name="receiverPhone" value="${purchase.receiverPhone}">
+                                
                             </div>
                             <div class="col-md-12 no-padding">
                                 <label>배송메시지:</label>
                                 <div class="select-style">
-                                    <select style="padding-top:11px; padding-bottom:11px">
-                                        <option value="" selected="selected">배송시 요청사항 선택</option>
-                                        <option value="message1" >부재시 경비실에 맡겨주세요.</option>
-                                        <option value="message2" >부재시 휴대폰으로 연락바랍니다.</option>
-                                        <option value="message3" >집 앞에 놓아주세요.</option>
-                                        <option value="message4" >택배함에 놓아주세요.</option>
+                                    <select name="divyRequest" style="padding-top:11px; padding-bottom:11px">
+                                        <option selected="selected">배송시 요청사항 선택</option>
+                                        <option >부재시 경비실에 맡겨주세요.</option>
+                                        <option >부재시 휴대폰으로 연락바랍니다.</option>
+                                        <option >집 앞에 놓아주세요.</option>
+                                        <option >택배함에 놓아주세요.</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-12 no-padding">
                             	<p class="border-top"></p>
                                 <label>포인트:</label>
-                                <input type="text" name="usePoint"><p class="text-right display-block gray-text">[1000 point 보유]</p>
+                                <c:if test="${currentPoint==0}">
+	                        		<input type="text" name="usePoint"  disabled="disabled">
+	                        		<input type="hidden" name="usePoint" value="0">
+	                        	</c:if>
+	                        	<c:if test="${currentPoint!=0}">
+	                        		<input type="text"  name="usePoint" value="0">
+	                        	</c:if>
+                                <p class="text-right display-block gray-text">[ ${currentPoint} point 보유 ]</p>
                             </div>
                             <div class="col-md-12 no-padding">
      	                       <p class="border-top"></p>
                                 <label>결제수단:</label>
                                 <div class="wrap pull-right">
-									<input type="radio" name="radio" id="radio" class="checkbox" checked>
-									<label for="radio1" class="input-label radio  no-margin-top">카카오페이</label>
+									<input type="radio" name="paymentOption" id="radio" class="checkbox" checked>
+									<label for="radio" class="input-label radio  no-margin-top">카카오페이</label>
+                                  		<input type="hidden" name="purchasePrice" value="${purchase.product.price * purchase.purchaseQuantity}">
 								</div>
-<!--                                 <p class="pull-right"><input type="radio" name="kakaoPay" id="kakaoPay" value="kakaoPay" checked>카카오페이</p> -->
                             </div>
-                        </form>
+                        
                     </div>
                     
                 </div>
@@ -136,26 +211,17 @@ $(function(){
                             <tbody>
                                 <tr>
                                     <td class="product-thumbnail text-left">
-                                        <img src = "/images/store/${product.prodImage}" width="120" height="120"/>
+                                        <img src = "/images/store/${purchase.product.prodImage}" width="120" height="120"/>
                                     </td>
                                     <td class="text-left">
-                                        <a href="#">${product.prodName}</a>
-                                        <span class="text-uppercase display-block text-small margin-two">상품번호: ${product.prodNo}</span>
+                                        <a href="#">${purchase.product.prodName}</a>
+                                        <span class="text-uppercase display-block text-small margin-two">상품번호: ${purchase.product.prodNo}</span>
                                         <a href="#" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
                                     </td>
                                     <td class="product-quantity">
-                                        <div class="select-style med-input shop-shorting shop-shorting-cart no-border-round">
-                                            <select classs="prodQuantity">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            </select>
-                                        </div>
+                                            <input type="text" name="purchaseQuantity" value="${purchase.purchaseQuantity}" class="col-md-3 text-center" readonly/>
                                     </td>
-                                    <td class="product-subtotal text-left">${product.price}원</td>
+                                    <td class="product-subtotal text-left">${purchase.product.price}원<input type="hidden" name="price" value="${purcahse.product.price}"></td>
                                     <td class="product-remove text-center">
                                         <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
                                     </td>
@@ -170,11 +236,13 @@ $(function(){
                             <tbody>
                                 <tr>
                                     <th class="padding-two text-right no-padding-right text-uppercase letter-spacing-2 text-small xs-no-padding">적립예정포인트</th>
-                                    <td class="padding-two text-uppercase text-right no-padding-right black-text text-small xs-no-padding">500 point</td>
+                                    <td class="padding-two text-uppercase text-right no-padding-right black-text text-small xs-no-padding" id="savePoint"></td>
                                 </tr>
                                 <tr>
                                     <th class="padding-two text-right no-padding-right text-uppercase letter-spacing-2 text-small xs-no-padding">사용포인트</th>
-                                    <td class="padding-two text-uppercase text-right no-padding-right  black-text text-small xs-no-padding">2000 point</td>
+                                    <td  id="usePoint" class="padding-two text-uppercase text-right no-padding-right  black-text text-small xs-no-padding">
+                                    	0
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="padding-two text-right no-padding-right text-uppercase letter-spacing-2 text-small xs-no-padding">배송비</th>
@@ -187,14 +255,19 @@ $(function(){
                                 </tr>
                                 <tr class="total">
                                     <th class="padding-two text-uppercase text-right no-padding-right font-weight-600 text-large xs-no-padding">총 주문금액</th>
-                                    <td class="padding-two text-uppercase text-right no-padding-right font-weight-600 black-text text-large no-letter-spacing xs-no-padding"><tr>
+                                    <td id="purchasePrice" class="padding-two text-uppercase text-right no-padding-right font-weight-600 black-text text-large no-letter-spacing xs-no-padding">
+                                   		0
+                                   	</td>
+                               	<tr>
                                     <td colspan="2" class="padding-one no-padding-right xs-no-padding">
                                         <hr class="no-margin-bottom">
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="#" class="highlight-button-black-background btn no-margin pull-right checkout-btn xs-width-100 xs-text-center">결제하기</a>
+<!--                         <a href="#" class="highlight-button-black-background btn no-margin pull-right checkout-btn xs-width-100 xs-text-center"  id="addPurchase" >결제하기</a> -->
+                        <a href="#" class="highlight-button-black-background btn no-margin pull-right checkout-btn xs-width-100 xs-text-center"  id="kakaoPay" >결제하기</a>
+                        </form>
                     </div>
                 </div>
             </div>

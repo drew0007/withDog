@@ -26,7 +26,6 @@ public class CommonDAOImpl implements CommonDAO {
 	
 	@Override
 	public Map<String, Object> getMyPointList(Point point) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -34,7 +33,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void savePoint(Point point) throws Exception {
-		// TODO Auto-generated method stub
 	
 			System.out.println("FundPointSAVE");
 			
@@ -63,7 +61,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public void usePoint(Point point) throws Exception {
-		// TODO Auto-generated method stub
 		System.out.println("addPointDAO STart");
 		
 		System.out.println("FundPoint");
@@ -90,7 +87,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public int getCurrentPoint(Point point) throws Exception {
-		// TODO Auto-generated method stub
 		int currentPoint =(sqlSession.selectOne("CommonMapper.currentPoint", point)!=null? sqlSession.selectOne("CommonMapper.currentPoint", point) : 0); 
 		return currentPoint;
 	}
@@ -99,7 +95,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public List<Point> getMyPointList(Search search , String userId) throws Exception {
-		// TODO Auto-generated method stub
 		System.out.println("PointList Start");
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("userId", userId);
@@ -111,7 +106,6 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public int getTotalCount(String userId) throws Exception {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("CommonMapper.getTotalCount",userId);
 	}
 

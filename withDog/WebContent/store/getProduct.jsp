@@ -12,9 +12,21 @@
 //"바로구매" 버튼 이벤트 연결
 $(function(){
 	$("#purchase").on("click", function(){
-		var prodNo = ${product.prodNo};
-		alert(prodNo);
-		self.location = "/purchase/addPurchase?prodNo=${product.prodNo}" ;
+		var prodQuantity = $("#prodQuantity").val();//상품수량
+		var purchaseQuantity = $("#purchaseQuantity option:selected").val()*1; // 구매수량
+		var prodNo = $('input[name="prodNo"]').val();
+		
+// 		alert("상품수량" + prodQuantity);
+// 		alert("구매수량" + purchaseQuantity);
+// 		alert("상품번호" + prodNo);
+		
+		if(purchaseQuantity>prodQuantity){
+			alert("재고 수량을 초과할 수 없습니다. 수량을 다시 선택해주세요");
+		}else{
+			$("form[name='purchaseform']").attr("method", "POST").attr("action", "/purchase/addPurchaseView?prodNo=" +prodNo).submit();
+// 			location.href = "/purchase/addPurchase?prodNo="+prodNo + "&purchaseQuantity=" + purchaseQuantity;
+		}
+		
 	});
 });
 
@@ -346,24 +358,35 @@ $(function(){
                         <div class="col-md-3 col-sm-3 no-padding-left margin-five">
                             <div class="select-style med-input xs-med-input shop-shorting-details no-border-round">
                                 <!-- product qty -->
-                                <select>
-                                    <option selected>1</option>
+                                <form name="purchaseform">
+                                <select id="purchaseQuantity" name="purchaseQuantity">
+                                    <option selected="selected">1</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option>
                                 </select>
                                 <!-- end product qty -->
+                                <input type="hidden" id="prodQuantity" name="prodQuantity" value="${product.prodQuantity}" />
+                                <input type="hidden" name="prodNo" value="${product.prodNo}" />
+                                </form> 
                             </div>
                         </div>
+                        
+                        
                         <div class="col-md-12 col-sm-9 no-padding">
-                            <!-- add to bag button -->
-                            <a class="highlight-button btn btn-medium button" href="#" ><i class="icon-basket"></i>장바구니 담기</a>
-                            <!-- end add to bag button -->
-                            <!-- add to purchase button -->
-                            <a class="highlight-button-dark btn btn-medium button" href="#" id="purchase">바로구매</a>
-                            <!-- end add to purchase button -->
+                            <c:choose>
+                         	   <c:when test="${product.prodQuantity > 0 }">
+                            		<a class="highlight-button btn btn-medium button" href="#" ><i class="icon-basket"></i>장바구니 담기</a>
+                            		<a class="highlight-button-dark btn btn-medium button" href="#" id="purchase">바로구매</a>
+                            	</c:when>
+                            <c:otherwise>
+                            <a class="highlight-button-dark btn btn-medium button"  disabled>품절</a>
+                            </c:otherwise>
+                            </c:choose>
                         </div>
+                        
+                        
                         <div class="col-md-9 col-sm-9 product-details-social no-padding-left margin-five" style="display:block;">
                             <!-- social media sharing -->
                             <span class="black-text text-uppercase text-small margin-right-five">Share on</span>
@@ -560,7 +583,6 @@ $(function(){
                                                 </form>
                                                 <!-- end comment form -->
                                                 
-                                                <!-- <div style="background-color:black; opacity:0.7; width:100%; height:100%; position: absolute; top:0; left:0"> -->
                                                 
                                                 </div>
                                             </div>

@@ -149,14 +149,14 @@ $(function () {
 
 	<!-- head section -->
 	<section class="page-title parallax3 parallax-fix page-title-blog">
-	<img class="parallax-background-img" src="../images/sub/304_bg.jpg" alt="" />
+	<img class="parallax-background-img" src="../images/sub/305_bg.jpg" alt="" />
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-center animated fadeInUp">
 				<div class="no-margin-top margin-one"></div>
 				<!-- page title -->
 				<h1 class="white-text tit_png">
-					<img src="../images/sub/myPage_tit.png">
+					<img src="../images/sub/admin_tit.png">
 				</h1>
 				<!-- end page title -->
 			</div>

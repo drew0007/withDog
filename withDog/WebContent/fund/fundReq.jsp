@@ -83,7 +83,7 @@ $(function(){
                         <div class="form-group no-margin-bottom">
                         		<hr/>
                         		
-                        		<jsp:include page="/test/tooltip.jsp"></jsp:include>
+                        		<jsp:include page="/fund/tooltip.jsp"></jsp:include>
                         		<hr/>
                         </div>
                             <div class="form-group no-margin-bottom">
@@ -129,7 +129,7 @@ $(function(){
         <!-- end content section -->
 
 	
-	<jsp:include page="/layout/footer.jsp" />
+	<jsp:include page="/layout/footer3.jsp" />
 	
 	<jsp:include page="/common/jsTooltip.jsp" />
 	

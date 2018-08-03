@@ -3,7 +3,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:context="http://www.springframework.org/schema/context"
 		xmlns:util="http://www.springframework.org/schema/util"
-
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation=
 				"http://www.springframework.org/schema/beans 
@@ -12,6 +11,7 @@
 				 http://www.springframework.org/schema/context/spring-context.xsd
 				http://www.springframework.org/schema/util 
 				http://www.springframework.org/schema/util/spring-util.xsd">
+	
 
 	<!-- Spring 3.X  지원하는 SpEL를 사용은 아래와 같이 properties 화일을 등록. 
 			UserController 에서 Spring EL 의 사용법을 이해 할 것-->
@@ -22,6 +22,32 @@
 		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Repository" />
 		<context:exclude-filter type="annotation" 	expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>				
+	</context:component-scan>	
+	
+	<!-- 휴면회원관리 스케줄러  -->
+	<bean id="changeUserCon" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	    <!-- 서비스 구현 객체의 빈 이름을 인자 -->
+	    <property name="targetObject" ref="userServiceImpl" />
+	    <!-- 서비스 객체에서 주기적으로 실행될 메소드를 지정 -->
+	    <property name="targetMethod" value="updateUserList" />
+	    <!-- 동시 실행을 방지 -->
+	    <property name="concurrent" value="false" />
+	</bean>	
+
+	<!-- 휴면회원관리  트리거-->
+	<bean id="changeUserTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	    <property name="jobDetail" ref="changeUserCon" />
+	    <!-- CronTrigger를 사용하여 3초 간격으로 실행되도록 지정 -->
+	    <!-- <property name="cronExpression" value="0/3 * * * * ?" />  -->
+	     <property name="cronExpression" value="0 0 9 ? * *" /> 
+	</bean>
+
+	<!-- 쿼츠 스케줄러 리스트 -->
+	<bean id="testJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+	        <!-- 앞에서 설정한 트리거를 등록. 필요시 여러개 만들어서 등록 -->
+	        <list><ref bean="changeUserTrigger" /></list>
+	    </property>
+	</bean>		
 				
 </beans>

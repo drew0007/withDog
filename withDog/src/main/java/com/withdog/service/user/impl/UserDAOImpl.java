@@ -36,8 +36,21 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User getUser(String userId) throws Exception {
+	public User getUser2(String userId) throws Exception { //장원 안드테스트
+		
 		return sqlSession.selectOne("UserMapper.getUser", userId);
+		
+	}
+	
+	@Override
+	public User getUser(String userId) throws Exception {
+		
+		if(sqlSession.selectOne("UserMapper.getUser", userId)!=null) {
+			return sqlSession.selectOne("UserMapper.getUser", userId);
+		}else {
+			return new User();	
+		}
+		
 	}
 	
 
@@ -56,6 +69,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void deleteUser(User user) throws Exception {
+		System.out.println("유저 디비 전"+user);
 		sqlSession.update("UserMapper.deleteUser", user);
 
 	}
@@ -118,6 +132,16 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void updateUserCon(String userId) throws Exception {
 		sqlSession.update("UserMapper.updateUserCon",userId);
+	}
+
+	@Override
+	public User findSnsId(User user) throws Exception {
+			return sqlSession.selectOne("UserMapper.findSnsId", user);
+	}
+
+	@Override
+	public void  updateSnsId(User user) throws Exception {
+		sqlSession.update("UserMapper.connectSnsId",user);
 	}
 	
 }//end of class

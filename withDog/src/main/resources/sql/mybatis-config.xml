@@ -42,6 +42,7 @@
 		<mapper resource="sql/ASHMapper.xml"/>
 		<mapper resource="sql/AfterASHMapper.xml"/>
 		<mapper resource="sql/InquiryMapper.xml"/>
+		<mapper resource="sql/PurchaseMapper.xml"/>
 		<mapper resource="sql/QuickMapper.xml"/>
 		
 	</mappers>

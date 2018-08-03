@@ -312,7 +312,6 @@ $(function () { //상담상태 변경
 			method:"get",
 			dataType :"json",
 			success : function (data) {
-				console.log(data)				
 			} //end success
 			}) //end ajax
 		}
@@ -328,7 +327,6 @@ $(function () { //처음시작할때 상태 받아와서 상담가능인지 불�
 		dataType :"json",
 		success : function (data) {
 			var connectAble = data.chatBot.connectAble;
-			console.log(connectAble)
 			if(connectAble ==1){
 				$("#isPossible").html('<i style="font-weight: bold;">상담사 부재중  </i><img style="position: fixed; margin-top: 25px; margin-left: 105px;" class="state" src="/images/redRight.png" width="10px" height="10px">')
 				$("#isPossible2").html('<i style="font-size: 11px">상담 가능시간 : 14:00~16:00</i>')
@@ -430,7 +428,7 @@ $(function () { // 버튼 클릭시 내비게이션
 	<div class="content">
 		<div class="contact-profile">
 			<img class="logo" src="/images/whiteLogo.png" alt="" />
-			<p class="one">1:1 빠른상담</p><img id="closeButton" src="/images/close-button.png"  ><br>
+			<p class="one" style="color: white">1:1 빠른상담</p><img id="closeButton" src="/images/close-button.png"  ><br>
 			<c:if test="${!empty user&& user.role=='admin'}">
 		        <select id="changState" style="text-align-last:center;  width: 112px;height: 39px; position: fixed; margin-left: -230px;border-radius: 20px">
 			        <option value="0">상담상태</option>

@@ -13,6 +13,9 @@ public interface UserDAO {
 
 	// 회원정보 조회 SELECT ONE
 	public User getUser(String userId) throws Exception ;
+	
+	// 장원 안드테스트
+	public User getUser2(String userId) throws Exception ;
 
 	// 회원정보 수정 UPDATE
 	public void updateUser(User user) throws Exception ;
@@ -54,4 +57,9 @@ public interface UserDAO {
 	//휴면 회원 해제 :: 휴면 > 정상 
 	public void updateUserCon(String userId) throws Exception;
 	
+	//snsID찾기 :: sns 로그인 , sns 연동시 DB에 확인
+	public User findSnsId(User user)throws Exception;
+	
+	//snsID 연동 
+	public void  updateSnsId(User user)throws Exception;
 }

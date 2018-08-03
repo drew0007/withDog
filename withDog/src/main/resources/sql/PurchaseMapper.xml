@@ -4,116 +4,112 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- <mapper namespace="PurchaseMapper"> -->
+<mapper namespace="PurchaseMapper">
  	
  	
-<!-- 	<resultMap id="purchaseSelectMap" type="purchase"> -->
-<!-- 		<result property="user.userId"							column="user_id"									jdbcType="VARCHAR" /> -->
-<!-- 		<result property="product.prodNo"					column="prod_no"									jdbcType="INTEGER" /> -->
-<!-- 		<result property="purchaseNo"							column="purchase_no"							jdbcType="INTEGER" /> -->
-<!-- 		<result property="receiverName" 						column="receiver_name" 						jdbcType="VARCHAR" /> -->
-<!-- 		<result property="receiverPhone" 					column="receiver_phone"			 		jdbcType="VARCHAR" /> -->
-<!-- 		<result property="receiverAddr" 						column="receiver_addr" 						jdbcType="VARCHAR" /> -->
-<!-- 		<result property="divyRequest" 						column="divy_request" 						jdbcType="VARCHAR" /> -->
-<!-- 		<result property="purchaseQuantity"				column="purchase_quantity"				jdbcType="INTEGER" /> -->
-<!-- 		<result property="purchasePrice"						column="purchase_price"						jdbcType="INTEGER" /> -->
-<!-- 		<result property="purchaseDate" 					column="purchase_date"			 			jdbcType="DATE" /> -->
-<!-- 		<result property="purchaseCondition" 			column="purchase_condition"			jdbcType="VARCHAR" /> -->
-<!-- 		<result property="cancelDate" 							column="cancel_date" 							jdbcType="DATE"/> -->
-<!-- 		<result property="divyDate"								column="divy_date" 								jdbcType="DATE" /> -->
-<!-- 		<result property="paymentOption" 				column="payment_option" 				jdbcType="VARCHAR" /> -->
-<!-- 	</resultMap> -->
+	<resultMap id="purchaseSelectMap" type="purchase">
+		<result property="user.userId"								column="user_id"									jdbcType="VARCHAR" />
+		<result property="product.prodNo"						column="prod_no"									jdbcType="INTEGER" />
+		<result property="product.prodName"				column="prodName" 								jdbcType="VARCHAR" />
+		<result property="product.prodImage"				column="prodImage" 								jdbcType="VARCHAR" />
+		<result property="purchaseNo"								column="purchase_no"							jdbcType="INTEGER" />
+		<result property="receiverName" 							column="receiver_name" 						jdbcType="VARCHAR" />
+		<result property="receiverPhone" 						column="receiver_phone"			 		jdbcType="VARCHAR" />
+		<result property="receiverAddr1" 						column="receiver_addr1" 					jdbcType="VARCHAR" />
+		<result property="receiverAddr2" 						column="receiver_addr2" 					jdbcType="VARCHAR" />
+		<result property="divyRequest" 							column="divy_request" 						jdbcType="VARCHAR" />
+		<result property="purchaseQuantity"					column="purchase_quantity"				jdbcType="INTEGER" />
+		<result property="purchasePrice"							column="purchase_price"						jdbcType="INTEGER" />
+		<result property="purchaseDate" 						column="purchase_date"			 			jdbcType="DATE" />
+		<result property="purchaseCondition" 				column="purchase_condition"			jdbcType="VARCHAR" />
+		<result property="cancelDate" 								column="cancel_date" 							jdbcType="DATE"/>
+		<result property="divyDate"									column="divy_date" 								jdbcType="DATE" />
+		<result property="paymentOption" 					column="payment_option" 				jdbcType="VARCHAR" />
+	</resultMap>
 	
- 	<!-- SQL : INSERT --> 
-<!-- 	<insert 	id="addPurchase" parameterType="purchase" > -->
-<!-- 	 	INSERT -->
-<!-- 		INTO transaction (user_id, prod_no, purchase_no, receiver_name, receiver_phone, receiver_addr, divy_request, purchase_quantity, purchase_price, purchase_date, payment_option)  -->
-<!-- 		VALUES (#{user.userId}, #{product.prodNo}, seq_transaction_purchase_no.NEXTVAL, #{receiverName}, #{receiverPhone}, #{receiverAddr}, #{divyRequest}, #{purchaseQuantity}, #{purchasePrice}, SYSDATE, #{paymentOption}) -->
-<!-- 	 </insert> -->
+	<select id="addPurchaseSeq" resultType="int">
+		SELECT seq_purchase_purchase_no.NEXTVAL from dual
+	</select>
+	
+	<!-- SQL : INSERT  -->
+	<insert 	id="addPurchase" parameterType="purchase" >
+	INSERT
+		INTO purchase (user_id, prod_no, purchase_no, receiver_name, receiver_phone, receiver_addr1, receiver_addr2, divy_request, purchase_quantity, purchase_price, purchase_date, purchase_condition, payment_option) 
+		VALUES (#{user.userId}, #{product.prodNo}, #{purchaseNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr1}, #{receiverAddr2}, #{divyRequest}, #{purchaseQuantity}, #{purchasePrice}, SYSDATE, '1',  '0')
+	 </insert>
 	 
 	 
- 	 <!-- SQL : SELECT ONE --> 
-<!-- 	 <select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap"> -->
-<!-- 		SELECT -->
-<!-- 		tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date, order_data, tran_status_code, quantity -->
-<!-- 		FROM transaction -->
-<!-- 		WHERE tran_no = #{value} -->
-<!-- 	 </select> -->
+ 	 <!--SQL : SELECT ONE -->
+	 <select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap">
+		SELECT
+		tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date, order_data, tran_status_code, quantity
+		FROM purchase
+		WHERE tran_no = #{value}
+	 </select>
 	 
 	 
- 	 <!-- SQL : UPDATE --> 
-<!-- 	 <update	id="updatePurchase"	parameterType="purchase" > -->
-<!-- 	   	UPDATE transaction -->
-<!-- 	   	<set> -->
-<!-- 	   		payment_option = #{paymentOption}, -->
-<!-- 	   		receiver_name = #{receiverName}, -->
-<!-- 	   		receiver_phone = #{receiverPhone}, -->
-<!-- 	   		demailaddr = #{divyAddr}, -->
-<!-- 	   		dlvy_request = #{divyRequest}, -->
-<!-- 	   		quantity = #{quantity} -->
-<!-- 	   	</set> -->
-<!-- 	   	WHERE tran_no = #{tranNo} -->
-<!-- 	 </update> -->
+ 	<!-- SQL : UPDATE -->
+	 <update	id="updatePurchase"	parameterType="purchase" >
+	   	UPDATE transaction
+	   	<set>
+	   		payment_option = #{paymentOption},
+	   		receiver_name = #{receiverName},
+	   		receiver_phone = #{receiverPhone},
+	   		demailaddr = #{divyAddr},
+	   		dlvy_request = #{divyRequest},
+	   		quantity = #{quantity}
+	   	</set>
+	   	WHERE tran_no = #{tranNo}
+	 </update>
 	 
 	
- 	<!-- SQL : UPDATETRANCODE --> 
-<!-- 	 <update	id="updateTranCode"	parameterType="purchase" > -->
-<!-- 	   	UPDATE transaction -->
-<!-- 	   	<set> -->
-<!-- 	   		tran_status_code = #{tranCode}, -->
-<!-- 			tran_no = #{tranNo} -->
-<!-- 	   	</set> -->
-<!-- 	   	WHERE tran_no = #{tranNo} -->
-<!-- 	 </update> -->
+ 	<!--SQL : UPDATETRANCODE -->
+	 <update	id="updateTranCode"	parameterType="purchase" >
+	   	UPDATE transaction
+	   	<set>
+	   		tran_status_code = #{tranCode},
+			tran_no = #{tranNo}
+	   	</set>
+	   	WHERE tran_no = #{tranNo}
+	 </update>
 	 
 	 
- 	 <!-- SQL : UPDATETRANCODEBYPROD --> 
-<!-- 	 <update	id="updateTranCodeByProd"	parameterType="purchase" > -->
-<!-- 	   	UPDATE transaction -->
-<!-- 	   	<set> -->
-<!-- 	   		tran_status_code = #{tranCode} -->
-<!-- 	   	</set> -->
-<!-- 	   	WHERE prod_no = #{purchaseProd.prodNo} -->
-<!-- 	 </update> -->
+ 	 <!--SQL : UPDATETRANCODEBYPROD -->
+	 <update	id="updateTranCodeByProd"	parameterType="purchase" >
+	   	UPDATE transaction
+	   	<set>
+	   		tran_status_code = #{tranCode}
+	   	</set>
+	   	WHERE prod_no = #{purchaseProd.prodNo}
+	 </update>
 		
 	
- 	<!-- SQL : SELECT LIST --> 
-<!-- 	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap"> -->
-<!-- 		SELECT *  -->
-<!-- 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq -->
-<!-- 	  				 FROM ( SELECT * FROM transaction -->
-<!-- 	  				 <where> -->
-<!-- 	  				 <if test="buyerId != null"> -->
-<!-- 		  				 buyer_id = #{buyerId} -->
-<!-- 	  				 </if> -->
-<!-- 	  				 </where> -->
-<!-- 	  				ORDER BY -->
-<!-- 	  				 <if test="prodSort == 0"> -->
-<!-- 	  				 	reg_date DESC -->
-<!-- 	  				 </if> -->
-<!-- 	  				 <if test="prodSort == 1"> -->
-<!-- 	  				 	price -->
-<!-- 	  				 </if> -->
-<!-- 	  				 <if test="prodSort == 2"> -->
-<!-- 	  				 	price DESC -->
-<!-- 	  				 </if> -->
-<!-- 	  				 <if test="prodSort == null"> -->
-<!-- 	  				 	tran_no DESC -->
-<!-- 	  				 </if> ) inner_table -->
-<!-- 	  				 WHERE ROWNUM &lt;= #{search.endRowNum} ) -->
-<!-- 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}	 -->
-<!-- 	 </select> -->
+ 	<!--SQL : SELECT LIST -->
+	<select  id="getMyPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+	  				 FROM ( SELECT p.prod_name prodName, p.prod_image prodImage, pc.purchase_no,  pc.user_id, pc.purchase_price, pc.purchase_condition, TO_CHAR(pc.purchase_date, 'YYYY-MM-DD HH:MI:SS') purchase_date, pc.purchase_quantity FROM purchase pc, product p
+	  				 <where>
+	  				 pc.prod_no = p.prod_no
+	  				 <if test="userId != null">
+		  				 pc.user_id = #{user.userId}
+	  				 </if>
+	  				 </where>
+	  				  ) inner_table
+	  				 WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}	
+	 </select>
 
 	
- 	<!-- SQL : SELECT ROW Count -->	  
-<!-- 	 <select  id="getTotalCount"  parameterType="map"	resultType="int"> -->
-<!-- 	 	SELECT COUNT(*) -->
-<!-- 	 	FROM ( SELECT * FROM transaction -->
-<!-- 	 				 <where> -->
-<!-- 	 				 	<if test="buyerId != null"> -->
-<!-- 		  					buyer_id = #{buyerId} -->
-<!-- 	 				 	</if> -->
-<!-- 	  				 </where> ) countTable				 -->
-<!-- 	 </select> -->
+ 	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="map"	resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM ( SELECT * FROM Purchase
+	 				 <where>
+	 				 	<if test="userId != null">
+		  					user_id = #{user.userId}
+	 				 	</if>
+	  				 </where> ) countTable				
+	 </select>
 	 
-<!-- </mapper> -->
+</mapper>

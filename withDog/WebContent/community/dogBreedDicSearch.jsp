@@ -72,6 +72,7 @@
 <body>
 
 <script>
+
 function close_pop(flag) {
     $('#noSearch').hide();
 };
@@ -706,7 +707,7 @@ $(function (data) {
       </div>
     </div>
   <!-- 1. 이미지서치 결과없음 모달 -->
-       
+  
     <jsp:include page="/layout/footer.jsp" />
 	
 	<jsp:include page="/common/js.jsp" />

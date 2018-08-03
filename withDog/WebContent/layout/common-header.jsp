@@ -26,7 +26,7 @@ $(function(){
 	 });
 	
 	//로고 클릭시
-	$( ".logo-logo-dark" ).on("click" , function() {
+	$( ".logo-dark" ).on("click" , function() {
 		self.location = "/common/mainPage";
 	 });
 	

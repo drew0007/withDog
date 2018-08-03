@@ -8,15 +8,15 @@
  	
  	
 	<resultMap id="pointSelectMap" type="point">
-		<result property="pointNo"  column="POINT_NO" 				jdbcType="INTEGER"/>
-	 	<result property="pointDate" column="REG_DATE"	 		jdbcType="DATE" />
-		<result property="usePoint" 	column="USE_POINT" 		jdbcType="INTEGER" />
-		<result property="point" 		column="POINT" 					jdbcType="INTEGER" />
-		<result property="currentPoint" 				column="CURRENT_POINT" 					jdbcType="INTEGER" />
-		<result property="user.userId" 		column="USER_ID" 				jdbcType="VARCHAR"  />
-		<result property="fund.fundMyPrice" 		column="FUND_MY_PRICE_NO" 				jdbcType="INTEGER"  />
-		<result property="ash.ashReservationNo" 		column="ASH_RESERVATION_NO" 				jdbcType="INTEGER"  />
-		<result property="purchase.purchaseNo" 		column="PURCHASE_NO" 				jdbcType="INTEGER"  />
+		<result property="pointNo"  								column="POINT_NO" 										jdbcType="INTEGER"/>
+	 	<result property="pointDate" 							column="REG_DATE"	 									jdbcType="DATE" />
+		<result property="usePoint" 								column="USE_POINT" 									jdbcType="INTEGER" />
+		<result property="point" 										column="POINT" 												jdbcType="INTEGER" />
+		<result property="currentPoint" 						column="CURRENT_POINT" 							jdbcType="INTEGER" />
+		<result property="user.userId" 							column="USER_ID" 											jdbcType="VARCHAR"  />
+		<result property="fund.fundMyPrice" 				column="FUND_MY_PRICE_NO" 				jdbcType="INTEGER"  />
+		<result property="ash.ashReservationNo" 	column="ASH_RESERVATION_NO" 			jdbcType="INTEGER"  />
+		<result property="purchase.purchaseNo" 		column="PURCHASE_NO" 							jdbcType="INTEGER"  />
 		
 	</resultMap>
 	
@@ -56,6 +56,7 @@
 	 	INSERT
 		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
 		 <if test="fund != null">#{fund.fundMyPriceNo},0,0</if>
+		 <if test="purchase != null">0,#{purchase.purchaseNo},0</if>
 		 <if test="ash != null">0,0,#{ash.ashReservationNo}</if>
 		 ,SYSDATE,#{usePoint},0,#{currentPoint})
 	 </insert>
@@ -65,6 +66,7 @@
 	 	INSERT
 		 INTO point VALUES (seq_point_no.nextval,#{user.userId},
 		 <if test="fund!=null">#{fund.fundMyPriceNo},0,0</if>
+		 <if test="purchase != null">0,#{purchase.purchaseNo},0</if>
 		 <if test="ash != null">0,0,#{ash.ashReservationNo}</if>
 		 ,SYSDATE,0,#{point},#{currentPoint})
 		 										

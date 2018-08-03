@@ -47,6 +47,8 @@ public interface AshDAO {
 	public Ash getAshReservationTime(int healingDogNo, String ashReservationDate) throws Exception;
 
 	public Ash getAshReservationTimeCount(int healingDogNo, String ashReservationDate) throws Exception;
+	
+	public List<Ash> getAshReservationTimeCountByAndroid(String ashReservationDate) throws Exception;
 
 	public List<Ash> getAshReservationByHealingDog(int healingDogNo) throws Exception;
 

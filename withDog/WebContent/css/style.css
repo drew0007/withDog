@@ -239,6 +239,7 @@ i { color: #9a9a9a; margin: 0 3px}
 .bg-dark-blue { background:#3273a5 !important;}
 .bg-violet { background:#6c407e !important}
 .dark-section{ color: #939393 !important}
+.bg-brown { background:#908477 !important }
 .bg-light-gray { background-color: #f8f7f7 !important; }
 .bg-slider {background: rgba(27, 22, 28, 0.9)}
 .parallax-gray-bg{ background: rgba(246,246,246,1)}
@@ -312,6 +313,7 @@ i { color: #9a9a9a; margin: 0 3px}
 .padding-two { padding-top:2% !important; padding-bottom:2% !important}
 .padding-three { padding-top:3% !important; padding-bottom:3% !important}
 .padding-four { padding-top:4% !important; padding-bottom:4% !important}
+.padding-four-top { padding-top:4% !important;}
 .padding-five { padding-top:5% !important; padding-bottom:5% !important}
 .padding-six { padding-top:3% !important; padding-left:3% !important; padding-right:3% !important;}
 .padding-seven { padding:6%} 
@@ -403,6 +405,7 @@ p.uppercase a:hover { text-decoration: none;}
 .border-color-black { border-color: #000 !important}
 .border-color-white { border-color: #fff !important}
 .border-gray { border-color:#d7d7d7 !important}
+.border-gray2 { border:3px solid #efefef;}
 .border-color-orange { border-color:#ff513b !important}
 .no-border { border:none !important}
 .border-top-light { border-top: 1px solid rgba(0, 0, 0, 0.1);}
@@ -1271,8 +1274,8 @@ footer ul.list-inline li:first-child {padding-left: 6px}
 .fund-title {font-size: 17px; letter-spacing: 2px; text-transform: uppercase; display: block; color: #000; margin: 20px 0 5px 0; font-weight: 600}
 .fund-title2 {font-size: 17px; letter-spacing: 2px; text-transform: uppercase; display: block; color: #000; margin: 20px 0 5px 0; font-weight: 600; word-wrap:break-word; ailgn:left}
 .fund-center {font-size: 14px; letter-spacing: 1px;  color: #797979;}
-.fund-term {font-size: 12px; letter-spacing: 1px; color: #797979;}
-.fund-raising {font-size: 12px; letter-spacing: 1px; color: #797979;}
+.fund-term {font-size: 14px; letter-spacing: 1px; color: #797979; line-height:24px;}
+.fund-raising {font-size: 14px; letter-spacing: 1px; color: #797979; line-height:24px;}
 
 /* blog grid */
 .blog-2col .col-md-6:nth-child(2n + 3) { clear: left; }
@@ -1563,6 +1566,16 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .highlight-button i { color: #000}
 .highlight-button:hover i {color:#fff}
 
+.highlight-button-navy1 { border-radius:5px; border:1.5px solid #408080; display: inline-block; padding: 8px 8px 9px; font-size: 13px; color:#fff; background-color: #408080; }
+.highlight-button-navy1:hover { background-color: transparent; border: 1.5px solid #408080; color:#408080}
+.highlight-button-navy1 i { color: #408080}
+.highlight-button-navy1:hover i {color:#fff}
+
+
+.highlight-box-sky { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#709dbd; background-color: transparent; }
+.highlight-box-sky:hover { background-color: #709dbd; border: 1.5px solid #709dbd; color:#fff;}
+.box-sky { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#fff; background-color: #709dbd; }
+.box-sky:hover { background-color: transparent; border: 1.5px solid #709dbd; color:#5a7d96}
 
 .highlight-button-sky { border:2px solid #819bad; display: inline-block; padding: 8px 20px 9px; font-size: 13px; color:#819bad; background-color: transparent;  border-radius: 10px; }
 .highlight-button-sky:hover { background-color: #819bad; border: 2px solid #819bad; color:#fff;border-radius: 10px;}
@@ -1598,6 +1611,10 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .highlight-button-dark2 i { color: #fff}
 .highlight-button-dark2:hover i {color:#000}
 
+.highlight-button-dark3 { border:2px solid #000; display: inline-block; padding: 14px 113px; font-size: 16px; color:#fff; background-color: #000;  }
+.highlight-button-dark3:hover { background-color: transparent; border: 2px solid #000; color:#000}
+.highlight-button-dark3 i { color: #fff}
+.highlight-button-dark3:hover i {color:#000}
 
 .btn-small-white-background { font-size: 11px; letter-spacing: 2px; padding: 6px 23px; color: #000; margin-right: 25px; background:#fff; border: 2px solid #fff }
 .btn-small-white-background:hover { background:transparent; border: 2px solid #fff; color: #fff; }
@@ -2020,6 +2037,7 @@ ul.list-line li span {min-width:130px; display:inline-block}
 .header-nav a:last-child { padding-right:0}
 .header-nav .border-right { border-color:#c6c6c6}
 .borderline { height:2px; background-color:#b3cfe0; margin:10px 0; display:block; line-height:2px;}
+.borderline-1px{ height:1px; background-color:#333333; margin:10px 0; display:block; line-height:2px;}
 .borderline-gray { height:2px; background-color:#dcdcdc; margin:10px 0;}
 .header-nav i { color:#575757; font-size: 14px; margin:0 8px}
 .products-thumb img { width:25%; margin-right:20px}
@@ -2159,6 +2177,7 @@ thead th.first { padding-left: 0 !important; }
 .dateline-search {position: relative;}
 .reservation-name:before {position: absolute; right: 32px; top: 16px; font-family: FontAwesome; content: "\f007"; font-size: 16px; color: #575757;}
 .reservation-date:before {position: absolute; right: 32px; top: 16px; font-family: FontAwesome; content: "\f073"; font-size: 16px; color: #575757;}
+.reservation-date2:before {position: absolute; right: 32px; top: 10px; font-family: FontAwesome; content: "\f073"; font-size: 16px; color: #575757;}
 .special-dishes-price { bottom: -2px; color: #d50f0f; font-family: "Oswald",sans-serif; font-size: 16px; font-weight: 400; letter-spacing: 1px; padding: 12px 22px; position: absolute; right: 0; }
 .restaurant-services { background:rgba(0,0,0,.8)}
 

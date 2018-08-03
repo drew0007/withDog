@@ -54,6 +54,18 @@ public class AshRestController {
 		return jsonObject;
 	}
 	
+	@RequestMapping(value = "json/getAshReservationTimeCountByAndroid/{ashReservationDate}")
+	public JSONObject getAshReservationTimeCountByAndroid(@PathVariable String ashReservationDate) throws Exception{
+		System.out.println("/json/getAshReservationTimeCountByAndroid");
+		System.out.println("선택한 날짜는? : " + ashReservationDate);
+		List<Ash> ash =  ashService.getAshReservationTimeCountByAndroid(ashReservationDate);
+		System.out.println("결과 : " + ash);
+		System.out.println("결과222 : " + ash.size());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("ash", ash);
+		return jsonObject;
+	}
+	
 	@RequestMapping(value = "json/getHealingDog/{healingDogNo}")
 	public JSONObject getHealingDog(@PathVariable int healingDogNo) throws Exception{
 		System.out.println("/json/getHealingDog");

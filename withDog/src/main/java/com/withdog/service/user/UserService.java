@@ -2,6 +2,8 @@ package com.withdog.service.user;
 
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
+
 import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 
@@ -12,6 +14,9 @@ public interface UserService {
 
 	// 내정보확인
 	public User getUser(String userId) throws Exception;
+	
+	// 장원안드 확인
+	public User getUser2(String userId) throws Exception;
 
 	// 회원정보수정
 	public void updateUser(User user) throws Exception;
@@ -51,4 +56,18 @@ public interface UserService {
 	
 	//휴면 회원 해제 :: 휴면 > 정상 
 	public void updateUserCon(String userId) throws Exception;
+	
+	//이메일 보내기 :: htmlText 보내는 메일 내용
+	public boolean sendEmail(String userEmail, String htmlText) throws Exception;
+	
+	//문자보내기 :: conText  문자보내는 내용
+	public boolean sendText(String userPhoneNo, String conText) throws Exception;
+	
+	//snsID찾기 :: sns 로그인 , sns 연동시 DB에 확인
+	public User findSnsId(User user)throws Exception;
+	
+	//snsID 연동 
+	public void  updateSnsId(User user)throws Exception;
+	
+	
 }

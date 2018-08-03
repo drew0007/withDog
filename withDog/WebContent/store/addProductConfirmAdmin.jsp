@@ -87,7 +87,7 @@
 				<div class="row">
 			  		<div class="col-xs-4 col-md-2 font-weight-600">상품이미지</div>
 					<div class="col-xs-8 col-md-4">
-						<img src = "/images/uploadFiles/store/${product.prodImage}" width="400"/>
+						<img src = "/images/store/${product.prodImage}" width="400"/>
 					</div>
 				</div>
 				
@@ -96,7 +96,7 @@
 				<div class="row">
 			  		<div class="col-xs-4 col-md-2 font-weight-600">상세정보</div>
 					<div class="col-xs-8 col-md-4">
-						<img src = "/images/uploadFiles/store/${product.prodContent}" width="400"/>
+						<img src = "/images/store/${product.prodContent}" width="400"/>
 					</div>
 				</div>
 				

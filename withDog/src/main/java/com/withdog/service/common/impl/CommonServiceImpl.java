@@ -35,7 +35,6 @@ public class CommonServiceImpl implements CommonService{
 
 	@Override
 	public void addPointinfo(Point point) throws Exception {
-		// TODO Auto-generated method stub
 		System.out.println("addPoint Start");
 		//포인트로만 구매한경우
 		if(point.getUsePoint()!=0&&point.getPoint()==0) {
@@ -50,9 +49,10 @@ public class CommonServiceImpl implements CommonService{
 		//현금결제+포인트 사용 으로 적립및 사용 전부 있는경우
 		else {
 			System.out.println("현금+포인트 둘다 사용");
+			System.out.println(point.getPurchase().getPurchasePrice());
 			commonDAO.savePoint(point);
 			System.out.println("왜안될까?");
-			System.out.println(point.toString());
+			System.out.println(point.getUsePoint());
 			commonDAO.usePoint(point);
 			
 		}
@@ -64,7 +64,6 @@ public class CommonServiceImpl implements CommonService{
 
 	@Override
 	public int getCurrentPoint(Point point) throws Exception {
-		// TODO Auto-generated method stub
 		return commonDAO.getCurrentPoint(point);
 	}
 
@@ -72,7 +71,6 @@ public class CommonServiceImpl implements CommonService{
 
 	@Override
 	public Map<String, Object> getMyPointList(Search search, String userId) throws Exception {
-		// TODO Auto-generated method stub
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<Point> list = commonDAO.getMyPointList(search , userId);
 		int totalCount = commonDAO.getTotalCount(userId);

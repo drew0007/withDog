@@ -1,19 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 <title>장바구니</title>
 </head>
+
 <body>
 		
 		<jsp:include page="/layout/store-sub-header.jsp" />
 		
 		<!-- head section -->
-        <section class="content-top-margin page-title bg-black">
+        <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
+        	<img class="parallax-background-img" src="../images/sub/500_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
@@ -45,14 +49,19 @@
                                     <th></th>
                                 </tr>
                             </thead>
+                            
+                            <c:set var="i" value="0"/>
+                            <c:forEach var="cart" items="${list}">
+                            <c:set var="i" value="${i+1}"/>
+                            
                             <tbody>
                                 <tr>
-                                    <td class="product-thumbnail text-left">
-                                        <a href="shop-single-product.html"><img src="http://placehold.it/120x120" alt="" ></a>
+                                    <td class="product-thumbnail text-center">
+                                        <a href="#"><img src = "/images/store/${cart.product.prodImage}" width="120" height="120"/></a>
                                     </td>
                                     <td class="text-left">
-                                        <a href="shop-single-product.html">상품명</a>
-                                        <span class="text-uppercase display-block text-small margin-two">상품번호: 290397</span>
+                                        <a href="#">${cart.product.prodName}</a>
+                                        <span class="text-uppercase display-block text-small margin-two">상품번호: ${cart.product.prodNo}</span>
                                         <a href="shop-single-product.html" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
                                     </td>
 
@@ -68,44 +77,18 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td class="product-subtotal text-left">20,000원</td>
-                                    <td class="product-remove text-center">
-                                        <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail text-left">
-                                        <a href="shop-single-product.html"><img src="http://placehold.it/120x120" alt="" ></a>
-                                    </td>
-                                    <td class="text-left">
-                                        <a href="shop-single-product.html">상품명</a>
-                                        <span class="text-uppercase display-block text-small margin-two">상품번호: 450365</span>
-                                        <a href="shop-single-product.html" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
-                                    </td>
-                                    <td class="product-quantity">
-                                        <div class="select-style med-input shop-shorting shop-shorting-cart no-border-round">
-                                            <select>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal text-left">30,000원</td>
+                                    <td class="product-subtotal text-left">${cart.product.price}원</td>
                                     <td class="product-remove text-center">
                                         <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
+                            </c:forEach>
                         </table>
                     </div>
                     <div class="col-sm-12 cupon padding-five border-top border-bottom">
-                        <button class="highlight-button btn btn-very-small no-margin pull-left">장바구니 비우기</button>
-                        <button class="highlight-button btn btn-very-small no-margin pull-right continue-shopping">계속 쇼핑하기</button>
-                        <button class="highlight-button btn btn-very-small no-margin pull-right">Update Shopping Cart</button>
+                        <button class="highlight-button btn btn-small no-margin pull-left">장바구니 비우기</button>
+                        <button class="highlight-button btn btn-small no-margin pull-right continue-shopping">계속 쇼핑하기</button>
                     </div>
                     <div class="col-sm-12 padding-five no-padding-bottom">
                         <div class="col-md-5 col-sm-5 calculate no-padding-left xs-margin-bottom-ten xs-no-padding">
