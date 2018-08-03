@@ -1,10 +1,5 @@
 /com/
-<<<<<<< HEAD
-/withDog/
-/config/
-=======
 /config/
 /log4j.properties
->>>>>>> refs/remotes/origin/master
 /sql/
 /withDog/
