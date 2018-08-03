@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.withdog.common.Search;
+import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Purchase;
 import com.withdog.service.domain.User;
@@ -31,18 +32,26 @@ public class PurchaseDAOImpl implements PurchaseDAO{
 		System.out.println(this.getClass());
 	}
 	
+	//구매
 	@Override
 	public int addPurchase(Purchase purchase) throws Exception {
 		System.out.println("펄체이스 다오 시작");
-		//시퀀스넘버를 가져옴 
-		int purchaseNo = sqlSession.selectOne("PurchaseMapper.addPurchaseSeq");
-		purchase.setPurchaseNo(purchaseNo);
-		
-		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
-		
-		return purchaseNo;
+	
+		return sqlSession.insert("PurchaseMapper.addPurchase", purchase);
 	}
 	
+	// 다음 purchaseNo
+	public int addPurchaseSeq() throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.addPurchaseSeq");
+	}
+
+	// 다음 cartNo
+	@Override
+	public int addCartSeq() throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.addCartSeq");
+	}
+	
+	//나의구매내역리스트
 	@Override
 	public  List<Purchase> getMyPurchaseList(Search search, User user) throws Exception{
 		System.out.println("purchaseDAOImpl : getMyPurchaseList Start");
@@ -54,6 +63,12 @@ public class PurchaseDAOImpl implements PurchaseDAO{
 		return sqlSession.selectList("PurchaseMapper.getMyPurchaseList",map);
 	}
 	
+	//나의구매상세정보
+	@Override
+	public Purchase getMyPurchase(int purchaseNo) throws Exception {
+		System.out.println("펄체이스넘버"+purchaseNo);
+		return sqlSession.selectOne("PurchaseMapper.getMyPurchase", purchaseNo);
+	}
 	
 	@Override
 	public int getTotalCount(User user) throws Exception {

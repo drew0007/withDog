@@ -1,5 +1,7 @@
 package com.withdog.web.ash;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -7,15 +9,24 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.withdog.service.ash.AshService;
 import com.withdog.service.domain.Ash;
@@ -239,6 +250,54 @@ public class AshRestController {
 	}
 
 	//end 컨설팅
+	@RequestMapping(value="json/android/kakaoPay")
+	private JSONObject paymentReady2() throws RestClientException, URISyntaxException,Exception {
+		
+		System.out.println("kakaoPay Start==================================");
+		
+		String HOST = "https://kapi.kakao.com";
+	    RestTemplate restTemplate = new RestTemplate();
+	    
+	    // 서버로 요청할 내용 (Body)
+	    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	    params.add("cid", "TC0ONETIME");
+	    params.add("partner_order_id", "1007");
+	    params.add("partner_user_id", "user01");
+	    params.add("item_name", "꽃개펀딩");
+	    params.add("quantity", "0");//수량
+	    params.add("total_amount", "150000");
+	    params.add("tax_free_amount", "0");//세금
+	    //params.add("approval_url", "http://127.0.0.1:8080/withdog/addPurchasedog.jsp");
+	    params.add("approval_url", "http://192.168.0.42:8080/fund/fundReceipt?state=0");
+	    //params.add("approval_url", "http://192.168.0.35:8080/withdog/addPurchasedog.jsp");
+	    params.add("cancel_url", "http://192.168.0.42:8080/fund/fundReceipt?state=1");
+	    params.add("fail_url", "http://192.168.0.42:8080/fund/fundReceipt?state=2");
 	
+	    // 서버로 요청할 Header
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Authorization", "KakaoAK " + "e429428556e2835e02b9dcd4f7f55174");
+	    /*headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);*/
+	    headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+	    headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+
+	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+	    String response = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), request, String.class);
+	    System.out.println("여기까지");
+	    System.out.println(response);
+	    System.out.println("여기부터다시");
+	    ObjectMapper obj = new ObjectMapper();
+	    JSONObject jobj = (JSONObject)JSONValue.parse(response);
+	    System.out.println(jobj.get("tid"));
+	    String url = (String)jobj.get("next_redirect_app_url");
+	    String url2 = (String)jobj.get("android_app_scheme");
+	    String url3 = (String)jobj.get("next_redirect_mobile_url");
+	    System.out.println(url);
+	    System.out.println(url2.substring(url2.indexOf("h"))+1);
+	  	JSONObject jsonUrl = new JSONObject();    
+	    jsonUrl.put("url", url);
+	    
+	  return jsonUrl;
+	    
+    }
 
 }

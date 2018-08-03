@@ -688,8 +688,4 @@ public class QuickRestController {
 		
 		return jsonObject;
 	}
-	
-	
-	
-
 }

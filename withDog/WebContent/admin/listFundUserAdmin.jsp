@@ -62,30 +62,27 @@ function fncGetList(currentPage) {
 			    <hr/>
 		    
 			   <form>
-			    
-				  <div class="form-group col-md-3">
-				    <select class="form-control" name="searchCondition" >
+			   
+				  <div class="form-group col-md-7" align="center"style="float: right;">
+				    <select class="form-control" name="searchCondition" style=" width: 30%;display:inline-block;">
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>펀딩제목</option>
 					</select>
-				  </div>
-				  
-				  <div class="form-group col-md-3">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control" id="tags" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" >
-				  </div>
-				  
-				  <button type="button" class="highlight-button btn-medium button margin-five">검색</button>
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" style=" width: 50%;display:inline-block;">
+				  <span align="right"><button type="button" class="highlight-button btn-medium button margin-five" onclick="javascript:fncGetList('1');">검색</button></span>
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
+				</div>  
 				</form>  
 				
-				<hr/>
+				
 		
 				<!--  table Start /////////////////////////////////////-->
+			      
 			      <table class="table table-hover table-striped" >
 			      
 			        <thead>

@@ -7,19 +7,114 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-	function fncGetList(currentPage) {
-		$("#currentPage").val(currentPage)
-	   	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();		
-	}
+
+$(function(){
+// 	//구매하기 버튼 이벤트
+// 	$("#purchase").on("click", function(){
+// 		self.location = "/purchase/addPurchase";
+// 	});
+
+	//상품이미지 클릭시 이벤트
+	$(document).on("click", ".headerProdImage", function(){
+		var index = $(".headerProdImage").index(this);
+		var prodNo = $($("input[name='headerProdNo']")[index]).val();
+		self.location = "/product/getProduct?prodNo=" + prodNo;
+	});
+
 	
-	//============= "검색"  Event  처리 =============	
-	 $(function() {
-		 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( "#searchBtn" ).on("click" , function() {
-			fncGetList(1);
-		});
-	 });
+	//장바구니 버튼 이벤트
+	$("#cartList").on("click", function(){
+		self.location = "/cart/getCartList";
+	});
+	
+	//장바구니리스트 삭제 (리바인딩방식 : $(document).on 동적으로 생성했을때 다시 바인딩 해주는 방식)
+	$(document).on("click", ".remove", function(){
+		var index = $(".remove").index(this);
+		var cartNo = $($("input[name='cartNo']")[index]).val();
+		fncDeleteCart(cartNo, index);
+	});
+});
+
+function fncDeleteCart(cartNo, index){
+	$.ajax(
+			{
+				url : "/cart/json/deleteCart/"+cartNo,
+				method : "GET",
+				dataType : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status){
+					getToolCartList();
+				}
+			}
+		)
+}
+
+function getToolCartList(){
+	//카트정보 받아오는 에이젝스
+	$.ajax(
+        {
+           url : "/cart/json/getToolCartList",
+           method : "GET",
+           dataType : "json",
+           headers : {
+              "Accept" : "application/json",
+              "Content-Type" : "application/json"
+           },
+        success : function(JSONData , status){
+        	var sum = 0;
+        	
+//         	alert(JSONData.list.length)
+        	//리스트 태그부분 공백처리 후 에이젝스 뿌려주기위한 과정
+        	$("#toolCartList").html("");
+        	for(i=0; i<JSONData.list.length; i++){
+        		str='<li>'
+                       + '<a title="Remove item" class="remove" style="cursor:pointer;">×</a>'
+                       +'<input type="hidden" name="cartNo" value="'+JSONData.list[i].cartNo+'"/>'
+                       + '<a href="#" class="headerProdImage">'
+                       +  '<img width="90" height="90" src="/images/store/' + JSONData.list[i].product.prodImage + '">'+JSONData.list[i].product.prodName
+                       +'<input type="hidden" name="headerProdNo" value="'+JSONData.list[i].product.prodNo+'"/>'
+                       + '</a>'
+                       + '<span class="quantity">' + JSONData.list[i].cartQuantity + ' × <span>' + JSONData.list[i].product.price + '원</span></span>'
+              		   + '</li>'
+              		   
+              		 //공백인 toolCartList에 str 넣어주기
+              		 $("#toolCartList").append(str);
+              		   
+              		 //총금액 구하기 (리스트의 수량곱하기상품가격을 sum에 넣어주기)
+              		  sum += JSONData.list[i].cartQuantity * JSONData.list[i].product.price;
+        	}//for문 end
+        	
+        	//amount클래스에 있는 텍스트를 sum값으로 변경
+        	$(".amount").text(sum + "원");
+        	
+        	//리스트 카운트
+        	$("#toolTipSubtitle").text("("+ JSONData.list.length + ")");
+        	
+        }
+     });//ajax end
+}
+
+//툴팁용 장바구니리스트
+$(function(){
+	getToolCartList();
+});
+
+// 	//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  function명 바꾸기
+// 	function fncGetList(currentPage) {
+// 		$("#currentPage").val(currentPage)
+// 	   	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();		
+// 	}
+	
+// 	//============= "검색"  Event  처리 =============	
+// 	 $(function() {
+// 		 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 		$( "#searchBtn" ).on("click" , function() {
+// 			fncGetList(1);
+// 		});
+// 	 });
 	
 	
 	$(function(){
@@ -67,25 +162,24 @@
                             <!-- nav shopping bag -->
                             <a href="#" class="shopping-cart">
                                 <i class="fa fa-shopping-cart"></i>
-                                <div class="subtitle">(1)</div>
+                                <div class="subtitle" id="toolTipSubtitle"></div>
                             </a>
                             <!-- end nav shopping bag -->
                             <!-- shopping bag content -->
                             <div class="cart-content">
-                                <ul class="cart-list">
+                                <ul class="cart-list" id="toolCartList">
                                     <li>
                                         <a title="Remove item" class="remove" href="#">×</a>
                                         <a href="#">
                                             <img width="90" height="90" alt="" src="http://placehold.it/90x90">상품명
                                         </a>
-                                        <span class="quantity">1 × <span class="amount">20,000원</span></span>
+                                        <span class="quantity">1 × <span>0원</span></span>
                                         <a href="#">Edit</a>
                                     </li>
                                 </ul>
-                                <p class="total">금액: <span class="amount">20,000원</span></p>
+                                <p class="total">금액: <span class="amount">0원</span></p>
                                 <p class="buttons">
-                                    <a href="listcart.jsp" class="btn btn-very-small-white no-margin-bottom margin-seven no-margin-lr">장바구니</a>
-                                    <a href="addPurchase.jsp" class="btn btn-very-small-white no-margin-bottom margin-seven no-margin-right">구매하기</a>
+                                    <a href="#" id="cartList" class="btn btn-very-small-white no-margin-bottom margin-seven no-margin-lr">장바구니</a>
                                 </p>
                             </div>
                             <!-- end shopping bag content -->

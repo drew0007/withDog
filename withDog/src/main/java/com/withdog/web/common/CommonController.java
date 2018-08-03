@@ -107,10 +107,17 @@ public class CommonController {
 	public String getMyPointList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session)throws Exception{
 		
 		System.out.println("MyPointList : Start");
-		
+		System.out.println(search.toString());
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
-		}		
+		}
+		
+		if(search.getSorting()==1) {
+			request.setAttribute("sorting", 1);
+		}else if(search.getSorting()==2) {
+			request.setAttribute("sorting", 2);
+		}
+		
 		search.setPageSize(pageSize);
 		
 		Point point = new Point();

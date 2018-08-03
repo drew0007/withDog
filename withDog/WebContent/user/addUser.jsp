@@ -92,7 +92,7 @@
 			
 		}); //end of ajax	
 	
-	});
+	});// end 제이쿼리
 	
 	//로딩시 제이쿼리 시작
 	$( function() {
@@ -143,8 +143,8 @@
 							}
 						}
 					});
-			}//end 아이디 중복 검사
-		});
+			}
+		});//end 아이디 중복 검사
 		
 		
 		//비밀번호 확인
@@ -236,7 +236,7 @@
 		var pw=$("input[name='password']").val();
 		var pwCheck=$("input[name='passwordCheck']").val();
 		var name=$("input[name='userName']").val();
-		
+		var emailCheck= $("#tempNo").val();
 		
 		if(id == null || id.length <1){
 			alert("아이디는 반드시 입력하셔야 합니다.");
@@ -263,6 +263,12 @@
 			return;
 		}
 		
+		if( emailCheck != 100 ) {				
+			alert("이메일 인증이 완료되지 않았습니다.");
+			$("input:text[name='email']").focus();
+			return;
+		}
+		
 		/*이메일 합치기
 		var value = "";	
 		if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
@@ -274,14 +280,94 @@
 		$("input:hidden[name='phone']").val( value );
 		*/
 		
-		alert($("#email").val()+"이메일");
-		alert($("#email1").val()+"이메일1");
-		alert($("#email2").val()+"이메일2");
 		$("form").attr("method","POST").attr("action","/user/addUser").submit();
 	
 	}//end addUser()
 
-	</script>	
+	
+	//영문 키워드
+	$(document).ready(function(){
+
+		$("#userId").css("ime-mode", "disabled");
+
+	});
+</script>	
+
+<script type="text/javascript">
+	
+	//이메일 인증
+	$( function() {
+
+		
+		//이메일 인증
+		$("#checkEmail").on("click" , function() {
+			
+			 
+			$.ajax({
+				
+				url : "/user/json/checkEmail",
+				method : "POST",
+				datatype : "json",
+				data: JSON.stringify({
+					email :$("#email").val()
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status){
+					
+					var check = JSONData.check;
+					var tempNo = JSONData.tempNo;
+					
+					if(!check){
+						$(".changeDiv1").html("해당 이메일로 인증이 불가합니다.").css('color','red').css('font-size','12px');
+					}else{
+						//고유번호 숨기기
+						$("#tempNo").val(tempNo);
+						$(".changeDiv1").html('<div class="col-md-12"><p class="col-md-4">인증코드 입력 :</p><input type="text" id="userTextNum" class="col-md-4"><button type="button" class="highlight-button col-md-4 pull-right" id="checkTextNum" >확인</button></div');
+						$(".changeDiv2").html("인증코드를 입력해주세요!").css('color','blue').css('font-size','14px');	
+					}
+
+				}
+			
+			});//end of Ajax
+						
+			
+			
+		}); //end 이메일 인증
+		
+	});//end 제이쿼리
+	
+	//발송한 숫자와 고객이 입력한 숫자 비교
+	
+	$(document).on("click","#checkTextNum",function() {
+		//숨겨놓은 발송 숫자
+		var textNum = $("#tempNo").val();
+		alert("textNum"+textNum);
+		//고객이 입력한 값
+		var userTextNum = $("#userTextNum").val();
+		alert("userTextNum"+userTextNum);
+		if(textNum!=userTextNum){
+			alert("인증번호를 잘못 입력하였습니다.");
+			$(".changeDiv1").remove();
+			$(".changeDiv2").remove();
+			
+		}else{
+			alert("이메일 인증이 완료되었습니다.");
+			//이메일 인증완료시  
+			var textNum = $("#tempNo").val(100);
+			$(".changeDiv1").remove();
+			$(".changeDiv2").remove();
+			$("#checkEmail").val("재인증");
+			$(".spanChange").append("<span style=\"color:red;\">인증완료</span>");
+		}//end of if
+	});
+	
+</script>	
+
+
+
 	
 </head>
 
@@ -327,13 +413,13 @@
 					
 					<div class="form-group">
 				        <label for="textbox" class="text-uppercase">아이디 :</label>
-				        <input type="text" id="userId" name="userId" class="input-round big-input" placeholder="아이디는 공백없이  3자 이상 ~8자 이하">
+				        <input type="text" id="userId" name="userId" class="input-round big-input" placeholder="아이디는 공백없이  3자 이상 ~8자 이하"  style="ime-mode:disabled">
 				          <span class="changeSpanId"></span>
 				    </div>
 					
 				    <div class="form-group">
 				        <label for="textbox" class="text-uppercase">비밀번호 :</label>
-				        <input type="password" id="" name="password" class="input-round big-input">
+				        <input type="password"name="password" class="input-round big-input">
 				    </div>
 				
 				    <div class="form-group">
@@ -344,36 +430,27 @@
 				    
 				    <div class="form-group">
 				        <label for="errortextbox" class="text-uppercase">이름 :</label>
-				        <input type="text" id="" name="userName" class="input-round big-input">
+				        <input type="text" name="userName" class="input-round big-input">
 				    </div>
 				                   
 				   	<div class="form-group">
 				        <label for="errortextbox" class="text-uppercase">생년월일 :</label>
-				        <input type="text" id="datepicker" name="birth" class="input-round big-input">
+				        <input type=text id="datepicker" name="birth" class="input-round big-input" readOnly>
 				    </div>     
 				              
+   				    <div class="form-group">
+					    <div class="ui-widget">
+						  <label>좋아하는 견종: </label><span style="color:gray">*입력 또는 선택이 가능합니다.</span>
+						  <select id="combobox" name="dogNo">
+						    <option value="">Select one...</option>
+						  </select>
+						</div>
+					</div>
+						          
 					<div class="form-group">
 				        <label for="errortextbox" class="text-uppercase">휴대전화 :</label>
-				        <input type="text" id="" name="phone" class="input-round big-input" placeholder="'-'제외하고 숫자만 입력 " >
+				        <input type="text" name="phone" class="input-round big-input" placeholder="'-'제외하고 숫자만 입력 " >
 				    </div>
-				    
-				    <div class="form-group">
-				    	<p>이메일 :     <a class="pull-right" id="checkEmail">인증하기</a></p>  
-			        	<input type="text" name="email1" class="col-md-4" id="email1">
-		                <input type="text" class="col-md-1 no-border" placeholder="@">
-		                <input type="text" name="emailText"class="col-md-3" id="emailText">
-			                <div class="col-md-4">
-								<select name="email2" id="email2">
-									<option value="1">직접입력</option>
-									<option value="naver.com">naver.com</option>
-									<option value="daum.net">daum.net</option>
-									<option value="gmail.com">gmail.com</option>
-									<option value="hotmail.com">hotmail.com</option>
-									<option value="nate.com">nate.com</option>
-								</select>
-				            </div>
-				        <input type="hidden" name="email" id="email">
-			         </div> 
 				    
 				    <div class="form-group">
 				        <label for="errortextbox" class="text-uppercase">주소 :</label>
@@ -385,20 +462,20 @@
 				        <input type="text" id="address2" name="address2" class="input-round big-input">
 				    </div>
 				    
-				    <div class="form-group">
-					    <div class="ui-widget">
-						  <label>좋아하는 견종: </label><span style="color:gray">*입력 또는 선택이 가능합니다.</span>
-						  <select id="combobox" name="dogNo">
-						    <option value="">Select one...</option>
-						  </select>
-						</div>
-					</div>
+   				    <div class="form-group">
+				    	<p ><span class="spanChange">이메일 :</span> <input type="button" class="pull-right col-md-2" id="checkEmail" value="인증하기"></p>
+				    	<input type="text" class="col-md-6" id="email">
+			    	  	<span class="changeDiv1"></span>
+                        <span class="changeDiv2"></span>
+                        <input type="hidden" id="tempNo" value=""/>
+			       </div> 
+
 			                    
 			    </form>
 			    <!-- end form  -->  
         
 		         <div class="text-center">
-                          <button class="highlight-button-dark btn no-margin post-search" id="join" type="submit">회원가입하기</button>
+                 	<input type="button" class="highlight-button-dark btn no-margin post-search" id="join" value="회원가입하기"/>
                  </div>
 			             
             </div>

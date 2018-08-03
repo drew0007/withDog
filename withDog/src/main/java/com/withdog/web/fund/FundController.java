@@ -368,7 +368,13 @@ public class FundController {
 		
 		System.out.println("kakaoPay Start==================================");
 		System.out.println(fund);
-		System.out.println(req.getParameter("usePoint"));
+		if(req.getParameter("usePoint")==null) {
+			req.setAttribute("usePoint", 0);
+				
+		}else {
+			System.out.println(req.getParameter("usePoint"));
+		}
+		
 		HttpSession session = req.getSession(false);
 		User user = new User();
 		if(session.getAttribute("user")!=null) {

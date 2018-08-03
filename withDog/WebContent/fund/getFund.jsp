@@ -35,6 +35,7 @@ $(function(){
 		}
 		
 		
+		
 		/* self.location.href="/fund/kakaoPay?fundTitle="+Title+"&usePoint="+usePoint+"&fundMyPrice="+price; */
 		
 		 popWin 
@@ -123,7 +124,7 @@ $(function(){
                         <div class="fund-sub-title">${fund.fundPersonnel}<span class="fund-small">명</span></div>
                         <!-- end detail  -->
                         
-                        <!-- 후원하기 모달팝업 -->
+                       <!-- 후원하기 모달팝업 -->
 	                        <div class="col-md-9 col-sm-9 no-padding margin-five">
 	                        
 	                            <!-- button -->
@@ -137,9 +138,9 @@ $(function(){
 			                            <span class="fund-modal slider-subtitle5 black-text no-margin-bottom">후원하기</span>
 			                            <div class="borderline-gray"></div>
 			                            
-			                            <form>
+			                            <form id="kakaoin">
                         
-				                            <div class="form-group no-margin-bottom">
+				                           <div class="form-group no-margin-bottom">
 				                                <!-- label  -->
 				                                <label class="pull-left">후원할 금액</label>
 				                                <!-- end label  -->
@@ -228,7 +229,28 @@ $(function(){
 				</c:if>
             </div>
         </section>
-
+<!--안내사항-->
+        <section class="no-padding-top margin-two">
+            <div class="container bg-gray border-round padding-one">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6"></div>           
+                    <div class="col-md-1 col-sm-6">
+                    <i class="icon-megaphone"></i><br>
+                    <strong>안내사항</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-6">   
+                        <p class="no-margin-bottom">
+                            1. 해당 펀딩은 철저한 검토후 진행됩니다.</br>
+                            2. 후원금액의 사용처는 완료된 펀딩 목록 카테고리에서 확인가능합니다.<br>
+                            3. 후원한 금액은 불가피한 사유가 없는한 환불이 불가능합니다.<br>
+                            4. 불가피한 사유로 환불요청시 전화상으로만 가능합니다.
+                        </p>
+                    </div>  
+                </div>
+            </div>
+        </section>
+		</div>
+        <!-- end 안내사항-->
         
         
         

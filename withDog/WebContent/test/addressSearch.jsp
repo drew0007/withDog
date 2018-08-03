@@ -8,6 +8,7 @@
   /* var address = encodeURIComponent('강남역'); */
   
   $.ajax({
+	  
 		url : 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address='+address,
 		method:'GET',
 		headers:{

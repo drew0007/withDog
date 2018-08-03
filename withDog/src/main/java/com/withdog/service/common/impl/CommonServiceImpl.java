@@ -73,7 +73,7 @@ public class CommonServiceImpl implements CommonService{
 	public Map<String, Object> getMyPointList(Search search, String userId) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<Point> list = commonDAO.getMyPointList(search , userId);
-		int totalCount = commonDAO.getTotalCount(userId);
+		int totalCount = commonDAO.getTotalCount(search,userId);
 		map.put("list", list);
 		map.put("totalCount",totalCount);
 		

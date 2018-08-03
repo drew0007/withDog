@@ -18,7 +18,31 @@
 
 function fncGetList(currentPage) {
  	$("#currentPage").val(currentPage)
+ 		
+ 	if('${sorting}'!=0){
+ 		if('${sorting}'==1){
+ 		$("#sorting").val(1)
+ 		}else{
+ 			if('${sorting}'==2){
+ 		 		$("#sorting").val(2)
+ 		 		}
+ 		}
+ 	}else{
+ 		
+ 		$("#sorting").val(0)
+ 	}
+	
+ 	$("form").attr("method","POST").attr("action","/common/getMyPointList").submit();
+}
+function fncGetPointList(sorting) {
+	$("#currentPage").val(1);
+	if(sorting==1){
+	$("#sorting").val(1)
 	$("form").attr("method","POST").attr("action","/common/getMyPointList").submit();
+	}else{
+	$("#sorting").val(2)
+	$("form").attr("method","POST").attr("action","/common/getMyPointList").submit();
+	}
 }
 </script>
 
@@ -64,21 +88,27 @@ function fncGetList(currentPage) {
 
 				<form>
 					<input type="hidden" id="currentPage" name="currentPage" value="" />
+					<input type="hidden" id="sorting" name="sorting" value="" />
 				</form>
 
 				<h1 align="center">나의포인트내역</h1>
 				<hr />
 				<div>
-					<h2 align="center">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<h2 align="center" style="display: inline;">
 						현재포인트 :
 						<div class="counter" style="display: inline;">
 						<span class="timer counter-number alt-font" data-to="${currentPoint}" data-speed="1000"></span>
 							Point
 						</div>
 					</h2>
-				</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="highlight-button btn-medium button margin-five" id="sorting" onclick="javascript:fncGetPointList(1);">적립포인트</button>
+					<button type="button" class="highlight-button btn-medium button margin-five" id="sorting" onclick="javascript:fncGetPointList(2);">사용포인트</button>
+					</div>
 				<hr />
-
+				
 				<!--  table Start /////////////////////////////////////-->
 				<table class="table table-hover table-striped">
 

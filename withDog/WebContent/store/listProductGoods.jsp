@@ -12,7 +12,6 @@
 
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		alert("현재페이지");
 		$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=0").submit();
 	}
 	
@@ -22,7 +21,6 @@
 			var role = "${sessionScope.user.role}";
 			var index = $(".prodImage").index(this);
 			var prodNo = $($("input[name='prodNo']")[index]).val();
-			alert(role + "[" + prodNo+ "]");
 
 			 if(role == 'admin'){
 				 self.location = "/product/updateProductAdmin?prodNo="+prodNo;
@@ -157,7 +155,39 @@
                     </div>
                 </div>
             </div>
-   			<jsp:include page="/common/pageNavigator_new.jsp"/>
+   			<div class="pagination">
+	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
+		<a href="#" class="disabled"><img
+			src="../images/arrow-pre-small.png" alt="" /></a>
+	</c:if>
+	<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
+		<a href="javascript:fncGetList('${ resultPage.currentPage-1}')"
+			aria-label="Previous"><img src="../images/arrow-pre-small.png"
+			alt="" /></a>
+		</a>
+	</c:if>
+
+	<c:forEach var="i" begin="${resultPage.beginUnitPage}"
+		end="${resultPage.endUnitPage}" step="1">
+		<c:if test="${ resultPage.currentPage == i }">
+			<a class="active" href="javascript:fncGetList('${ i }');">${ i }</a>
+		</c:if>
+		<c:if test="${ resultPage.currentPage != i}">
+			<a href="javascript:fncGetList('${ i }');">${ i }</a>
+		</c:if>
+	</c:forEach>
+
+	<c:if test="${ resultPage.endUnitPage >= resultPage.maxPage }">
+		<a href="#" class="disabled"><img
+			src="../images/arrow-next-small.png" alt="" /></a>
+	</c:if>
+	<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
+		<a></a>
+		<a href="javascript:fncGetList('${resultPage.endUnitPage+1}')"><img
+			src="../images/arrow-next-small.png" alt="" /> </a>
+	</c:if>
+
+</div>
         </section>
         <!-- end content section -->
         
