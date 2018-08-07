@@ -72,7 +72,7 @@
 	
 	<!-- 	치유견 가져오기 -->
 	<select id="getHealingDog" parameterType="int" resultMap="healingDogSelectMap">
-		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name,TO_CHAR(sysdate,'YYYY')-SUBSTR(hd.healing_dog_birth,0,4)+1 AS healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO
+		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name,TO_CHAR(sysdate,'YYYY')-SUBSTR(hd.healing_dog_birth,0,4)+1 AS healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO, dd.dog_no
 		FROM healing_dog hd, dog_breed_dic dd
 		WHERE hd.DOG_NO = dd.DOG_NO AND healing_dog_no= #{value}
 	</select>
@@ -259,28 +259,32 @@ ORDER BY a.healing_dog_no
 		SELECT *
 		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
 					FROM( 
-									SELECT ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer
+									SELECT ar.user_id,ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, ar.ash_reservation_name,hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer,hd.healing_dog_image 
 									FROM ash_reservation ar, healing_dog hd
 									WHERE ar.healing_dog_no = hd.healing_dog_no AND ar.user_id = #{userId}
-									<if test="search.searchStartDay==null and search.sorting !=0">
+									<if test="search.searchStartDay!=null">
+									<if test="search.searchStartDay=='' and search.sorting !=0">
 											<if test="search.sorting==1">
-												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(TO_DATE(sysdate),'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 											<if test="search.sorting==2">
-												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-3)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-3)+1) - TO_CHAR(TO_DATE(sysdate),'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 											<if test="search.sorting==3">
-												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-6)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-6)+1) - TO_CHAR(TO_DATE(sysdate),'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 									</if>
-									<if test="search.searchStartDay!=null  and search.sorting ==0 ">
+									<if test="search.searchStartDay!=''  and search.sorting ==0 ">
 										 		AND ar.ash_reservation_date BETWEEN TO_DATE(#{search.searchStartDay},'YYYY-MM-DD') AND TO_DATE(#{search.searchEndDay},'YYYY-MM-DD')
+									</if>
 									</if>
 									ORDER BY ar.ash_reservation_no desc
 									) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
 					WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	</select>
+	
+
 	
 		<!-- 	나의 예약리스트 페이징을 위한 토탈카운트 -->
 	<select id="getTotalCountByMyASH" parameterType="java.util.Map" resultType="int" >
@@ -289,7 +293,8 @@ ORDER BY a.healing_dog_no
 	  					SELECT ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer
 						FROM ash_reservation ar, healing_dog hd
 						WHERE ar.healing_dog_no = hd.healing_dog_no AND ar.user_id=#{userId}
-							<if test="search.searchStartDay==null and search.sorting !=0">
+						<if test="search.searchStartDay!=null">
+							<if test="search.searchStartDay=='' and search.sorting !=0">
 									<if test="search.sorting==1">
 										AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 									</if>
@@ -302,8 +307,9 @@ ORDER BY a.healing_dog_no
 									<if test="search.sorting==4">
 									</if>
 							</if>
-							<if test="search.searchStartDay!=null and search.sorting ==0 ">
+							<if test="search.searchStartDay!='' and search.sorting ==0 ">
 								 		AND ar.ash_reservation_date BETWEEN TO_DATE(#{search.searchStartDay},'YYYY-MM-DD') AND TO_DATE(#{search.searchEndDay},'YYYY-MM-DD')
+							</if>
 							</if>
 						) countTable					
 	</select>	  
