@@ -52,6 +52,7 @@ public class CommonDAOImpl implements CommonDAO {
 			
 			
 			System.out.println(point.toString());
+			//System.out.println(point.getFund().getFundMyPriceNo());
 			sqlSession.insert("CommonMapper.addPointSave",point);
 			System.out.println("FundPointSAVE END");
 		

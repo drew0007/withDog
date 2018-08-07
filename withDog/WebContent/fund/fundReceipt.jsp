@@ -34,6 +34,9 @@
 			alert("결제실패!!! 다시시도해 주세요");
 			window.close();
 		}
+		window.opener.top.location.href="/fund/getMyFundList"
+		//window.opener.top.location.reload();//새로고침
+		window.close()
 		
 		
 	});
