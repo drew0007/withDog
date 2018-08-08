@@ -105,6 +105,22 @@
 	 </insert> -->
 	 
 	
+	<delete id="deletePushToken" parameterType="string">
+		DELETE FROM push_token WHERE device_id = #{deviceId}
+	</delete>
+	 
+	<insert id="addPushToken" parameterType="pushToken">
+	 	INSERT
+		 INTO push_token VALUES (#{deviceId}, #{token}, #{user.userId})
+	</insert>
+	
+	<select id="getPushToken" parameterType="string"	resultType="string">
+		SELECT token
+		  FROM push_token
+		 WHERE user_id = #{userId}
+	</select>
+	 
+	
 
 	 
 </mapper>

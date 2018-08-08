@@ -118,6 +118,9 @@ ul, ol, dl {list-style-position: outside;}
 	border: 2px solid #000;
 }
 
+.html.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown), body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){
+	overflow-y: auto;
+}
 
 /* font family */
 .alt-font {font-family: "Oswald",sans-serif !important;}

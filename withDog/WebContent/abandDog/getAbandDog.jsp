@@ -5,9 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.10/dist/sweetalert2.all.min.js"></script>
 <jsp:include page="/common/css.jsp" />
 
+<style type="text/css">
+.mfp-close {
+	display: none;
+}
+</style>
 
 <title>유기견 상세정보</title>
 
@@ -15,6 +20,46 @@
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
+  swal('Any fool can use a computer')
+  /* $(function(){
+	  $("#popup").on("click", function(){
+		  swal({
+			  title: '<span class="fund-modal black-text no-margin-bottom">보호센터 정보</span>',
+			  //type: 'info',
+			  html: '<div class="borderline-gray no-margin-bottom"></div>' + 
+			        '<div class="border-bottom padding-five">'+
+			        '<span class="text-small2 gray-text">보호센터이름</span>'+
+					'<span class="display-block margin-top-two">${abandDog.careNm }</span>'+		                      
+			        '</div>'+
+			        '<div class="border-bottom padding-five">'+
+			        '<span class="text-small2 gray-text">보호센터전화번호</span>'+
+					'<span  class="display-block margin-top-two">${abandDog.careTel }</span>'+	                      
+			        '</div>'+
+			        '<div class="border-bottom padding-five">'+
+			        '<span class="text-small2 gray-text">보호센터주소</span>'+
+					'<span  class="display-block margin-top-two">${abandDog.careAddr }</span>'+	                      
+			        '</div>',
+			  //showCloseButton: true,
+			  //showCancelButton: true,
+			  confirmButtonColor: "#000",
+			  confirmButtonText:
+			    '닫기'
+			  //cancelButtonText:
+			  //  '<i class="fa fa-thumbs-down"></i>'
+			})
+	  });
+  }); */
+  
+	
+  $(document).ready(function () {
+	    // Handler for .ready() called.
+	    /* $('html, body').animate({
+	        scrollTop: ($('#start').offset().top - 60) + 'px'
+	    }, 1000); */
+	    
+	    $('html, body').scrollTop($('#start').offset().top - 60);
+	});
+  
    var address = encodeURIComponent('${abandDog.careAddr}');
   /* var address = encodeURIComponent('강남역'); */
   
@@ -80,7 +125,7 @@
         
         
         <!-- content section -->
-        <section style="padding-bottom:60px;">
+        <section style="padding-bottom:60px; padding-top:60px" id="start">
             <div class="container">
             	
             	<div class="col-md-10 col-sm-8 col-xs-11 center-col text-center margin-three-bottom">
@@ -143,24 +188,24 @@
 	            <div class="col-lg-3 col-md-4 col-sm-5 center-col text-center">
 	            
 	             <!-- modal popup -->
-	             <div id="modal-popup" class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main">
+	             <div id="modal-popup" class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main" style="border-radius: 5px;">
 	                 <span class="fund-modal black-text no-margin-bottom">보호센터 정보</span>
 	                 <div class="borderline-gray no-margin-bottom"></div>
 	                 
-	                  <div class="border-bottom padding-five">
-	                      <span class="text-small2 gray-text">보호센터이름</span>
-						  <span class="display-block margin-top-two">${abandDog.careNm }</span>		                      
-	                  </div>
+	                 <div class="border-bottom padding-five">
+                     	<span class="text-small2 gray-text">보호센터이름</span>
+						<span class="display-block margin-top-two">${abandDog.careNm }</span>		                      
+	                 </div>
 	                  
-	                  <div class="border-bottom padding-five">
-	                      <span class="text-small2 gray-text">보호센터전화번호</span>
-						  <span  class="display-block margin-top-two">${abandDog.careTel }</span>	                      
-	                  </div>
+	                 <div class="border-bottom padding-five">
+	                    <span class="text-small2 gray-text">보호센터전화번호</span>
+						<span  class="display-block margin-top-two">${abandDog.careTel }</span>	                      
+	                 </div>
 	                  
-	                  <div class="border-bottom padding-five">
-	                      <span class="text-small2 gray-text">보호센터주소</span>
-						  <span  class="display-block margin-top-two">${abandDog.careAddr }</span>	                      
-	                  </div>
+	                 <div class="border-bottom padding-five">
+	                 	<span class="text-small2 gray-text">보호센터주소</span>
+					 	<span  class="display-block margin-top-two">${abandDog.careAddr }</span>	                      
+	                 </div>
 	                  
 	                  <%-- <div class="border-bottom padding-five">
 	                      <span class="text-small2 gray-text">담당자</span>
@@ -172,8 +217,14 @@
 						  <span  class="display-block margin-top-two">${abandDog.abandDogFeature }</span>	                      
 	                  </div> --%>
 		             	
-	             
-	             </div>
+		             <div class="swal-footer" style="margin-bottom:0px; padding:0;">
+		             	<div class="swal-button-container">
+				     		<button class="swal-button swal-button--confirm">닫기</button>
+				     			<div class="swal-button__loader">
+				     			</div>
+				     		</div>
+				     	</div>
+		             </div>
 	             <!-- end modal popup -->
 	         </div>
 	            <!-- end modal popup -->

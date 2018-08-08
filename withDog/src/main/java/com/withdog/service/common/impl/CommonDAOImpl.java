@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.withdog.common.Search;
 import com.withdog.service.common.CommonDAO;
 import com.withdog.service.domain.Point;
+import com.withdog.service.domain.PushToken;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition
 
@@ -113,11 +114,19 @@ public class CommonDAOImpl implements CommonDAO {
 	}
 
 
-
+	@Override
+	public void deletePushToken(String deviceId) throws Exception{
+		sqlSession.delete("CommonMapper.deletePushToken", deviceId);
+	}
 	
+	@Override
+	public void addPushToken(PushToken pushToken) throws Exception{
+		sqlSession.insert("CommonMapper.addPushToken", pushToken);
+	}
 	
-	
-	
-
+	@Override
+	public List<String> getPushToken(String userId) throws Exception{
+		return sqlSession.selectList("CommonMapper.getPushToken", userId);
+	}
 		
 }

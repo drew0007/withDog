@@ -5,9 +5,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -69,6 +71,7 @@ import com.withdog.common.Search;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
+import com.withdog.service.domain.Purchase;
 import com.withdog.service.domain.User;
 import com.withdog.service.fund.FundService;
 import com.withdog.service.sns.SnsService;
@@ -416,7 +419,7 @@ public class FundController {
 		
 		if(pointfund.getFund().getFundMyPrice()!=0) {
 		System.out.println(123);
-		String uri ="http://192.168.0.42:8080/fund/fundReceipt?state=";
+		String uri ="http://localhost:8080/fund/fundReceipt?state=";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	    JSONObject jobj = snsService.FundkakaoPay(pointfund, uri);
 	    System.out.println(jobj.get("tid"));
@@ -509,6 +512,17 @@ public class FundController {
 				    point.setPoint(resultpoint);
 				    
 				   	commonService.addPointinfo(point);
+
+					// 후원한 유저 ID로 Token 찾기
+					List<String> pushToken = commonService.getPushToken(fund.getUser().getUserId());
+					System.out.println("푸시 토큰 : "+pushToken);
+					if(pushToken != null) {
+						// token으로 push 메세지 보내기						
+						for(int i=0; i<pushToken.size(); i++) {
+							String result = sendPushNotification(pushToken.get(i), fund);
+							System.out.println("푸시 결과 : "+result);
+						}
+					}
 				}
 				
 					
@@ -753,6 +767,59 @@ public class FundController {
 	}
 	
 	
-		
+	public static String sendPushNotification(String deviceToken, Fund fund) throws IOException {
+	    String result = "";
+	    
+	    URL url = new URL("https://fcm.googleapis.com/fcm/send");
+	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	    conn.setUseCaches(false);
+	    conn.setDoInput(true);
+	    conn.setDoOutput(true);
+	    conn.setRequestMethod("POST");
+	    //웹용 key
+	    //conn.setRequestProperty("Authorization", "key=" + "AAAAACPOgHc:APA91bHv8U4d1eyHPoNZ5u2NYk2yMGa7pGxzH3SHliJ7zvh5cWx3imP762AsGaJjL-etFKcmX6e6G4EUMpn5hum7Rqvcfm7BzN0ouPnItSbcEnUoA06BUYeIEyYGzIztrjYGYyDgD9RA");
+	    
+	    //안드로이드용 key
+	    conn.setRequestProperty("Authorization", "key=" + "AAAA5Zv1uAs:APA91bFhlAPwe5c_i9XKK1zk8mNC1IvfQtliUwGvm1h_DrcJ4R0qGmHQDtkgkugretCkuTyOu18WWsOxmKdF8r51eaKtJTQ0nsUIrkHtisopyWqJt4EdV1GNTgVuR94pQJnmGi1D6YSn1opw1UBznULPQ9wBFQa7TA");
+	    conn.setRequestProperty("Content-Type", "application/json");
+	    
+    	JSONObject json = new JSONObject();
+	    //json.put("to", deviceToken.trim());
+	    
+	    json.put("to", deviceToken.trim());
+	    
+		 //달력가져오기
+		 Date today = new Date();   
+		 
+	    //오늘
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+		String toDay = date.format(today);
+	    
+	    JSONObject info = new JSONObject();
+	    info.put("title", "후원이 완료되었습니다."); // Notification title
+	    info.put("body", " - 결제일 : "+toDay+"\n - "+fund.getFundTitle()+"\n - 금액 : "+fund.getFundMyPrice()+"원"); // Notification
+	                                                            // body
+
+	    json.put("notification", info);
+	    try {
+	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+	        wr.write(json.toString());
+	        wr.flush();
+	        BufferedReader br = new BufferedReader(new InputStreamReader(
+	                (conn.getInputStream())));
+	        String output;
+	        System.out.println("Output from Server .... \n");
+	        while ((output = br.readLine()) != null) {
+	            System.out.println(output);
+	        }
+	        result = "성공";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result = "실패";
+	    }
+	    
+	    System.out.println("GCM Notification is sent successfully : "+result);
+	    return result;
+	}
 	
 }

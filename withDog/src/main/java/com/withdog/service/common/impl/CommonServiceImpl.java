@@ -13,6 +13,7 @@ import com.withdog.service.common.CommonDAO;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
+import com.withdog.service.domain.PushToken;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition  
 
@@ -49,7 +50,7 @@ public class CommonServiceImpl implements CommonService{
 		//현금결제+포인트 사용 으로 적립및 사용 전부 있는경우
 		else {
 			System.out.println("현금+포인트 둘다 사용");
-			System.out.println(point.getPurchase().getPurchasePrice());
+			//System.out.println(point.getPurchase().getPurchasePrice());
 			commonDAO.savePoint(point);
 			System.out.println("왜안될까?");
 			System.out.println(point.getUsePoint());
@@ -81,5 +82,19 @@ public class CommonServiceImpl implements CommonService{
 	}
 	
 	
+	@Override
+	public void deletePushToken(String deviceId) throws Exception{
+		commonDAO.deletePushToken(deviceId);
+	}
+	
+	@Override
+	public void addPushToken(PushToken pushToken) throws Exception{
+		commonDAO.addPushToken(pushToken);
+	}	
+	
+	@Override
+	public List<String> getPushToken(String userId) throws Exception{
+		return commonDAO.getPushToken(userId);
+	}
 		
 }
