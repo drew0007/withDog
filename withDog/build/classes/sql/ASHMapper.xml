@@ -216,7 +216,7 @@ ORDER BY a.healing_dog_no
 		(ash_reservation_no,healing_dog_no,user_id,	ash_reservation_name,ash_reservation_date,ash_reservation_time,ash_reservation_address1,ash_reservation_address2,ash_reservation_phone,ash_reservation_price,ash_reservation_etc,	ash_reservation_condition,purchase_date,payment_option)
 		VALUES
 		(
-			seq_after_ash_after_ash_no.nextval,
+			seq_ash_ash_no.nextval,
 			#{healingDog.healingDogNo},
 			#{user.userId},
 			#{ashReservationName},

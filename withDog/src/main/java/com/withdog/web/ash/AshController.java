@@ -299,7 +299,7 @@ public class AshController {
 
 		if (pointAsh.getAsh().getAshReservationPrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
 			System.out.println(123);
-			String uri = "http://localhost:8080/ash/addReservationASHView?state=";
+			String uri = "http://192.168.0.34:8080/ash/addReservationASHView?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
 			JSONObject jobj = snsService.AshKakaoPay(pointAsh, uri); // 카카오페이 다녀와서 데이터를 받는 객체
@@ -321,6 +321,7 @@ public class AshController {
 		point.setUser(user);// userid
 		point.setAsh(ash);
 		System.out.println("사용한 포인트는 ? : " + pointAsh.getUsePoint());
+		System.out.println("@@point :"+point);
 		point.setUsePoint(pointAsh.getUsePoint());
 
 		session.setAttribute("ashPoint", point);
@@ -400,6 +401,7 @@ public class AshController {
 		session.removeAttribute("ashPoint");
 
 		System.out.println("카카오페이 끝났고, 이동합니다.");
+		System.out.println(ash);
 		
 		/////////////예약완료 이메일 보내기 시작////////////////////
 		//메일주소
