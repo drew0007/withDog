@@ -23,7 +23,7 @@
 	<!-- SQL : SELECT ONE -->
 	<select id="getDogBreed" parameterType="string" resultMap="dogBreedDicSelectMap">
 		SELECT
-		dog_breed_ko,dog_breed_en
+		*
 		FROM dog_breed_dic	
 		WHERE dog_breed_en = #{value}
 	</select>

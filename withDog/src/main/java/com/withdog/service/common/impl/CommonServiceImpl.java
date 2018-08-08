@@ -13,6 +13,7 @@ import com.withdog.service.common.CommonDAO;
 import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.domain.Point;
+import com.withdog.service.domain.PushToken;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition  
 
@@ -80,5 +81,19 @@ public class CommonServiceImpl implements CommonService{
 	}
 	
 	
+	@Override
+	public void deletePushToken(String deviceId) throws Exception{
+		commonDAO.deletePushToken(deviceId);
+	}
+	
+	@Override
+	public void addPushToken(PushToken pushToken) throws Exception{
+		commonDAO.addPushToken(pushToken);
+	}	
+	
+	@Override
+	public List<String> getPushToken(String userId) throws Exception{
+		return commonDAO.getPushToken(userId);
+	}
 		
 }
