@@ -112,6 +112,13 @@ public class UserRestController {
 			return 1;
 		}
 	}
+	@RequestMapping(value = "json/getUser/{userId}")
+	public User getUser(@PathVariable String userId) throws Exception {
+		
+		User user = userService.getUser(userId);
+		
+		return user;
+	}
 
 	/// Method
 	// ·Î±×ÀÎ POST

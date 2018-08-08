@@ -419,7 +419,7 @@ public class FundController {
 		
 		if(pointfund.getFund().getFundMyPrice()!=0) {
 		System.out.println(123);
-		String uri ="http://localhost:8080/fund/fundReceipt?state=";
+		String uri ="http://192.168.0.34:8080/fund/fundReceipt?state=";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 	    JSONObject jobj = snsService.FundkakaoPay(pointfund, uri);
 	    System.out.println(jobj.get("tid"));
@@ -453,7 +453,7 @@ public class FundController {
 	    session.setAttribute("fundpurchase", point);
 	    /*session.setMaxInactiveInterval(1*60);*/
 	    
-	    System.out.println(session.getAttribute("point"));
+	    System.out.println(session.getAttribute("fundpurchase"));
 	        
 	    
 	    	    

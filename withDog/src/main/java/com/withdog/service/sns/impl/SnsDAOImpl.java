@@ -27,7 +27,7 @@ public class SnsDAOImpl implements SnsDAO {
 		JSONObject jobj = new JSONObject();
 		
 		
-			System.out.println("Fund purchase Start");
+			System.out.println("Sns purchase Start");
 			
 			String HOST = "https://kapi.kakao.com";
 		    RestTemplate restTemplate = new RestTemplate();

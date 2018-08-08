@@ -5,9 +5,11 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialException;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
@@ -21,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +31,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.withdog.common.Page;
+import com.withdog.common.Search;
 import com.withdog.service.ash.AshService;
+import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Consulting;
 import com.withdog.service.domain.HealingDog;
+import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
+import com.withdog.service.sns.SnsService;
+import com.withdog.service.user.UserService;
 
 @RestController
 @RequestMapping("/ash/*")
@@ -41,10 +50,48 @@ public class AshRestController {
 	@Autowired
 	@Qualifier("ashServiceImpl")
 	private AshService ashService;
+	
+	@Autowired
+	@Qualifier("snsServiceImpl")
+	private SnsService snsService;
+	
+	@Autowired
+	@Qualifier("commonServiceImpl")
+	private CommonService commonService;
+
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 
 	public AshRestController() {
 		System.out.println(this.getClass());
 	}
+	@RequestMapping(value = "json/getMyReservationASHListAndroid")  //나의 예약리스트
+	public JSONObject getMyReservationASHList(HttpServletRequest request)
+			throws Exception {
+		System.out.println("/getMyReservationASHListAndroid");
+		Search search = new Search();
+		search.setSorting(Integer.parseInt(request.getParameter("sorting")));
+		System.out.println("서치 출력 ; " + search);
+
+		User user = (User) userService.getUser(request.getParameter("userId"));
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+			search.setSearchKeyword("");
+			search.setSearchStartDay("");
+		}
+		search.setPageSize(100);
+		Map<String, Object> map = ashService.getAshMyReservationList(search, user.getUserId());
+		System.out.println("맵확인 : " + map);
+		System.out.println("리스트 넘기기전 리스트 확인 : " + map.get("list"));
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", map.get("list"));
+
+		return jsonObject;
+	}
+	
 	
 	@RequestMapping(value = "json/getAllHealingDogList")
 	public JSONObject getAllHealingDogList() throws Exception{
@@ -251,52 +298,73 @@ public class AshRestController {
 
 	//end 컨설팅
 	@RequestMapping(value="json/android/kakaoPay")
-	private JSONObject paymentReady2() throws RestClientException, URISyntaxException,Exception {
-		
+	private JSONObject paymentReady2(@ModelAttribute("ash") Ash ash,HttpServletRequest req) throws RestClientException, URISyntaxException,Exception {
 		System.out.println("kakaoPay Start==================================");
 		
-		String HOST = "https://kapi.kakao.com";
-	    RestTemplate restTemplate = new RestTemplate();
-	    
-	    // 서버로 요청할 내용 (Body)
-	    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-	    params.add("cid", "TC0ONETIME");
-	    params.add("partner_order_id", "1007");
-	    params.add("partner_user_id", "user01");
-	    params.add("item_name", "꽃개펀딩");
-	    params.add("quantity", "0");//수량
-	    params.add("total_amount", "150000");
-	    params.add("tax_free_amount", "0");//세금
-	    //params.add("approval_url", "http://127.0.0.1:8080/withdog/addPurchasedog.jsp");
-	    params.add("approval_url", "http://192.168.0.42:8080/fund/fundReceipt?state=0");
-	    //params.add("approval_url", "http://192.168.0.35:8080/withdog/addPurchasedog.jsp");
-	    params.add("cancel_url", "http://192.168.0.42:8080/fund/fundReceipt?state=1");
-	    params.add("fail_url", "http://192.168.0.42:8080/fund/fundReceipt?state=2");
-	
-	    // 서버로 요청할 Header
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.add("Authorization", "KakaoAK " + "e429428556e2835e02b9dcd4f7f55174");
-	    /*headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);*/
-	    headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
-	    headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+		System.out.println(req.getParameter("userId"));
+		System.out.println(req.getParameter("usePoint"));
+		System.out.println(req.getParameter("reservationData"));
+		ash.setAshReservationDate(req.getParameter("reservationData"));
+		System.out.println(ash.toString());
+		User user;
+		if(req.getParameter("userId")!=null) {
+		user = userService.getUser(req.getParameter("userId"));
+		}else {
+		user = new User();
+		}
+		int price = 0;
+		int usePoint = 0;
 
-	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
-	    String response = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), request, String.class);
-	    System.out.println("여기까지");
-	    System.out.println(response);
-	    System.out.println("여기부터다시");
-	    ObjectMapper obj = new ObjectMapper();
-	    JSONObject jobj = (JSONObject)JSONValue.parse(response);
-	    System.out.println(jobj.get("tid"));
-	    String url = (String)jobj.get("next_redirect_app_url");
-	    String url2 = (String)jobj.get("android_app_scheme");
-	    String url3 = (String)jobj.get("next_redirect_mobile_url");
-	    System.out.println(url);
-	    System.out.println(url2.substring(url2.indexOf("h"))+1);
-	  	JSONObject jsonUrl = new JSONObject();    
+		/// 영수증.jsp로 카드 결제시 callback 되는지
+		String forwardUri = "forward:/sns/kakaoPay.jsp";
+		// snsKakaoPay를 위한 로직
+		Point pointAsh = new Point();
+		pointAsh.setUser(user);
+		pointAsh.setAsh(ash);
+		System.out.println(1);
+
+		if (pointAsh.getAsh().getAshReservationPrice() == 0) { // 결제 시 사용금액이 0이라면?
+			System.out.println("사용한 결제금액이 없다면");
+			price = pointAsh.getAsh().getAshReservationPrice(); // price에 0을 넣는다.
+		}
+		
+		if (Integer.parseInt(req.getParameter("usePoint")) != 0) { // 사용한 포인트가 0이 아니라면
+			pointAsh.setUsePoint(Integer.parseInt(req.getParameter("usePoint")));
+			usePoint = Integer.parseInt(req.getParameter("usePoint"));
+		}
+		System.out.println(price + "::" + usePoint);
+
+		System.out.println(123);
+		String uri = "http://192.168.0.39:8080/ash/addReservationASHViewAndroid?userId="+req.getParameter("userId")
+	
+		+"&a="+ash.getAshReservationAddress1()
+		+"&b="+ash.getAshReservationAddress2()		
+		+"&c="+ash.getAshReservationPhone()
+		+"&d="+ash.getAshReservationEtc()
+		+"&e="+ash.getAshReservationPrice()
+		+"&f="+ash.getAshReservationDate()
+		+"&g="+ash.getAshReservationTime()
+		+"&h="+ash.getHealingDog().getHealingDogNo()
+		+"&i="+ash.getHealingDog().getHealingDogHealer()
+		+"&j="+req.getParameter("usePoint")
+		+"&state=";
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		JSONObject jobj = snsService.AshKakaoPay(pointAsh, uri); // 카카오페이 다녀와서 데이터를 받는 객체
+		System.out.println(jobj.get("tid"));
+		String url = (String)jobj.get("next_redirect_app_url");
+		//String url = (String)jobj.get("android_app_scheme");
+		System.out.println(url);
+		//System.out.println(url.replaceAll("kakaotalk", "intent"));
+	 	JSONObject jsonUrl = new JSONObject();    
 	    jsonUrl.put("url", url);
-	    
-	  return jsonUrl;
+	   
+
+		System.out.println("끝남");
+	
+		
+		return jsonUrl;
+
+		
 	    
     }
 
