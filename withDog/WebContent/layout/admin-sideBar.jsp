@@ -18,7 +18,7 @@
 		
 		//스토어
 		$("a:contains('판매관리')").on("click",function(){
-	 		$(self.location).attr("href","/inquiry/getInquiryListAdmin");	 			 		
+	 		$(self.location).attr("href","/purchase/getSalesListAdmin");	 			 		
 	 	});
 		
 		$("a:contains('상품문의관리')").on("click",function(){

@@ -10,6 +10,13 @@
 <jsp:include page="../common/css.jsp" />
 	<script type="text/javascript">
 	
+	//pageNavigation
+	function fncGetList(currentPage) {
+		$("#currentPage").val(currentPage)
+		alert(currentPage)
+		self.location = "/inquiry/getInquiryListAdmin";
+	}
+	
 	//답변등록
 	 $(function(){
 		 $("input[name='reply']").on("click", function(){
@@ -68,42 +75,18 @@
 				<jsp:include page="/layout/admin-sideBar.jsp" />
 			</div>
 			<!-- end sidebar  -->
-
-			<div class="col-md-7 col-sm-10 pull-right">
-				
-				<%-- <form class="pull-right">
-			    
-				  <div class="form-group col-md-3 no-padding">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>답변대기</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>답변완료</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원ID</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group col-md-6 no-padding">
-				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="tags" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" >
-				  </div>
-				  
-				  <button type="button" class="highlight-button-dark btn-medium button">검색</button>
-				  
-				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				
-				</form>  --%>
-				
-				</div>
-
 			
 			<!-- content  -->
 			<div class="col-md-9 col-sm-9 col-md-offset-1 ">
 			
 					<!-- accordion -->
                         <div class="panel-group accordion-style3" id="accordion-three">
+                        
                             <!-- accordion item -->
                             <form>
+                            <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+							<input type="hidden" id="currentPage" name="currentPage" value=""/>
+					
                             <c:set var="i" value="0" />
                             <c:forEach var="inquiry" items="${list}">
                            	<c:set var="i" value="${i+1}" />
@@ -156,6 +139,14 @@
                                 </div>
                             </div>
                             </c:forEach>
+                            
+                            
+                            <div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
+								<!-- pagination -->
+								<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
+								<!-- end pagination -->
+							</div>
+				
                       	      </form>
                             <!-- accordion item -->
                         </div>

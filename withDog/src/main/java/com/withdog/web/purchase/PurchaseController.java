@@ -462,7 +462,7 @@ public class PurchaseController {
 		}
 		search.setPageSize(pageSize);
 		System.out.println(search);
-		Map<String,Object> map = purchaseService.getMyPurchaseList(search, user); 	
+		Map<String,Object> map = purchaseService.getPurchaseList(search, user); 	
 		
 		System.out.println("MAP 체크 ===========================");
 		System.out.println(map);
@@ -470,9 +470,6 @@ public class PurchaseController {
 		System.out.println(resultPage);
 		
 		request.setAttribute("list", map.get("list"));
-		
-		System.out.println(map.get("list"));
-		
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
 		
@@ -484,16 +481,118 @@ public class PurchaseController {
 	public String getMyPurchase(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
 		
 		System.out.println("/purchase/getMyPurchase : 나의구매상세정보");
-		
-		System.out.println(purchaseNo + "넘어온넘버111111");
 
-		Purchase purchase = purchaseService.getMyPurchase(purchaseNo);
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
 		
-		System.out.println(purchase + "서비스갔다온펄체이스");
+		System.out.println(purchaselist + "서비스갔다온펄체이스");
 		
-		model.addAttribute("purchase", purchase);
+		model.addAttribute("purchaselist", purchaselist);
+		
 		
 		return "forward:/mypage/getMyPurchase.jsp";
 	}
+	
+	
+	@RequestMapping(value = "updateMyPurchase", method=RequestMethod.GET)
+	public String updateMyPurchase(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/updateMyPurchase : GET 나의구매상세정보 수정");
+
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
+		
+		System.out.println(purchaselist + "서비스갔다온펄체이스");
+		
+		model.addAttribute("purchaselist", purchaselist);
+		
+		return "forward:/mypage/updateMyPurchase.jsp";
+	}
+	
+	
+	@RequestMapping(value = "updateMyPurchaseConfirm", method=RequestMethod.POST)
+	public String updateMyPurchaseConfirm(@ModelAttribute("purchase") Purchase purchase, @RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/updateMyPurchaseConfirm : POST 나의구매상세정보 수정");
+		
+		purchase.setPurchaseNo(purchaseNo);
+		purchaseService.updatePurchase(purchase);
+		
+		System.out.println(purchaseNo);
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
+		model.addAttribute("purchaselist", purchaselist);
+		
+		return "forward:/mypage/getMyPurchase.jsp";
+	}
+	
+	
+	@RequestMapping(value="/getSalesListAdmin")
+	public String getPurchaseListAdmin(@ModelAttribute("search") Search search, HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/purchase/getPurchaseListAdmin : 판매관리리스트");
+		//빈껍데기유저 (널로 넘기기위한)
+		User user = new User();
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		Map<String,Object> map = purchaseService.getPurchaseList(search, user); 	
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		
+		return "forward:/admin/listSalesAdmin.jsp";
+	}
+	
+	
+	@RequestMapping(value = "getSalesAdmin")
+	public String getSalesAdmin(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/getSalesAdmin : 판매상세정보");
+		
+		System.out.println(purchaseNo + "넘어온넘버");
+
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
+		
+		System.out.println(purchaselist + "서비스갔다온펄체이스");
+		
+		model.addAttribute("purchaselist", purchaselist);
+		
+		
+		return "forward:/admin/getSalesAdmin.jsp";
+	}
+	
+	
+//	@RequestMapping( value = "updatePurchaseCondition")
+//	public String updatePurchaseCondition(@RequestParam("purchaseNo") String purchaseNo,
+//									   @RequestParam("tranCnt") String tranCnt,
+//									   @RequestParam("prodNo") String prodNo,
+//									   @RequestParam("tranCode") String tranCode) throws Exception{
+//
+//		Product product = new Product();
+//		product.setProdNo(Integer.parseInt(prodNo));
+//		
+//		Purchase purchase = new Purchase();
+//		purchase.setTranNo(Integer.parseInt(tranNo));
+//		purchase.setTranCnt(Integer.parseInt(tranCnt));
+//		purchase.setTranCode(tranCode);
+//		purchase.setPurchaseProd(product);
+//		
+//		purchaseService.updateTranCode(purchase);
+//		
+//		ModelAndView modelAndView = new ModelAndView();
+//
+//		if (tranCode.equals("2") || tranCode.equals("5")) {
+//			modelAndView.addObject("prodNo", prodNo);
+//			modelAndView.setViewName("/purchase/historyPurchase");
+//		}else {
+//			modelAndView.setViewName("/purchase/listPurchase");
+//		}
+//		
+//		return modelAndView;
+//	}
+	
 
 }

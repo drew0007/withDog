@@ -55,17 +55,16 @@ public class PurchaseServiceImpl implements PurchaseService  {
 			return purchaseDAO.addCartSeq();
 		}
 		
+		
+		
 		//나의구매내역
 		@Override
-		public Map<String,Object> getMyPurchaseList(Search search, User user) throws Exception {
-			
+		public Map<String,Object> getPurchaseList(Search search, User user) throws Exception {
+			System.out.println("나의구매내역서비스유저" + user);
 			Map<String,Object> map = new HashMap<String,Object>();
-			List<Purchase> list = purchaseDAO.getMyPurchaseList(search, user);
-			
-			System.out.println("MyFundlist 받음"+list.size());
+			List<Purchase> list = purchaseDAO.getPurchaseList(search, user);
 			
 			int totalCount = purchaseDAO.getTotalCount(user);
-			System.out.println("MyFundlist Count 받음"+totalCount);
 			map.put("list", list);
 			map.put("totalCount",totalCount);
 			
@@ -74,42 +73,33 @@ public class PurchaseServiceImpl implements PurchaseService  {
 		
 		//나의구매상세정보
 		@Override
-		public Purchase getMyPurchase(int purchaseNo) throws Exception {
-			return purchaseDAO.getMyPurchase(purchaseNo);
+		public List<Purchase> getPurchase(int purchaseNo) throws Exception {
+			return purchaseDAO.getPurchase(purchaseNo);
 		}
 		
-//		//구매목록조회
-//		public Map<String,Object> getPurchaseList(Search search, String buyerId) throws Exception{  
-//			
-//			System.out.println("펄체이스서비스임플리먼츠");
-//			List<Purchase>list = purchaseDao.getPurchaseList(search,buyerId);
-//			int totalCount = purchaseDao.getTotalCount(buyerId);
-//			//return productDao.getProductList(search); //상품목록은 리턴값이맵 //기존의 서비스 임플에서 바로 dao.~~() 호출
-//			Map<String, Object> map = new HashMap<String, Object>();
-//			map.put("list", list );
-//			map.put("totalCount", new Integer(totalCount));
-//			
-//			return map;
-//		}
-//		
-//		//구매 상세조회
-//		public Purchase getPurchase(int tranNo) throws Exception{
-//			return purchaseDao.getPurchase(tranNo);
-//		}
-//		
-//		//구매수정조회
-//		public void updatePurchase(Purchase purchase) throws Exception{
-//			purchaseDao.updatePurchase(purchase);
-//		}
-//		
-//		//구매이력 조회 물건도착 눌렀을때
-//		public void updateTranCode(Purchase purchaseVO) throws Exception{
-//			purchaseDao.updateTranCode(purchaseVO);
-//		}
-//		
-//		//Admin 상품관리에서 배송하기를 눌렀을때
-//		public void updateTranCodeByProd(Purchase purchase) throws Exception{
-//			purchaseDao.updateTranCodeByProd(purchase);
-//		}
+		@Override
+		public void updatePurchaseCondition(Purchase purchase) throws Exception {
+			purchaseDAO.updatePurchaseCondition(purchase);
+		}
+		
+		@Override
+		public void updatePurchase(Purchase purchase) throws Exception {
+			purchaseDAO.updatePurchase(purchase);
+		}
+
+		@Override
+		public Purchase getProdNo(int cartNo) throws Exception {
+			return purchaseDAO.getProdNo(cartNo);
+		}
+
+		@Override
+		public void updateCartNoPurchaseCondition(int cartNo) throws Exception {
+			purchaseDAO.updateCartNoPurchaseCondition(cartNo);
+		}
+
+		@Override
+		public List<Purchase> getPurchaseCondition(int purchaseNo) throws Exception {
+			return purchaseDAO.getPurchaseCondition(purchaseNo);
+		}
 		
 }//end of class

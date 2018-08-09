@@ -30,7 +30,7 @@
  		});
 		
 		$( "a:contains('장바구니')" ).on("click" , function() {
-			$(self.location).attr("href","/cart/getMyCartList");
+			$(self.location).attr("href","/cart/getCartList");
  		});
 		
 		

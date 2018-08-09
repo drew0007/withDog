@@ -129,8 +129,11 @@ function fncAddInquiry(){
 					secret : secret
 				}),
 				success : function(JSONData , status){
+					//등록 후 타이틀, 내용을 공백으로 비우기
 					$('input[name="inquiryTitle"]').val('');
 					$('textarea[name="inquiryContent"]').val('');
+					
+					//자동으로 공개로 클릭한번 해주기 (비공개로 선택했을 때 다시와서 비공개로 되어있기때문)
 					$('#secret1').trigger('click');
 					
 					$('input[name="currentPage"]').val('0');
@@ -365,6 +368,136 @@ $(function(){
 	});
 });
 
+
+
+///////////////////////////////////////후기리스트////////////////////////////////////////////
+$(function(){
+	//후기탭
+	$('#tabReview').on('click', function(){
+		$('input[name="currentPage"]').val('0');
+		fncGetReviewList();
+	});
+	
+	
+	//후기페이지 네비
+	$(document).on("click", ".reviewPageNum", function(){
+		var index = $(".reviewPageNum").index(this);
+		var page = $($(".reviewPageNum")[index]).text();
+		$('input[name="currentPage"]').val(page);
+		fncGetReviewList();
+	});
+});
+
+
+$(function(){
+
+	$("#reviewScore").html("");
+	var str="";
+	var avgScore = ${product.avgScore};
+	
+	for(j=0; j<5; j++){
+		if(j<avgScore){
+			str += '<i class="fa fa-star black-text"></i>';
+//				$($(".add-rating i")[i]).css('color','#ffd200');
+		}else{
+			str += '<i class="fa fa-star-o black-text"></i>';
+//				$($(".add-rating i")[i]).css('color','##b8b8b8');
+		}
+	}
+	
+	$("#reviewScore").append(str);
+	
+});
+
+
+
+//후기리스트 조회
+function fncGetReviewList(){
+	var prodNo = $('input[name="prodNo"]').val();
+	var currentPage = $('input[name="currentPage"]').val();
+
+	$.ajax( 
+			{
+				url : "/review/json/getReviewList/"+prodNo+"/"+currentPage ,
+				method : "GET" ,
+				dataType : "json" ,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData , status) {
+					
+					$('input[name="currentPage"]').val(JSONData.resultPage.currentPage);
+					
+					$("#review").html("");
+					for(i=0; i<JSONData.list.length; i++){
+						
+						str='<div class="review border-bottom">'
+								+ '<p class="letter-spacing-1 review-name"><strong>'+JSONData.list[i].reviewTitle+'</strong></p>'
+			                    + '<p>';
+		                    
+							for(j=0; j<5; j++){
+								if(j<JSONData.list[i].reviewScore){
+									str += '<i class="fa fa-star text-extra-large2" style="color:#ffd200;"></i>';
+// 									$($(".add-rating i")[i]).css('color','#ffd200');
+								}else{
+									str += '<i class="fa fa-star text-extra-large2" style="color:#b8b8b8;"></i>';
+// 									$($(".add-rating i")[i]).css('color','##b8b8b8');
+								}
+							}
+					
+							str+= '<span class="text-small f-right">'+JSONData.list[i].user.userId+ '  | '+ JSONData.list[i].regDate +'</span></p>'
+		                    + '<p style="margin-bottom:30px; font-size:13px;">'+JSONData.list[i].reviewContent+'</p>'
+		                    + '</div>';
+			
+						$("#review").append(str);
+					}
+					
+					$("#reviewListPage").html("");			
+					str = '';
+					
+					 if (JSONData.resultPage.currentPage <= JSONData.resultPage.pageUnit){
+						str = '<a class="disabled pagePre"><img src="../images/arrow-pre-small.png" alt="" /></a>';
+					}else{
+						str = '<a class="pagePre" aria-label="Previous"><img src="../images/arrow-pre-small.png" alt="" style="cursor:pointer;"/></a>';
+					}
+					
+					for(i=JSONData.resultPage.beginUnitPage; i<=JSONData.resultPage.endUnitPage; i++){
+						if(JSONData.resultPage.currentPage == i){
+							str = str + '<a style="cursor:pointer;" class="active reviewPageNum">'+i+'</a>';
+						}else{
+							str = str + '<a style="cursor:pointer;" class="reviewPageNum">'+i+'</a>';
+						}
+					}
+
+					 if (JSONData.resultPage.endUnitPage >= JSONData.resultPage.maxPage){
+						 str = str + '<a class="disabled pageNxt"><img src="../images/arrow-next-small.png" alt="" /></a>';
+						
+					}else{
+						str = str + '<a class="pageNxt" aria-label="Previous"><img src="../images/arrow-next-small.png" alt="" style="cursor:pointer;"/></a>';
+					}
+
+					$("#reviewListPage").append(str);
+					
+
+					$('.pagePre').on('click', function(){
+						if($(".pagePre").hasClass("disabled") == false){
+							$('input[name="currentPage"]').val(JSONData.resultPage.currentPage-1);
+							fncGetReviewList();
+						}
+					});
+					$('.pageNxt').on('click', function(){
+						if($(".pageNxt").hasClass("disabled") == false){
+							$('input[name="currentPage"]').val(JSONData.resultPage.endUnitPage+1);
+							fncGetReviewList();
+						}
+					});
+					
+					
+				}
+			}
+		);	
+}
 </script>
 <jsp:include page="../common/css.jsp" />
 <title>상품상세정보</title>
@@ -404,8 +537,10 @@ $(function(){
                     <div class="col-md-5 col-sm-12 col-md-offset-1">
                         <!-- product rating -->
                         <div class="rating margin-five no-margin-top">
-                            <i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star-o black-text"></i>
-                            <span class="rating-text text-uppercase">5 Reviews</span>
+                        	<span id="reviewScore">
+
+                            </span>
+                            <span class="rating-text text-uppercase">${product.reviewCnt} Reviews</span>
                             <span class="rating-text text-uppercase pull-right">상품번호: <span class="black-text">${product.prodNo}</span></span>
                         </div>
                         <!-- end product rating -->
@@ -473,7 +608,7 @@ $(function(){
                                 <!-- tab navigation -->
                                 <ul class="nav nav-tabs nav-tabs-light text-center">
                                     <li class="active"><a href="#tab_sec1" data-toggle="tab">상품상세정보</a></li>
-                                    <li><a href="#tab_sec2" data-toggle="tab">상품후기 (10)</a></li>
+                                    <li><a href="#tab_sec2" data-toggle="tab" id="tabReview">상품후기 (${product.reviewCnt})</a></li>
                                     <li><a href="#tab_sec3" data-toggle="tab"  id="tabInquiry">상품문의 (${product.inquiryCnt})</a></li>
                                 </ul>
                                 <!-- tab end navigation -->
@@ -496,51 +631,28 @@ $(function(){
                                 <div class="tab-pane fade in" id="tab_sec2">
                                     <div class="row">
                                     
-                                        <div class="col-md-6 col-sm-12 review-main">
+                                        <div class="col-md-7 col-sm-12 review-main  center-col overflow-hidden">
                                         
-                                            <div class="review">
-                                                <p class="letter-spacing-1 text-uppercase review-name"><strong>Nathan Ford,</strong> March 15, 2015</p>
-                                                <p><i class="fa fa-star yellow-light-text text-extra-large"></i><i class="fa fa-star yellow-light-text text-extra-large"></i><i class="fa fa-star yellow-light-text text-extra-large"></i><i class="fa fa-star-o yellow-light-text text-extra-large"></i><i class="fa fa-star-o yellow-light-text text-extra-large"></i></p>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text.</p>
+                                        	<div id="review">
+	                                            <div class="review border-bottom">
+	                                                <p class="letter-spacing-1 review-name"><strong>상품후기제목상품후기제목상품후기제목</strong></p>
+	                                                <p><i class="fa fa-star text-extra-large"></i><i class="fa fa-star text-extra-large"></i><i class="fa fa-star text-extra-large"></i><i class="fa fa-star-o text-extra-large"></i><i class="fa fa-star-o text-extra-large"></i><span class="text-small f-right">회원아이디  |  2018-08-20</span></p>
+	                                                <p style="margin-bottom:30px border">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text.</p>
+	                                            </div>
                                             </div>
                                             
-                                            <div class="review">
-                                                <p class="letter-spacing-2 text-uppercase review-name"><strong>Paul Scrivens,</strong> March 09, 2015</p>
-                                                <p><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa fa-star black-text"></i><i class="fa black-text fa-star-o"></i></p>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                            
-                                            <ul class="list-inline comment-pagination">
-                                                <li><a href="#" class="active">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">...</a></li>
-                                                <li><a href="#">8</a></li>
-                                                <li><a href="#">9</a></li>
-                                            </ul>
+                                            <div id="reviewListPage" class="pagination">
+												<ul class="list-inline comment-pagination margin-three">
+	                                                <li><a href="#" class="active">1</a></li>
+	                                                <li><a href="#">2</a></li>
+	                                                <li><a href="#">...</a></li>
+	                                                <li><a href="#">8</a></li>
+	                                                <li><a href="#">9</a></li>
+			                                     </ul>	
+		                                     </div>
                                             
                                         </div>
                                         
-                                        <div class="col-md-5 col-sm-12 col-md-offset-1 blog-single-full-width-form sm-margin-top-seven">
-                                            <div class="blog-comment-form">
-                                                <!-- comment form -->
-                                                <form>
-                                                	<!-- input  -->
-                                                    <label class="rating">평점</label>
-                                                    <p class="add-rating"><i class="fa fa-star text-extra-large"></i><i class="fa fa-star text-extra-large"></i><i class="fa fa-star text-extra-large"></i><i class="fa fa-star text-extra-large"></i><i class="fa fa-star text-extra-large"></i></p>
-                                                    <!-- end input -->
-                                                    <!-- input  -->
-                                                    <input type="text" name="reviewTitle" placeholder="후기제목">
-                                                    <!-- end input -->
-                                                    <!-- textarea  -->
-                                                    <textarea name="comment" placeholder="후기내용"></textarea>
-                                                    <!-- end textarea  -->
-                                                    <!-- button  -->
-                                                    <input type="submit" name="send message" value="구매후기 등록" class="highlight-button btn btn-medium xs-no-margin-bottom">
-                                                    <!-- end button  -->
-                                                </form>
-                                                <!-- end comment form -->
-                                            </div>
-                                        </div>
                                         
                                     </div>
                                 </div>
@@ -628,7 +740,13 @@ $(function(){
                                                 <!-- comment form -->
                                                 <form>
                                                     <!-- input -->
-                                                    <label class="secret">비밀글<i class="fa fa-unlock-alt"></i></label>
+                                                    <label class="secret">비밀글<i class="fa fa-lock"></i></label>
+<!--                                                     <div class="wrap"> -->
+<!-- 	                                                    <input value="0" type="radio" name="radioSecret" id="secret1" class="checkbox" checked="checked"> -->
+<!-- 														<label for="secret1" class=" input-label radio secret">공개</label> -->
+<!-- 														<input value="1" type="radio" name="radioSecret" id="secret2" class="checkbox"> -->
+<!-- 														<label for="secret2" class="input-label radio secret">비공개</label> -->
+<!-- 													</div> -->
                                                     <label class="radio-inline secret"><input type="radio" id="secret1" name="radioSecret" checked="checked">공개</label>
                                                     <label class="radio-inline secret"><input type="radio" id="secret2" name="radioSecret" >비공개</label>
                                                     <input type="hidden" id="secret" name="secret" value="0">
@@ -661,16 +779,12 @@ $(function(){
                         <!-- end tab -->
                     </div>
                 </div>
-            </div>
         </section>
 
         
-        
-        
-        
 
 
-	<jsp:include page="/layout/footer.jsp" />
+<%-- 	<jsp:include page="/layout/footer.jsp" /> --%>
 	
 	<jsp:include page="../common/js.jsp" />
 </body>

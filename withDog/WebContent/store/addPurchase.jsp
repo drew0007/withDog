@@ -64,9 +64,14 @@ $(function () {
 			//다시 변경된 포인트값을 유즈포인트에 담기
 			usePoint = 	$("input[name=usePoint]").val();	
 		}
+		//상품가격-사용포인트가 0보다 작을때 입력창에 순수상품가격넣어주기
 		if(noChangePrice-usePoint<0){
 			$("input[name=usePoint]").val(noChangePrice);
 			usePoint = 	$("input[name=usePoint]").val();
+		}
+		//포인트창 공백일때 0넣기
+		if(usePoint == ''){
+			$("input[name=usePoint]").val(0);
 		}
 		
 		//입력된 사용포인트로 #usePoint에 있는 텍스트(0)를 변경
@@ -156,7 +161,7 @@ $(function () {
                             </div>
                             <div class="col-md-12 no-padding">
                                 <input type="text" name="receiverAddr1" id="address1" class="col-md-9" value="${user.address1}">
-                                <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3"  id="searchPost" value="우편번호검색" placeholder="'-'제외하고 숫자만 입력">
+                                <input type="button" class="highlight-button2 btn no-margin pull-right post-search col-md-3"  id="searchPost" value="우편번호검색">
                                 <input type="text" name="receiverAddr2" id="address2" value="${user.address2}">
                             </div>
                             <div class="col-md-12 no-padding">
@@ -180,7 +185,7 @@ $(function () {
                             	<p class="border-top"></p>
                                 <label>포인트:</label>
                                 <c:if test="${currentPoint==0}">
-	                        		<input type="text" name="usePoint"  disabled="disabled">
+	                        		<input type="text" name="usePoint" value="0" disabled="disabled">
 	                        		<input type="hidden" name="usePoint" value="0">
 	                        	</c:if>
 	                        	<c:if test="${currentPoint!=0}">
@@ -212,7 +217,6 @@ $(function () {
                                     <th class="text-left text-uppercase font-weight-600 letter-spacing-2 text-small black-text">상품정보</th>
                                     <th class="text-left text-uppercase font-weight-600 letter-spacing-2 text-small black-text">상품수량</th>
                                     <th class="text-left text-uppercase font-weight-600 letter-spacing-2 text-small black-text">상품금액</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody><!--list[0] 장바구니에서 넘어온 리스트나 바로구매로 넘어온 상품이나 무조건 0은 있기때문  -->
@@ -220,14 +224,13 @@ $(function () {
                             	<c:forEach var="cart" items="${list}">
                             	<c:set var="sum" value="${sum + cart.product.price * cart.cartQuantity}"/>
                                 <tr>
-                                    <td class="product-thumbnail text-left">
+                                    <td class="product-thumbnail text-center">
                                         <img src = "/images/store/${cart.product.prodImage}" width="120" height="120"/>
                                     </td>
                                     <td class="text-left">
                                         <a href="#">${cart.product.prodName}</a>
                                         <span class="text-uppercase display-block text-small margin-two">상품번호: ${cart.product.prodNo}</span>
                                         <input type="hidden" name="prodNo" value="${cart.product.prodNo}" />
-                                        <a href="#" class="text-small"><i class="fa fa-edit black-text"></i> Edit</a>
                                     </td>
                                     <td class="product-quantity">
                                        <input type="text" name="cartQuantity" value="${cart.cartQuantity}" class="col-md-3 text-center" readonly/>
@@ -236,9 +239,6 @@ $(function () {
                                     <td class="product-subtotal text-left">${cart.product.price}원
                                     	<input type="hidden" name="price" value="${cart.product.price}">
                                    	</td>
-                                    <td class="product-remove text-center">
-                                        <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                    </td>
                                 </tr>
                                 </c:forEach>
                             </tbody>

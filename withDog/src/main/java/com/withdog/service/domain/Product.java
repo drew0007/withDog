@@ -15,11 +15,29 @@ public class Product {
 	private Date regDate;
 	private String deleteFlag;
 	private int inquiryCnt;
+	private int reviewCnt;
+	private int avgScore;
 	
 	
 	public Product(){
 	}
 	
+	public int getAvgScore() {
+		return avgScore;
+	}
+
+	public void setAvgScore(int avgScore) {
+		this.avgScore = avgScore;
+	}
+
+	public int getReviewCnt() {
+		return reviewCnt;
+	}
+
+	public void setReviewCnt(int reviewCnt) {
+		this.reviewCnt = reviewCnt;
+	}
+
 	public String getProdType() {
 		return prodType;
 	}
@@ -97,8 +115,11 @@ public class Product {
 	public String toString() {
 		return "Product [prodNo=" + prodNo + ", prodType=" + prodType + ", prodName=" + prodName + ", prodContent="
 				+ prodContent + ", prodImage=" + prodImage + ", price=" + price + ", prodQuantity=" + prodQuantity
-				+ ", regDate=" + regDate + ", deleteFlag=" + deleteFlag + ", inquiryCnt=" + inquiryCnt + "]";
+				+ ", regDate=" + regDate + ", deleteFlag=" + deleteFlag + ", inquiryCnt=" + inquiryCnt + ", reviewCnt="
+				+ reviewCnt + ", avgScore=" + avgScore + "]";
 	}
+
+	 
 
 	
 	

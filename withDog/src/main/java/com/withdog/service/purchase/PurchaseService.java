@@ -8,7 +8,8 @@ import com.withdog.service.domain.Purchase;
 import com.withdog.service.domain.User;
 
 public interface PurchaseService {
-
+	
+	// 구매
 	public int addPurchase(Purchase purchase) throws Exception;
 	
 	// 다음 purchaseNo
@@ -17,23 +18,26 @@ public interface PurchaseService {
 	// 다음 cartNo
 	public int addCartSeq() throws Exception ;
 	
-	public Map<String,Object> getMyPurchaseList(Search search,User user) throws Exception;
+	// prodNo 조회
+	public Purchase  getProdNo(int cartNo) throws Exception;
 	
-	//구매 목록 조회에서 no링크타고 내가 구매한 상품 보는것
-	public Purchase getMyPurchase(int purchaseNo) throws Exception;
+	//구매리스트 / 판매관리리스트
+	public Map<String,Object> getPurchaseList(Search search,User user) throws Exception;
 	
-//	public Map<String,Object> getPurchaseList(Search search, String userId) throws Exception;
-//	
-//	//구매요청을 수정
-//	public void updatePurchase(Purchase purchase) throws Exception;
-//
-//	//판매관리리스트
-//	public Map<String,Object> getSalesListAdmin(Search search, String userId) throws Exception;
-//	
-//	public Purchase getSalesAdmin(int purchaseNo) throws Exception;
-//	
-//	//구매상태변경 
-//	public void updatePurchaseCondition(Purchase purchase) throws Exception;
+	//구매상세정보 / 판매상세정보
+	public List<Purchase> getPurchase(int purchaseNo) throws Exception;
+
+	//구매정보수정
+	public void updatePurchase(Purchase purchase) throws Exception;
+	
+	//구매상태변경 
+	public void updatePurchaseCondition(Purchase purchase) throws Exception;
+	
+	//카트넘버로 구매코드 변경 
+	public void updateCartNoPurchaseCondition(int cartNo) throws Exception;
+	
+	//후기작성안된 상품만 들고오는
+	public List<Purchase> getPurchaseCondition(int purchaseNo) throws Exception;
 	
 	
 }

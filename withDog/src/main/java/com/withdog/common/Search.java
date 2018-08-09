@@ -20,8 +20,6 @@ public class Search {
 	private String searchStartDay;
 	private String searchEndDay;
 	
-	//상품정렬
-	private int prodSort;
 	private int sorting;
 	private String prodType;
 	private String role;
@@ -163,7 +161,7 @@ public class Search {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
 				+ ", priceUpDown=" + priceUpDown + ", recently=" + recently + ", searchStartDay=" + searchStartDay
-				+ ", searchEndDay=" + searchEndDay + ", prodSort=" + prodSort + ", sorting=" + sorting + ", prodType="
+				+ ", searchEndDay=" + searchEndDay  + ", sorting=" + sorting + ", prodType="
 				+ prodType + ", role=" + role + ", dogBreed=" + dogBreed + ", sido=" + sido + ", sigungu=" + sigungu
 				+ ", abandDogState=" + abandDogState + ", abandDogGender=" + abandDogGender + "]";
 	}
