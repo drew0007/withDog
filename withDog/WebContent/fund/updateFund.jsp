@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,maximum-scale=1" />
@@ -11,35 +11,91 @@
 
 <title>크라우드펀딩수정</title>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
+
+
+<!-- SommerNote  -->
 <script>
-function updateFund(){
-	document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;
+
+/* 	var content
+
+	$(function(){
+		
+		$("span:contains('펀딩등록')").on("click",function(){
+			test();
+			getFund();
+		});
+		
+		$('#summernote').summernote({
+			height: 600,
+					
+			callbacks: {
+				onImageUpload: function(files, editor, welEditable) {
+					 for (var i = files.length - 1; i >= 0; i--) {
+						 console.log("아래확인");
+						 console.log(files[i]);	
+						 sendFile(files[i], this);
+			            }
+		        }
+			}
+			
+		});
+		
+	}); 
 	
-	console.log(document.getElementById("fundTerm").value);
 	
-	if(document.getElementById("fundImagePath").value==null){
-		document.getElementById("fundImagePath").value = "C:/Users/Bit/git/withDog/withDog/WebContent/images/fund/"+${fund.fundImage};
+    
+    function sendFile(file, el) {
+		var form_data = new FormData();
+      	form_data.append('file', file);
+      	$.ajax({
+        	data: form_data,
+        	type: "POST",
+        	url: '/common/json/imageUpload',
+        	cache: false,
+        	contentType: false,
+        	enctype: 'multipart/form-data',
+        	processData: false,
+        	success: function(url) {
+        		console.log(JSON.stringify(url));
+        		console.log(url.url);
+          		$(el).summernote('editor.insertImage',url.url);
+        	}
+      	});
+    }*/
+	
+	function updateFund(){
+    	document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;
+    	
+    	console.log(document.getElementById("fundTerm").value);
+    	document.getElementById("fundContent").value= content;
+    	if(document.getElementById("fundImagePath").value==null){
+    		document.getElementById("fundImagePath").value = "C:/Users/Bit/git/withDog/withDog/WebContent/images/fund/"+${fund.fundImage};
+    	}
+    	
+    	document.detailForm.submit();
+		//$("form").attr("method","POST").attr("action","/fund/addFund").submit();
 	}
-	
-	document.detailForm.submit();
-	//$("form").attr("method","POST").attr("action","/fund/addFund").submit();
-}
-$(function(){
-console.log(2);
-	$("span:contains('수정완료')").on("click",function(){
-		updateFund();
-	});
-	
-	
-});
-	
-	
 
-
-
-	
+	 function test(){
+	    	
+	    	content = $('#summernote').summernote('code');
+	    	/* alert(content) */
+	    		      	
+	      }
+	 
+	/*  $(function(){
+		 console.log(2);
+		 	$("span:contains('수정완료')").on("click",function(){
+		 		updateFund();
+		 	});
+		 	
+		 	 
+		 });*/
 </script>
+
+
 </head>
 <style type="text/css">
 .calendar-icon { 	display: flex; align-items: center;}
@@ -47,8 +103,8 @@ console.log(2);
 </style>
  
 <body>
-
-	<jsp:include page="/layout/store-sub-header.jsp" />
+					
+	<jsp:include page="/layout/header.jsp" />
 
 	<!-- head section -->
 	<section
@@ -75,7 +131,7 @@ console.log(2);
 	<section class="wow fadeIn">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
+			<div class="col-md-13 col-sm-9 col-xs-11 center-col xs-no-padding">
 				<form name="detailForm" method="post" action="/fund/updateFund" enctype="multipart/form-data">
 
 					<div class="form-group no-margin-bottom">
@@ -138,14 +194,17 @@ console.log(2);
 						<label>펀딩상세내용</label>
 						<!-- end label  -->
 						<!-- input  -->
-						<textarea name="fundContent" placeholder="펀딩상세내용" value="${fund.fundContent}"></textarea>
+						<input type="hidden" name="fundContent" id="fundContent" value="">
+						<jsp:include page="/common/sommernote.jsp"></jsp:include>
 						<!-- end input  -->
 					</div>
 
 				</form>
-				<div class="text-center">
-					<span class="highlight-button btn btn-medium">수정완료</span>
-				</div>
+				
+					<div align="right">
+        		     <span class="highlight-button btn-medium button margin-five">수정완료</span>
+        		</div>			
+				
 			</div>
 		</div>
 	</div>

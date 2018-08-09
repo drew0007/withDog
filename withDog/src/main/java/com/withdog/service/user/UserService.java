@@ -8,6 +8,10 @@ import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 
 public interface UserService {
+	
+	//Android//
+	// 회원정보 조회 SELECT ONE
+	public User getUser2(String userId) throws Exception;
 
 	// 회원가입
 	public void addUser(User user) throws Exception;
@@ -54,8 +58,11 @@ public interface UserService {
 	//휴면 회원 해제 :: 휴면 > 정상 
 	public void updateUserCon(String userId) throws Exception;
 	
-	//이메일 보내기 :: htmlText 보내는 메일 내용
+	//이메일 보내기 임시비밀번호 발송 :: htmlText 보내는 메일 내용
 	public boolean sendEmail(String userEmail, String htmlText) throws Exception;
+	
+	//이메일 보내기 결제완료 발송 :: htmlText 보내는 메일 내용
+		public boolean sendConfirmEmail(String userEmail, String htmlText,String title ) throws Exception;
 	
 	//문자보내기 :: conText  문자보내는 내용
 	public boolean sendText(String userPhoneNo, String conText) throws Exception;
@@ -66,5 +73,16 @@ public interface UserService {
 	//snsID 연동 
 	public void  updateSnsId(User user)throws Exception;
 	
+	//회원 컨디션 비율 
+	public   Map<String, Object>  getUserConRate()throws Exception;
+	
+	//오늘기준 휴면  리스트_어드민
+	public Map<String, Object> getUserConListAdmin(Search search) throws Exception;
+	
+	//최근 5일 기준 회원 통계 _어드민
+	public Map<String, Object> getUserCount5day(Search search) throws Exception;
+	
+	// 회원가입시 이메일 중복 확인
+	public User checkUserEmail(String email) throws Exception;
 	
 }

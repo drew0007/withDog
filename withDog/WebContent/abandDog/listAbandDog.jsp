@@ -16,6 +16,13 @@
 </head>
 
 <script type="text/javascript">
+$(document).ready(function () {
+    // Handler for .ready() called.
+    $('html, body').animate({
+        scrollTop: ($('#start').offset().top - 60) + 'px'
+    }, 'slow');
+});
+
 $(function(){
 	// 견종변경시 조회
 	$("select[name='dogBreed']").on("change", function(){
@@ -389,7 +396,11 @@ function fncGetAbandDogList(){
         
 				<form>
 	        	<!-- search -->
+<<<<<<< HEAD
 	        	<section class="bg-deep padding-two">
+=======
+	        	<section class="bg-deep padding-two" id="start">
+>>>>>>> refs/remotes/origin/master
 	            <div class="container ">
 	                <div class="row sm-text-center no-margin">
 	                                  	
@@ -434,6 +445,7 @@ function fncGetAbandDogList(){
 					
 	            </div>
 
+<<<<<<< HEAD
 				<!-- 상세조건 팝업 -->
 				<div class="col-md-12 col-sm-9 no-padding">
 			
@@ -516,11 +528,18 @@ function fncGetAbandDogList(){
 				</div>
 				<!-- end 상세조건 팝업 -->
 						
+=======
+>>>>>>> refs/remotes/origin/master
 	            </section>
 		        <!-- end search -->
 		        
+<<<<<<< HEAD
 				<section class="work-4col gutter work-with-title no-margin-top content-section no-padding">
 		        <div class="container margin-five no-margin-bottom">
+=======
+				<section class="work-4col gutter work-with-title wide wide-title no-padding">
+		        <div class="container-fluid margin-three no-margin-bottom">
+>>>>>>> refs/remotes/origin/master
                 <div class="row">
                     <div class="col-md-12 text-center" >
                         <div class="tab-content">
@@ -601,6 +620,88 @@ function fncGetAbandDogList(){
             <!-- end pagination -->
         </section>
         <!-- end content section -->
+        
+        <!-- 상세조건 팝업 -->
+		<div class="col-md-12 col-sm-9 no-padding">
+	
+			<div class="col-lg-3 col-md-4 col-sm-5 center-col text-center">
+				<div id="modal-popup"
+					class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main">
+	
+					<div>
+						<span class="black-text">상세조건 검색</span>
+						<p class="borderline-gray"></p>
+					</div>
+					
+						<!-- 조건 1 -->
+						<div class="form-group no-margin-bottom">
+							<!-- input  -->
+							<div class="text-center col-md-12 clearfix">
+								<div class="no-padding pull-left">
+								<label class="font-weight-600" style="margin-top:14px;">성별</label>
+								</div>
+								<div class="pull-right no-padding" style="display: flex;  justify-content: center; align-items: center;	">
+									<input type="radio" name="abandDogGenderRadio" id="abandDogGender1" class="checkbox" value="" ${empty search.abandDogGender?'checked':''}>
+									<label for="abandDogGender1" class="input-label radio">전체</label>
+									<input type="radio" name="abandDogGenderRadio" id="abandDogGender2" class="checkbox" value="M" ${search.abandDogGender=='M'?'checked':''}>
+									<label for="abandDogGender2" class="input-label radio">남아</label>
+									<input type="radio" name="abandDogGenderRadio" id="abandDogGender3" class="checkbox" value="F" ${search.abandDogGender=='F'?'checked':''}>
+									<label for="abandDogGender3" class="input-label radio">여아</label>
+								</div>
+							</div>
+							<!-- end input  -->
+						</div>
+						<!-- end 조건 1 -->
+						
+						<!-- 조건 2 -->
+						<div class="form-group no-margin-bottom">
+							<!-- input  -->
+							<div class="text-center col-md-12 clearfix">
+								<div class="no-padding pull-left">
+								<label class="font-weight-600" style="margin-top:14px;">상태</label>
+								</div>
+								<div class="pull-right no-padding" style="display: flex;  justify-content: center; align-items: center;">
+									<span class="pull-right text-right">
+										<input type="radio" name="abandDogStateRadio" id="abandDogState1" class="checkbox" value="" ${empty search.abandDogState?'checked':''}>
+										<label for="abandDogState1" class="input-label radio">전체</label>
+										<input type="radio" name="abandDogStateRadio" id="abandDogState2" class="checkbox" value="notice" ${search.abandDogState=='notice'?'checked':''}>
+										<label for="abandDogState2" class="input-label radio">공고중</label>
+										<input type="radio" name="abandDogStateRadio" id="abandDogState3" class="checkbox" value="protect" ${search.abandDogState=='protect'?'checked':''}>
+										<label for="abandDogState3" class="input-label radio">보호중</label>
+									</span>
+								</div>
+							</div>
+							<!-- end input  -->
+						</div>
+						<!-- end 조건 2 -->
+						
+						<!-- 조건 3 -->
+						<div class="form-group no-margin-bottom">
+							<!-- input  -->
+							<!-- <div class="text-center col-md-12 clearfix">
+								<div class="no-padding pull-left">
+								<label class="font-weight-600" style="margin-top:14px;">출생년도(추정)</label>
+								</div>
+								<div class="slidecontainer">
+								  <input type="range" min="1" max="100" value="50" class="slider" id="myRange" data-slider-step="2">
+								</div>
+							</div> -->
+							<!-- end input  -->
+						</div>
+						<!-- end 조건 3 -->
+	
+					<!-- 버튼 -->
+					<div class="text-center no-margin-bottom">
+						<a href="#" class="highlight-button btn btn-medium no-margin-bottom popup-modal-dismiss" id="searchModal">적용</a>
+						<a href="#" class="highlight-button-dark btn btn-medium no-margin popup-modal-dismiss" id="cancelModal">취소</a>
+					</div>
+					<!-- end 버튼 -->
+	
+				</div>
+			</div>
+	
+		</div>
+		<!-- end 상세조건 팝업 -->
         
         
         

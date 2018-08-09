@@ -13,7 +13,21 @@
 
 <title>애견상식</title>
 
+
+
 <style type="text/css">
+/* .aaaa{
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 3; /* 라인수 */
+-webkit-box-orient: vertical;
+word-wrap:break-word; 
+line-height: 1.2em;
+height: 3.6em; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
+} */
+
+
 /* start 툴팁 css꾸미기 */
 	a.tip {
 	    position: relative;
@@ -66,6 +80,53 @@
 <body>
 
 <script type="text/javascript">
+var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ? true : false;
+
+jQuery(document).ready(function($){
+if(!isMobile) {
+	$(document).ready(function() {
+		 
+		// 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
+		var floatPosition = parseInt($(".sidebar").css('top'));
+		// 250px 이런식으로 가져오므로 여기서 숫자만 가져온다. parseInt( 값 );
+	 
+		$(window).scroll(function() {
+			//console.log($(window).scrollTop()); 
+			// 현재 스크롤 위치를 가져온다.
+			if($(window).scrollTop() >300 &&$(window).scrollTop() <3939){
+				var scrollTop = $(window).scrollTop();
+				var newPosition = scrollTop + floatPosition-500 + "px";
+				
+			
+			}else if( $(window).scrollTop() >3939){
+				var scrollTop = $(window).scrollTop();
+				var newPosition = scrollTop + floatPosition-1000 + "px";
+			}
+			
+			else if($(window).scrollTop() <300){
+				var scrollTop = $(window).scrollTop();
+				var newPosition = scrollTop + floatPosition + "px";
+			}
+			
+	 
+			/* 애니메이션 없이 바로 따라감
+			 $("#floatMenu").css('top', newPosition);
+			 */
+	 
+			$(".sidebar").stop().animate({
+				"top" : newPosition
+			}, 200);
+	 
+		}).scroll();
+	 
+	});
+
+}
+});
+
+
+
+
 function close_pop(flag) {
 	self.location = "/user/loginUser";
     $('#loginModal').hide();
@@ -171,7 +232,7 @@ function fncGetList(currentPage) {
                         <div class="blog-listing blog-listing-classic wow fadeIn">
                         
                             <!-- post image -->
-                            <div class="blog-image">
+                            <div class="blog-image" style="float:left; margin-right:15px; margin-bottom:15px;">
                             <a href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">
                              <c:if test="${empty list.dogInfoImage}">
                             	<img  src="http://placehold.it/600x450" alt=""/>
@@ -181,12 +242,14 @@ function fncGetList(currentPage) {
                             </c:if>
                             </a>
                             
+                            
+                            
                             </div>
                             <!-- end post image -->
                             
                             <div class="blog-details">
                           
-                                <div class="info-small-title">
+                                <div class="info-small-title" style="padding-top: 5px;">
                                   <c:choose>
                             	<c:when test="${list.dogInfoTopic=='1'}">
                             		<훈련>
@@ -210,11 +273,17 @@ function fncGetList(currentPage) {
                             		<기타>
                             	</c:when> 
                             </c:choose>
-                                 |  조회수 ${list.viewCount}</div>
-                                <div class="info-title">${list.dogInfoTitle} <a style="color: red">${list.deleteFlag==1?"(삭제된게시물)":""}</a></div>
-                                작성자ID : ${list.user.userId}
-                                <div>${list.dogInfoContent}</div>
-                                <div class="separator-line bg-black no-margin-lr margin-four"></div>
+                                 |  조회수 ${list.viewCount}
+                                 |  
+                                 
+                                 <span>${list.regDate}</span>
+                                 </div>
+                                <div class="info-title" style="margin-bottom:5px;">${list.dogInfoTitle} <a style="color: red">${list.deleteFlag==1?"(삭제된게시물)":""}</a></div>
+                            		<%-- 작성자ID : ${list.user.userId} --%>
+                                
+                                <%-- <div class="aaaa">${list.dogInfoContent}</div> --%>
+                                <!-- <div class="separator-line bg-black no-margin-lr margin-four"></div> -->
+                                <div class="separator-line bg-black no-margin-lr margin-one"></div>
                                 <div>
                                 	<a class="info-like"><i class="fa fa-thumbs-o-up small-icon"></i>${list.recommended}</a>
                                 	<a class="info-dislike"><i class="fa fa-thumbs-o-down small-icon"></i>${list.notRecommended}</a></div>
@@ -227,10 +296,7 @@ function fncGetList(currentPage) {
 										 </c:if>
 									 </c:if>
 									 <c:if test="${list.notRecommended<10}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
-									 	<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>
-									 <c:if test="${(list.notRecommended/(list.recommended + list.notRecommended))*100<=20}">
                                			<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>	
-									 </c:if>
 									 </c:if>
                             </div>
                         </div>
@@ -246,6 +312,7 @@ function fncGetList(currentPage) {
                     <form>
                     <input type="hidden" id="searchCondition" name="searchCondition" value="${!empty search.searchCondition?search.searchCondition:''}"/>
                     <input type="hidden" id="sorting" name="sorting" value="${!empty search.sorting?search.sorting:''}"/>
+<!--                     <div class="col-md-3 col-sm-4 col-md-offset-1 xs-margin-top-ten sidebar floatMenu"> -->
                     <div class="col-md-3 col-sm-4 col-md-offset-1 xs-margin-top-ten sidebar">
                         <!-- widget  -->
                         <div class="widget">
@@ -253,6 +320,7 @@ function fncGetList(currentPage) {
                                 <i id="searchButton" class="fa fa-search close-search search-button"></i>
                                 <input type="text" placeholder="아이디 또는 제목 입력" class="search-input" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }" >
                                 <input type="hidden" id="currentPage" name="currentPage" value=""/>
+                                
                             
                         </div>
                         <!-- end widget  -->
@@ -282,9 +350,11 @@ function fncGetList(currentPage) {
                             <div class="widget-body tags">
                                 <a style="cursor: pointer;" id="sortingByView">조회순</a>
                                 <a style="cursor: pointer;" id="sortingByRecom">추천순</a>
-                                <a style="cursor: pointer;" id="addDogInfoButton">애견상식등록</a>
+                                
                             </div>
+                        <span style="cursor: pointer;" id="addDogInfoButton" class="highlight-button btn btn-medium" >애견상식 등록</span>
                         </div>
+                        
                         <!-- end widget  -->
                     </div>
                     <!-- end sidebar  -->

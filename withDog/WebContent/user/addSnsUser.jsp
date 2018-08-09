@@ -191,6 +191,10 @@
 				          <span class="changeSpanId"></span>
 				    </div>
 					
+					<div class="form-group">
+				        <label for="textbox" class="text-uppercase">이름 :</label>
+				        <input type="text" id="userName" name="userName" class="input-round big-input">
+				    </div>
 		   
 				              
 					<div class="form-group">

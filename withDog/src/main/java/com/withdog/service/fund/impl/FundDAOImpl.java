@@ -177,9 +177,26 @@ public class FundDAOImpl implements FundDAO{
 		System.out.println(789);		
 		return sqlSession.selectList("FundMapper.getFundUserList",map);
 	}
-	
-	
 
+	@Override
+	public int getFundPersonnel(Fund fund) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("FundMapper.getFundPersonnel",fund);
+	}
+	
+	@Override
+	public void updateFundState(int fundNo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("FundMapper.updateFundState",fundNo);
+	}
+	
+	@Override
+	public List<Fund> getFundSearch(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("FundMapper.getFundSearch",search);
+	}
+	
+	
 	
 	
 		

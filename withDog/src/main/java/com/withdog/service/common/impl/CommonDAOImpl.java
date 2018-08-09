@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.withdog.common.Search;
 import com.withdog.service.common.CommonDAO;
 import com.withdog.service.domain.Point;
+import com.withdog.service.domain.PushToken;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition
 
@@ -52,9 +53,7 @@ public class CommonDAOImpl implements CommonDAO {
 			
 			
 			System.out.println(point.toString());
-			System.out.println("구매번호 확인~~~~~");
-			System.out.println(point.getPurchase());
-			System.out.println("구매번호 확인~~~~~");
+			//System.out.println(point.getFund().getFundMyPriceNo());
 			sqlSession.insert("CommonMapper.addPointSave",point);
 			System.out.println("FundPointSAVE END");
 		
@@ -108,16 +107,27 @@ public class CommonDAOImpl implements CommonDAO {
 
 
 	@Override
-	public int getTotalCount(String userId) throws Exception {
-		return sqlSession.selectOne("CommonMapper.getTotalCount",userId);
+	public int getTotalCount(Search search,String userId) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		map.put("search", search);
+		return sqlSession.selectOne("CommonMapper.getTotalCount",map);
 	}
 
 
-
+	@Override
+	public void deletePushToken(String deviceId) throws Exception{
+		sqlSession.delete("CommonMapper.deletePushToken", deviceId);
+	}
 	
+	@Override
+	public void addPushToken(PushToken pushToken) throws Exception{
+		sqlSession.insert("CommonMapper.addPushToken", pushToken);
+	}
 	
-	
-	
-
+	@Override
+	public List<String> getPushToken(String userId) throws Exception{
+		return sqlSession.selectList("CommonMapper.getPushToken", userId);
+	}
 		
 }

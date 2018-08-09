@@ -20,13 +20,14 @@ public class User {
 	private String joinDate;
 	private String leaveDate;
 	private String leaveReason;
+	private String changeDate;
 	private String role;
 	private int currentPoint; // 현재 포인트
 	private String snsNaverId;
 	private String snsKakaoId;
 	private String snsGoogleId;
 	private String snsFacebookId;
-	private int snsType; // sns 가입시 타입 ::  k = kakao, n= naver, g= google, f=faceBook
+	private int snsType; // sns 가입시 타입 ::  0= kakao, 1= naver, 2= google, 3=faceBook
 
 	/// Constructor
 	public User() {
@@ -153,6 +154,14 @@ public class User {
 		this.leaveReason = leaveReason;
 	}
 
+	public String getChangeDate() {
+		return changeDate;
+	}
+
+	public void setChangeDate(String changeDate) {
+		this.changeDate = changeDate;
+	}
+
 	public String getRole() {
 		return role;
 	}
@@ -215,10 +224,11 @@ public class User {
 				+ ", email=" + email + ", phone=" + phone + ", postNo=" + postNo + ", address1=" + address1
 				+ ", address2=" + address2 + ", dogNo=" + dogNo + ", userCondition=" + userCondition + ", recentlyDate="
 				+ recentlyDate + ", joinDate=" + joinDate + ", leaveDate=" + leaveDate + ", leaveReason=" + leaveReason
-				+ ", role=" + role + ", currentPoint=" + currentPoint + ", snsNaverId=" + snsNaverId + ", snsKakaoId="
-				+ snsKakaoId + ", snsGoogleId=" + snsGoogleId + ", snsFacebookId=" + snsFacebookId + ", snsType="
-				+ snsType + "]";
+				+ ", changeDate=" + changeDate + ", role=" + role + ", currentPoint=" + currentPoint + ", snsNaverId="
+				+ snsNaverId + ", snsKakaoId=" + snsKakaoId + ", snsGoogleId=" + snsGoogleId + ", snsFacebookId="
+				+ snsFacebookId + ", snsType=" + snsType + "]";
 	}
+
 
 
 

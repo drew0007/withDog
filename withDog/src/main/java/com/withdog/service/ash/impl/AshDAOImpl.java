@@ -236,6 +236,11 @@ public class AshDAOImpl implements AshDAO {
 		return sqlSession.selectOne("ASHMapper.getTotalCountByAdminASH", search);
 	}
 
+	@Override
+	public List<Ash> getAshReservationTimeCountByAndroid(String ashReservationDate) throws Exception {
+		return sqlSession.selectList("ASHMapper.getAshReservationTimeCountByAndroid", ashReservationDate);
+	}
+
 
 
 

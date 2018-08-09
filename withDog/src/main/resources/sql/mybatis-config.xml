@@ -31,6 +31,7 @@
 		<typeAlias alias="review" type="com.withdog.service.domain.Review" />
 		<typeAlias alias="chatBot" type="com.withdog.service.domain.ChatBot" />
 		<typeAlias alias="cart" type="com.withdog.service.domain.Cart" />
+		<typeAlias alias="pushToken" type="com.withdog.service.domain.PushToken" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->

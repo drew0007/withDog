@@ -13,12 +13,61 @@
 
 	$(function() {
 		
-		
-		
 		//검색버튼 이벤트
 		 $( "#search" ).on("click" , function() {
 			 fncGetList(1);
 		});
+		
+		
+		//엔터키 이벤트 ( 검색 클릭한것처럼)
+		$("#searchKeyword").keydown(function(event){
+	       if(event.keyCode==13){
+	    	   $("#search").trigger('click');
+	        }
+	    });
+	
+		/*
+		//회원정보 간략보기
+		$(  "td:nth-child(6)" ).on("click" , function() {
+			
+				var userId = $(this).children().children().children().val();
+				
+				$.ajax( 
+						{
+							url : "/user/json/getUser/"+userId ,
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+
+								var displayValue = "<h6>"
+															+"휴대폰 : <br/>"+JSONData.phone+"<br/>"
+															+"가입일 : <br/>"+JSONData.joinDate+"<br/>"
+															+"포인트 : <br/>"+JSONData.currentPoint+"<br/>"
+															+"ROLE : <br/>"+JSONData.role+"<br/>"
+															+"</h6>";
+								$("h6").remove();
+								$( "#"+userId+"" ).html(displayValue);
+							}
+					});
+									
+		});*/
+		
+		
+		//userId 에 회원정보보기  Event 처리(Click)
+		 $(function() {
+			
+			$( "td:nth-child(3)" ).on("click" , function() {
+				
+				 self.location ="/user/getUserAdmin?userId="+$(this).text().trim();
+			});
+						
+			
+		});	
+		
 		
 		
 	}); //제이쿼리 끝
@@ -27,6 +76,7 @@
 		
 	//하단 페이지 클릭시
 	function fncGetList(currentPage) {
+		alert(currentPage);
 		$("#currentPage").val(currentPage)
 		$("form").attr("method", "POST").attr("action", "/user/getUserListAdmin").submit();
 	}
@@ -91,9 +141,9 @@
 				   <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
-						<option value="00"  ${ ! empty search.searchCondition && search.searchCondition==00 ? "selected" : "" }>계정상태 :휴면</option>
-						<option value="11"  ${ ! empty search.searchCondition && search.searchCondition==11 ? "selected" : "" }>계정상태 :정상</option>
-						<option value="22"  ${ ! empty search.searchCondition && search.searchCondition==22 ? "selected" : "" }>계정상태 :탈퇴</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>계정상태 :휴면</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>계정상태 :정상</option>
+						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>계정상태 :탈퇴</option>
 					</select>
 				  </div>
 				  
@@ -113,7 +163,6 @@
 		
 				<!--  table Start /////////////////////////////////////-->
 			      <table class="table table-hover table-striped" >
-			      
 			        
                      <thead>
                          <tr>
@@ -121,8 +170,7 @@
                          	<th align="left">계정상태</th>
      						<th align="left" >회원 ID</th>
      						<th align="left">회원명</th>
-    							<th align="left">최근접속일</th>
-     						<th align="left">간략정보</th>
+   							<th align="left">최근접속일</th>
                          </tr>
                      </thead>
                     
@@ -141,12 +189,9 @@
 								  </c:choose>
 							  </td>
 							  
-							  <td align="left" value="${user.userId}">${user.userId}</td>
+							  <td align="left" value="${user.userId}"><a href="#">${user.userId}</a></td>
 							  <td align="left">${user.userName}</td>
 							  <td align="left">${user.recentlyDate}</td>
-							  <td align="left"> <i class="fa fa-fw" id="${user.userId}" >
-				  				<input type="hidden" value="${user.userId}"></i>
-			  				  </td>
 						</tr>
 	    			 	</c:forEach>
 					</tbody>

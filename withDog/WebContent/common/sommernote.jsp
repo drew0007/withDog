@@ -20,6 +20,13 @@
 			test();
 			getFund();
 		});
+		$("span:contains('수정완료')").on("click",function(){
+			test();
+			updateFund();
+		});
+		
+
+		
 		
 		$('#summernote').summernote({
 			height: 600,
@@ -62,7 +69,7 @@
     
   <body>
 
-    <div id="summernote"></div>
+    <div id="summernote">${fund.fundContent}</div>
     
 
     

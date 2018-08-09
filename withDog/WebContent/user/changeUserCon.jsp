@@ -43,9 +43,9 @@
 					}else{
 						//고유번호 숨기기
 						$("#tempNo").val(tempNo);
-						$(".changeDiv1").html('<div class="col-md-12"><input type="text" id="userTextNum" class="col-md-8"><button type="button" class="highlight-button col-md-4 pull-right" id="checkTextNum" >확인</button></div');
-						$("#check").hide();						
-						$(".changeDiv2").html("고객님의 인증번호를 입력해주세요").css('color','blue');	
+						$(".changeDiv1").append('<div class=\"col-md-12 bg-gray\" style=\"padding:20px 0px 0px;\"><div class=\"col-md-12\" style="\margin:0px 80px\"><input type=\"text\" id=\"userTextNum\" class="\col-md-6\" placeholder="\인증번호를 입력하세요.\" /><button type="\button\" class="\highlight-button-dark col-md-2\" id="\checkTextNum\" >확인</button></div></div>');
+						$("#check").hide();	
+						$(".spanChange").append("<span style=\"color:blue;font-size:12px;\">고객님의 인증번호를 입력해주세요</span>");
 					}
 				}
 			});// end ajax
@@ -68,7 +68,7 @@
 	//발송한 숫자와 고객이 입력한 숫자 비교
 	$(document).on("click","#checkTextNum",function() {
 		//숨겨놓은 발송 숫자
-		var textNum = $("#textNum").val();
+		var textNum = $("#tempNo").val();
 		alert("textNum"+textNum);
 		//고객이 입력한 값
 		var userTextNum = $("#userTextNum").val();
@@ -152,7 +152,7 @@
                             </div>
                             
                              <div class="col-md-12 no-padding">
-                                <label>휴대전화 :</label>
+                                <label>휴대전화 :</label><span class="spanChange"></span>
                                 <input type="text" name="phone" id="phone">
                                 <span class="changeSpan"></span>
                             </div>
