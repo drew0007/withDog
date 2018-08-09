@@ -493,6 +493,34 @@ public class PurchaseController {
 							System.out.println("푸시 결과 : "+result);
 						}
 					}
+					
+//					// 상품을 구매한 유저 ID로 Token 찾기
+//					List<String> pushToken = commonService.getPushToken(purchase.getUser().getUserId());
+//					System.out.println("푸시 토큰 : "+pushToken);
+//					if(pushToken != null) {
+//						// token으로 push 메세지 보내기
+//						for(int i=0; i<pushToken.size(); i++) {
+//							String result = sendPushNotification(pushToken.get(i), purchase, list.size());
+//							System.out.println("푸시 결과 : "+result);
+//						}
+//					}else {
+//						//토큰이 없다면 문자발송
+//					String userPhoneNo  =purchase.getReceiverPhone();
+//					int a = purchase.getPurchaseNo();
+//					int b= purchase.getPurchasePrice();
+//					 //달력가져오기
+//					 today = new Date();   
+//					 
+//					 //오늘
+//					 date = new SimpleDateFormat("yyyy-MM-dd"); 
+//					  toDay = date.format(today);
+//					 
+//					String conText ="[함께할개]에서 구매가 완료되었습니다. 구매번호:"+a+" 결제금액:"+b+"원 "+"결제일시:"+toDay;
+//					 Boolean ok = userService.sendText(userPhoneNo, conText);
+//						
+//					}
+					
+					
 				}
 				
 			}else {
