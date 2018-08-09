@@ -56,7 +56,7 @@ PRIMARY KEY(fund_my_price_no)
 
 
 CREATE SEQUENCE seq_point_no INCREMENT BY 1 START WITH 1;
-
+DROP SEQUENCE seq_point_no;
 
 CREATE TABLE point(
 point_no    NUMBER(10)    NOT NULL,

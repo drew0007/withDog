@@ -1,6 +1,7 @@
 package com.withdog.web.fund;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.client.RestClientException;
 
+import com.withdog.common.Search;
 import com.withdog.service.domain.Fund;
 import com.withdog.service.fund.FundService;
 
@@ -111,6 +114,29 @@ public class FundRestController {
 	  return "forward:/sns/kakaoPay.jsp";
 	    
     }
+	
+	@RequestMapping(value = "json/getFundSearch")
+	public JSONArray getFundSearch(@RequestBody Search search) throws Exception {
+		System.out.println("/fund/json/getFundSearch!!!!!!!!!!!!11");
+		List<Fund> list = fundService.getFundSearch(search);
+				
+		JSONArray jsonArray = new JSONArray();
+		
+		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getFundTitle()!=null) {
+			jsonArray.add(list.get(i).getFundTitle());
+			}else if(list.get(i).getFundNo()!=0) {
+				String temp=list.get(i).getFundNo()+"";
+				jsonArray.add(temp.trim());
+			}else if(list.get(i).getFundRaising()!=0) {
+				String temp=list.get(i).getFundCenter();
+			jsonArray.add(temp);
+			}
+		}
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+jsonArray);
+		
+		return jsonArray;
+	}
 	
 	
 

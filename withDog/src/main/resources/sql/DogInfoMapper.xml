@@ -14,7 +14,7 @@
 		<result property="viewCount" column="dog_info_view_count" jdbcType="VARCHAR" />
 		<result property="recommended" column="dog_info_recommend" jdbcType="VARCHAR" />
 		<result property="notRecommended" column="dog_info_not_recommend" jdbcType="VARCHAR" />
-		<result property="regDate" column="reg_date" jdbcType="DATE" />
+		<result property="regDate" column="reg_date" jdbcType="VARCHAR" />
 		<result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR" />
 		<result property="dogInfoImage" column="dog_info_image" jdbcType="VARCHAR" />
 		<association property="user" javaType="user"> 
@@ -82,7 +82,7 @@
 	<select id="getDogInfoList" parameterType="java.util.Map" resultMap="dogInfoSelectMap">
 		SELECT *
 		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
-					FROM( SELECT * 
+					FROM( SELECT dog_info_no, user_id, dog_info_image, dog_info_content, dog_info_title, dog_info_topic, dog_info_view_count, dog_info_recommend, dog_info_not_recommend, TO_CHAR(reg_date, 'YYYY.MM.DD') reg_date, delete_flag
 									FROM dog_info
 									<where>
 										<if test="user.role=='user' ">

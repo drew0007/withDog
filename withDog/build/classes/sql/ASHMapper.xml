@@ -37,23 +37,19 @@
 		<result property="ashReservationCondition" 		column="ash_reservation_condition" 				jdbcType="VARCHAR"  />
 		<result property="purchaseDate" 		column="purchase_date" 				jdbcType="DATE"  />
 		<result property="paymentOption" 		column="payment_option" 				jdbcType="VARCHAR"  />
-		<association property="healingDog" javaType="healingDog" >
-		 	<result property="healingDogNo" column="healing_dog_no"	 		jdbcType="NUMERIC" />
-			<result property="healingDogName" 	column="healing_dog_name" 		jdbcType="VARCHAR" />
-			<result property="healingDogBirth" 		column="healing_dog_birth" 					jdbcType="VARCHAR" />
-			<result property="healingDogimage" 				column="healing_dog_image" 					jdbcType="VARCHAR" />
-			<result property="healingDogChar" 		column="healing_dog_char" 				jdbcType="VARCHAR"  />
-			<result property="healingDogGender" 		column="healing_dog_gender" 				jdbcType="VARCHAR"  />
-			<result property="healingDogHealer" 		column="healing_dog_healer" 				jdbcType="VARCHAR"  />
-			<association property="healingDogBreed" javaType="dogBreedDic" >
-			 	<result property="dogNo" column="dog_no"	 		jdbcType="NUMERIC" />
-			 	<result property="dogBreedEN" column="dog_breed_en" jdbcType="VARCHAR" />
-				<result property="dogBreedKO" column="dog_breed_ko" jdbcType="VARCHAR" />
-			</association>
-		</association>
-		<association property="user" javaType="user" >
-		 	<result property="userId" column="user_id"	 	jdbcType="VARCHAR" />
-		</association>
+	 	<result property="healingDog.healingDogNo" column="healing_dog_no"	 		jdbcType="NUMERIC" />
+		<result property="healingDog.healingDogName" 	column="healing_dog_name" 		jdbcType="VARCHAR" />
+		<result property="healingDog.healingDogBirth" 		column="healing_dog_birth" 					jdbcType="VARCHAR" />
+		<result property="healingDog.healingDogimage" 				column="healing_dog_image" 					jdbcType="VARCHAR" />
+		<result property="healingDog.healingDogChar" 		column="healing_dog_char" 				jdbcType="VARCHAR"  />
+		<result property="healingDog.healingDogGender" 		column="healing_dog_gender" 				jdbcType="VARCHAR"  />
+		<result property="healingDog.healingDogHealer" 		column="healing_dog_healer" 				jdbcType="VARCHAR"  />
+	 	<result property="healingDog.healingDogBreed.dogNo" column="dog_no"	 		jdbcType="NUMERIC" />
+	 	<result property="healingDog.healingDogBreed.dogBreedKO" column="dog_breed_en"	 		jdbcType="VARCHAR" />
+	 	<result property="healingDog.healingDogBreed.dogBreedEN" column="dog_breed_ko"	 		jdbcType="VARCHAR" />
+	 	<result property="dogBreedEN" column="dog_breed_en" jdbcType="VARCHAR" />
+		<result property="dogBreedKO" column="dog_breed_ko" jdbcType="VARCHAR" />
+ 		<result property="user.userId" column="user_id"	 	jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<resultMap id="consultingSelectMap" type="consulting">
@@ -68,13 +64,15 @@
 	
 	<!-- 	모든 치유견 (서치없이)가져오기 -->
 	<select id="getAllHealingDog" resultMap="healingDogSelectMap">
-		SELECT DISTINCT *
-		FROM healing_dog
+		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name,TO_CHAR(sysdate,'YYYY')-SUBSTR(hd.healing_dog_birth,0,4)+1 AS healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO
+		FROM healing_dog hd, dog_breed_dic dd
+		WHERE hd.DOG_NO = dd.DOG_NO
+		ORDER BY healing_dog_no
 	</select>
 	
 	<!-- 	치유견 가져오기 -->
 	<select id="getHealingDog" parameterType="int" resultMap="healingDogSelectMap">
-		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name,TO_CHAR(sysdate,'YYYY')-SUBSTR(hd.healing_dog_birth,0,4)+1 AS healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO
+		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name,TO_CHAR(sysdate,'YYYY')-SUBSTR(hd.healing_dog_birth,0,4)+1 AS healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO, dd.dog_no
 		FROM healing_dog hd, dog_breed_dic dd
 		WHERE hd.DOG_NO = dd.DOG_NO AND healing_dog_no= #{value}
 	</select>
@@ -194,13 +192,31 @@
 		
 	</select>
 	
+	
+		<select id="getAshReservationTimeCountByAndroid" resultMap="ashSelectMap" parameterType="string">
+SELECT DISTINCT a.healing_dog_no,a.healing_dog_image, NVL(DECODE(a.ash_rservation_time,2,a.ash_rservation_time,ar.ash_reservation_time),3) AS ash_reservation_time
+FROM(
+SELECT hd.healing_dog_no,hd.healing_dog_image, COUNT(ar.ash_reservation_time) AS ash_rservation_time
+FROM ash_reservation ar, healing_dog hd
+WHERE ar.healing_dog_no(+) = hd.healing_dog_no
+AND ar.ash_reservation_date(+) = #{value}
+AND ar.ash_reservation_condition(+) NOT IN('3')
+group by  hd.healing_dog_no,hd.healing_dog_image
+) a, ash_reservation ar
+WHERE ar.healing_dog_no(+) = a.healing_dog_no
+AND ar.ash_reservation_date(+) = #{value}
+AND ar.ash_reservation_condition(+) NOT IN('3')
+ORDER BY a.healing_dog_no
+
+ 	</select>
+ 	
 <!-- 	동물교감치유 예약 등록 -->
 	<insert id="addAshReservation" parameterType="ash">
 		INSERT INTO ash_reservation 
 		(ash_reservation_no,healing_dog_no,user_id,	ash_reservation_name,ash_reservation_date,ash_reservation_time,ash_reservation_address1,ash_reservation_address2,ash_reservation_phone,ash_reservation_price,ash_reservation_etc,	ash_reservation_condition,purchase_date,payment_option)
 		VALUES
 		(
-			seq_after_ash_after_ash_no.nextval,
+			seq_ash_ash_no.nextval,
 			#{healingDog.healingDogNo},
 			#{user.userId},
 			#{ashReservationName},
@@ -243,28 +259,32 @@
 		SELECT *
 		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
 					FROM( 
-									SELECT ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer
+									SELECT ar.user_id,ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, ar.ash_reservation_name,hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer,hd.healing_dog_image 
 									FROM ash_reservation ar, healing_dog hd
 									WHERE ar.healing_dog_no = hd.healing_dog_no AND ar.user_id = #{userId}
-									<if test="search.searchStartDay==null and search.sorting !=0">
+									<if test="search.searchStartDay!=null">
+									<if test="search.searchStartDay=='' and search.sorting !=0">
 											<if test="search.sorting==1">
-												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(TO_DATE(sysdate),'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 											<if test="search.sorting==2">
-												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-3)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-3)+1) - TO_CHAR(TO_DATE(sysdate),'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 											<if test="search.sorting==3">
-												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-6)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+												AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-6)+1) - TO_CHAR(TO_DATE(sysdate),'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 											</if>
 									</if>
-									<if test="search.searchStartDay!=null  and search.sorting ==0 ">
+									<if test="search.searchStartDay!=''  and search.sorting ==0 ">
 										 		AND ar.ash_reservation_date BETWEEN TO_DATE(#{search.searchStartDay},'YYYY-MM-DD') AND TO_DATE(#{search.searchEndDay},'YYYY-MM-DD')
+									</if>
 									</if>
 									ORDER BY ar.ash_reservation_no desc
 									) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
 					WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	</select>
+	
+
 	
 		<!-- 	나의 예약리스트 페이징을 위한 토탈카운트 -->
 	<select id="getTotalCountByMyASH" parameterType="java.util.Map" resultType="int" >
@@ -273,7 +293,8 @@
 	  					SELECT ar.purchase_date,ar.ash_reservation_time, ar.ash_reservation_no, ar.ash_reservation_date,ar.ash_reservation_condition,ar.ash_reservation_price, hd.healing_dog_no, hd.healing_dog_name, hd.healing_dog_healer
 						FROM ash_reservation ar, healing_dog hd
 						WHERE ar.healing_dog_no = hd.healing_dog_no AND ar.user_id=#{userId}
-							<if test="search.searchStartDay==null and search.sorting !=0">
+						<if test="search.searchStartDay!=null">
+							<if test="search.searchStartDay=='' and search.sorting !=0">
 									<if test="search.sorting==1">
 										AND ar.ash_reservation_date BETWEEN TRUNC(ADD_MONTHS(sysdate,-1)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
 									</if>
@@ -286,8 +307,9 @@
 									<if test="search.sorting==4">
 									</if>
 							</if>
-							<if test="search.searchStartDay!=null and search.sorting ==0 ">
+							<if test="search.searchStartDay!='' and search.sorting ==0 ">
 								 		AND ar.ash_reservation_date BETWEEN TO_DATE(#{search.searchStartDay},'YYYY-MM-DD') AND TO_DATE(#{search.searchEndDay},'YYYY-MM-DD')
+							</if>
 							</if>
 						) countTable					
 	</select>	  

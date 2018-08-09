@@ -20,21 +20,31 @@
 <title>애견상식 등록</title>
 
 <script type="text/javascript">
-
+/* $(function() {
+	  $('#summernote').summernote();
+	}); */
+function test(){
+	
+	content = $('#summernote').summernote('code');
+	     	
+  }
+  
+  
 function close_pop(flag) {
     $('#selectTopic').hide();
     $('#writeTitle').hide();
     $('#writeContent').hide();
 };
-$(function() {
-	  $('#summernote').summernote();
-	});
+
 
 function fncAddDogInfo(){
 	//Form 유효성 검증
+	
+	document.getElementById("dogInfoContent").value= content;
+	
  	var dogInfoTopic = $('#dogInfoTopic option:selected').val();
 	var dogInfoTitle = $('input[name=dogInfoTitle]').val();
-	var dogInfoContent = $('textarea[name=dogInfoContent]').val();	
+	var dogInfoContent = content;	
 
 	if(dogInfoTopic == null || dogInfoTopic.length<1){
 		$('#selectTopic').show();
@@ -53,11 +63,11 @@ function fncAddDogInfo(){
 }
 
 
-$(function () {
+/* $(function () {
 	$("#submit").on("click", function () {
 		fncAddDogInfo();
 	});
-})
+}) */
 
 
 $(function () {
@@ -78,7 +88,8 @@ $(function () {
 <body>
 
 
-	<jsp:include page="/layout/common-header.jsp" />
+	<%-- <jsp:include page="/layout/common-header.jsp" /> --%>
+	<jsp:include page="/layout/header.jsp" />
 	
 	
 	 <!-- head section -->
@@ -105,11 +116,11 @@ $(function () {
                 <!-- comment form -->
                 <div class="row">
                 <form>
-                    <div id="addcomment" class="col-md-8 col-sm-12 blog-comment-form-main center-col text-center">
+                    <div id="addcomment" class="col-md-8 col-sm-12  center-col ">
                         <h5 class="info-title margin-five no-margin-top">애견상식 등록하기</h5>
                         <div class="blog-comment-form">
                             	<!-- select -->
-                                <select id="dogInfoTopic" name="dogInfoTopic" class="big-input col-md-4" style="padding-bottom:13px; padding-right:10px;">
+                                <select id="dogInfoTopic" name="dogInfoTopic" class="big-input col-md-4" style="padding-bottom:9px; padding-right:10px;">
                                     <option value="" selected="selected">주제 선택</option>
                                     <option value="1" >훈련</option>
                                     <option value="2" >번식</option>
@@ -124,25 +135,37 @@ $(function () {
                                 <input type="text" name="dogInfoTitle" placeholder="애견상식제목" class="big-input col-md-8 pull-right">
                                 <!-- end input -->
                                 <!-- textarea  -->
-                                <textarea name="dogInfoContent" placeholder="애견상식내용" class="info-textarea" ></textarea>
-                                <!-- end textarea  -->
-                                <!-- input  -->
-                                <input type="file"  id="file" name="file" class="big-input">
-                                <input type="file"  id="file" name="file" class="big-input">
-                                <input type="file"  id="file" name="file" class="big-input">
-                                <!-- end input -->
-                                <!-- required  -->
-                                <span class="required text-right">*Please complete all fields correctly</span>
-                                <!-- end required  -->
+                            </div>    
                                 
+								
+                               <!-- <textarea name="dogInfoContent" placeholder="애견상식내용" class="info-textarea" ></textarea>
+                                end textarea 
+                                input 
+                                <input type="file"  id="file" name="file" class="big-input">
+                                <input type="file"  id="file" name="file" class="big-input">
+                                <input type="file"  id="file" name="file" class="big-input">
+                                end input
+                                required
+                                <span class="required text-right">*Please complete all fields correctly</span> -->
+                                <!-- end required  -->
+                                <br/><br/><br/>
+                              
+                              <input type="hidden" name="dogInfoContent" id="dogInfoContent" value="">
+							<jsp:include page="/common/dogInfoSommernote.jsp"></jsp:include>   		
                             </form>
-                            
+                            <br>
+                            <br>
+                            <br>
+                         
                             <!-- button  -->
-                            <span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium" >등록</span>
+                            <div class="text-center">
+                            <span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium text-center" >애견상식등록</span>
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
+                            
                         </div>
                     </div>
+                    
                     <!-- end comment form -->
                 </div>
                 <!-- end content  -->
@@ -216,7 +239,7 @@ $(function () {
 	
 	<jsp:include page="/layout/footer.jsp" />
 	
-	<jsp:include page="/common/js.jsp" />
+	<jsp:include page="/common/jsSummnerNote.jsp" />
 	
 </body>
 </html>

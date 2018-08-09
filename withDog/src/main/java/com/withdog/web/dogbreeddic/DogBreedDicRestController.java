@@ -2,13 +2,16 @@ package com.withdog.web.dogbreeddic;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import org.apache.tomcat.util.codec.binary.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +67,7 @@ public class DogBreedDicRestController {
 		jsonObject.put("key", dogBreed);
 		System.out.println(jsonObject.toJSONString());
 		
+		
 		return jsonObject;
 	}
 	
@@ -76,7 +80,6 @@ public class DogBreedDicRestController {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("key", dogBreed);
 		System.out.println(jsonObject.toJSONString());
-		
 		return jsonObject;
 	}
 	
@@ -116,11 +119,10 @@ public class DogBreedDicRestController {
 	@RequestMapping(value = "json/getUriVisionAndroid")
 	public JSONObject getUriVisionAndroid(HttpServletRequest req) throws Exception{
 		System.out.println("/dogBreedDic/json/getUriVisionAndroid");
-		PrintStream ps = System.out;
 		
 		JSONObject jsonObject = new JSONObject();
 		if(req.getParameter("uri") != "") {
-			jsonObject.put("uri", detectLabelsGcs(req.getParameter("uri"), ps));
+			jsonObject.put("uri", detectLabelsGcs(req.getParameter("uri"), req.getParameter("type")));
 		}else {
 			jsonObject.put("uri", "http://192.168.0.46:8080/images/noresult_image.png");
 		}
@@ -148,11 +150,21 @@ public class DogBreedDicRestController {
 		return jsonObject;
 	}
 	
-	public static String detectLabelsGcs(String gcsPath, PrintStream out) throws Exception, IOException {
+	public static String detectLabelsGcs(String gcsPath, String type) throws Exception, IOException {
 		List<AnnotateImageRequest> requests = new ArrayList<>();
+		
+		System.out.println("type : "+type);
 
 		ImageSource imgSource = ImageSource.newBuilder().setImageUri(gcsPath).build();
-		Image img = Image.newBuilder().setSource(imgSource).build();
+		Image img = null;
+		if(type == "base64") {
+			System.out.println("베이스 64다");
+
+		}else {
+			System.out.println("이미지다");
+			img = Image.newBuilder().setSource(imgSource).build();
+		}
+		
 		Feature feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
 		AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 		requests.add(request);
@@ -180,4 +192,99 @@ public class DogBreedDicRestController {
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	// 안드로이드에서 보낸 이미지 base64 받는 부분
+	@RequestMapping(value = "json/getImageSearchAndroid")
+	public Map<Object, Object> getVisionAndroidTest(HttpServletRequest request2) throws Exception, IOException {
+		System.out.println("image 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");	
+		System.out.println(request2.getParameter("image64"));
+		String decodeImage =request2.getParameter("image64");
+		byte[] decodeBytes = Base64.decodeBase64(decodeImage);
+		ByteString byteString = ByteString.copyFrom(decodeBytes);
+		
+		//JSONObject jobj =imageVision(byteString);
+			
+		return imageVision(byteString);
+		
+	}
+	
+	
+	public Map<Object, Object> imageVision(ByteString imgBytes) throws Exception {
+		//JSONObject joj = new JSONObject();
+		//int jk=0;
+
+		List<String> descriptionList = new ArrayList<>();
+		List<Float> scoreList = new ArrayList<>();
+		
+		try {
+	
+			List<AnnotateImageRequest> requests = new ArrayList<>();
+			System.out.println(2);
+			Image img = Image.newBuilder().setContent(imgBytes).build();
+			Feature feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
+			AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+			requests.add(request);
+						
+			try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
+				BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+			    List<AnnotateImageResponse> responses = response.getResponsesList();
+			    //System.out.println(responses.toString());
+			    
+			    for (AnnotateImageResponse res : responses) {
+			    	if (res.hasError()) {
+			    		System.out.printf("Error: %s\n", res.getError().getMessage());
+			    	}
+			    	for(EntityAnnotation annotation : res.getLabelAnnotationsList()) {
+			    		//System.out.println(annotation.toString());
+			    		//joj.put(jk+"", (JSONObject)JSONValue.parse(annotation.toString()));
+			    		//jk++;
+			    		String description = annotation.getDescription();
+			    		float score = annotation.getScore()*100;
+			    		
+			    		descriptionList.add(description);
+			    		scoreList.add(score);
+			    		
+			    		//System.out.println("description : "+description);
+			    		//System.out.println("score : "+score);
+			    	}
+			    }
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		Map<Object, Object> map = new HashMap<>();
+		DogBreedDic dogBreedDic = null;
+		int count = 0;
+		
+		if(descriptionList.size() > 0) {
+			for(int i=0; i<descriptionList.size(); i++) {
+				dogBreedDic = dogBreedDicService.getDogBreed(descriptionList.get(i));
+				if(dogBreedDic != null) {
+					List<Object> list = new ArrayList<>();
+					list.add(dogBreedDic);
+					list.add(scoreList.get(i));
+					
+					map.put(count, list);
+					
+					count++;
+				}
+			}
+		}
+		System.out.println(descriptionList);
+		System.out.println(scoreList);
+		for(int i=0; i<map.size(); i++) {
+			System.out.println(map.get(i));
+		}
+		
+		return map;
+	}
+	
 }

@@ -219,7 +219,7 @@
 	
 	}
 	function onError(event) {
-	alert(event.data);
+	//alert(event.data);
 	}
 
 function send() {

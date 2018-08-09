@@ -3,7 +3,9 @@ package com.withdog.web.common;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.withdog.service.common.CommonService;
+import com.withdog.service.domain.DogBreedDic;
+import com.withdog.service.domain.PushToken;
+import com.withdog.service.domain.User;
 
 @RestController
 @RequestMapping("/common/*")
@@ -73,6 +78,40 @@ public class CommonRestController {
 		
 		/*return jobj;*/
 	
+	}
+	
+	@RequestMapping(value = "json/addTokenAndroid")
+	public void addTokenAndroid(HttpServletRequest req) throws Exception{
+		String deviceId = req.getParameter("deviceId");
+		String token = req.getParameter("token");
+		String userId = req.getParameter("userId");
+		
+		System.out.println("deviceId : "+deviceId);
+		System.out.println("token : "+token);
+		System.out.println("userId : "+userId);
+		
+		User user = new User();
+		user.setUserId(userId);
+		
+		PushToken pushToken = new PushToken();
+		pushToken.setDeviceId(deviceId);
+		pushToken.setToken(token);
+		pushToken.setUser(user);
+		
+		commonService.deletePushToken(deviceId);
+		commonService.addPushToken(pushToken);
+		
+		//return null;
+	}
+	
+	@RequestMapping(value = "json/deleteTokenAndroid")
+	public void deleteTokenAndroid(HttpServletRequest req) throws Exception{
+		String deviceId = req.getParameter("deviceId");
+		
+		System.out.println("deviceId : "+deviceId);
+		
+		commonService.deletePushToken(deviceId);
+		//return null;
 	}
 
 }

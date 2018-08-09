@@ -38,6 +38,10 @@ public interface FundService {
 	
 	public void addFundRaising(Fund fund) throws Exception;
 	
+	public int getFundPersonnel(Fund fund) throws Exception;
 	
+	public void updateFundState(int fundNo) throws Exception;
+	
+	public List<Fund> getFundSearch(Search search) throws Exception;
 		
 }

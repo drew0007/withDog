@@ -189,4 +189,9 @@ public class AshServiceImpl implements AshService {
 		return ashDAO.getAshMyReservationByUser(ash, userId);
 	}
 
+	@Override
+	public List<Ash> getAshReservationTimeCountByAndroid(String ashReservationDate) throws Exception {
+		return ashDAO.getAshReservationTimeCountByAndroid(ashReservationDate);
+	}
+
 }

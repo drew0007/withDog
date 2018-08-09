@@ -24,6 +24,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -66,6 +67,16 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl() {
 		System.out.println(this.getClass());
 	}
+	
+	
+	/////////////////////////////////////////////////
+	//Android//
+	@Override
+	public User getUser2(String userId) throws Exception{ //장원 안드테스트
+		return userDAO.getUser2(userId);
+	}
+	///////////////////////////////////////////////////
+	
 	
 	///Method
 	@Override
@@ -212,57 +223,41 @@ public class UserServiceImpl implements UserService {
 		  
 		  System.out.println(toEmail);
 
-
 		  // Get the session object
 
 		  Properties props = new Properties();
-		  
 		  props.put("mail.smtp.starttls.enable", "true");
-
 		  props.put("mail.smtp.host", host);
-
 		  props.put("mail.smtp.port", 587);
-
 		  props.put("mail.smtp.auth", "true");
 
-
 		  Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-
 		   protected PasswordAuthentication getPasswordAuthentication() {
-
 			   return new PasswordAuthentication(fromEmail, password);
-
 		   }
 
 		  });
 
-
 		  // Compose the message
-
 		  try {
-			  
 		   MimeMessage message = new MimeMessage(session);
-
 
 		   message.setFrom(new InternetAddress(fromEmail));
 		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-
 
 			  //이미지 첨부를 위해 시작
 		   // This HTML mail have to 2 part, the BODY and the embedded image
 	       MimeMultipart multipart = new MimeMultipart("related");
 
-
 	        // first part
 	        BodyPart messageBodyPart = new MimeBodyPart();
 
 	        //받은 String htmlText 첨무
+//	        messageBodyPart.setContent(htmlText, "text/html; charset=euc-kr");
 	        messageBodyPart.setContent(htmlText, "text/html; charset=euc-kr");
-
 
 	        // add it
 	        multipart.addBodyPart(messageBodyPart);
-	        
 
 	        // second part (the image)
 	        messageBodyPart = new MimeBodyPart();
@@ -272,17 +267,13 @@ public class UserServiceImpl implements UserService {
 	          ("C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\images\\icon\\tempPW.jpg");
 
 	        messageBodyPart .setDataHandler(new DataHandler(fds));
-
 	        messageBodyPart .setHeader("Content-ID","<my-image>");
-
 
 	        // add it
 	        multipart.addBodyPart(messageBodyPart );
 
-
 	        // put everything together
 	        message.setContent(multipart);
-		   
 
 		   // Subject  메일 제목
 		   message.setSubject("[함께할개] 임시비밀번호를 발송하였습니다.");
@@ -291,7 +282,6 @@ public class UserServiceImpl implements UserService {
 		   	Transport.send(message, message.getRecipients(Message.RecipientType.TO)); //몽
 		   System.out.println("message sent successfully...");
 
-
 		  } catch (MessagingException e) {
 
 		   e.printStackTrace();
@@ -299,7 +289,6 @@ public class UserServiceImpl implements UserService {
 		  }
 
 	return true;
-
 
 	}
 
@@ -438,5 +427,92 @@ public class UserServiceImpl implements UserService {
 		userDAO.updateSnsId(user);
 	}
 
+	@Override
+	public Map<String, Object> getUserConRate() throws Exception {
+		
+		return userDAO.getUserConRate();
+	}
 
-}
+	//교감치유서비스 완료, 펀드 완료, 상품구매완료시 메일전송
+	@Override
+	public boolean sendConfirmEmail(String userEmail, String htmlText, String title) throws Exception {
+		
+		  String host     = "smtp.gmail.com";
+		  String fromEmail   = "withdog0817@gmail.com"; //보내는 사람 이메일 주소
+		  String password  = "0817withdog!"; //보내는 사람 비밀번호
+		  String toEmail     =   userEmail ;//받는사람 이메일 주소
+		  
+		  System.out.println(toEmail);
+
+		  // Get the session object
+
+		  Properties props = new Properties();
+		  props.put("mail.smtp.starttls.enable", "true");
+		  props.put("mail.smtp.host", host);
+		  props.put("mail.smtp.port", 587);
+		  props.put("mail.smtp.auth", "true");
+
+		  Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+		   protected PasswordAuthentication getPasswordAuthentication() {
+			   return new PasswordAuthentication(fromEmail, password);
+		   }
+
+		  });
+
+		  // Compose the message
+		  try {
+		   MimeMessage message = new MimeMessage(session);
+
+		   message.setFrom(new InternetAddress(fromEmail));
+		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+		
+
+            //메일을 동시에 여러명을 보내고 싶을때는 배열로 이메일 주소를 작성한다.
+          //  InternetAddress[] address1 = { new InternetAddress (to) };
+
+            message.setRecipients (Message. RecipientType.TO , userEmail);
+
+            message.setSubject (title); //제목
+
+            message.setSentDate (new java.util.Date());//보내는날짜
+
+          // message.setContent (getMailString(), "text/html;charset=euc-kr" ); //본문내용 보내기
+            message.setContent (htmlText, "text/html;charset=euc-kr" ); //본문내용 보내기
+            Transport.send (message); //만들어진 이메일 전송실행
+
+        } catch (MessagingException ex) {
+
+        	ex.printStackTrace();
+
+        } catch (Exception e) {
+
+        	e.printStackTrace();
+
+        }
+		  
+		  return true;
+
+     }//end of sendConfirmEmail
+	
+
+
+	@Override
+	public Map<String, Object> getUserConListAdmin(Search search) throws Exception {
+	
+		return 	userDAO.getUserConListAdmin(search);
+	}
+
+	@Override
+	public Map<String, Object> getUserCount5day(Search search) throws Exception {
+		
+		return userDAO.getUserCount5day(search);
+	}
+
+	@Override
+	public User checkUserEmail(String email) throws Exception {
+		
+		return userDAO.checkUserEmail(email);
+	}
+
+
+}//end of class

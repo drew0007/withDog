@@ -23,6 +23,7 @@
 		<result property="joinDate"			column="join_date" 			jdbcType="DATE" />
 		<result property="leaveDate"		column="leave_date" 		jdbcType="DATE" />
 		<result property="leaveReason"		column="leave_reason" 		jdbcType="VARCHAR" />
+		<result property="changeDate"		column="change_date" 		jdbcType="DATE" />
 		<result property="role"				column="role" 				jdbcType="VARCHAR" />
 		<result property="snsNaverId"		column="sns_naver_id" 		jdbcType="VARCHAR" />
 		<result property="snsKakaoId"		column="sns_kakao_id" 		jdbcType="VARCHAR" />
@@ -44,7 +45,7 @@
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
 		 user_id, password, user_name, birth, email, post_No, phone, address1, address2, 
-		 dog_no, user_condition, recently_date, leave_date, leave_reason, join_date, role, sns_naver_id, sns_kakao_id, sns_google_id, sns_facebook_id
+		 dog_no, user_condition, recently_date, leave_date, leave_reason, change_date, join_date, role, sns_naver_id, sns_kakao_id, sns_google_id, sns_facebook_id
 		 FROM users 
 		 WHERE user_id = #{value}
 	 </select>
@@ -60,6 +61,14 @@
 	  	</if>
 	 </select>
 	 
+     <!-- 이메일 인증 중복확인  SQL : SELECT ONE -->
+	 <select 	id="checkUserEmail"	parameterType="string"	resultMap="userSelectMap">
+		SELECT
+		user_id, password, user_name, birth, phone, email, post_No, phone, address1, address2, 
+		dog_no, user_condition, recently_date, join_date, role
+		FROM users 
+		WHERE email = #{string}
+	 </select>
 	 
 	 
 	<!-- 아이디 찾기 SQL : SELECT ONE -->
@@ -101,6 +110,7 @@
 	   			<if test="postNo != null">post_No =  #{postNo},</if>
 	   			<if test="address1 != null">address1 = #{address1},</if>
 	   			<if test="address2 != null">address2 = #{address2},</if>
+	   			<if test="dogNo != null">dog_no = #{dogNo},</if>
 			</trim>
 	   	WHERE user_id = #{userId}
 	 </update>
@@ -152,13 +162,13 @@
 													<if test="searchCondition == 1 and searchKeyword !='' ">
 										 				user_name LIKE '%'|| #{searchKeyword} ||'%'
 													</if>
-													<if test="searchCondition == 00">
+													<if test="searchCondition == 2">
 										 				user_condition ='0'
 													</if>
-													<if test="searchCondition == 11">
+													<if test="searchCondition == 3">
 										 				user_condition ='1'
 													</if>
-													<if test="searchCondition == 22">
+													<if test="searchCondition == 4">
 										 				user_condition ='2'
 													</if>
 												</where>
@@ -182,13 +192,13 @@
 								<if test="searchCondition == 1 and searchKeyword !='' ">
 						 			user_name = #{searchKeyword}
 								</if>
-								<if test="searchCondition == 00">
+								<if test="searchCondition == 2">
 					 				user_condition ='0'
 								</if>
-								<if test="searchCondition == 11">
+								<if test="searchCondition == 3">
 					 				user_condition ='1'
 								</if>
-								<if test="searchCondition == 22">
+								<if test="searchCondition == 4">
 					 				user_condition ='2'
 								</if>
 							</where>
@@ -199,13 +209,142 @@
 	<!-- 휴먼 회원관리리스트 SQL : update  -->
 	<update  id="updateUserList">
 		UPDATE users 
-		<set>
-			user_condition = '0'
+		<set> 
+			user_condition = '0', 
+			change_date = SYSDATE 
 		</set>	 
-			WHERE recently_date <![CDATA[ <= ]]> (select to_char(add_months(sysdate,-12),'yyyy-mm-dd') from dual)
+			WHERE recently_date <![CDATA[ <= ]]> (select to_char(add_months(sysdate,-12),'yyyy-mm-dd') from dual) AND user_condition = '1'
 	 </update>
 	 
-
+	 
+	<!-- 전체 회원 토탈카운트 -->
+	 <select  id="getCountAllUser"  resultType="int">
+	  	select count(*)  from (select user_id from users)countTable
+	 </select>
+	 
+	 <!-- 전체 휴면회원 토탈카운트 -->
+	 <select  id="getCountUserCon0"  resultType="int">
+		select count(*)  from (select user_id from users where user_condition='0')countTable
+	 </select>
+	 
+	<!-- 전체 탈퇴회원 토탈카운트 -->
+	 <select  id="getCountUserCon2"  resultType="int">
+	  	SELECT 
+	  	 COUNT(user_condition) 
+	  	 FROM users 
+	  	 WHERE user_condition='2' 
+	 </select>
+	 
+	<!-- 오늘 기준 휴면회원 리스트 --> 
+	<select  id="getUserConList" parameterType="search" resultMap="userSelectMap">
+			
+		SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT user_id , user_name , user_condition, change_date, recently_date
+											FROM users
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 2">
+										 				TO_CHAR(change_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL)
+													</if>
+													<if test="searchCondition == 3">
+										 				TO_CHAR(join_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL)
+													</if>
+													<if test="searchCondition == 4">
+										 				TO_CHAR(leave_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL)
+													</if>
+												</where>
+											</if>
+											ORDER BY user_id ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 	
+			
+	</select>
+	 
+	 <!-- 오늘 기준 회원 토탈카운트 -->	 
+	 <select  id="getUserConCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(user_condition)
+		FROM users
+		<where>
+			<if test="searchCondition == 2">
+					TO_CHAR(change_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 3">
+					TO_CHAR(join_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 4">
+					TO_CHAR(leave_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL)
+			</if>
+		</where>
+	 </select>
+	 
+	 <!--1일전 회원 토탈카운트 -->	 
+	 <select  id="check1"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(user_condition)
+	  	FROM users
+		<where>
+			<if test="searchCondition == 2">
+ 				TO_CHAR(change_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-1,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 3">
+ 				TO_CHAR(join_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-1,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 4">
+ 				 TO_CHAR(leave_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-1,'YYYYMMDD') FROM DUAL)
+			</if>
+		</where>
+	 </select>
+	 
+	 <!--2일전 회원 토탈카운트 -->	
+	 <select  id="check2"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(user_condition)
+	  	FROM users
+		<where>
+			<if test="searchCondition == 2">
+ 				 TO_CHAR(change_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-2,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 3">
+ 				TO_CHAR(join_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-2,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 4">
+ 				 TO_CHAR(leave_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-2,'YYYYMMDD') FROM DUAL)
+			</if>
+		</where>
+	 </select>
+	 
+	 <!--3일전 회원 토탈카운트 -->
+	<select  id="check3"  parameterType="search"	 resultType="int">
+  		SELECT COUNT(user_condition)
+	  	FROM users
+		<where>
+			<if test="searchCondition == 2">
+ 				TO_CHAR(change_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-3,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 3">
+ 				 TO_CHAR(join_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-3,'YYYYMMDD') FROM DUAL)
+			</if>
+			<if test="searchCondition == 4">
+ 				 TO_CHAR(leave_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-3,'YYYYMMDD') FROM DUAL)
+			</if>
+		</where>
+	 </select>
+	 
+	  <!--4일전 회원 토탈카운트 -->
+	 <select  id="check4"  parameterType="search"	 resultType="int">
+		  SELECT COUNT(user_condition)
+		  FROM users
+			<where>
+				<if test="searchCondition == 2">
+	 					TO_CHAR(change_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-4,'YYYYMMDD') FROM DUAL)
+				</if>
+				<if test="searchCondition == 3">
+	 					TO_CHAR(join_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-4,'YYYYMMDD') FROM DUAL)
+				</if>
+				<if test="searchCondition == 4">
+	 					TO_CHAR(leave_date,'YYYYMMDD') = (SELECT TO_CHAR(SYSDATE-4,'YYYYMMDD') FROM DUAL)
+				</if>
+			</where>
+	 </select>
 	 
 	 
 </mapper>

@@ -1,27 +1,47 @@
 package com.withdog.web.ash;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialException;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
+import com.withdog.common.Page;
+import com.withdog.common.Search;
 import com.withdog.service.ash.AshService;
+import com.withdog.service.common.CommonService;
 import com.withdog.service.domain.Ash;
 import com.withdog.service.domain.Consulting;
 import com.withdog.service.domain.HealingDog;
+import com.withdog.service.domain.Point;
 import com.withdog.service.domain.User;
+import com.withdog.service.sns.SnsService;
+import com.withdog.service.user.UserService;
 
 @RestController
 @RequestMapping("/ash/*")
@@ -30,10 +50,48 @@ public class AshRestController {
 	@Autowired
 	@Qualifier("ashServiceImpl")
 	private AshService ashService;
+	
+	@Autowired
+	@Qualifier("snsServiceImpl")
+	private SnsService snsService;
+	
+	@Autowired
+	@Qualifier("commonServiceImpl")
+	private CommonService commonService;
+
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 
 	public AshRestController() {
 		System.out.println(this.getClass());
 	}
+	@RequestMapping(value = "json/getMyReservationASHListAndroid")  //나의 예약리스트
+	public JSONObject getMyReservationASHList(HttpServletRequest request)
+			throws Exception {
+		System.out.println("/getMyReservationASHListAndroid");
+		Search search = new Search();
+		search.setSorting(Integer.parseInt(request.getParameter("sorting")));
+		System.out.println("서치 출력 ; " + search);
+
+		User user = (User) userService.getUser(request.getParameter("userId"));
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+			search.setSearchKeyword("");
+			search.setSearchStartDay("");
+		}
+		search.setPageSize(100);
+		Map<String, Object> map = ashService.getAshMyReservationList(search, user.getUserId());
+		System.out.println("맵확인 : " + map);
+		System.out.println("리스트 넘기기전 리스트 확인 : " + map.get("list"));
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", map.get("list"));
+
+		return jsonObject;
+	}
+	
 	
 	@RequestMapping(value = "json/getAllHealingDogList")
 	public JSONObject getAllHealingDogList() throws Exception{
@@ -51,6 +109,18 @@ public class AshRestController {
 		List<HealingDog> healingDogs =  ashService.getHealingDogListByDate(ashReservationDate);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("healingDogs", healingDogs);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "json/getAshReservationTimeCountByAndroid/{ashReservationDate}")
+	public JSONObject getAshReservationTimeCountByAndroid(@PathVariable String ashReservationDate) throws Exception{
+		System.out.println("/json/getAshReservationTimeCountByAndroid");
+		System.out.println("선택한 날짜는? : " + ashReservationDate);
+		List<Ash> ash =  ashService.getAshReservationTimeCountByAndroid(ashReservationDate);
+		System.out.println("결과 : " + ash);
+		System.out.println("결과222 : " + ash.size());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("ash", ash);
 		return jsonObject;
 	}
 	
@@ -79,19 +149,20 @@ public class AshRestController {
 			jsonObject.put("title", ash.getHealingDog().getHealingDogName()); //예약견 이름 
 			jsonObject.put("image", ash.getHealingDog().getHealingDogimage()); //예약견 사진 
 			jsonObject.put("start", ash.getAshReservationDate()); // 날짜
+			System.out.println("날짜출력 : " + ash.getAshReservationDate());
 			switch(ash.getHealingDog().getHealingDogNo()) {
-			case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
-				break;
-			case 10016 :jsonObject.put("color", "GREEN"); //달력 색
-				break;
-			case 10017:jsonObject.put("color", "BLUE"); //달력 색
-				break;
-			case 10018 :jsonObject.put("color", "GRAY"); //달력 색
-				break;
-			case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
-				break;
-			case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
-				break;
+				case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
+					break;
+				case 10016 :jsonObject.put("color", "GREEN"); //달력 색
+					break;
+				case 10017:jsonObject.put("color", "BLUE"); //달력 색
+					break;
+				case 10018 :jsonObject.put("color", "GRAY"); //달력 색
+					break;
+				case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
+					break;
+				case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
+					break;
 			}
 			
 			if(ash.getAshReservationTime().equals("0")) { // 시간 0이면 오전 1이면 오후
@@ -126,24 +197,23 @@ public class AshRestController {
 		
 		for (Ash ash : list) {
 			JSONObject jsonObject = new JSONObject();
-			
 			jsonObject.put("id", ash.getAshReservationNo()); // 예약번호
 			jsonObject.put("title", ash.getHealingDog().getHealingDogName()); //예약견 이름 
 			jsonObject.put("image", ash.getHealingDog().getHealingDogimage()); //예약견 사진 
 			jsonObject.put("start", ash.getAshReservationDate()); // 날짜
 			switch(ash.getHealingDog().getHealingDogNo()) {
-			case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
-				break;
-			case 10016 :jsonObject.put("color", "GREEN"); //달력 색
-				break;
-			case 10017:jsonObject.put("color", "BLUE"); //달력 색
-				break;
-			case 10018 :jsonObject.put("color", "GRAY"); //달력 색
-				break;
-			case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
-				break;
-			case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
-				break;
+				case 10015 : jsonObject.put("color", "#FDED87"); //달력 색
+					break;
+				case 10016 :jsonObject.put("color", "GREEN"); //달력 색
+					break;
+				case 10017:jsonObject.put("color", "BLUE"); //달력 색
+					break;
+				case 10018 :jsonObject.put("color", "GRAY"); //달력 색
+					break;
+				case 10019 :jsonObject.put("color", "YELLOW"); //달력 색
+					break;
+				case 10020 :jsonObject.put("color", "PURPLE"); //달력 색
+					break;
 			}
 			
 			if(ash.getAshReservationTime().equals("0")) { // 시간 0이면 오전 1이면 오후
@@ -163,7 +233,6 @@ public class AshRestController {
 		jsonObject2.put("end", today); // 날짜
 		jsonArray.add(jsonObject2);
 		System.out.println(jsonArray.toString());
-		
 		
 		return  jsonArray.toString();
 	}
@@ -228,6 +297,75 @@ public class AshRestController {
 	}
 
 	//end 컨설팅
+	@RequestMapping(value="json/android/kakaoPay")
+	private JSONObject paymentReady2(@ModelAttribute("ash") Ash ash,HttpServletRequest req) throws RestClientException, URISyntaxException,Exception {
+		System.out.println("kakaoPay Start==================================");
+		
+		System.out.println(req.getParameter("userId"));
+		System.out.println(req.getParameter("usePoint"));
+		System.out.println(req.getParameter("reservationData"));
+		ash.setAshReservationDate(req.getParameter("reservationData"));
+		System.out.println(ash.toString());
+		User user;
+		if(req.getParameter("userId")!=null) {
+		user = userService.getUser(req.getParameter("userId"));
+		}else {
+		user = new User();
+		}
+		int price = 0;
+		int usePoint = 0;
+
+		/// 영수증.jsp로 카드 결제시 callback 되는지
+		String forwardUri = "forward:/sns/kakaoPay.jsp";
+		// snsKakaoPay를 위한 로직
+		Point pointAsh = new Point();
+		pointAsh.setUser(user);
+		pointAsh.setAsh(ash);
+		System.out.println(1);
+
+		if (pointAsh.getAsh().getAshReservationPrice() == 0) { // 결제 시 사용금액이 0이라면?
+			System.out.println("사용한 결제금액이 없다면");
+			price = pointAsh.getAsh().getAshReservationPrice(); // price에 0을 넣는다.
+		}
+		
+		if (Integer.parseInt(req.getParameter("usePoint")) != 0) { // 사용한 포인트가 0이 아니라면
+			pointAsh.setUsePoint(Integer.parseInt(req.getParameter("usePoint")));
+			usePoint = Integer.parseInt(req.getParameter("usePoint"));
+		}
+		System.out.println(price + "::" + usePoint);
+
+		System.out.println(123);
+		String uri = "http://192.168.0.39:8080/ash/addReservationASHViewAndroid?userId="+req.getParameter("userId")
 	
+		+"&a="+ash.getAshReservationAddress1()
+		+"&b="+ash.getAshReservationAddress2()		
+		+"&c="+ash.getAshReservationPhone()
+		+"&d="+ash.getAshReservationEtc()
+		+"&e="+ash.getAshReservationPrice()
+		+"&f="+ash.getAshReservationDate()
+		+"&g="+ash.getAshReservationTime()
+		+"&h="+ash.getHealingDog().getHealingDogNo()
+		+"&i="+ash.getHealingDog().getHealingDogHealer()
+		+"&j="+req.getParameter("usePoint")
+		+"&state=";
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		JSONObject jobj = snsService.AshKakaoPay(pointAsh, uri); // 카카오페이 다녀와서 데이터를 받는 객체
+		System.out.println(jobj.get("tid"));
+		String url = (String)jobj.get("next_redirect_app_url");
+		//String url = (String)jobj.get("android_app_scheme");
+		System.out.println(url);
+		//System.out.println(url.replaceAll("kakaotalk", "intent"));
+	 	JSONObject jsonUrl = new JSONObject();    
+	    jsonUrl.put("url", url);
+	   
+
+		System.out.println("끝남");
+	
+		
+		return jsonUrl;
+
+		
+	    
+    }
 
 }

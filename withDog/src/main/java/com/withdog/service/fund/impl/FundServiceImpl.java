@@ -147,10 +147,25 @@ public class FundServiceImpl implements FundService{
 		return map;
 	}
 
+	@Override
+	public int getFundPersonnel(Fund fund) throws Exception {
+		// TODO Auto-generated method stub
+		return fundDAO.getFundPersonnel(fund);
+	}
 	
-	
-	
-	
+	@Override
+	public void updateFundState(int fundNo) throws Exception {
+		// TODO Auto-generated method stub
+		
+		fundDAO.updateFundState(fundNo);
+	}
+
+	@Override
+	public List<Fund> getFundSearch(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return fundDAO.getFundSearch(search);
+	}
+
 	
 	
 

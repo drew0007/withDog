@@ -21,6 +21,7 @@ public interface AshService {
 	public Map<String, Object> getHealingDogList(Search search) throws Exception;
 
 	public List<HealingDog> getHealingDogListByDate(String ashReservationDate) throws Exception;
+
 	// ÄÁ¼³ÆÃ
 	public List<HealingDog> getConsultingDogList() throws Exception;
 
@@ -31,6 +32,7 @@ public interface AshService {
 	public void updateConsultingState(Consulting consulting) throws Exception;
 
 	public Map<String, Object> getConsultingAdminList(Search search) throws Exception;
+
 	//
 	public void addAshReservation(Ash ash) throws Exception;
 
@@ -39,6 +41,8 @@ public interface AshService {
 	public Ash getAshReservationTime(int healingDogNo, String ashReservationDate) throws Exception;
 
 	public Ash getAshReservationTimeCount(int healingDogNo, String ashReservationDate) throws Exception;
+
+	public List<Ash> getAshReservationTimeCountByAndroid(String ashReservationDate) throws Exception;
 
 	public List<Ash> getAllAshReservationList() throws Exception;
 

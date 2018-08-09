@@ -107,10 +107,17 @@ public class CommonController {
 	public String getMyPointList(@ModelAttribute("search") Search search,HttpServletRequest request,HttpSession session)throws Exception{
 		
 		System.out.println("MyPointList : Start");
-		
+		System.out.println(search.toString());
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
-		}		
+		}
+		
+		if(search.getSorting()==1) {
+			request.setAttribute("sorting", 1);
+		}else if(search.getSorting()==2) {
+			request.setAttribute("sorting", 2);
+		}
+		
 		search.setPageSize(pageSize);
 		
 		Point point = new Point();
@@ -120,13 +127,9 @@ public class CommonController {
 		
 		int currentPoint = commonService.getCurrentPoint(point);
 		Map<String,Object> map = commonService.getMyPointList(search,user.getUserId());
-		System.out.println("@@@@@");
 		List<Point> list = (List<Point>)map.get("list");
-		System.out.println("@@@@@");
-		List<Point> resultList = new ArrayList<Point>();
-		System.out.println("@@@@@");
+		List<Point> resultList = new ArrayList<Point>(); 
 		for (int i = 0; i <list.size(); i++) {
-			System.out.println(list.size());
 			System.out.println(list.get(i).toString());
 			point=list.get(i);
 			if(point.getFund().getFundMyPrice()!=0) {

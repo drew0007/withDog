@@ -158,7 +158,7 @@ table td{font-size:12px;}
 				        </div>
 				        
 				        <input type="hidden" id="currentPage" name="currentPage" value="" />
-				        <input type="hidden" id="sorting" name="sorting" value="0"/>
+				        <input type="hidden" id="sorting" name="sorting" value="${!empty search.sorting?search.sorting:'0'}"/>
 				        </form>
 			        </div>
 			        

@@ -46,7 +46,7 @@ CREATE TABLE dog_info (
 dog_info_no NUMBER(10) NOT NULL,
 user_id VARCHAR2(20) NOT NULL REFERENCES users(user_id),
 dog_info_image VARCHAR2(300) UNIQUE,
-dog_info_content VARCHAR2(1000),
+dog_info_content VARCHAR2(3000),
 dog_info_title VARCHAR2(200) NOT NULL,
 dog_info_topic VARCHAR2(20),
 dog_info_view_count VARCHAR2(10) DEFAULT '0',

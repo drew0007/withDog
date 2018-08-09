@@ -208,7 +208,7 @@
         <div class="row text-center margin-two">
                 <!-- <a class="highlight-button-dark2 btn btn-big no-margin-right btn-round" href="#">신청하기</a> -->
                 <!-- <button class="highlight-button-dark2 btn btn-big no-margin-right btn-round" id="addConsulting">신청하기</button> -->
-                <a style="cursor: pointer;" class="popup-with-zoom-anim highlight-button-dark2 btn btn-big no-margin-right btn-round" id="consulting">신청하기</a>
+                <a style="cursor: pointer;"class="popup-with-zoom-anim highlight-button-dark2 btn btn-big no-margin-right btn-round" id="consulting">신청하기</a>
          </div>
         <!-- end 신청하기-->
 

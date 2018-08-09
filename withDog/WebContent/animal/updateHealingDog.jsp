@@ -161,9 +161,9 @@ $(function () {
 						<!-- input  -->
 						<div class="checks">
 							<input value="0"  type="radio" id="radio1" name="healingDogGender" class="checkbox" ${healingDog.healingDogGender=='0'?'checked':'' } />
-							<label for="radio1">남아</label>
+							<label for="radio1" class="input-label radio">남아</label>
 							<input value="1" type="radio" id="radio2" name="healingDogGender"class="checkbox"  ${healingDog.healingDogGender=='1'?'checked':'' }/>
-							<label for="radio2">여아</label>
+							<label for="radio2" class="input-label radio">여아</label>
 						</div>
 						<!-- end input  -->
 					</div>

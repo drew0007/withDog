@@ -15,7 +15,7 @@ public class DogInfo {
 	private String notRecommended;
 	private String viewCount;
 	private RecommendInfo recommendCondition;
-	private Date regDate;
+	private String regDate;
 	private String deleteFlag;
 	private List<String> dogInfoImageList = new ArrayList<String>();
 
@@ -108,11 +108,11 @@ public class DogInfo {
 		this.recommendCondition = recommendCondition;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date reg_Date) {
+	public void setRegDate(String reg_Date) {
 		this.regDate = reg_Date;
 	}
 
