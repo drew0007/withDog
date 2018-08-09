@@ -201,7 +201,7 @@
 
 	<jsp:include page="/layout/footer.jsp" />
 
-	<jsp:include page="/common/js.jsp" />
+	<jsp:include page="/common/jsSummnerNote.jsp" />
 
 </body>
 </html>
