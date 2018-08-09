@@ -2,7 +2,6 @@ package com.withdog.service.user.impl;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.PublicKey;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,14 +68,20 @@ public class UserServiceImpl implements UserService {
 		System.out.println(this.getClass());
 	}
 	
+	
+	/////////////////////////////////////////////////
+	//Android//
+	@Override
+	public User getUser2(String userId) throws Exception{ //장원 안드테스트
+		return userDAO.getUser2(userId);
+	}
+	///////////////////////////////////////////////////
+	
+	
 	///Method
 	@Override
 	public void addUser(User user) throws Exception {
 		userDAO.addUser(user);
-	}
-	
-	public User getUser2(String userId) throws Exception{ //장원 안드테스트
-		return userDAO.getUser2(userId);
 	}
 
 	//회원정보조회시 포인트조회도 같이

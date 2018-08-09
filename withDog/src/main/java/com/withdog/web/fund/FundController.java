@@ -236,6 +236,7 @@ public class FundController {
 		User user = new User();
 		
 		Fund fund = fundService.getFund(fundNo);
+		fund.setFundPersonnel(fundService.getFundPersonnel(fund));
 		System.out.println(session.getAttribute("user"));
 		if(session.getAttribute("user")!=null) {
 			user = (User)session.getAttribute("user");
@@ -286,7 +287,7 @@ public class FundController {
 		fund=fundService.getMinFund();
 		System.out.println(fund.toString());
 		
-		request.setAttribute("fund", fund);
+		request.setAttribute("Bastfund", fund);
 		
 		System.out.println("FundList End=================================");
 		
@@ -409,7 +410,7 @@ public class FundController {
 			pointfund.setUsePoint(Integer.parseInt(req.getParameter("usePoint")));
 			usePoint=Integer.parseInt(req.getParameter("usePoint"));
 		}
-		
+		price = price-usePoint;
 		
 		
 	
@@ -418,6 +419,7 @@ public class FundController {
 		
 		
 		if(pointfund.getFund().getFundMyPrice()!=0) {
+		pointfund.getFund().setFundMyPrice(price);
 		System.out.println(123);
 		String uri ="http://192.168.0.34:8080/fund/fundReceipt?state=";
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
@@ -430,7 +432,8 @@ public class FundController {
 		}
 		else {
 			//포인트결제시
-		forwardUri="forward:/fund/fundReceipt?state=0"+pointfund.getFund().getFundTitle()+"&price="+pointfund.getFund().getFundMyPrice()+"&usePoint="+pointfund.getUsePoint();	
+		/*forwardUri="forward:/fund/fundReceipt?state=0"+pointfund.getFund().getFundTitle()+"&price="+pointfund.getFund().getFundMyPrice()+"&usePoint="+pointfund.getUsePoint();*/
+			forwardUri="forward:/fund/fundReceipt?state=0"+pointfund.getFund().getFundTitle()+"&price="+price+"&usePoint="+pointfund.getUsePoint();
 		}
 	    
 	
@@ -820,6 +823,23 @@ public class FundController {
 	    
 	    System.out.println("GCM Notification is sent successfully : "+result);
 	    return result;
+	}
+	
+	@RequestMapping(value="/updateFundState")
+	public String updateFundState(HttpServletRequest request) throws Exception {
+
+		System.out.println("/updateFundState : Start");
+				
+		String uri="";
+		
+		if(request.getParameter("fundNo")!=null) {
+			int fundNo = Integer.parseInt(request.getParameter("fundNo"));
+			fundService.updateFundState(fundNo);
+			
+			
+		}
+					
+		return "forward:/fund/getFundResultList";
 	}
 	
 }

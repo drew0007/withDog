@@ -324,7 +324,7 @@ public class PurchaseController {
 		}
 		
 		if (pointPurchase.getPurchaseList().get(0).getPurchasePrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
-			String uri = "http://localhost:8080/purchase/addPurchaseDone?state=";
+			String uri = "http://192.168.0.34:8080/purchase/addPurchaseDone?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
 			JSONObject jobj = snsService.PurchaseKakaoPay(pointPurchase, uri); // 카카오페이 다녀와서 데이터를 받는 객체

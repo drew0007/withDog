@@ -14,6 +14,13 @@
 	
 		$( function() {
 			
+			//엔터키 이벤트 ( 비밀수정 클릭한것처럼)
+			$("#passwordCheck").keydown(function(event){
+		       if(event.keyCode==13){
+		    	   $("#change").trigger('click');
+		        }
+		    });
+			
 			//비밀번호 수정 연결
 			$("#change").on("click" , function() {
 				
@@ -33,6 +40,26 @@
 						
 						return;
 					}
+					
+					//비밀번호 변경
+					$.ajax({
+						url : "/user/json/updatePassword",
+						method : "POST",
+						dataType : "json",
+						data: JSON.stringify({
+							userId:$("#userId").val(),
+							password:$("#password").val()
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status){
+						
+							alert("비밀번호 변경이 완료되었습니다.");
+							self.location = "/user/getUser";
+						}
+					}); //end of .ajax
 					
 					$("#updateform").attr("method","POST").attr("action","/user/updatePassword").submit();
 

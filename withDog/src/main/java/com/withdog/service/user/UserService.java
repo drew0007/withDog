@@ -8,15 +8,16 @@ import com.withdog.common.Search;
 import com.withdog.service.domain.User;
 
 public interface UserService {
+	
+	//Android//
+	// 회원정보 조회 SELECT ONE
+	public User getUser2(String userId) throws Exception;
 
 	// 회원가입
 	public void addUser(User user) throws Exception;
 
 	// 내정보확인
 	public User getUser(String userId) throws Exception;
-	
-	// 장원안드 확인
-	public User getUser2(String userId) throws Exception;
 
 	// 회원정보수정
 	public void updateUser(User user) throws Exception;

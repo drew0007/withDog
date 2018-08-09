@@ -78,6 +78,8 @@ public class UserRestController {
 		System.out.println(this.getClass());
 	}
 
+	///////////////////////////////////////////////////
+	//Android//
 	@RequestMapping(value = "json/loginUserAndroid")
 	public User getUser(HttpServletRequest request, HttpSession session) throws Exception {
 
@@ -120,6 +122,9 @@ public class UserRestController {
 		return user;
 	}
 
+	////////////////////////////////////////////
+	
+	
 	/// Method
 	// 로그인 POST
 	@RequestMapping(value = "json/loginUser", method = RequestMethod.POST)
@@ -570,7 +575,7 @@ public class UserRestController {
 	@RequestMapping(value = "json/loginWithNaver", method = RequestMethod.GET)
 	public JSONObject loginWithNaver() throws Exception {
 		String clientId = "FCLaJ11V_c1179DGKDU1";// 애플리케이션 클라이언트 아이디값";
-		String redirectURI = URLEncoder.encode("http://localhost:8080/user/loginWithNaver", "UTF-8");
+		String redirectURI = URLEncoder.encode("http://192.168.0.34:8080/user/loginWithNaver", "UTF-8");
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();
 		String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";

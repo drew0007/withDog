@@ -1,5 +1,6 @@
 package com.withdog.web.user;
 
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -204,8 +205,7 @@ public class UserController {
 		out.println("<script>alert('정보수정이 완료 되었습니다'); </script>");
 		out.flush();
 		*/
-
-		return "forward:/mypage/getUser.jsp";
+		return "redirect:/user/getUser";
 	}
 	
 	//비밀번호 수정 화면 GET
@@ -362,7 +362,7 @@ public class UserController {
 			    String clientSecret = "o3_uYtuKnA";//애플리케이션 클라이언트 시크릿값";
 			    String code = request.getParameter("code");
 			    String state = request.getParameter("state");
-			    String redirectURI = URLEncoder.encode("http://localhost:8080/user/loginWithNaver", "UTF-8");
+			    String redirectURI = URLEncoder.encode("http://192.168.0.34:8080/user/loginWithNaver", "UTF-8");
 			    String apiURL;
 			    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&;";
 			    apiURL += "client_id=" + clientId;
@@ -458,7 +458,7 @@ public class UserController {
 			@RequestMapping( value="getUserConListAdmin" )
 			public String getUserConListAdmin(@ModelAttribute("search") Search search,HttpSession session,Model model) throws Exception{
 				
-				System.out.println("회원계정상태관리 리스트으로 /user/getUserConListAdmin ");
+				System.out.println("회원계정상태관리 리스트으로 /user/getUserListAdmin ");
 				
 				if(search.getCurrentPage() ==0 ){
 					search.setCurrentPage(1);
@@ -482,6 +482,65 @@ public class UserController {
 				
 				return "forward:/admin/listUserConAdmin.jsp";
 			}
+			
+			
+			
+			//회원계정상태에 따른 리스트_어드민_오늘기준 가져오기	
+			@RequestMapping( value="getUserConListAdminOne")
+			public String getUserConListAdminOne(Search search, HttpSession session,Model model) throws Exception{
+				
+				System.out.println("회원계정상태관리 리스트으로 /user/getUserListAdminOne ");
+				
+				if(search.getCurrentPage() ==0 ){
+					search.setCurrentPage(1);
+				}
+				search.setPageSize(pageSize);
+				
+				System.out.println(">>>>>>>>>>>>>>>>>>확인중"+search);
+				// Business logic 수행
+				Map<String , Object> map=userService.getUserConListAdmin(search);
+				
+				System.out.println(">>>>>>>>>>>>>>>>>>다녀온거니"+map);
+				
+				Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+				
+				// Model 과 View 연결
+				model.addAttribute("list", map.get("list"));
+				model.addAttribute("resultPage", resultPage);
+				model.addAttribute("search", search);
+				
+				return "forward:/admin/listUserConAdmin.jsp";
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			

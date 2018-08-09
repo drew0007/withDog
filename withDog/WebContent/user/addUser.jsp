@@ -33,7 +33,7 @@
 	  .custom-combobox {
 	    position: relative;
 	    display: block;
-	    width : 500px;
+/* 	    width : 500px; */
 	  }
 	  .custom-combobox-toggle {
 	    position: absolute;
@@ -53,22 +53,27 @@
 	    /* prevent horizontal scrollbar */
 	    overflow-x: hidden;
   	  }
+  	  
+  	  .ui-widget{
+  	  	padding:12px 0;
+  	  }
 
 
 		* html .ui-autocomplete {
 	    height: 200px;
 	  }
+	  
+	  .ui-button{
+	  position: absolute;
+	  right :-3px;
+	  }
   	</style>
   	<script src="../js/autocomplete.js"></script>
 	<!-- end 오토컴플릿 -->
-	
-	
-	<!--  이메일 선택 -->
-	<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
 
 	<script type="text/javascript">
 	
-	//좋아하는 견종
+	//좋아하는 견종 제이쿼리 
 	$(function () {
 
 	
@@ -92,9 +97,9 @@
 			
 		}); //end of ajax	
 	
-	});// end 제이쿼리
+	});// end 좋아하는 견종 제이쿼리
 	
-	//로딩시 제이쿼리 시작
+	//가입시 필요한 제이쿼리  1.아이디중복검사 2. 비밀번호 일치여부  3.도로주소명  4.이메일 입력방식   5.가입클릭 이벤트
 	$( function() {
 
 		$("#userId").focus();
@@ -119,7 +124,6 @@
                 $("input[name=userId]").val(userId.substr(0,8));
                 return false;
 	        }
-			
 			
 			if(userId == ""){
 				$("#userId").focus();
@@ -150,7 +154,6 @@
 		//비밀번호 확인
 		$("#passwordCheck").on("keyup",function(){ 
 			
-			
 			var pw=$("input[name='password']").val();
 			var pwCheck=$("input[name='passwordCheck']").val();
 			
@@ -163,27 +166,10 @@
 			
 		});//end 비밀번호 확인
 		
-		
-		//이메일 입력방식 선택 
-		$("#email2").change(function(){ 
-			$("#email2 option:selected").each(function () { 
-				if($(this).val()== '1'){ //직접입력일 경우 
-					$("#emailText").val(''); //값 초기화
-					$("#emailText").attr("disabled",false); //활성화 
-				}else{ //직접입력이 아닐경우 
-					$("#emailText").val($(this).text()); //선택값 입력
-					$("#emailText").attr("disabled",true); //비활성화
-				} 		
-				
-			}); 
-			
-		});//end 이메일 입력방식
-		
-
 
 		//도로명 주소  우편번호 검색 클릭시
 		$("#searchPost").on("click" , function() {
-			var pop = window.open("http://localhost:8080/user/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("http://192.168.0.34:8080/user/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 		});
 						
 		function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
@@ -196,26 +182,35 @@
 		}	
 		window.jusoCallBack = jusoCallBack;
 		
+		//이메일 입력방식 선택 
+		//이메일 셀렉박스 선택시 직접입력 누르면
+		$("#email2").on("change",function(){
+			if($("#email2").val()=='1' ){
+				$("#email1").focus();
+			}
+		});
+		
+		
 		
 		//회원가입 연결
 		$("#join").on("click" , function() {
 			 
-			//가입으로 넘기기전 체크사항   email
-			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 , @ 더해주기
- 			if($("#email2").val()=='1' ){
- 				
- 				var email2= '@'+$("#emailText").val();
- 				$("#email2 option:selected").val(email2);
- 				
- 			}else{
- 				
- 				var email2= '@'+$("#email2").val();
- 				$("#email2 option:selected").val(email2);
- 			}
-			
-			var email1 = $("#email1").val();
-			var email2 = $("#email2").val();
-			$("#email").val(email1+email2);
+			//가입으로 넘기기전 체크사항   :: 1.이메일 2.좋아하는 견종 값 세팅
+			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1
+				if($("#email2").val()=='1' ){
+					
+					var email= $("#email1").val();
+					$("#email").val(email);
+					
+				}else{
+					
+					var email2= '@'+$("#email2").val();
+					var email1 = $("#email1").val();
+					var email =email1+email2;
+					$("#email").val(email);
+					alert("email"+email)
+					//$("#email2 option:selected").val(email2);
+				}
 			
 			///2.좋아하는 견종 :: option value값이 String => 도메인이 int 이므로 바꿔서
  			var dogNo = $("#combobox").val()*1;
@@ -236,56 +231,75 @@
 		var pw=$("input[name='password']").val();
 		var pwCheck=$("input[name='passwordCheck']").val();
 		var name=$("input[name='userName']").val();
+		var birth=$("input[name='birth']").val();
+		var dogNo =$("#combobox option:selected").val();
+		alert("dogNo"+dogNo);
+		var phone=$("input[name='phone']").val();
 		var emailCheck= $("#tempNo").val();
 		
+		//아이디
 		if(id == null || id.length <1){
 			alert("아이디는 반드시 입력하셔야 합니다.");
 			return;
 		}
 	
+		//비밀번호
 		if(pw == null || pw.length <1){
 			alert("비밀번호는  반드시 입력하셔야 합니다.");
 			return;
 		}
 		
+		//비밀번호 확인
 		if(pwCheck == null || pwCheck.length <1){
 			alert("비밀번호확인은  반드시 입력하셔야 합니다.");
 			return;
 		}
-		if(name == null || name.length <1){
-			alert("이름은  반드시 입력하셔야 합니다.");
-			return;
-		}			 
 		
+		//비밀번호와 비밀번호확인 값 일치여부
 		if( pw != pwCheck ) {				
 			alert("비밀번호 확인이 일치하지 않습니다.");
 			$("input:text[name='password2']").focus();
 			return;
 		}
 		
-		if( emailCheck != 100 ) {				
-			alert("이메일 인증이 완료되지 않았습니다.");
-			$("input:text[name='email']").focus();
+		//이름
+		if(name == null || name.length <1){
+			alert("이름은  반드시 입력하셔야 합니다.");
+			return;
+		}			 
+		
+		//생년월일
+		if(birth == null|| birth.length <1){
+			alert("생일은  반드시 선택하셔야 합니다.");
+			return;
+		}	
+		
+		//좋아하는 견종 선택
+		if(dogNo == 0){
+			alert("견종은  반드시 입력하셔야 합니다.");
 			return;
 		}
 		
-		/*이메일 합치기
-		var value = "";	
-		if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
-			var value = $("option:selected").val() + "-" 
-								+ $("input[name='phone2']").val() + "-" 
-								+ $("input[name='phone3']").val();
+		//휴대전화
+		if(phone == null || phone.length <1){
+			alert("휴대전화는  반드시 입력하셔야 합니다.");
+			return;
 		}
-	
-		$("input:hidden[name='phone']").val( value );
-		*/
+		
+		//이메일 인증여부
+		if( emailCheck != 100 ) {				
+			alert("이메일 인증이 완료되지 않았습니다.");
+			$("input:text[name='email']").val("ggg");
+			$("input:text[name='email']").focus();
+			return;
+		}
 		
 		$("form").attr("method","POST").attr("action","/user/addUser").submit();
 	
 	}//end addUser()
 
 	
-	//영문 키워드
+	//영문 키워드 (크롬 작동을 위해)
 	$(document).ready(function(){
 
 		$("#userId").css("ime-mode", "disabled");
@@ -295,12 +309,25 @@
 
 <script type="text/javascript">
 	
-	//이메일 인증
+	//이메일 인증 제이쿼리 
 	$( function() {
-
 		
 		//이메일 인증
 		$("#checkEmail").on("click" , function() {
+			
+			
+			//유효성 검사
+			var email1= $("#email1").val();
+			
+			alert(email1+"email1");
+			var email2= '@'+$("#email2").val();
+			var email = email1 + email2 ;
+			
+			if(email1 == null || email1.length <1){		
+				alert("이메일이 입력되지 않았습니다.");
+				$("input:text[name='email1']").focus();
+				return;
+			}
 			
 			 
 			$.ajax({
@@ -309,7 +336,7 @@
 				method : "POST",
 				datatype : "json",
 				data: JSON.stringify({
-					email :$("#email").val()
+					email : email
 				}),
 				headers : {
 					"Accept" : "application/json",
@@ -320,13 +347,17 @@
 					var check = JSONData.check;
 					var tempNo = JSONData.tempNo;
 					
+					$(".span1").remove();
+					
 					if(!check){
-						$(".changeDiv1").html("해당 이메일로 인증이 불가합니다.").css('color','red').css('font-size','12px');
+						$(".spanChange").append("<span class=\"span1\" style=\"color:red;font-size:12px;\">입력하신 정보로 가입된 아이디가 존재합니다.</span>");
+// 						$(".changeDiv1").html("입력하신 정보로 가입된 아이디가 존재합니다.").css('color','red').css('font-size','12px');
 					}else{
 						//고유번호 숨기기
 						$("#tempNo").val(tempNo);
-						$(".changeDiv1").html('<div class="col-md-12"><p class="col-md-4">인증코드 입력 :</p><input type="text" id="userTextNum" class="col-md-4"><button type="button" class="highlight-button col-md-4 pull-right" id="checkTextNum" >확인</button></div');
-						$(".changeDiv2").html("인증코드를 입력해주세요!").css('color','blue').css('font-size','14px');	
+						$(".changeDiv1").append('<div class=\"col-md-12 bg-gray\" style=\"padding:20px 0px 0px;\"><div class=\"col-md-12\" style="\margin:0px 80px\"><input type=\"text\" id=\"userTextNum\" class="\col-md-6\" placeholder="\인증코드를 입력하세요.\" /><button type="\button\" class="\highlight-button-dark col-md-2\" id="\checkTextNum\" >확인</button></div></div>');
+						$(".spanChange").append("<span style=\"color:blue;font-size:12px;\">인증코드를 입력해주세요!</span>");
+// 						$(".changeDiv2").html("인증코드를 입력해주세요!").css('color','blue').css('font-size','14px');	
 					}
 
 				}
@@ -334,13 +365,11 @@
 			});//end of Ajax
 						
 			
-			
 		}); //end 이메일 인증
 		
-	});//end 제이쿼리
+	});//end 이메일 인증 제이쿼리
 	
 	//발송한 숫자와 고객이 입력한 숫자 비교
-	
 	$(document).on("click","#checkTextNum",function() {
 		//숨겨놓은 발송 숫자
 		var textNum = $("#tempNo").val();
@@ -365,8 +394,6 @@
 	});
 	
 </script>	
-
-
 
 	
 </head>
@@ -455,18 +482,28 @@
 				    <div class="form-group">
 				        <label for="errortextbox" class="text-uppercase">주소 :</label>
 				        <div>
-				        	<input type="text" id="postNo" name="postNo" class="input-round big-input col-md-4" >
-				        	<input type="button" id="searchPost" value="우편번호검색" style ="width:200px" class="pull-right">
+				        	<input type="text" id="postNo" name="postNo" class="input-round big-input col-md-6 col-xs-6" >
+				        	<input type="button" id="searchPost" value="우편번호검색" class="highlight-button btn-large input-round col-xs-4 pull-right" style="padding:12px 20px 9px;">
 				        </div>
 				        <input type="text" id="address1" name="address1" class="input-round big-input">
 				        <input type="text" id="address2" name="address2" class="input-round big-input">
 				    </div>
 				    
    				    <div class="form-group">
-				    	<p ><span class="spanChange">이메일 :</span> <input type="button" class="pull-right col-md-2" id="checkEmail" value="인증하기"></p>
-				    	<input type="text" class="col-md-6" id="email">
-			    	  	<span class="changeDiv1"></span>
-                        <span class="changeDiv2"></span>
+				    	<p class=""><span class="spanChange">이메일 :</span> <input type="button" class="pull-right col-md-2 col-xs-4 highlight-button input-round text-center no-margin-bottom" id="checkEmail" value="인증하기"></p>
+				    	<input type="text" name="email1" class="col-md-6 margin-top-two big-input" id="email1" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;"/>
+    	         		<div class="col-md-6 no-padding margin-top-two">
+							<select name="email2" id="email2" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px; padding-bottom:9px;" class="big-input">
+								<option value="1">직접입력</option>
+								<option value="naver.com">@naver.com</option>
+								<option value="daum.net">@daum.net</option>
+								<option value="gmail.com">@gmail.com</option>
+								<option value="hotmail.com">@hotmail.com</option>
+								<option value="nate.com">@nate.com</option>
+							</select>
+		           		</div>
+		           		<div class="changeDiv1"></div>
+		           		<input type="hidden" name="email" id="email">
                         <input type="hidden" id="tempNo" value=""/>
 			       </div> 
 
@@ -475,7 +512,7 @@
 			    <!-- end form  -->  
         
 		         <div class="text-center">
-                 	<input type="button" class="highlight-button-dark btn no-margin post-search" id="join" value="회원가입하기"/>
+                 	<input type="button" class="input-round highlight-button-dark btn no-margin post-search" id="join" value="회원가입하기"/>
                  </div>
 			             
             </div>

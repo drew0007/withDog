@@ -50,6 +50,9 @@ $(function(){
 	$("span:contains('펀딩삭제')").on("click",function(){
 		self.location.href="/fund/deleteFund?fundNo=${fund.fundNo}";
 	});
+	$("span:contains('펀딩완료')").on("click",function(){
+		self.location.href="/fund/updateFundState?fundNo=${fund.fundNo}";
+	});
 });
 
 
@@ -128,9 +131,10 @@ $(function(){
 	                        <div class="col-md-9 col-sm-9 no-padding margin-five">
 	                        
 	                            <!-- button -->
+	                            <c:if test="${fund.fundState=='0' &&!empty user.userId}">
 		                        <a class="highlight-button btn btn-medium button no-margin-right popup-with-zoom-anim no-margin-bottom" href="#modal-popup2">후원하기</a>
 	                            <!-- end button -->
-	                            
+	                            </c:if>
 	                            <!-- modal popup -->
 		                        <div class="col-lg-3 col-md-4 col-sm-5 center-col text-center">
 			                        <!-- modal popup -->
@@ -222,10 +226,10 @@ $(function(){
                 <c:if test="${user.role=='admin'}">
                 <div class="text-center">
 					<span class="highlight-button btn btn-medium">펀딩수정</span>
-				</div>
-				<div class="text-center">
 					<span class="highlight-button btn btn-medium">펀딩삭제</span>
+					<span class="highlight-button btn btn-medium">펀딩완료</span>
 				</div>
+			
 				</c:if>
             </div>
         </section>

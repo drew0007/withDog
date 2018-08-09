@@ -32,19 +32,23 @@ public class UserDAOImpl implements UserDAO {
 		System.out.println(this.getClass());
 	}
 
-	///Method
-	@Override
-	public void addUser(User user) throws Exception {
-		sqlSession.insert("UserMapper.addUser", user);
-	}
-
+	/////////////////////////////////////////////////
+	//Android//
 	@Override
 	public User getUser2(String userId) throws Exception { //장원 안드테스트
 		
 		return sqlSession.selectOne("UserMapper.getUser", userId);
 		
 	}
+	///////////////////////////////////////////////////
 	
+	
+	///Method
+	@Override
+	public void addUser(User user) throws Exception {
+		sqlSession.insert("UserMapper.addUser", user);
+	}
+
 	@Override
 	public User getUser(String userId) throws Exception {
 		
@@ -180,7 +184,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public   Map<String, Object> getUserConListAdmin(Search search) throws Exception {
-		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		

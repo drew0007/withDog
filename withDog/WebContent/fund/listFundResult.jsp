@@ -12,6 +12,57 @@
 
 <title>완료된펀딩 리스트</title>
 
+
+
+ <style>
+  .ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 100px;
+  }
+  </style>
+
+  <script>
+  $( function() {
+	  var availableTags;
+	  $("#tags").on("keyup",function(){
+		  console.log($(".form-control").val());
+			$.ajax(
+		  			{
+				 url:"/fund/json/getFundSearch", 
+		  		 method:"POST",
+		  		 data:JSON.stringify({
+		  			searchCondition:$(".form-control").val(),
+		  		    searchKeyword:$("#tags").val()
+		  			
+		  		 }),
+		  		 dataType:"json",
+		  		 headers:{
+		  			 "Accept" : "application/json",
+		  			 "Content-Type" : "application/json"
+		  		 },
+		  		 success:function(prodSearch,status){
+		  		 	 availableTags=prodSearch;
+		  		 	$( "#tags" ).autocomplete({
+		  		      source: availableTags
+		  		    });
+		  		  }
+		  		 }
+		  		);//ajax end
+		  
+	    	  });
+    
+    
+  } );
+  </script>
+  
 <script type="text/javascript">
 
 function fncGetList(currentPage) {
@@ -21,7 +72,6 @@ function fncGetList(currentPage) {
 
 
 </script>
-
 
 </head>
 
@@ -68,11 +118,12 @@ function fncGetList(currentPage) {
 		                	
 						    <select class="form-control" name="searchCondition" style="width: 20%;display:inline-block;">
 								<option id="check" value="0" ${search.searchCondition =="0"? "selected" : ""}>펀딩제목</option>
+								<option id="check" value="1" ${search.searchCondition =="1"? "selected" : ""}>펀딩번호</option>
 							</select>
 						    <label class="sr-only" for="searchKeyword">검색어</label>
 						    <input type="text" class="form-control"  name="searchKeyword"  placeholder="검색어" id="tags"
 						    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" style=" width: 50%;display:inline-block;">
-						     <button type="button" class="highlight-button btn-medium button margin-five" id="key">검색</button>
+						     <button type="button" class="highlight-button btn-medium button margin-five" id="key" onclick="javascript:fncGetList('1')">검색</button>
 						 </div>
 					    </div>
 					     

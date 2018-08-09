@@ -64,7 +64,7 @@
         	}
       	});
     }*/
-	
+    
 	function getFund(){
 		document.getElementById("fundTerm").value = document.getElementById("fundTerm1").value+" ~ "+document.getElementById("fundTerm2").value;
 		document.getElementById("fundContent").value= content;
@@ -76,7 +76,7 @@
 	 function test(){
 	    	
 	    	content = $('#summernote').summernote('code');
-	    	alert(content)
+	    	/* alert(content) */
 	    		      	
 	      }
 </script>

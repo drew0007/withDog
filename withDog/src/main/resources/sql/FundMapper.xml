@@ -45,7 +45,7 @@
 	 
 	 
 	<select id="getFund"	parameterType="int"	resultMap="fundSelectMap">
-		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,delete_flag
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,delete_flag,FUND_STATE
 		from  fund
 		where fund_no=#{value}
 		
@@ -121,6 +121,9 @@
 									<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
 										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+													</if>
+													<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										 				fund_no Like '%'||#{search.searchKeyword}||'%' and
 													</if>
 								    </if>
 									FUND_STATE='1'
@@ -303,6 +306,45 @@
 		WHERE
 		fund_No = #{fundNo}	
 	  </update>
+	
+	<select id="getFundPersonnel" parameterType="fund" resultType="int">
+		SELECT COUNT(*)
+		from(select DISTINCT user_id from fund_info where fund_no=#{fundNo})
+	</select>
+	 
+	 
+	 <update id="updateFundState" parameterType="int">
+		UPDATE fund SET FUND_STATE = '1'
+		WHERE
+		fund_No = #{value}	
+	</update>
+	
+	<select id="getFundSearch" parameterType="search" resultMap="fundSelectMap">
+	  	select 
+	 	<if test="searchCondition != null">
+				<if test="searchCondition == 0">
+	 				fund_title
+				</if>
+				<if test="searchCondition == 1">
+	 				fund_no
+				</if>
+				<if test="searchCondition == 2">
+	 				FUND_CENTER
+				</if>
+		</if>
+	 	from 
+	 	fund 
+	 	<if test="searchCondition != null">
+				<if test="searchCondition == 0 and searchKeyword !='' ">
+	 				where fund_title  Like '%'||#{searchKeyword}||'%'
+				</if>
+				<if test="searchCondition == 1 and searchKeyword !='' ">
+	 				where fund_no LIKE '%'||#{searchKeyword}||'%'
+				</if>
+			
+		</if>
+		and FUND_STATE='1'
+	 </select>
 	
 	 
 </mapper>

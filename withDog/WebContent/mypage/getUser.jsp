@@ -15,6 +15,11 @@
 	
 			
 		$(function () {
+			
+			//가입일 시간 빼기
+			var joinDate =$("#joinDate").text().substring( 0, 10 );
+			$("#joinDate").text(joinDate);
+			
 			//좋아하는 견종 dogNo => dogBreedKO
 			var dogNum  = "${user.dogNo}";
 			
@@ -80,10 +85,14 @@
 	<section class="wow fadeIn">
 	<div class="container">
 		<div class="row">
-				
+		
 			<!-- sidebar  -->
 			<div class="col-md-2 col-sm-3 sidebar">
-				<jsp:include page="/layout/mypage-sideBar2.jsp" />
+				<c:choose>
+						<c:when test="${sessionScope.user.role=='admin'}"><jsp:include page="/layout/admin-sideBar.jsp" /></c:when>
+				  		<c:otherwise><jsp:include page="/layout/mypage-sideBar2.jsp" /></c:otherwise>	
+			  	</c:choose>	
+				
 			</div>
 			<!-- end sidebar  -->
 			
@@ -147,7 +156,7 @@
 				
 					<div class="row">
 				 		<div class="col-xs-4 col-md-4 "><strong>가입일</strong></div>
-						<div class="col-xs-8 col-md-8">${user.joinDate}</div>
+						<div class="col-xs-8 col-md-8" id="joinDate">${user.joinDate}</div>
 					</div>
 				
 					<hr/>
@@ -172,7 +181,7 @@
 						<div class="col-xs-8 col-md-8">
 							<c:choose>
 								<c:when test="${user.snsNaverId==null}">연결된 정보가 없습니다.</c:when>
-						  		<c:otherwise>${user.snsNaverId}</c:otherwise>	
+						  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>	
 						  	</c:choose>
 						</div>
 					</div>
@@ -185,7 +194,7 @@
 							<div class="col-xs-8 col-md-8">
 							<c:choose>
 								<c:when test="${user.snsKakaoId==null}">연결된 정보가 없습니다.</c:when>
-						  		<c:otherwise>${user.snsKakaoId}</c:otherwise>	
+						  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>	
 						  	</c:choose>
 							</div>
 					</div>
@@ -198,7 +207,7 @@
 				 		<div class="col-xs-8 col-md-8">
 					 		<c:choose>
 								<c:when test="${user.snsGoogleId==null}">연결된 정보가 없습니다.</c:when>
-						  		<c:otherwise>${user.snsGoogleId}</c:otherwise>	
+						  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>	
 						  	</c:choose>
 						</div>
 					</div>
@@ -211,7 +220,7 @@
 						<div class="col-xs-8 col-md-8">
 				 			<c:choose>
 								<c:when test="${user.snsFacebookId==null}">연결된 정보가 없습니다.</c:when>
-						  		<c:otherwise>${user.snsFacebookId}</c:otherwise>	
+						  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>	
 						  	</c:choose>
 						</div>
 					</div>

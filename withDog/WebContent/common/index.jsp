@@ -180,11 +180,11 @@ function nearmap(){
                     </div>
                     <!-- end text block -->
                     <!-- text block -->
-                    <div class="col-md-3 col-sm-6 col-xs-12 text-block text-center">
+                     <div class="col-md-3 col-sm-6 col-xs-12 text-block text-center">
                         <div class="text-block-inner">
-                            <p class="text-large text-uppercase no-margin-bottom">Added To Sale</p>
-                            <p class="title-small text-uppercase font-weight-600 black-text width-70 center-col letter-spacing-1">New Styles</p>
-                            <a class="highlight-button btn btn-small no-margin" href="shop-with-sidebar.html">Shop Now</a>
+                            <p class="text-large text-uppercase no-margin-bottom">Make with</p>
+                            <p class="title-small text-uppercase font-weight-600 black-text width-70 center-col letter-spacing-1">With AR</p>
+                            <a class="highlight-button btn btn-small no-margin" href="Intent://searchWithAR#Intent;scheme=WithAR;package=com.WithProject.WithAR;end">Start</a>
                         </div>
                     </div>
                     <!-- end text block -->

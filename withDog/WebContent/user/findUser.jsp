@@ -33,8 +33,24 @@
 		
 		$("#userName").focus();
 		
-		//아이디 중복검사 
+		//아이디 찾기
 		$("#findUserId").on("click", function(){
+			
+			//아이디 찾기 유효성 체크
+			var name=$("input[name='userName']").val();
+			var birth=$("input[name='birth']").val();
+			
+			//이름
+			if(name == null || name.length <1){
+				alert("이름은  반드시 입력하셔야 합니다.");
+				return;
+			}	
+			
+			//생년월일
+			if(birth == null|| birth.length <1){
+				alert("생일은  반드시 선택하셔야 합니다.");
+				return;
+			}	
 			
 			$.ajax({
 				url : "/user/json/findUserId",
@@ -71,47 +87,59 @@
 				}
 			});// end ajax
 			 
-		 });//end 아이디 중복검사
+		 });//end 아이디 찾기
 	
 		
 		 
 		 
 		//이메일 입력방식 선택 
-		$("#email2").change(function(){ 
-			$("#email2 option:selected").each(function () { 
-				if($(this).val()== '1'){ //직접입력일 경우 
-					$("#emailText").val(''); //값 초기화
-					$("#emailText").attr("disabled",false); //활성화 
-				}else{ //직접입력이 아닐경우 
-					$("#emailText").val($(this).text()); //선택값 입력
-					$("#emailText").attr("disabled",true); //비활성화
-				} 		
-				
-			}); 
-			
-		});//end 이메일 입력방식
+		//이메일 셀렉박스 선택시 직접입력 누르면
+		$("#email2").on("change",function(){
+			if($("#email2").val()=='1' ){
+				$("#email1").focus();
+			}
+		});
 		
 		
 		//비밀번호 찾기 연결
 		$("#findPW").on("click" , function() {
 			
 			
-			//넘기기전 체크사항   email
-			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1=> emailText 입력값으로 ,email2 밸류에 @추가해주기
-			if($("#email2").val()=='1' ){
- 				
- 				var email2= '@'+$("#emailText").val();
- 				$("#email2 option:selected").val(email2);
- 				
- 			}else{
- 				
- 				var email2= '@'+$("#email2").val();
- 				$("#email2 option:selected").val(email2);
- 			}
+			//가입으로 넘기기전 체크사항   email
+			///1.이메일 입력 :: 직접 입력 선택시 option value값이 1
+				if($("#email2").val()=='1' ){
+					
+					var email= $("#email1").val();
+					$("#email").val(email);
+					
+				}else{
+					
+					var email2= '@'+$("#email2").val();
+					var email1 = $("#email1").val();
+					var email =email1+email2;
+					$("#email").val(email);
+					//$("#email2 option:selected").val(email2);
+				}
 			
-			$("input[name='email']").val($("#email1").val()+$("#email2").val());
+			//비밀번호 찾기 유효성 체크
+			var id=$("input[name='userId']").val();
+			var email1= $("#email1").val();
 			
+			
+			//아이디
+			if(id == null || id.length <1){
+				alert("아이디는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			
+			
+			if(email1 == null || email1.length <1){		
+				alert("이메일이 입력되지 않았습니다.");
+				$("input:text[name='email1']").focus();
+				return;
+			}
 		
+	
 			$.ajax({
 				url : "/user/json/findUserPW",
 				method : "POST",
@@ -182,7 +210,7 @@
                             
                              <div class="col-md-12 no-padding">
                                 <label>생년월일 :</label>
-                                <input type="text" name="birth" id="datepicker">
+                                <input type="text" name="birth" id="datepicker" readOnly>
                                 <span class="spanId"></span>
                             </div>
                              
@@ -210,20 +238,18 @@
 			   		    	<div class="form-group">
 						    	<p>이메일 :  </p>  
 					        	<input type="text" name="email1" class="col-md-4" id="email1">
-				                <input type="text" class="col-md-1 no-border" placeholder="@">
-				                <input type="text" name="emailText"class="col-md-3" id="emailText">
 					                <div class="col-md-4">
 										<select name="email2" id="email2">
 											<option value="1">직접입력</option>
-											<option value="naver.com">naver.com</option>
-											<option value="daum.net">daum.net</option>
-											<option value="gmail.com">gmail.com</option>
-											<option value="hotmail.com">hotmail.com</option>
-											<option value="nate.com">nate.com</option>
+											<option value="naver.com">@naver.com</option>
+											<option value="daum.net">@daum.net</option>
+											<option value="gmail.com">@gmail.com</option>
+											<option value="hotmail.com">@hotmail.com</option>
+											<option value="nate.com">@nate.com</option>
 										</select>
 						            </div>
 						           <span class="spanId2"></span>  
-						           <input type="hidden" name="email">
+						           <input type="hidden" name="email" id="email">
 					        </div> 
                             
                         </form> 

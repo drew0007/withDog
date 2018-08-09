@@ -45,7 +45,7 @@ public class DogInfoController {
 	// @Value("#{commonProperties['pageUnit'] ?: 3}")
 	int pageUnit;
 
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['dogInfoPageSize']}")
 	// @Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 
@@ -68,7 +68,7 @@ public class DogInfoController {
 		
 		String a = "";
 		
-		if(file[0].getSize()==0) {
+		/*if(file[0].getSize()==0) {
 			System.out.println("파일비었음");
 			dogInfo.setDogInfoImage("이미지없음");
 		}else {
@@ -86,7 +86,7 @@ public class DogInfoController {
 			}
 			dogInfo.setDogInfoImage(a.substring(0, a.length()-1));
 		}
-		Thread.sleep(2500);
+		Thread.sleep(2500);*/
 		
 	
 		System.out.println(dogInfo);
