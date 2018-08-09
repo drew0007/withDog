@@ -51,23 +51,28 @@ public class PurchaseDAOImpl implements PurchaseDAO{
 		return sqlSession.selectOne("PurchaseMapper.addCartSeq");
 	}
 	
-	//나의구매내역리스트
+	//나의구매내역리스트 / 판매관리리스트
 	@Override
-	public  List<Purchase> getMyPurchaseList(Search search, User user) throws Exception{
-		System.out.println("purchaseDAOImpl : getMyPurchaseList Start");
+	public  List<Purchase> getPurchaseList(Search search, User user) throws Exception{
+		System.out.println("purchaseDAOImpl : getPurchaseList Start");
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("search",search);
 		map.put("user", user);
 		
 		System.out.println(map);
-		return sqlSession.selectList("PurchaseMapper.getMyPurchaseList",map);
+		return sqlSession.selectList("PurchaseMapper.getPurchaseList",map);
 	}
 	
-	//나의구매상세정보
+	//나의구매상세정보 / 판매관리상세정보
 	@Override
-	public Purchase getMyPurchase(int purchaseNo) throws Exception {
+	public List<Purchase> getPurchase(int purchaseNo) throws Exception {
 		System.out.println("펄체이스넘버"+purchaseNo);
-		return sqlSession.selectOne("PurchaseMapper.getMyPurchase", purchaseNo);
+		return sqlSession.selectList("PurchaseMapper.getPurchase", purchaseNo);
+	}
+	
+	@Override
+	public void updatePurchaseCondition(Purchase purchase) throws Exception {
+		sqlSession.update("PurchaseMapper.updatePurchaseCondition", purchase);
 	}
 	
 	@Override
@@ -76,6 +81,30 @@ public class PurchaseDAOImpl implements PurchaseDAO{
 		map.put("user", user);
 		return sqlSession.selectOne("PurchaseMapper.getTotalCount", map);
 	}
+	
+	@Override
+	public void updatePurchase(Purchase purchase) throws Exception {
+		System.out.println("purchaseDAOImpl : updatePurchase Start");
+		sqlSession.update("PurchaseMapper.updatePurchase", purchase);
+	}
+	
+	@Override
+	public Purchase getProdNo(int cartNo) throws Exception {
+		System.out.println("purchaseDAOImpl : getProdNo Start");
+		return sqlSession.selectOne("PurchaseMapper.getProdNo", cartNo);
+	}
+
+	@Override
+	public void updateCartNoPurchaseCondition(int cartNo) throws Exception {
+		sqlSession.update("PurchaseMapper.updateCartNoPurchaseCondition", cartNo);
+		
+	}
+
+	@Override
+	public List<Purchase> getPurchaseCondition(int purchaseNo) throws Exception {
+		return sqlSession.selectList("PurchaseMapper.getPurchaseCondition", purchaseNo);
+	}
+	
 	
 	
 	

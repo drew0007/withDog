@@ -493,6 +493,34 @@ public class PurchaseController {
 							System.out.println("푸시 결과 : "+result);
 						}
 					}
+					
+//					// 상품을 구매한 유저 ID로 Token 찾기
+//					List<String> pushToken = commonService.getPushToken(purchase.getUser().getUserId());
+//					System.out.println("푸시 토큰 : "+pushToken);
+//					if(pushToken != null) {
+//						// token으로 push 메세지 보내기
+//						for(int i=0; i<pushToken.size(); i++) {
+//							String result = sendPushNotification(pushToken.get(i), purchase, list.size());
+//							System.out.println("푸시 결과 : "+result);
+//						}
+//					}else {
+//						//토큰이 없다면 문자발송
+//					String userPhoneNo  =purchase.getReceiverPhone();
+//					int a = purchase.getPurchaseNo();
+//					int b= purchase.getPurchasePrice();
+//					 //달력가져오기
+//					 today = new Date();   
+//					 
+//					 //오늘
+//					 date = new SimpleDateFormat("yyyy-MM-dd"); 
+//					  toDay = date.format(today);
+//					 
+//					String conText ="[함께할개]에서 구매가 완료되었습니다. 구매번호:"+a+" 결제금액:"+b+"원 "+"결제일시:"+toDay;
+//					 Boolean ok = userService.sendText(userPhoneNo, conText);
+//						
+//					}
+					
+					
 				}
 				
 			}else {
@@ -537,7 +565,7 @@ public class PurchaseController {
 		}
 		search.setPageSize(pageSize);
 		System.out.println(search);
-		Map<String,Object> map = purchaseService.getMyPurchaseList(search, user); 	
+		Map<String,Object> map = purchaseService.getPurchaseList(search, user); 	
 		
 		System.out.println("MAP 체크 ===========================");
 		System.out.println(map);
@@ -545,9 +573,6 @@ public class PurchaseController {
 		System.out.println(resultPage);
 		
 		request.setAttribute("list", map.get("list"));
-		
-		System.out.println(map.get("list"));
-		
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
 		
@@ -559,17 +584,89 @@ public class PurchaseController {
 	public String getMyPurchase(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
 		
 		System.out.println("/purchase/getMyPurchase : 나의구매상세정보");
-		
-		System.out.println(purchaseNo + "넘어온넘버111111");
 
-		Purchase purchase = purchaseService.getMyPurchase(purchaseNo);
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
 		
-		System.out.println(purchase + "서비스갔다온펄체이스");
+		System.out.println(purchaselist + "서비스갔다온펄체이스");
 		
-		model.addAttribute("purchase", purchase);
+		model.addAttribute("purchaselist", purchaselist);
+		
 		
 		return "forward:/mypage/getMyPurchase.jsp";
 	}
+	
+	
+	@RequestMapping(value = "updateMyPurchase", method=RequestMethod.GET)
+	public String updateMyPurchase(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/updateMyPurchase : GET 나의구매상세정보 수정");
+
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
+		
+		System.out.println(purchaselist + "서비스갔다온펄체이스");
+		
+		model.addAttribute("purchaselist", purchaselist);
+		
+		return "forward:/mypage/updateMyPurchase.jsp";
+	}
+	
+	
+	@RequestMapping(value = "updateMyPurchaseConfirm", method=RequestMethod.POST)
+	public String updateMyPurchaseConfirm(@ModelAttribute("purchase") Purchase purchase, @RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/updateMyPurchaseConfirm : POST 나의구매상세정보 수정");
+		
+		purchase.setPurchaseNo(purchaseNo);
+		purchaseService.updatePurchase(purchase);
+		
+		System.out.println(purchaseNo);
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
+		model.addAttribute("purchaselist", purchaselist);
+		
+		return "forward:/mypage/getMyPurchase.jsp";
+	}
+	
+	
+	@RequestMapping(value="/getSalesListAdmin")
+	public String getPurchaseListAdmin(@ModelAttribute("search") Search search, HttpServletRequest request,HttpSession session) throws Exception {
+
+		System.out.println("/purchase/getPurchaseListAdmin : 판매관리리스트");
+		//빈껍데기유저 (널로 넘기기위한)
+		User user = new User();
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		Map<String,Object> map = purchaseService.getPurchaseList(search, user); 	
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
+		
+		return "forward:/admin/listSalesAdmin.jsp";
+	}
+	
+	
+	@RequestMapping(value = "getSalesAdmin")
+	public String getSalesAdmin(@RequestParam("purchaseNo") int purchaseNo, HttpServletRequest request, HttpSession session, Model model) throws Exception{ 
+		
+		System.out.println("/purchase/getSalesAdmin : 판매상세정보");
+		
+		System.out.println(purchaseNo + "넘어온넘버");
+
+		List<Purchase> purchaselist = purchaseService.getPurchase(purchaseNo);
+		
+		System.out.println(purchaselist + "서비스갔다온펄체이스");
+		
+		model.addAttribute("purchaselist", purchaselist);
+		
+		
+		return "forward:/admin/getSalesAdmin.jsp";
+	}
+	
 	
 	
 	public static String sendPushNotification(String deviceToken, Purchase purchase, int count) throws IOException {

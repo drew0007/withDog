@@ -444,21 +444,20 @@ function fncGetAbandDogList(){
 	            </section>
 		        <!-- end search -->
 		        
-				<section class="work-4col gutter work-with-title wide wide-title no-padding">
-		        <div class="container-fluid margin-three no-margin-bottom">
+				<section class="work-4col gutter work-with-title no-margin-top content-section no-padding">
+		        <div class="container margin-five no-margin-bottom">
                 <div class="row">
-                    <div class="col-md-10 overflow-hidden no-padding center-col" >
+                    <div class="col-md-12 text-center" >
                         <div class="tab-content">
                             <!-- work grid -->
                             <ul class="grid masonry-items" id="abandDogList">
                                 <!-- work item -->
                                 <c:forEach var="list" items="${list}">
                                 <li>
-                                    <figure>
 					                	<div class="gallery-img" style="height: 200px"><img name="abandDogImg" src="${list.abandDogImage}" alt="" style="width:100%; height:100%; margin:0 auto;"></div>
-					                	<figcaption>
+					                    
 					                    <h3 class="dog margin-two-bottom"><a href="#" name="abandDog">
-					                    ${list.abandDogBreed} - ${list.abandDogAge} - ${list.abandDogGender}</a></h3>
+					                    ${list.abandDogBreed} <img src="../images/sub/${list.abandDogGender=='M'?'male':'female'}.png"  style="width:20px; position:relative; top:-2px;"/></a></h3>
 					                    <p class="text-small">${list.orgNm}</p>
 					                    <input type="hidden" name="desertionNoList" value="${list.desertionNo}"/>
 					                    <input type="hidden" name="noticeNoList" value="${list.noticeNo}"/>
@@ -479,7 +478,6 @@ function fncGetAbandDogList(){
 					                    <input type="hidden" name="careTelList" value="${list.careTel}"/>
 					                    <input type="hidden" name="orgNmList" value="${list.orgNm}"/>
 					                    <input type="hidden" name="careAddrList" value="${list.careAddr}"/>
-                                    </figure>
                                 </li>
                                 </c:forEach>
                                 <!-- end work item -->
@@ -534,7 +532,7 @@ function fncGetAbandDogList(){
 	
 			<div class="col-lg-3 col-md-4 col-sm-5 center-col text-center">
 				<div id="modal-popup"
-					class="zoom-anim-dialog mfp-hide col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main">
+					class="zoom-anim-dialog mfp-hide col-lg-4 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main">
 	
 					<div>
 						<span class="black-text">상세조건 검색</span>

@@ -158,6 +158,7 @@ h1.page-title { margin:95px auto 0; width: 100%; }
 .text-med{ font-size:14px !important; line-height:26px !important;}
 .text-large { font-size: 15px !important; text-transform: uppercase; line-height: 24px !important; letter-spacing: 1px !important;}
 .text-extra-large { font-size: 16px !important; line-height: 28px !important; font-weight: 100; }
+.text-extra-large2 { font-size: 22px !important; line-height: 28px !important; font-weight: 100; }
 .text-extra-large strong { letter-spacing: 3px}
 .text-extra-large-normal { font-weight: normal !important;}
 .title-small{ font-size:20px !important; line-height:30px !important;}
@@ -425,6 +426,7 @@ p.uppercase a:hover { text-decoration: none;}
 .border { border: 1px solid #e5e5e5;  }
 .border-tb{border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; }
 .border-right { border-right: 1px solid #e5e5e5; }
+.border-bottom-sky{ border-bottom: 2px solid #709dbd; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 .border-left { border-left: 4px solid #fff; }
 .border-color-black { border-color: #000 !important}
@@ -824,7 +826,7 @@ input.checkbox:checked + label.input-label.radio::before {
 .key-person a i { color:#000; transition: all .3s ease; -webkit-transition: all .3s ease; -moz-transition: all .3s ease;}
 .key-person a:hover i { color:#858585; transition: all .3s ease; -webkit-transition: all .3s ease; -moz-transition: all .3s ease;}
 .key-person .dog-num { font-size:18px; letter-spacing: 2px; text-transform:uppercase; display:block; font-weight:600;}
-.dog { font-size:18px; letter-spacing: 1px; font-weight:600;}
+.dog { font-size:18px; font-weight:600; line-height:25px; margin-top:15px;}
 .key-person .dog-receipt { font-size:12px; text-transform:uppercase; font-weight:400; letter-spacing: 1px}
 
 .slider {
@@ -1602,6 +1604,7 @@ figure:hover img { -ms-transform: scale(1.1,1.1); -webkit-transform: scale(1.1,1
 .highlight-box-sky:hover { background-color: #709dbd; border: 1.5px solid #709dbd; color:#fff;}
 .box-sky { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#fff; background-color: #709dbd; }
 .box-sky:hover { background-color: transparent; border: 1.5px solid #709dbd; color:#5a7d96}
+.box-sky-nohover { border-radius:5px; border:1.5px solid #709dbd; display: inline-block; padding: 8px 30px 9px; font-size: 13px; color:#fff; background-color: #709dbd; }
 
 .highlight-button-sky { border:2px solid #819bad; display: inline-block; padding: 8px 20px 9px; font-size: 13px; color:#819bad; background-color: transparent;  border-radius: 10px; }
 .highlight-button-sky:hover { background-color: #819bad; border: 2px solid #819bad; color:#fff;border-radius: 10px;}
@@ -2086,7 +2089,7 @@ ul.list-line li span {min-width:130px; display:inline-block}
 .review { margin-bottom:30px;}
 .rating { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color:#999999 }
 .secret { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color:#999999 }
-.add-rating i { color:#b8b8b8; cursor:pointer; font-size:15px; margin-right:5px;}
+.add-rating i { color:#b8b8b8; cursor:pointer; font-size:22px; margin-right:5px;}
 .add-rating i:hover { color:#ffd200}
 
 /* shopping cart */

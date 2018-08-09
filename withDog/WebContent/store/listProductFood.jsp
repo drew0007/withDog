@@ -38,13 +38,13 @@ function fncGetList(currentPage) {
 		$("#sorting").on("change", function(){
 			var sort = $("#sorting").val();
 			if(sort == 0){
-				self.location = "/product/listProduct?sorting=0&prodType=0";
+				self.location = "/product/listProduct?sorting=0&prodType=1";
 			}else if(sort == 1){
-				self.location = "/product/listProduct?sorting=1&prodType=0";
+				self.location = "/product/listProduct?sorting=1&prodType=1";
 			}else if(sort == 2 ){
-				self.location = "/product/listProduct?sorting=2&prodType=0";
+				self.location = "/product/listProduct?sorting=2&prodType=1";
 			}else{
-				self.location = "/product/listProduct?sorting=3&prodType=0";
+				self.location = "/product/listProduct?sorting=3&prodType=1";
 			}
 		})
 	});
@@ -107,10 +107,10 @@ function fncGetList(currentPage) {
                             <div class="col-md-3 col-sm-3 pull-right">
                                 <div class="select-style med-input shop-shorting-full no-border pull-right">
                                     <select id="sorting">
-                                        <option value="0" selected>신상품순</option>
-                                        <option value="1">인기상품순</option>
-                                        <option value="2">낮은가격순</option>
-                                        <option value="3">높은가격순</option>
+                                        <option value="0" ${search.sorting == 0? 'selected' : '' }>신상품순</option>
+                                        <option value="1" ${search.sorting == 1? 'selected' : '' }>인기상품순</option>
+                                        <option value="2" ${search.sorting == 2? 'selected' : '' }>낮은가격순</option>
+                                        <option value="3" ${search.sorting == 3? 'selected' : '' }>높은가격순</option>
                                         <input type="hidden" name="sorting"  value="${search.sorting}"/>
                                     </select>
                                 </div>
@@ -138,6 +138,20 @@ function fncGetList(currentPage) {
                                     		<input type="hidden" value="${product.prodNo}" name="prodNo" />
                                    	</span>
                                     <span class="price black-text"><del>${product.price+5000}원</del>${product.price}원</span>
+                                    
+                                    <c:set var="cnt" value="1" />
+                                    <c:forEach begin="1" end="5">
+                                    	<c:if test="${cnt <= product.avgScore}">
+                                    		<i  class="fa fa-star yellow-light-text text-extra-large" style="margin:0"></i>
+                                    	</c:if>
+                                    	<c:if test="${cnt > product.avgScore}">
+                                    		<i  class="fa fa-star-o yellow-light-text text-extra-large" style="margin:0"></i>
+                                    	</c:if>
+                                    	<c:set var="cnt" value="${cnt+1}" />
+                                    </c:forEach>
+                                    (${product.avgScore})
+                                    
+                                    
                                     <span class="onsale onsale-style-2">New</span>
                                 </div>
                             </div>

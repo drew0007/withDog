@@ -1,5 +1,8 @@
 /com/
 /config/
-/log4j.properties
 /sql/
+<<<<<<< HEAD
 /withDog/
+/config/
+=======
+>>>>>>> refs/heads/master
