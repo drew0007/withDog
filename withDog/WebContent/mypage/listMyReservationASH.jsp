@@ -80,11 +80,47 @@ $(function () {
 	})
 })
 
+
 </script>
 
 <style type="text/css">
 table th, td{text-align:center; font-size:13px;}
 table td{font-size:12px;}
+</style>
+
+<style type="text/css">
+<!-- 디자인 -->
+#pDiv{
+position: relative;
+}
+
+#cDiv1 {
+position: absolute;
+top: 0px;
+left :85px;
+width: 110px;
+}
+
+#m{
+position: absolute;
+top:8px;
+left :200px;
+}
+
+#cDiv2 {
+position: absolute;
+top: 0px;
+left :217px;
+width: 110px;
+}
+
+#searchButton{
+position: absolute;
+left :335px;
+top :0px;
+display: block;
+width: 45px;
+}
 </style>
 
 </head>
@@ -137,8 +173,8 @@ table td{font-size:12px;}
 					
 					<form>
 					
-					<div class="center-col text-center col-md-12 col-xs-12">
-						<div class="col-md-5 col-xs-12">
+					<div class="center-col col-md-12 col-xs-12">
+						<div class="col-md-6">
 							<label class="text-small">기간별 조회</label>
 							<a style="cursor: pointer" class="highlight-button-navy1">1개월</a>
 							<a style="cursor: pointer" class="highlight-button-navy1">3개월</a>
@@ -146,19 +182,20 @@ table td{font-size:12px;}
 							<a style="cursor: pointer" class="highlight-button-navy1">전체보기</a>
 						</div>
 						
-						<div class="col-md-7 col-xs-12">
-								<label class="text-small f-left" style="position:relative; top:10px">일자별 조회&nbsp;</label>
-								<div class="reservation-date2 col-md-4">
+						<div class="col-md-6" id="pDiv">
+								<label class="text-small f-left" style="position:relative; top:10px; left:-5px;">일자별 조회&nbsp;</label>
+								<div id="cDiv1">
 						            <input type="text" name="searchStartDay" value="${!empty search.searchStartDay?search.searchStartDay:''}" placeholder="startDate" class="input-round big-input" style="padding:8px 12px 9px;"/>
 						        </div>
-						        <div class="reservation-date2 col-md-4">
+						        <div id="m">~</div>
+						        <div id="cDiv2">
 						            <input type="text"  name="searchEndDay" value="${!empty search.searchEndDay?search.searchEndDay:''}" placeholder="lastDate" class="input-round big-input" style="padding:8px 12px 9px;"/>
 						        </div>
 						        <a id="searchButton" style="cursor: pointer" class="highlight-button-navy1">조회</a>
 				        </div>
 				        
 				        <input type="hidden" id="currentPage" name="currentPage" value="" />
-				        <input type="hidden" id="sorting" name="sorting" value="${!empty search.sorting?search.sorting:'0'}"/>
+				        <input type="hidden" id="sorting" name="sorting" value="0"/>
 				        </form>
 			        </div>
 			        

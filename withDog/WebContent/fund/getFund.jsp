@@ -209,7 +209,7 @@ $(function(){
                                 <!-- 펀딩설명 -->
                                 <div class="tab-pane med-text fade in active" id="tab_sec1">
                                     <div class="row">
-                                        <div class="col-md-11 col-sm-12 center-col">
+                                        <div class="col-md-9 col-sm-12 center-col">
                                             <p>${fund.fundContent}</p>
                                         </div>
                                     </div>

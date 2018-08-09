@@ -192,7 +192,7 @@ function uncomma(str) {
 	                        	<input type="text" id="textbox" name="ashReservationAddress1" class="input-round big-input" value="${user.address1}">
 	                        	<span class="col-md-12 no-padding">
 	                        	<input type="text" id="textbox" name="ashReservationAddress2" class="input-round big-input col-md-8" value="${user.address2}">
-	                        	<a class="highlight-button btn no-margin pull-right post-search col-md-4 " id="searchPost">우편번호 검색</a>
+	                        	<a class="highlight-button btn no-margin pull-right post-search col-md-4 text-center" id="searchPost">우편번호 검색</a>
 	                        	</span>
 	                        	
 	                        	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>전화번호</strong></h6>

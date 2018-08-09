@@ -211,7 +211,7 @@ $(function () {
                 </section>
                 <!-- end 내용  3  -->
                 
-                <!--  내용 4  시작  -->
+              <%--   <!--  내용 4  시작  -->
                 <section>
 	                <div class="row">
 	                    <!-- section title -->
@@ -268,9 +268,9 @@ $(function () {
 													  </div>
 												</amp-video> -->
             
+         --%>
         </section> 
         <!-- end 내용 영역  -->
-        
     <!-- 1. 삭제여부 모달 -->
     <div id="isDelete" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
       <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">

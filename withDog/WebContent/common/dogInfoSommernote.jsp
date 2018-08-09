@@ -22,30 +22,17 @@
 			fncAddDogInfo();
 		});
 		
+		$("span:contains('애견상식수정')").on("click",function(){
+			test();
+			fncUpdateDogInfo();
+		});
+		
 		
 		
 		$('#summernote').summernote({
 			height: 500,
 			lang : 'ko-KR',
-			popover: {
-				  image: [
-				    ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-				    ['float', ['floatLeft', 'floatRight', 'floatNone']],
-				    ['remove', ['removeMedia']]
-				  ],
-				  link: [
-				    ['link', ['linkDialogShow', 'unlink']]
-				  ],
-				  air: [
-				    ['color', ['color']],
-				    ['font', ['bold', 'underline', 'clear']],
-				    ['para', ['ul', 'paragraph']],
-				    ['table', ['table']],
-				    ['insert', ['link', 'picture']]
-				  ]
-				},
-				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
-
+			
 					
 			callbacks: {
 				onImageUpload: function(files, editor, welEditable) {

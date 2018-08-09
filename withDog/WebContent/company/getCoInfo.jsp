@@ -48,14 +48,20 @@
 
                     <div class="col-md-12 col-sm-10 text-center center-col">
 
-                        <span class="margin-one no-margin-top display-block letter-spacing-2">with dog</span>
+<!--                         <span class="margin-one no-margin-top display-block letter-spacing-2">with dog</span> -->
 
-                        <h1>함께할개</h1>
+<!--                         <h1>함께할개</h1> -->
 
-                        <div class="separator-line bg-black margin-two no-margin-bottom"></div>
-
-                        <p class="text-p width-120 center-col margin-two no-margin-bottom">영상상담 서비스를 활용하면 동물교감치유서비스 신청전 치유견을 만나볼 수 있습니다. <br> 고객은 상담사에게 전화통화만으로는 설명하기 어려웠던 불편사항을 실시간 영상으로 쉽게 설명할 수 있습니다.  <br> 또한 상담사도 고객과 함께 현상을 눈으로 보면서 문제를 정확하게 파악할 수 있습니다.</p>
-
+<!--                         <div class="separator-line bg-black margin-two no-margin-bottom"></div> -->
+							
+						<img src="../images/title/t1.png">	
+						<div style="margin-top:50px;">
+                        <p class="text-p width-120 center-col margin-two no-margin-bottom">
+                        	반려동물 1000만 시대를 맞이하여 강아지는 인간과 더불어 살아가는 고귀한 생명체로서 존중받고 보호되어야 마땅합니다.<br>  
+                        	유기견 분양과 동물교감치유서비스를 통해 강아지와 사람이 공존할 수 있는 아름다운 사회를 만들기 위해 노력합니다. <br>  
+                        	크라우드 펀딩 및 스토어 상품구매를 통하여 함께할개의 활동에 참여하실 수 있습니다.<br>
+                        	</p>
+						</div>
                     </div>
 
                 </div>
@@ -106,7 +112,7 @@
 
                                 <div class="separator-line bg-yellow"></div>
 
-                                <p>사지 말고 입양하여 평생 반려함으로써 유기되거나 학대받는 동물이 없는 사회를 지향하며 행동합니다.</p>
+                                <p>동물과의 교감을 통해 정서적,인지적,사회적,신체적인 문제예방과 회복의 효과를 얻을 수 있습니다.</p>
 
                             </div>
 
@@ -128,7 +134,7 @@
 
                                 <div class="separator-line bg-yellow"></div>
 
-                                <p>사지 말고 입양하여 평생 반려함으로써 유기되거나 학대받는 동물이 없는 사회를 지향하며 행동합니다.</p>
+                                <p>스토어에서 발생되는 판매 수익금의 일부는 함께할개 사이트 운영과 유기견 보호를 위한 활동에 쓰여집니다.</p>
 
                             </div>
 
@@ -150,11 +156,11 @@
 
                             <div class="col-md-9 col-sm-9 col-xs-9 no-padding text-left text-p f-right">
 
-                                <h5 class="text-large">치료견 영상통화</h5>
+                                <h5 class="text-large">치유견 영상상담</h5>
 
                                 <div class="separator-line bg-yellow"></div>
 
-                                <p>사지 말고 입양하여 평생 반려함으로써 유기되거나 학대받는 동물이 없는 사회를 지향하며 행동합니다.</p>
+                                <p>만나고 싶은 치유견을 동물교감치유서비스 신청전 영상상담을 통해 먼저 만나보실 수 있습니다.</p>
 
                             </div>
 
@@ -176,7 +182,7 @@
 
                                 <div class="separator-line bg-yellow"></div>
 
-                                <p>사지 말고 입양하여 평생 반려함으로써 유기되거나 학대받는 동물이 없는 사회를 지향하며 행동합니다.</p>
+                                <p>견종백과, 애견상식, 동물교감치유후기를 통한 다양한 커뮤니티를 제공합니다.</p>
 
                             </div>
 
@@ -202,7 +208,7 @@
 
                                 <div class="separator-line bg-yellow"></div>
 
-                                <p>사지 말고 입양하여 평생 반려함으로써 유기되거나 학대받는 동물이 없는 사회를 지향하며 행동합니다.</p>
+                                <p>사지 말고 입양하여 유기되거나 학대받는 동물이 없는 사회를 지향하며 유기견 분양 정보를 제공합니다. </p>
 
                             </div>
 
@@ -224,7 +230,7 @@
 
                                 <div class="separator-line bg-yellow"></div>
 
-                                <p>사지 말고 입양하여 평생 반려함으로써 유기되거나 학대받는 동물이 없는 사회를 지향하며 행동합니다.</p>
+                                <p>유기견 보호 센터 및 도움이 필요한 유기견에게 직접적인 도움을 줄 수있는  크라우드 펀딩을 운영합니다.</p>
 
                             </div>
 
@@ -260,8 +266,10 @@
 
                         <div class="separator-line bg-black margin-two no-margin-bottom"></div>
 
-                        <p class="text-p width-120 center-col margin-two no-margin-bottom">영상상담 서비스를 활용하면 동물교감치유서비스 신청전 치유견을 만나볼 수 있습니다. <br> 고객은 상담사에게 전화통화만으로는 설명하기 어려웠던 불편사항을 실시간 영상으로 쉽게 설명할 수 있습니다.  <br> 또한 상담사도 고객과 함께 현상을 눈으로 보면서 문제를 정확하게 파악할 수 있습니다.</p>
-
+                        <p class="text-p width-120 center-col margin-two no-margin-bottom"> 
+                       		강아지와 사람이 공존할 수 있는 아름다운 사회를 만들기 위하여 여러분들과 함께  하고자 합니다.<br> 
+                       		강아지에 대한 이해와 공감,참여를 확대하여 인식의 긍정적 변화를 이끌고 <br>
+                       		모든 생명이 존중받는 세상을 지향합니다. <br></p>
                     </div>
 
                 </div>

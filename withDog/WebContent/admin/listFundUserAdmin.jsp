@@ -15,6 +15,31 @@ function fncGetList(currentPage) {
 	$("form").attr("method","POST").attr("action","/fund/getFundUserListAdmin").submit();
 }
 </script>
+<style type="text/css">
+#pDiv{
+position: relative;
+}
+#cDiv1{
+position: absolute;
+top : 0px;
+left : 510px;
+
+}
+#cDiv2{
+position: absolute;
+top : 0px;
+left : 630px;
+width: 140px;
+
+}
+#cDiv3{
+position: absolute;
+top : 0px;
+left : 780px;
+width: 80px;
+
+}
+</style>
 
 </head>
 
@@ -52,38 +77,39 @@ function fncGetList(currentPage) {
 			</div>
 			<!-- end sidebar  -->
 			
-			
-		    
 		    
 		    <!-- content -->
-		    <div class="col-md-9 col-sm-9 col-md-offset-1">
+		    <div class="col-md-9 col-sm-9 col-md-offset-1" >
 		    
 			    <h1 align="center">회원별후원내역</h1>
 			    <hr/>
-		    
-			   <form>
-			   
-				  <div class="form-group col-md-7" align="center"style="float: right;">
-				    <select class="form-control" name="searchCondition" style=" width: 30%;display:inline-block;">
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>펀딩제목</option>
-					</select>
-				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="tags" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" style=" width: 50%;display:inline-block;">
-				  <span align="right"><button type="button" class="highlight-button btn-medium button margin-five" onclick="javascript:fncGetList('1');">검색</button></span>
-				  
-				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
-				</div>  
-				</form>  
-				
-				
+		    	
+		    	<div id="pDiv">
+				   <form>
+				    
+					  <div class="form-group"  id="cDiv1">
+					    <select class="form-control" name="searchCondition" >
+							<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
+							<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>펀딩제목</option>
+						</select>
+					  </div>
+					  
+					  <div class="form-group"  id="cDiv2">
+					    <label class="sr-only" for="searchKeyword">검색어</label>
+					    <input type="text" class="form-control" id="tags" name="searchKeyword"  placeholder="검색어"
+					    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" onkeypress="if(event.keyCode == 13){ javascript:fncGetList('1')};" >
+					  </div>
+					  
+					  <button type="button" style="cursor: pointer" class="highlight-button-navy1" id="cDiv3" onclick="javascript:fncGetList('1')">검색</button>
+					  
+					  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+					  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+					  
+					</form>  
+				</div>
 		
 				<!--  table Start /////////////////////////////////////-->
-			      
-			      <table class="table table-hover table-striped" >
+			      <table class="table table-hover table-striped" style="margin-top:70px;">
 			      
 			        <thead>
 			          <tr>

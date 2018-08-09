@@ -12,6 +12,8 @@
 <link href='/css/fullcalendar.css' rel='stylesheet' />
 	<title>예약시간 선택</title>
 	<style type="text/css">
+	
+
 	#calendarTool{
 	position: absolute;
 	left: 50%; 
@@ -245,7 +247,7 @@ function getAllReservation() { 	//////// 전체 이벤트 받아오기
                 <div class="row margin-five no-margin-bottom">
                     <!-- chef  -->
                     <div class="col-md-12">
-                        <div class="col-md-6 chef-text bg-white">
+                        <div style="min-height: 500px"class="col-md-6 chef-text bg-white">
                        		<form>
                         	<h6 class="black-text no-margin-top margin-one no-letter-spacing"><strong>서비스 예약일</strong></h6>
                         	<input type="hidden" id="textbox" name=healingDogNo class="input-round big-input" value="${healingDog.healingDogNo}">
@@ -272,8 +274,8 @@ function getAllReservation() { 	//////// 전체 이벤트 받아오기
 							<a id="addReservationASH" style="cursor: pointer;" class="highlight-button btn btn-medium button xs-margin-bottom-five">예약하러가기</a>
        						</form>
        					</div>	
-       					<div class="col-md-6 chef-img">
-                            <div id="calendar" class="img-border">
+       					<div style="min-height: 500px" class="col-md-6 chef-img">
+                            <div style="height:100%; width: 100%; left: 0; top: 0" id="calendar" class="img-border">
                             
                             </div>
                         </div>

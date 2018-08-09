@@ -85,7 +85,8 @@
                                     <li class="text-p margin-two">모집기간 : ${Bastfund.fundTerm}</li>
                                     <li class="text-p margin-two">모집금액 : ${Bastfund.fundRaising} 원</li>
                                     <p class="width-100 xs-width-100 margin-ten"></p>
-                                    <a href="getFund?fundNo=${Bastfund.fundNo}"  class="highlight-button-dark3 btn no-margin sm-no-margin btn-round">상세정보</a>
+                                    <%-- <a href="getFund?fundNo=${Bastfund.fundNo}"  class="highlight-button-dark3 btn no-margin sm-no-margin btn-round">상세정보</a> --%>
+                                    <a href="getFund?fundNo=${Bastfund.fundNo}"><img alt="" src="../images/fund/eee2.png"></a>
                                     </ul>
                                 </div>
                             </div>
@@ -128,7 +129,7 @@
                     </div>
                     <div class="col-md-8 col-sm-6">   
                         <p class="no-margin-bottom">
-                            1. 해당 펀딩은 철저한 검토후 진행됩니다.</br>
+                            1. 펀딩은 철저한 검토후 진행됩니다.</br>
                             2. 후원금액의 사용처는 완료된 펀딩 목록 카테고리에서 확인가능합니다.<br>
                             3. 후원한 금액은 불가피한 사유가 없는한 환불이 불가능합니다.<br>
                             4. 불가피한 사유로 환불요청시 전화상으로만 가능합니다.

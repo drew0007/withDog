@@ -127,7 +127,7 @@
 													</if>
 								    </if>
 									FUND_STATE='1'
-									ORDER BY reg_date) if
+									ORDER BY reg_date desc) if
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
 		 where row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	 </select>

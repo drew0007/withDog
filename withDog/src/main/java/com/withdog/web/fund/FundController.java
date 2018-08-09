@@ -186,16 +186,15 @@ public class FundController {
 		System.out.println("/updateFund : POST Start");
 		//Business Logic
 		
-		Properties properties = new Properties();
-		properties.load(new FileInputStream("C:/common.properties"));
+		/*Properties properties = new Properties();
+		properties.load(new FileInputStream("C:/common.properties"));*/
 		
-		String path="";
+		
 		String filetemp="";
 		System.out.println(1);
 		
 		if(fileName.getSize() != 0) {
 		System.out.println(2);
-		path = properties.getProperty("filepath");
 		filetemp = fileName.getOriginalFilename();
 		
 		
@@ -217,6 +216,7 @@ public class FundController {
 				
 		fundService.updateFund(fund);
 						
+		System.out.println("updateFundEnd");
 		
 		return "forward:/fund/getFund?fundNo="+fund.getFundNo();
 		

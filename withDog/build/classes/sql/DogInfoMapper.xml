@@ -95,11 +95,14 @@
 											AND user_id LIKE  '%'||#{search.searchKeyword}||'%' OR dog_info_title LIKE  '%'||#{search.searchKeyword}||'%'
 										</if>
 									</where>
+										<if test="search.sorting != 10 and search.sorting != 11">
+										 	ORDER BY dog_info_no DESC
+										</if>
 										<if test="search.sorting == 10">
-												ORDER BY TO_NUMBER(dog_info_view_count) DESC
+											ORDER BY TO_NUMBER(dog_info_view_count) DESC
 										</if>
 										<if test="search.sorting == 11">
-												ORDER BY TO_NUMBER(dog_info_recommend) DESC
+											ORDER BY TO_NUMBER(dog_info_recommend) DESC
 										</if>
 									
 									) inner_table

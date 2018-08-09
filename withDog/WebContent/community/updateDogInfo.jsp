@@ -34,18 +34,20 @@ function close_pop(flag) {
     $('#selectTopic').hide();
     $('#writeTitle').hide();
     $('#writeContent').hide();
-    $('#cancel').hide();
+    $('#insertFile').hide();
 };
 
 
-function fncAddDogInfo(){
+function fncUpdateDogInfo(){
 	//Form 유효성 검증
+	
 	
 	document.getElementById("dogInfoContent").value= content;
 	
  	var dogInfoTopic = $('#dogInfoTopic option:selected').val();
 	var dogInfoTitle = $('input[name=dogInfoTitle]').val();
-	var dogInfoContent = content;	
+	var dogInfoContent = content;
+	var filecheck = $('input[name=file]').val();
 
 	if(dogInfoTopic == null || dogInfoTopic.length<1){
 		$('#selectTopic').show();
@@ -55,11 +57,15 @@ function fncAddDogInfo(){
 		$('#writeTitle').show();
 		return;
 	}
-	if(dogInfoContent == null || dogInfoContent.length<1){
+	if(dogInfoContent == null || dogInfoContent.length<20){
 		$('#writeContent').show();
 		return;
 	}
-	$('#isWrite').show();
+// 	if(filecheck == null || filecheck.length<1){
+// 		$('#insertFile').show();
+// 		return;
+// 	}
+	$('#isUpdate').show();
 	
 }
 
@@ -73,12 +79,12 @@ function fncAddDogInfo(){
 
 $(function () {
 	$("#ok").on("click", function () {
-		$('#isWrite').hide();
-		$("form").attr("method","post").attr("action","/dogInfo/addDogInfo").attr("enctype","multipart/form-data").submit();
+		$('#isUpdate').hide();
+		$("form").attr("method","post").attr("action","/dogInfo/updateDogInfo").attr("enctype","multipart/form-data").submit();
 		
 	})
 	$("#cancel").on("click", function () {
-		$('#isWrite').hide();
+		$('#isUpdate').hide();
 	})
 })
 
@@ -118,10 +124,10 @@ $(function () {
                 <div class="row">
                 <form>
                     <div id="addcomment" class="col-md-8 col-sm-12  center-col text-center">
-                        <h5 class="info-title margin-five no-margin-top">애견상식 등록하기</h5>
+                        <h5 class="info-title margin-five no-margin-top">애견상식 수정하기</h5>
                         <div class="blog-comment-form">
                             	<!-- select -->
-                                <select id="dogInfoTopic" name="dogInfoTopic" class="big-input col-md-4" style="padding-bottom:13px; padding-right:10px;">
+                                <select id="dogInfoTopic" name="dogInfoTopic" class="big-input col-md-4" style="padding-bottom:9px; padding-right:10px;">
                                     <option value="" selected="selected">주제 선택</option>
                                    <option value="1" ${dogInfo.dogInfoTopic=='1'?'selected':''}>훈련</option>
                                     <option value="2" ${dogInfo.dogInfoTopic=='2'?'selected':''}>번식</option>
@@ -133,7 +139,8 @@ $(function () {
                                 </select>
                                 <!-- end select -->
                                 <!-- input  -->
-                                <input type="text" name="dogInfoTitle" placeholder="애견상식제목" class="big-input col-md-8 pull-right">
+                                <input type="hidden" name="dogInfoNo"  value="${dogInfo.dogInfoNo}">
+                                <input type="text" name="dogInfoTitle" placeholder="애견상식제목" class="big-input col-md-8 pull-right" value="${dogInfo.dogInfoTitle}">
                                 <!-- end input -->
                                 <!-- textarea  -->
                             </div>    
@@ -150,21 +157,24 @@ $(function () {
                                 <span class="required text-right">*Please complete all fields correctly</span> -->
                                 <!-- end required  -->
                                 <br/><br/><br/>
-                              <div style="height: 500px">  
-                              <input type="hidden" name="dogInfoContent" id="dogInfoContent" value="">
+                               <input type="hidden" name="dogInfoContent" id="dogInfoContent" value="">
 							<jsp:include page="/common/dogInfoSommernote.jsp"></jsp:include>   		
-							</div> 
+                            <br>
+                            <br>
+                            <a style="color: gray; font-size: 13px">* 이 애견상식의 대표 섬네일 이미지를 등록해주세요.</a>
+                            <input type="file" name="file" placeholder="섬네일로 사용할 이미지를 반드시 등록해주세요."></input>
+                            <br>
                             </form>
                          
                             <!-- button  -->
-                            <div>
-                            <span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium" >애견상식수정</span>
-                            </div>
+                            <div class="text-center">
+                            
+                            <span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium text-center" >애견상식수정</span>
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
+                            
                         </div>
                     </div>
-                    
                     <!-- end comment form -->
                 </div>
                 <!-- end content  -->
@@ -209,7 +219,7 @@ $(function () {
       <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
                 <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
                 <p class="borderline-gray"></p>
-                <p style="text-align: center; line-height: 1.5;"><br />내용을 작성해주세요.</p>
+                <p style="text-align: center; line-height: 1.5;"><br />내용은 20자 이상 작성해주세요.</p>
                 <p><br /></p>
             <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
                 <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
@@ -217,13 +227,27 @@ $(function () {
       </div>
     </div>
       <!-- 3. 내용작성 모달 -->
-      
-  <!-- 4. 등록여부 모달 -->
-    <div id="isWrite" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+            
+  	<!-- 3. 섬네일 이미지 등록 모달 -->
+    <div id="insertFile" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
       <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
                 <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
                 <p class="borderline-gray"></p>
-                <p style="text-align: center; line-height: 1.5;"><br />애견상식을 등록하시겠습니까?</p>
+                <p style="text-align: center; line-height: 1.5;"><br />섬네일 사진을 등록해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 섬네일 이미지 등록 모달 -->
+      
+  <!-- 4. 등록여부 모달 -->
+    <div id="isUpdate" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />애견상식을 수정하시겠습니까?</p>
                 <p><br /></p>
             <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;">
                 <span id="ok" class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >확인</span>
@@ -238,7 +262,7 @@ $(function () {
 	
 	<jsp:include page="/layout/footer.jsp" />
 	
-	<jsp:include page="/common/js.jsp" />
+	<jsp:include page="/common/jsSummnerNote.jsp" />
 	
 </body>
 </html>

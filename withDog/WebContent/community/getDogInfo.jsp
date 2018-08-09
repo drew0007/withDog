@@ -185,11 +185,11 @@ $(function () {
                         <div class="col-md-10 col-sm-12 bg-white center-col border-top text-center">
                         
                         <!-- post details text -->
-                        <p class="text-large" style="padding-top:60px;">
+                        <%-- <p class="text-large" style="padding-top:60px;">
                         	<c:forEach var="a" items="${dogInfo.dogInfoImageList}">
 		                        <img  src = "/images/uploadFiles/dogInfo/${a}" width="400px" height="200px" alt=""/>
 							</c:forEach>
-                        </p>
+                        </p> --%>
                         <p class="no-margin">${dogInfo.dogInfoContent}</p>
                         <!-- end post details text -->
                         

@@ -34,6 +34,7 @@ function close_pop(flag) {
     $('#selectTopic').hide();
     $('#writeTitle').hide();
     $('#writeContent').hide();
+    $('#insertFile').hide();
 };
 
 
@@ -45,6 +46,8 @@ function fncAddDogInfo(){
  	var dogInfoTopic = $('#dogInfoTopic option:selected').val();
 	var dogInfoTitle = $('input[name=dogInfoTitle]').val();
 	var dogInfoContent = content;	
+	var filecheck = $('input[name=file]').val();
+	console.log(dogInfoContent.length)
 
 	if(dogInfoTopic == null || dogInfoTopic.length<1){
 		$('#selectTopic').show();
@@ -54,8 +57,12 @@ function fncAddDogInfo(){
 		$('#writeTitle').show();
 		return;
 	}
-	if(dogInfoContent == null || dogInfoContent.length<1){
+	if(dogInfoContent == null || dogInfoContent.length<20){
 		$('#writeContent').show();
+		return;
+	}
+	if(filecheck == null || filecheck.length<1){
+		$('#insertFile').show();
 		return;
 	}
 	$('#isWrite').show();
@@ -152,13 +159,16 @@ $(function () {
                               
                               <input type="hidden" name="dogInfoContent" id="dogInfoContent" value="">
 							<jsp:include page="/common/dogInfoSommernote.jsp"></jsp:include>   		
+                            <br>
+                            <br>
+                            <a style="color: gray; font-size: 13px">* 이 애견상식의 대표 섬네일 이미지를 등록해주세요.</a>
+                            <input type="file" name="file" placeholder="섬네일로 사용할 이미지를 반드시 등록해주세요."></input>
+                            <br>
                             </form>
-                            <br>
-                            <br>
-                            <br>
                          
                             <!-- button  -->
                             <div class="text-center">
+                            
                             <span style="cursor: pointer;" id="submit" class="highlight-button btn btn-medium text-center" >애견상식등록</span>
 <!--                             <button id="asdf" type="button" class="btn btn-primary"  >등 &nbsp;록</button> -->
                             <!-- end button  -->
@@ -210,7 +220,7 @@ $(function () {
       <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
                 <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
                 <p class="borderline-gray"></p>
-                <p style="text-align: center; line-height: 1.5;"><br />내용을 작성해주세요.</p>
+                <p style="text-align: center; line-height: 1.5;"><br />내용은 20자 이상 작성해주세요.</p>
                 <p><br /></p>
             <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
                 <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
@@ -218,6 +228,20 @@ $(function () {
       </div>
     </div>
       <!-- 3. 내용작성 모달 -->
+      
+  	<!-- 3. 섬네일 이미지 등록 모달 -->
+    <div id="insertFile" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">
+      <div class="col-lg-3 col-md-6 col-sm-7 col-xs-11 center-col bg-white text-center modal-popup-main animated fadeIn"  style=" padding:35px; top: 30%">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">알 림</span></b></span></p>
+                <p class="borderline-gray"></p>
+                <p style="text-align: center; line-height: 1.5;"><br />섬네일 사진을 등록해주세요.</p>
+                <p><br /></p>
+            <div style="cursor:pointer; text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="highlight-button-dark btn btn-medium no-margin pop_bt" style="font-size: 13pt;" >닫기</span>
+            </div>
+      </div>
+    </div>
+      <!-- 3. 섬네일 이미지 등록 모달 -->
       
   <!-- 4. 등록여부 모달 -->
     <div id="isWrite" style="background-color: rgba(0,0,0,0.4); width: 100%"  class="modal col-lg-3 col-md-4 col-sm-5 center-col text-center">

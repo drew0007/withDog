@@ -83,6 +83,33 @@
 	
 </script>	
 
+<style type="text/css">
+<!-- 검색어 버튼 -->
+	#pDiv{
+		position:relative; 
+	}	
+	
+	#search{
+		position: absolute;
+		top:0px;
+		left:200px;
+		width: 80px;
+	}
+	
+	#searchKeyword{
+		position: absolute;
+		top:0px;
+		left:-10px;
+	}
+ 
+ 	#searchKeyword{
+		position: absolute;
+		top:0px;
+		left:-10px;
+	}
+ </style>
+ 
+ 
 </head>
 
 <body>
@@ -128,38 +155,39 @@
 			    <h2 align="center">회원관리리스트</h2>
 			    <hr/>
 			    
-			    	<div class="col-md-6" style="margin-top:50px">
-		    			<p class="text-primary">
-		    				전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-		    			</p>
-		    		</div>	
-		    
-			   <form>
+			    <div class="col-md-12" id="pDiv">
 			    
-				  <div class="form-group col-md-3">
-				  
-				   <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>계정상태 :휴면</option>
-						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>계정상태 :정상</option>
-						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>계정상태 :탈퇴</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group col-md-3">
-				     	<label class="sr-only" for="searchKeyword">검색어</label>
-					    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-					    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-					  	
-						  	<input type="button" class="highlight-button-dark btn no-margin post-search" id="search" value="검색"/>
-				 
-							  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-							  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  </div>
-				</form>  
-				
-				<hr/>
+				    	<div class="col-md-4" style="margin-top:5px">
+			    			<p class="text-primary">
+			    				전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+			    			</p>
+			    		</div>	
+			    
+				   <form>
+				    
+					  <div class="form-group col-md-3">
+					  
+					   <select class="form-control" name="searchCondition" >
+							<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
+							<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
+							<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>계정상태 :휴면</option>
+							<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>계정상태 :정상</option>
+							<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>계정상태 :탈퇴</option>
+						</select>
+					  </div>
+					  
+					  <div class="form-group col-md-3">
+					     	<label class="sr-only" for="searchKeyword">검색어</label>
+						    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+						    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+						    			 
+							  	<input type="button"class="highlight-button-dark btn no-margin post-search" id="search" value="검색"/>
+								  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+								  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+					  </div>
+					</form>  
+					
+				</div>
 		
 				<!--  table Start /////////////////////////////////////-->
 			      <table class="table table-hover table-striped" >

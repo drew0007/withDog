@@ -63,6 +63,11 @@ $(function () {
         
         <!-- content section -->
         <section>
+        
+        	<div class="text-center" style="margin-bottom:65px;">
+           		<img src="../images/title/t2_2.png">	
+            </div>
+            
             <div class="container">
                 <div class="row">
                 

@@ -85,28 +85,43 @@ var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userA
 jQuery(document).ready(function($){
 if(!isMobile) {
 	$(document).ready(function() {
-		 
+		
 		// 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
 		var floatPosition = parseInt($(".sidebar").css('top'));
 		// 250px 이런식으로 가져오므로 여기서 숫자만 가져온다. parseInt( 값 );
-	 
+// 	 if($(window).outerHeights())
 		$(window).scroll(function() {
-			//console.log($(window).scrollTop()); 
+			var percent = ($(window).scrollTop() / ($(document).height() - $(window).height())) * 100;
+			console.log(percent)
+			console.log($(window).scrollTop()); 
 			// 현재 스크롤 위치를 가져온다.
-			if($(window).scrollTop() >300 &&$(window).scrollTop() <3939){
+			if($(window).scrollTop() >300 &&percent <80){
 				var scrollTop = $(window).scrollTop();
-				var newPosition = scrollTop + floatPosition-500 + "px";
+				var newPosition = scrollTop + floatPosition-400 + "px";
 				
 			
-			}else if( $(window).scrollTop() >3939){
+			}else if( percent >80){
 				var scrollTop = $(window).scrollTop();
-				var newPosition = scrollTop + floatPosition-1000 + "px";
+				var newPosition = scrollTop + floatPosition-700 + "px";
 			}
 			
 			else if($(window).scrollTop() <300){
-				var scrollTop = $(window).scrollTop();
-				var newPosition = scrollTop + floatPosition + "px";
+				return;
 			}
+// 			if($(window).scrollTop() >300 &&$(window).scrollTop() <1500){
+// 				var scrollTop = $(window).scrollTop();
+// 				var newPosition = scrollTop + floatPosition-500 + "px";
+				
+			
+// 			}else if( $(window).scrollTop() >1500){
+// 				var scrollTop = $(window).scrollTop();
+// 				var newPosition = scrollTop + floatPosition-700 + "px";
+// 			}
+			
+// 			else if($(window).scrollTop() <300){
+// 				var scrollTop = $(window).scrollTop();
+// 				var newPosition = scrollTop + floatPosition + "px";
+// 			}
 			
 	 
 			/* 애니메이션 없이 바로 따라감
@@ -235,10 +250,10 @@ function fncGetList(currentPage) {
                             <div class="blog-image" style="float:left; margin-right:15px; margin-bottom:15px;">
                             <a href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">
                              <c:if test="${empty list.dogInfoImage}">
-                            	<img  src="http://placehold.it/600x450" alt=""/>
+                            	<img  src="http://placehold.it/400x245" alt=""/>
                             </c:if>
                             <c:if test="${!empty list.dogInfoImage}">
-                            	<img  src = "/images/uploadFiles/dogInfo/${list.dogInfoImageList[0]}" width="400px" height="200px" alt=""/>
+                            	<img  src = "/images/uploadFiles/dogInfo/${list.dogInfoImage}" width="400px" height="200px" alt=""/>
                             </c:if>
                             </a>
                             

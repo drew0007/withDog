@@ -60,14 +60,11 @@ public class DogInfoController {
 	}
 
 	@RequestMapping(value = "addDogInfo", method = RequestMethod.POST)
-	public String addDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo, @RequestParam("file") MultipartFile[] file, HttpSession session) throws Exception{
+	public String addDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo, @RequestParam("file") MultipartFile file, HttpSession session) throws Exception{
 		System.out.println("/addDogInfo : POST");
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
 		System.out.println(dateFormat.format(date));
-		
-		String a = "";
-		
 		/*if(file[0].getSize()==0) {
 			System.out.println("파일비었음");
 			dogInfo.setDogInfoImage("이미지없음");
@@ -87,7 +84,11 @@ public class DogInfoController {
 			dogInfo.setDogInfoImage(a.substring(0, a.length()-1));
 		}
 		Thread.sleep(2500);*/
-		
+		System.out.println("저장된 파일 : " + file.getOriginalFilename());
+		File f = new File(dogInfofilePath + (dateFormat.format(date)+file.getOriginalFilename()).toString());
+		System.out.println(dogInfofilePath);
+		file.transferTo(f); // 위의 경로에 파일 저장
+		dogInfo.setDogInfoImage(dateFormat.format(date)+file.getOriginalFilename());
 	
 		System.out.println(dogInfo);
 		User user = (User)session.getAttribute("user");

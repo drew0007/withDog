@@ -16,63 +16,69 @@ function nearmap(){
 
 </script>
 
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 </head>
 <body>
 	<jsp:include page="/layout/common-header.jsp" />
 	
+			<video autoplay="true" loop="loop" muted>
+			
+			    <source src="../images/login/Withdog.mp4" />
+			
+			</video>
+	
 	<!-- slider -->
-        <section id="slider" class="no-padding">
-            <div id="owl-demo" class="owl-carousel owl-theme light-pagination square-pagination dark-pagination-without-next-prev-arrow main-slider">
-                <!-- slider item -->
-                <div class="item owl-bg-img" style="background-image:url('../images/main-visual1.jpg')">
-                    <div class="bg-dark-gray"></div>
-                    <div class="container full-screen position-relative">
-                        <div class="slider-typography text-center">
-                            <div class="slider-text-middle-main">
-                                <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp">
-                                    <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">withdog</span>
-                                    <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block xs-letter-spacing-6">we craft experiences that help brands</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end slider item -->
-                <!-- slider item -->
-                <div class="item owl-bg-img" style="background-image:url('http://placehold.it/1920x1100');">
-                    <div class="opacity-full bg-dark-gray"></div>
-                    <div class="container full-screen position-relative">
-                        <div class="slider-typography text-center">
-                            <div class="slider-text-middle-main">
-                                <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp">
-                                    <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">Leadership</span>
-                                    <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block">we work hard - we play hard</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end slider item -->
-                <!-- slider item -->
-                <div class="item owl-bg-img" style="background-image:url('http://placehold.it/1920x1100');">
-                    <div class="opacity-full bg-dark-gray"></div>
-                    <div class="container full-screen position-relative">
-                        <div class="slider-typography text-center">
-                            <div class="slider-text-middle-main">
-                                <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp">
-                                    <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">Expertise</span>
-                                    <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block">We craft unique digital experiences</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end slider item -->
-            </div>
-        </section>
-        <!-- end slider -->
+<!--         <section id="slider" class="no-padding"> -->
+<!--             <div id="owl-demo" class="owl-carousel owl-theme light-pagination square-pagination dark-pagination-without-next-prev-arrow main-slider"> -->
+<!--                 slider item -->
+<!--                 <div class="item owl-bg-img" style="background-image:url('../images/main-visual1.jpg')"> -->
+<!--                     <div class="bg-dark-gray"></div> -->
+<!--                     <div class="container full-screen position-relative"> -->
+<!--                         <div class="slider-typography text-center"> -->
+<!--                             <div class="slider-text-middle-main"> -->
+<!--                                 <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp"> -->
+<!--                                     <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">withdog</span> -->
+<!--                                     <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block xs-letter-spacing-6">we craft experiences that help brands</span> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 end slider item -->
+<!--                 slider item -->
+<!--                 <div class="item owl-bg-img" style="background-image:url('http://placehold.it/1920x1100');"> -->
+<!--                     <div class="opacity-full bg-dark-gray"></div> -->
+<!--                     <div class="container full-screen position-relative"> -->
+<!--                         <div class="slider-typography text-center"> -->
+<!--                             <div class="slider-text-middle-main"> -->
+<!--                                 <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp"> -->
+<!--                                     <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">Leadership</span> -->
+<!--                                     <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block">we work hard - we play hard</span> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 end slider item -->
+<!--                 slider item -->
+<!--                 <div class="item owl-bg-img" style="background-image:url('http://placehold.it/1920x1100');"> -->
+<!--                     <div class="opacity-full bg-dark-gray"></div> -->
+<!--                     <div class="container full-screen position-relative"> -->
+<!--                         <div class="slider-typography text-center"> -->
+<!--                             <div class="slider-text-middle-main"> -->
+<!--                                 <div class="slider-text-middle slider-text-middle6 padding-left-right-px wow fadeInUp"> -->
+<!--                                     <span class="slider-title-big6 white-text text-uppercase font-weight-700 letter-spacing-3">Expertise</span> -->
+<!--                                     <span class="white-text text-small text-uppercase letter-spacing-10 margin-three no-margin-bottom display-block">We craft unique digital experiences</span> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 end slider item -->
+<!--             </div> -->
+<!--         </section> -->
+<!--         end slider -->
         
         
         
@@ -180,11 +186,11 @@ function nearmap(){
                     </div>
                     <!-- end text block -->
                     <!-- text block -->
-                     <div class="col-md-3 col-sm-6 col-xs-12 text-block text-center">
+                    <div class="col-md-3 col-sm-6 col-xs-12 text-block text-center">
                         <div class="text-block-inner">
-                            <p class="text-large text-uppercase no-margin-bottom">Make with</p>
-                            <p class="title-small text-uppercase font-weight-600 black-text width-70 center-col letter-spacing-1">With AR</p>
-                            <a class="highlight-button btn btn-small no-margin" href="Intent://searchWithAR#Intent;scheme=WithAR;package=com.WithProject.WithAR;end">Start</a>
+                            <p class="text-large text-uppercase no-margin-bottom">Added To Sale</p>
+                            <p class="title-small text-uppercase font-weight-600 black-text width-70 center-col letter-spacing-1">New Styles</p>
+                            <a class="highlight-button btn btn-small no-margin" href="shop-with-sidebar.html">Shop Now</a>
                         </div>
                     </div>
                     <!-- end text block -->

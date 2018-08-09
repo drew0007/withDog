@@ -16,8 +16,10 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 <script type="text/javascript">
+
 $( function() {
     $("input[name=searchStartDay]").datepicker({
+    	
     	dateFormat: 'yy-mm-dd'
     });
     $("input[name=searchEndDay]").datepicker({
@@ -95,6 +97,97 @@ table th, td{text-align:center; font-size:13px;}
 table td{font-size:12px;}
 </style>
 
+<!--디자인  -->
+<style type="text/css">
+#pDiv{
+	position: relative;
+	
+}
+
+#cDiv1{
+	position: absolute;
+	top:10px;
+	left:1px;
+}
+
+#cDiv2{
+	position: absolute;
+	top:0px;
+	left:81px;
+	max-width: 120px;
+
+}
+
+#cDiv3{
+	position: absolute;
+	top:0px;
+	left:216px;
+	max-width: 115px;
+}
+
+
+#cDiv4{
+	position: absolute;
+	top:0px;
+	left:340px;
+
+}
+.pull-right{
+	margin-top: 20px;
+	position: absolute;
+	top:40px;
+	left:340px;
+}
+
+.border-gray2{
+	height: 220px;
+}
+
+#cDiv5{
+ position: relative;
+ top:10px;
+ left:70px;
+}
+
+#cDiv6{
+ position: absolute;
+ top:0px;
+ left : 155px;
+ width :120px !important;
+ max-width :120px !important;
+ padding: 8px 0px 8px 0px;
+ border-radius: 5px;
+
+}
+
+#searchKeyword{
+ position: absolute;
+ top:0px;
+ left:285px;
+ width :115px !important;
+ max-width :115px !important;
+}
+
+#searchButtonByKeyword{
+ position: absolute;
+ top:0px;
+ left:410px;
+ display: block;
+ width: 45px;
+
+}
+
+#m{
+	position: absolute;
+	top:8px;
+	left:202px;
+
+}
+
+</style>
+
+<!--end 디자인  -->
+
 </head>
 
 <body>
@@ -145,8 +238,8 @@ table td{font-size:12px;}
 					
 					<form>
 					
-					<div class="center-col text-center col-md-12 col-xs-12">
-						<div class="col-md-5 col-xs-12">
+					<div class="col-md-12 col-xs-12" id="pDiv">
+						<div class="col-md-6 col-xs-12">
 							<label class="text-small">기간별 조회</label>
 							<a style="cursor: pointer" class="highlight-button-navy1">1개월</a>
 							<a style="cursor: pointer" class="highlight-button-navy1">3개월</a>
@@ -154,31 +247,31 @@ table td{font-size:12px;}
 							<a style="cursor: pointer" class="highlight-button-navy1">전체보기</a>
 						</div>
 						
-						<div class="col-md-7 col-xs-12">
-								<label class="text-small f-left" style="position:relative; top:10px">일자별 조회&nbsp;</label>
-								<div class="reservation-date2 col-md-4">
+						<div class="col-md-6 col-xs-12">
+								<label class="text-small f-left" id="cDiv1">일자별 조회&nbsp;</label>
+								<div id="cDiv2">
 						            <input type="text" name="searchStartDay" value="${!empty search.searchStartDay?search.searchStartDay:''}" placeholder="startDate" class="input-round big-input" style="padding:8px 12px 9px;"/>
 						        </div>
-						        <div class="reservation-date2 col-md-4">
+						        <div id="m">~</div>
+						        <div id="cDiv3">
 						            <input type="text"  name="searchEndDay" value="${!empty search.searchEndDay?search.searchEndDay:''}" placeholder="lastDate" class="input-round big-input" style="padding:8px 12px 9px;"/>
 						        </div>
-						        <a id="searchButtonByDate" style="cursor: pointer" class="highlight-button-navy1">조회</a>
+						        <div id="cDiv4"><a id="searchButtonByDate" style="cursor: pointer" class="highlight-button-navy1">조회</a></div>
 				        </div>
 				        
 				        <input type="hidden" id="currentPage" name="currentPage" value="" />
 				        <input type="hidden" id="sorting" name="sorting" value="0"/>
 
 				        <div class="pull-right">
-				        <label class="text-small f-left" style="position:relative; top:10px">조건별 조회&nbsp;</label>
-					        <select name = searchCondition class="reservation-date2 col-md-4">
+				        <label class="text-small f-left" id="cDiv5">조건별 조회&nbsp;</label>
+					        <select name = searchCondition id="cDiv6">
 							  	<option value="0" ${search.searchCondition==0?'selected':'' }>유저ID</option>
 							  	<option value="1" ${search.searchCondition==1?'selected':'' }>예약번호</option>
 							  	<option value="2" ${search.searchCondition==2?'selected':'' }>치유견이름</option>
 						  </select>
-						  <div class="reservation-date2 col-md-4">
+						  
 					  	  	<input type="text" id="searchKeyword" name="searchKeyword" value="${!empty search.searchKeyword?search.searchKeyword:''}" class="input-round big-input" style="padding:8px 12px 9px;"/>
-					  	  </div>
-					        
+					       
 					        <a id="searchButtonByKeyword" style="cursor: pointer" class="highlight-button-navy1">검색</a>
 				        </div>
 				        </form>

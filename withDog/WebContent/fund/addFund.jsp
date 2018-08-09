@@ -79,6 +79,16 @@
 	    	/* alert(content) */
 	    		      	
 	      }
+	 
+	 
+	 $( function() {
+		    $("input[name=searchStartDay]").datepicker({
+		    	dateFormat: 'yy-mm-dd'
+		    });
+		    $("input[name=searchEndDay]").datepicker({
+		    	dateFormat: 'yy-mm-dd'
+		    });
+		  } );
 </script>
 
 
@@ -155,10 +165,16 @@
 
 					<div class="form-group calendar-icon no-margin-bottom" >
 						<!-- input  -->
-						<input type="text" placeholder="펀딩시작" class="big-input col-md-6" id="fundTerm1">
+						<!-- <input type="text" placeholder="펀딩시작" class="big-input col-md-6" id="fundTerm1">
 						<i class="fa fa-calendar small-icon form-group" style="padding-left:-20px;"></i>
 						<input type="text" placeholder="펀딩종료" class="big-input col-md-6" id="fundTerm2">
-						<i class="fa fa-calendar small-icon form-group" ></i>
+						<i class="fa fa-calendar small-icon form-group" ></i> -->
+						<div class="reservation-date2 col-md-4">
+				            <input type="text" name="searchStartDay" id="fundTerm1" value="${!empty search.searchStartDay?search.searchStartDay:''}" placeholder="시작일" class="input-round big-input" style="padding:8px 12px 9px;"/>
+				        </div>
+				        <div class="reservation-date2 col-md-4">
+				            <input type="text"  name="searchEndDay" id="fundTerm2" value="${!empty search.searchEndDay?search.searchEndDay:''}" placeholder="종료일 " class="input-round big-input" style="padding:8px 12px 9px;"/>
+				        </div>
 						
 						<input type="hidden" name="fundTerm" id="fundTerm"> 
 						<!-- end input  -->
