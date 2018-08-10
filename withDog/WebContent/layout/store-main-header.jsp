@@ -151,10 +151,11 @@ $(function(){
                             <!-- end nav search -->
                         </div>
                         <!-- search input-->
-                        <form id="search-header" method="post" action="#" name="search-header" class="mfp-hide search-form-result">
+                        <form id="search-header" method="post" action="/product/listProduct" name="search-header" class="mfp-hide search-form-result">
                             <div class="search-form position-relative">
                                 <button type="submit" class="fa fa-search close-search search-button" id="searchBtn"></button>
                                 <input type="text" name="searchKeyword" id="searchKeyword" class="search-input" placeholder="Enter your keywords..."  value="${! empty search.searchKeyword ? search.searchKeyword : '' }"   autocomplete="off">
+                                <input type="hidden" name="prodType" value="2">
                             </div>
                         </form>
                         <!-- end search input -->

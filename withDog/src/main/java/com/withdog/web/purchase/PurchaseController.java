@@ -709,6 +709,7 @@ public class PurchaseController {
 	    info.put("title", "상품 구매가 완료되었습니다."); // Notification title
 	    info.put("body", " - 결제일 : "+toDay+"\n - 상품명 : "+prodName+"\n - 금액 : "+purchase.getPurchasePrice()+"원"); // Notification
 	                                                            // body
+	    info.put("icon", "/images/icon/ic_launcher_round.png");
 
 	    json.put("notification", info);
 	    try {

@@ -54,24 +54,42 @@ function fncGetList(currentPage) {
 			var index = $("a[name='cancel']").index(this);
 			var purchaseNo = $($("input[name='purchaseNo']")[index]).val();
 			
-			
+			swal({
+				 //세팅
+				  title: "구매취소",
+				  text: "상품을 구매취소 하시겠습니까?",
+				  //icon: "success",
+				  buttons: true,
+				  //dangerMode: true,
+				})
+			//오케이 누르면 밸류에 트루값 넣어주면서 이프문 실행
+			.then(function(value){
+				if(value){
+					swal("상품을 구매취소 하였습니다.", {
+					      icon: "success",
+					    });
+					
 					$.ajax({
-								url : "/purchase/json/updateCancelPurchaseCondition/0/" + purchaseNo,
-								method : "GET",
-								dataType : "json",
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								}, success : function(JSONData , status) {
-									$($("a[name='cancel']")[index]).attr("style", "display:none;");
-									$($("a[name='update']")[index]).attr("style", "display:none;");
-									$(".text01").text("구매취소");
-									//구매취소일 오늘날짜로 변경
-									var d = new Date();
-// 									alert(d.getFullYear() +"-"+ (d.getMonth() + 1) +"-"+  d.getDate())
-									$(".date01").text(d.getFullYear() +"-" + "0" + (d.getMonth() + 1) +"-" + "0" +  d.getDate());
-								}
-					});
+						url : "/purchase/json/updateCancelPurchaseCondition/0/" + purchaseNo,
+						method : "GET",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						}, success : function(JSONData , status) {
+							$($("a[name='cancel']")[index]).attr("style", "display:none;");
+							$($("a[name='update']")[index]).attr("style", "display:none;");
+							$(".text01").text("구매취소");
+							//구매취소일 오늘날짜로 변경
+							var d = new Date();
+//								alert(d.getFullYear() +"-"+ (d.getMonth() + 1) +"-"+  d.getDate())
+							$(".date01").text(d.getFullYear() +"-" + "0" + (d.getMonth() + 1) +"-" + "0" +  d.getDate());
+						}
+			});
+				}
+			});
+			
+					
 		});
 	});
 	
@@ -82,26 +100,45 @@ function fncGetList(currentPage) {
 			var index = $("a[name='purchaseOk']").index(this);
 			var purchaseNo = $($("input[name='purchaseNo']")[index]).val();
 			
-			
+			swal({
+				 //세팅
+				  title: "구매확정",
+				  text: "상품을 구매확정 하시겠습니까?",
+				  //icon: "success",
+				  buttons: true,
+				  //dangerMode: true,
+				})
+			//오케이 누르면 밸류에 트루값 넣어주면서 이프문 실행
+			.then(function(value){
+				if(value){
+
+					swal("상품을 구매확정 하였습니다.", {
+					      icon: "success",
+					    });
+					
 					$.ajax({
-								url : "/purchase/json/updateMyPurchaseCondition/3/" + purchaseNo,
-								method : "GET",
-								dataType : "json",
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								}, success : function(JSONData , status) {
-									$(".text02").text("배송완료");
-									
-									//배송완료일 오늘날짜로 변경
-									var d = new Date();
-									$(".date02").text(d.getFullYear() +"-" + "0" + (d.getMonth() + 1) +"-" + "0" +  d.getDate());
-									
-									$($("a[name='purchaseOk']")[index]).attr("style", "display:none;");
-									$($("a[name='review']")[index]).attr("style", "padding:8px 15px 9px; cursor:pointer;");
-									
-								}
+						url : "/purchase/json/updateMyPurchaseCondition/3/" + purchaseNo,
+						method : "GET",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						}, success : function(JSONData , status) {
+							$(".text02").text("배송완료");
+							
+							//배송완료일 오늘날짜로 변경
+							var d = new Date();
+							$(".date02").text(d.getFullYear() +"-" + "0" + (d.getMonth() + 1) +"-" + "0" +  d.getDate());
+							
+							$($("a[name='purchaseOk']")[index]).attr("style", "display:none;");
+							$($("a[name='review']")[index]).attr("style", "padding:8px 15px 9px; cursor:pointer;");
+							
+						}
 					});
+				}
+			});
+			
+					
 		});
 	});
 	

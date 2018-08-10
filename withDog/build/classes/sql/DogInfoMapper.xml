@@ -9,7 +9,8 @@
 	<resultMap id="dogInfoSelectMap" type="dogInfo">
 		<result property="dogInfoNo" column="dog_info_no" jdbcType="NUMERIC" />
 		<result property="dogInfoTitle" column="dog_info_title" jdbcType="VARCHAR" />
-		<result property="dogInfoContent" column="dog_info_content" jdbcType="VARCHAR" />
+<!-- 		<result property="dogInfoContent" column="dog_info_content2" jdbcType="VARCHAR" /> -->
+		<result property="dogInfoContent" column="dog_info_content2" jdbcType="CLOB" />
 		<result property="dogInfoTopic" column="dog_info_topic" jdbcType="VARCHAR" />
 		<result property="viewCount" column="dog_info_view_count" jdbcType="VARCHAR" />
 		<result property="recommended" column="dog_info_recommend" jdbcType="VARCHAR" />
@@ -42,11 +43,11 @@
 	<!-- SQL : SELECT ONE -->
 	<insert id="addDogInfo" parameterType="dogInfo" >
 		INSERT INTO 
-		dog_info (dog_info_no,dog_info_title,dog_info_content,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id,dog_info_recommend,dog_info_not_recommend,dog_info_view_count)
+		dog_info (dog_info_no,dog_info_title,dog_info_content2,dog_info_topic,reg_date,delete_flag,dog_info_image,user_id,dog_info_recommend,dog_info_not_recommend,dog_info_view_count)
 		VALUES (
 		seq_dog_info_dog_info_no.nextval,
 		#{dogInfoTitle:VARCHAR},
-		#{dogInfoContent:VARCHAR},
+		#{dogInfoContent},
 		#{dogInfoTopic:VARCHAR},
 		SYSDATE,
 		'0',
@@ -82,7 +83,7 @@
 	<select id="getDogInfoList" parameterType="java.util.Map" resultMap="dogInfoSelectMap">
 		SELECT *
 		FROM(SELECT inner_table.* , ROWNUM AS row_seq 
-					FROM( SELECT dog_info_no, user_id, dog_info_image, dog_info_content, dog_info_title, dog_info_topic, dog_info_view_count, dog_info_recommend, dog_info_not_recommend, TO_CHAR(reg_date, 'YYYY.MM.DD') reg_date, delete_flag
+					FROM( SELECT dog_info_no, user_id, dog_info_image, dog_info_content2, dog_info_title, dog_info_topic, dog_info_view_count, dog_info_recommend, dog_info_not_recommend, TO_CHAR(reg_date, 'YYYY.MM.DD') reg_date, delete_flag
 									FROM dog_info
 									<where>
 										<if test="user.role=='user' ">
@@ -132,7 +133,7 @@
 		UPDATE dog_info
 			<set>
 			dog_info_title = #{dogInfoTitle},
-			dog_info_content = #{dogInfoContent},
+			dog_info_content2 = #{dogInfoContent},
 			dog_info_topic = #{dogInfoTopic},
 			dog_info_image=#{dogInfoImage}
 			</set>

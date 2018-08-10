@@ -78,7 +78,7 @@
 			  				 	<if test='prodType=="1" '>
 			  				 		AND p.prod_type = '1'
 			  				 	</if>
-				  				 <if test="searchCondition != null and searchKeyword != ''">
+				  				 <if test="searchKeyword != null">
 				  				 		AND p.prod_name LIKE '%'||#{searchKeyword}||'%'
 				  				 </if>
 			  		</trim>
@@ -115,7 +115,7 @@
 	  				 	<if test='prodType=="1" '>
 	  				 		AND prod_type = '1'
 	  				 	</if>
-		  				 <if test="searchCondition != null and searchKeyword != ''">
+		  				 <if test="searchKeyword != null">
 		  				 		AND prod_name LIKE '%'||#{searchKeyword}||'%'
 		  				 </if>
 	  				 </trim> ) countTable				

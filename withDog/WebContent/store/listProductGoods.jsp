@@ -149,7 +149,7 @@
                                     	</c:if>
                                     	<c:set var="cnt" value="${cnt+1}" />
                                     </c:forEach>
-                                    (${product.avgScore})
+                                    (${product.reviewCnt})
                                     
                                     <span class="onsale onsale-style-2">New</span>
                                 </div>

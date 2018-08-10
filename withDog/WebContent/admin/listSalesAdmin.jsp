@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="../css/purchase.css" />
 
 <!-- 공통 -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 <script type="text/javascript">
@@ -40,24 +41,44 @@ function fncGetList(currentPage) {
 			//해당 인덱스의 넘버 확인
 			var purchaseNo = $($("input[name='purchaseNo']")[index]).val();
 			
+			//스윗얼러트
+			swal({
+				 //세팅
+				  title: "배송하기",
+				  text: "상품을 배송 하시겠습니까?",
+				  //icon: "success",
+				  buttons: true,
+				  //dangerMode: true,
+				})
+			//오케이 누르면 밸류에 트루값 넣어주면서 이프문 실행
+			.then(function(value){
+				if(value){
+
+					swal("상품을 배송 하였습니다.", {
+					      icon: "success",
+					    });
+
 					$.ajax({
-								//레스트갈때 컨디션을 2로 설정
-								url : "/purchase/json/updatePurchaseConditionAdmin/2/" + purchaseNo,
-								method : "GET",
-								dataType : "json",
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								}, success : function(JSONData , status) {
-									alert("레스트갔다옴")
-									//업데이트 성공 후 판매완료텍스트를 배송중으로 변경
-									$(".text").text("배송중");
-									//구매날짜 공백처리
-									$(".date").text("");
-									//버튼 안보이게 설정
-									$($("a[name='tran']")[index]).attr("style", "display:none;");
-								}
+							//레스트갈때 컨디션을 2로 설정
+							url : "/purchase/json/updatePurchaseConditionAdmin/2/" + purchaseNo,
+							method : "GET",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							}, success : function(JSONData , status) {
+								//alert("레스트갔다옴")
+								//업데이트 성공 후 판매완료텍스트를 배송중으로 변경
+								$(".text").text("배송중");
+								//구매날짜 공백처리
+								$(".date").text("");
+								//버튼 안보이게 설정
+								$($("a[name='tran']")[index]).attr("style", "display:none;");
+							}
 					});
+				}
+			});
+			
 		});
 	});
 	

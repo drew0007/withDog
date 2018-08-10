@@ -123,7 +123,7 @@ $(function () {
                 <!-- comment form -->
                 <div class="row">
                 <form>
-                    <div id="addcomment" class="col-md-8 col-sm-12  center-col text-center">
+                    <div id="addcomment" class="col-md-8 col-sm-12  center-col">
                         <h5 class="info-title margin-five no-margin-top">애견상식 수정하기</h5>
                         <div class="blog-comment-form">
                             	<!-- select -->

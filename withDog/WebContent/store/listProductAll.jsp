@@ -12,7 +12,7 @@
 
 function fncGetList(currentPage) {
 	$("#currentPage").val(currentPage)
-	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=1").submit();
+	$("form").attr("method", "POST").attr("action", "/product/listProduct?prodType=2").submit();
 }
 	
 	//상품이미지 클릭시 이벤트 getProduct 연결
@@ -38,13 +38,13 @@ function fncGetList(currentPage) {
 		$("#sorting").on("change", function(){
 			var sort = $("#sorting").val();
 			if(sort == 0){
-				self.location = "/product/listProduct?sorting=0&prodType=1";
+				self.location = "/product/listProduct?sorting=0&prodType=2&searchKeyword=${! empty search.searchKeyword ? search.searchKeyword : '' }";
 			}else if(sort == 1){
-				self.location = "/product/listProduct?sorting=1&prodType=1";
+				self.location = "/product/listProduct?sorting=1&prodType=2&searchKeyword=${! empty search.searchKeyword ? search.searchKeyword : '' }";
 			}else if(sort == 2 ){
-				self.location = "/product/listProduct?sorting=2&prodType=1";
+				self.location = "/product/listProduct?sorting=2&prodType=2&searchKeyword=${! empty search.searchKeyword ? search.searchKeyword : '' }";
 			}else{
-				self.location = "/product/listProduct?sorting=3&prodType=1";
+				self.location = "/product/listProduct?sorting=3&prodType=2&searchKeyword=${! empty search.searchKeyword ? search.searchKeyword : '' }";
 			}
 		})
 	});
@@ -98,6 +98,7 @@ function fncGetList(currentPage) {
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                     	<form>
+                    	<input type="hidden" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
                         <div class="shorting clearfix xs-margin-top-three">
                             <div class="col-md-8 col-sm-8 grid-nav">
                                 <a href="shop-with-sidebar-list.html"><i class="fa fa-bars"></i></a>

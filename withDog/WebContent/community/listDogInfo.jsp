@@ -36,7 +36,7 @@ height: 3.6em; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 he
 	a.tip span {
 	    display: none;
 	    position: absolute;
-	    top: -80px;
+/* 	    top: -80px; */
 	    width: 400px;
 	    height : 50px;
 	    line-height: 40px;
@@ -53,7 +53,7 @@ height: 3.6em; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 he
 	a.tip.no span {
 	    display: none;
 	    position: absolute;
-	    top: -80px;
+/* 	    top: -80px; */
 	    width: 400px;
 	    height : 50px;
 	    line-height: 40px;
@@ -310,7 +310,7 @@ function fncGetList(currentPage) {
 											<a id="getDogInfo" class="tip no highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기<span>부정확한 정보입니다.</span></a>	
 										 </c:if>
 									 </c:if>
-									 <c:if test="${list.notRecommended<10}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
+									 <c:if test="${list.notRecommended<10 || (list.notRecommended/(list.recommended + list.notRecommended))*100<=20}"> <!-- 나중에 조건 10보다 크게 줘야한다 -->
                                			<a id="getDogInfo" class="tip highlight-button btn btn-medium xs-no-margin-bottom" href="/dogInfo/getDogInfo?dogInfoNo=${list.dogInfoNo}">자세히 보기</a>	
 									 </c:if>
                             </div>

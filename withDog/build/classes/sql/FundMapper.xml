@@ -18,7 +18,7 @@
 		<result property="fundPersonnel" 			column="FUND_PERSONNEL" 				jdbcType="INTEGER"  />
 		<result property="fundState" 		column="FUND_STATE" 			jdbcType="VARCHAR" />
 		<result property="fundResultPrice" 		column="FUND_RESULT_PRICE" 			jdbcType="INTEGER" />
-		<result property="fundContent" 		column="FUND_CONTENT" 			jdbcType="VARCHAR" />
+		<result property="fundContent" 		column="fund_content2" 			jdbcType="CLOB" />
 		<result property="fundMyPrice"    column="FUND_MY_PRICE" jdbcType="INTEGER"/>
 		<result property="fundMyDate"    column="PURCHASE_DATE" jdbcType="DATE"/>
 		<result property="fundMyPriceNo" 		column="FUND_MY_PRICE_NO" 				jdbcType="INTEGER"  />
@@ -45,7 +45,7 @@
 	 
 	 
 	<select id="getFund"	parameterType="int"	resultMap="fundSelectMap">
-		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_Content,fund_Raising,fund_personnel,FUND_PHONE,delete_flag,FUND_STATE
+		select fund_no,fund_Title,fund_image,fund_center,fund_term,fund_content2,fund_Raising,fund_personnel,FUND_PHONE,delete_flag,FUND_STATE
 		from  fund
 		where fund_no=#{value}
 		
@@ -103,7 +103,7 @@
 		FUND_CENTER = #{fundCenter},
 		FUND_PHONE = #{fundPhone},
 		FUND_TERM = #{fundTerm},
-		FUND_CONTENT = #{fundContent}
+		fund_content2 = #{fundContent}
 		where fund_no = #{fundNo}
 	  </update>
 	  

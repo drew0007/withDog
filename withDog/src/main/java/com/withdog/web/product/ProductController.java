@@ -281,9 +281,12 @@ public class ProductController {
 		if(prodType.equals("0")) {
 			System.out.println("애견용품");
 			result = "forward:/store/listProductGoods.jsp";
-		}else {
+		}else if(prodType.equals("1")) {
 			System.out.println("애견식품");
 			result = "forward:/store/listProductFood.jsp";
+		}else {
+			System.out.println("전체");
+			result = "forward:/store/listProductAll.jsp";
 		}
 		
 		return result;

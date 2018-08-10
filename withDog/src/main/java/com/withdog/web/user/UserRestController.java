@@ -342,7 +342,7 @@ public class UserRestController {
 			String conText = "[함께할개] 본인확인 인증번호[" + tempNo + "]를 화면에 입력해주세요";
 
 			// 2.2 보낼 전화번호
-			String userPhoneNo = dbUser.getPostNo();
+			String userPhoneNo = dbUser.getPhone();
 
 			// 2.3 문자보내기 메서드
 			userService.sendText(userPhoneNo, conText);

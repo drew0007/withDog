@@ -182,7 +182,7 @@ $(function () {
 			            </div>
 			            <!-- end into title -->
             
-                        <div class="col-md-10 col-sm-12 bg-white center-col border-top text-center">
+                        <div class="col-md-10 col-sm-12 bg-white center-col border-top">
                         
                         <!-- post details text -->
                         <%-- <p class="text-large" style="padding-top:60px;">
@@ -210,7 +210,7 @@ $(function () {
                             </c:if>
                         </div>
                         <!-- end line icon -->
-                        
+                        <div class="text-center">
                          <!-- button  -->
                          <input type="submit" name="send" value="목록으로" class="highlight-button-dark btn btn-medium no-margin-bottom">
                          <c:if test="${user.role != 'admin' && dogInfo.user.userId==user.userId}">
@@ -221,7 +221,7 @@ $(function () {
                          <input type="submit" name="updateDogInfo" value="수정" class="highlight-button-dark btn btn-medium no-margin-bottom">
                          <a style="cursor: pointer;" name="deleteDogInfo" value="삭제" class="highlight-button-dark btn btn-medium no-margin-bottom">삭제</a>
                          </c:if>
-                         
+                         </div>
                          <!-- end button  -->
                     </div>
                     
