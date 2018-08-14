@@ -5,7 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.10/dist/sweetalert2.all.min.js"></script>
 <jsp:include page="/common/css.jsp" />
 
 <style type="text/css">
@@ -20,7 +19,7 @@
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
-  swal('Any fool can use a computer')
+  //swal('Any fool can use a computer')
   /* $(function(){
 	  $("#popup").on("click", function(){
 		  swal({
@@ -217,14 +216,14 @@
 						  <span  class="display-block margin-top-two">${abandDog.abandDogFeature }</span>	                      
 	                  </div> --%>
 		             	
-		             <div class="swal-footer" style="margin-bottom:0px; padding:0;">
+		             <!-- <div class="swal-footer" style="margin-bottom:0px; padding:0;">
 		             	<div class="swal-button-container">
 				     		<button class="swal-button swal-button--confirm">닫기</button>
 				     			<div class="swal-button__loader">
 				     			</div>
 				     		</div>
 				     	</div>
-		             </div>
+		             </div> -->
 	             <!-- end modal popup -->
 	         </div>
 	            <!-- end modal popup -->

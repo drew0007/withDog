@@ -1291,7 +1291,8 @@
 @media (max-width: 480px) {
     /*  navigation  */
     .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse { max-height: 394px; }
-
+	ul.col-md-7 .col-xs-12 .pull-right.navbar-sm {width:100%; padding:6% 0;}
+	nav .accordion-menu ul .mme{width:33.3%; padding:6% 0; text-align:center;  float: left; }
     /*  custom  */
     .section-title { font-size: 16px; line-height: 21px; }
     .btn-black.btn-small.margin-two { margin-top: 5%; }

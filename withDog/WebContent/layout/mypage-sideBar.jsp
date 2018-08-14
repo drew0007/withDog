@@ -21,10 +21,6 @@
 			$(self.location).attr("href","/purchase/getMyPurchaseList");
  		});
 		
-		$( "a:contains('취소/반품내역')" ).on("click" , function() {
-			$(self.location).attr("href","/purchase/getMyCancelList");
- 		});
-		
 		$( "a:contains('나의 문의내역')" ).on("click" , function() {
 			$(self.location).attr("href","/inquiry/getMyInquiryList");
  		});
@@ -84,7 +80,6 @@
       <div class="widget-body">
           <ul class="category-list">
               <li><a href="#">나의 구매내역</a></li>
-              <li><a href="#">취소/반품내역</a></li>
               <li><a href="#">나의 문의내역</a></li>
               <li><a href="#">장바구니</a></li>
           </ul>

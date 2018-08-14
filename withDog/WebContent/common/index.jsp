@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,17 +12,49 @@
 
 <script>
 function nearmap(){
-	popWin = window.open("/quick/ARMap","popWin", "left=300,width=1060,height=790,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+	popWin = window.open("https://192.168.0.42:8443/quick/ARMap","popWin", "left=300,width=1060,height=790,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
 }
 
 </script>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
+<!-- <script>
+$(function(){
+    var filter = "win16|win32|win64|mac|macintel";
+    
+	 if( navigator.platform  ){
+	
+		if( filter.indexOf(navigator.platform.toLowerCase())<0 ){
+	
+			console.log("모바일 기기에서 접속");
+			
+						
+								
+		}else{
+	
+			console.log("PC에서 접속");
+		}
+		
+</script> -->
+<style type="text/css">
+
+
+@media only screen and (min-width:400px){
+background: url(../images/main-visual1.jpg) no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;
+
+}
+
+
+
+</style>
+
+
 </head>
 <body>
 	<jsp:include page="/layout/common-header.jsp" />
 	
+		
 			<video autoplay="true" loop="loop" muted>
 			
 			    <source src="../images/login/Withdog.mp4" />
@@ -188,9 +221,9 @@ function nearmap(){
                     <!-- text block -->
                     <div class="col-md-3 col-sm-6 col-xs-12 text-block text-center">
                         <div class="text-block-inner">
-                            <p class="text-large text-uppercase no-margin-bottom">Added To Sale</p>
-                            <p class="title-small text-uppercase font-weight-600 black-text width-70 center-col letter-spacing-1">New Styles</p>
-                            <a class="highlight-button btn btn-small no-margin" href="shop-with-sidebar.html">Shop Now</a>
+                            <p class="text-large text-uppercase no-margin-bottom">Make with</p>
+                            <p class="title-small text-uppercase font-weight-600 black-text width-70 center-col letter-spacing-1">With AR</p>
+                            <a class="highlight-button btn btn-small no-margin" href="Intent://searchWithAR#Intent;scheme=WithAR;package=com.WithProject.WithAR;end">Start</a>
                         </div>
                     </div>
                     <!-- end text block -->

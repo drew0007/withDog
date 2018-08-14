@@ -185,30 +185,22 @@ public class DogInfoController {
 	}
 
 	@RequestMapping(value = "updateDogInfo", method = RequestMethod.POST)
-	public String updateDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo,HttpSession session, Model model, @RequestParam("file") MultipartFile[] file) throws Exception {
+	public String updateDogInfo(@ModelAttribute("dogInfo") DogInfo dogInfo,HttpSession session, Model model, @RequestParam("file") MultipartFile file) throws Exception {
 		System.out.println("/updateDogInfo : POST");
 		System.out.println("업데이트 도그인포 : " + dogInfo);
 		User sessionUser = (User)session.getAttribute("user");
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
 		System.out.println(dateFormat.format(date));
-		String a = ""; 
 		
-		if (file[0].getSize()!=0) {
+		if (file.getSize()!=0) {
 			System.out.println("업데이트 시 이미지 수정 함");
-			for (MultipartFile multipartFile : file) {
-				if (multipartFile.getOriginalFilename().equals("") || multipartFile == null) {
-					break;
-				}
-				a += (dateFormat.format(date)+multipartFile.getOriginalFilename()) + (multipartFile.getOriginalFilename().equals("") ? "" : ",");
-			
-				System.out.println("저장된 파일들 : " + multipartFile.getOriginalFilename());
-				File f = new File(dogInfofilePath + (dateFormat.format(date)+multipartFile.getOriginalFilename()).toString());
+				System.out.println("저장된 파일들 : " + file.getOriginalFilename());
+				File f = new File(dogInfofilePath + (dateFormat.format(date)+file.getOriginalFilename()).toString());
 				System.out.println(dogInfofilePath);
 				
-				multipartFile.transferTo(f); // 위의 경로에 파일 저장
-			}
-			dogInfo.setDogInfoImage(a.substring(0, a.length()-1));
+				file.transferTo(f); // 위의 경로에 파일 저장
+				dogInfo.setDogInfoImage(dateFormat.format(date)+file.getOriginalFilename());
 		}else {
 			System.out.println("업데이트 시 이미지 수정 안함");
 			dogInfo.setDogInfoImage((dogInfoService.getDogInfo(dogInfo.getDogInfoNo(),sessionUser)).getDogInfoImage());

@@ -6,8 +6,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <jsp:include page="../common/css.jsp" />
 <title>휴면계정 >> 일반회원 전환</title>
+
+<style type="text/css">
+.con_section{
+padding : 0px 0px 120px 0px !important;
+
+}
+
+#check{
+margin-top:40px !important; 
+}
+
+#head_section{
+padding : 120px 0px 40px 0px !important;
+}
+</style>
 
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -69,18 +85,18 @@
 	$(document).on("click","#checkTextNum",function() {
 		//숨겨놓은 발송 숫자
 		var textNum = $("#tempNo").val();
-		alert("textNum"+textNum);
+		//alert("textNum"+textNum);
 		//고객이 입력한 값
 		var userTextNum = $("#userTextNum").val();
-		alert("userTextNum"+userTextNum);
+		//alert("userTextNum"+userTextNum);
 		if(textNum!=userTextNum){
 			alert("인증번호를 잘못 입력하였습니다.");
 			$(".changeDiv1").remove();
 			$(".changeDiv2").remove();
 			$("#check").show();
 		}else{
-			update();
 			alert("일반회원으로 전환되었습니다.로그인 페이지로 이동합니다.");
+			update();
 		}//end of if
 	});
 // 	$(document).on("click","#checkTextNum",function() {
@@ -92,7 +108,7 @@
 			
 			//휴면회원일 경우 세션 스콥에서 "userCon0"
 			var userId = "${sessionScope.userCon0}"; 
-			alert("userId"+userId);
+			//alert("userId"+userId);
 			
 			$.ajax({
 					url : "/user/json/changeUserConditionTest/"+userId,
@@ -116,56 +132,68 @@
 </head>
 <body>
 		
-		<jsp:include page="../layout/header.jsp" />
+			<jsp:include page="/layout/common-header.jsp" />
 		
-		<!-- head section -->
-         <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/603_bg.jpg" alt="" />
+		
+		 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog" id="head_section">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/changeUserCon_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
-                        <h1 class="white-text">휴면계정 정상회원 전환</h1>
+                        <h2 class="white-text tit_png"><img src="../images/sub/change_tit.png">
+                         	<p style ="margin-top: 10px;">1년이상 로그인 되지 않아 휴면 상태로 전환되었습니다.</p>
+                        </h2>
                         <!-- end page title -->
                         <!-- page title tagline -->
-                        <span class="white-text xs-display-none">아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다. 휴면을 해제하시려면, 본인인증을 해주세요.</span>
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
                         <!-- end title tagline -->
                     </div>
                 </div>
             </div>
         </section>
         <!-- end head section -->
+		
+		
         
         
         <!-- content section -->
-        <section>
+        <section class="con_section">
             <div class="container clearfix"><!-- container1 -->
                 <div class="row margin-five no-margin-top"><!-- row1 -->
                     <div class="col-md-6 col-sm-12 center-col sm-margin-bottom-seven">
-                        <p class="black-text font-weight-600 text-uppercase text-large">일반회원전환</p>
+                    	<div class="separator-line bg-black" style="margin-bottom:30px;"></div>
+                        <p class="black-text font-weight-600 text-uppercase text-large text-center">
+                        	휴면회원을 해제하시려면 본인인증을 해주세요.
+                        	</p>
                         
-                        <form id="findIdForm">
-                        
-                            <div class="col-md-12 no-padding">
-                                <label>이름 :</label>
-                                <input type="text" name="userName" id="userName">
-                            </div>
-                            
-                             <div class="col-md-12 no-padding">
-                                <label>휴대전화 :</label><span class="spanChange"></span>
-                                <input type="text" name="phone" id="phone">
-                                <span class="changeSpan"></span>
-                            </div>
-                            <div class="changeDiv1"></div>
-                            <div class="changeDiv2"></div>
-                            <input type="hidden" id="tempNo" value="">
-                             
-                         </form> 
+                        <div class="col-md-12" style="margin-top: 50px;">
+	                        <form id="findIdForm">
+	                        
+	                            <div class="col-md-12 no-padding">
+	                                <label>이름 :</label>
+	                                <input type="text" name="userName" id="userName">
+	                            </div>
+	                            
+	                             <div class="col-md-12 no-padding">
+	                                <label>휴대전화 :</label><span class="spanChange"></span>
+	                                <input type="text" name="phone" id="phone">
+	                                <span class="changeSpan"></span>
+	                            </div>
+	                            <div class="changeDiv1"></div>
+	                            <div class="changeDiv2"></div>
+	                            <input type="hidden" id="tempNo" value="">
+	                             
+	                         </form> 
+	                         
+	                         <div class="text-center">
+	                         	<button class="highlight-button btn no-margin post-search" id="check" >인증번호 전송하기</button>
+	                         </div>
                          
-                         <div class="text-center">
-                         	<button class="highlight-button btn no-margin post-search" id="check">인증번호 전송하기</button>
                          </div>
-                         
                     </div>
                 </div><!-- row1 -->
                 

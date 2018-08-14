@@ -37,7 +37,7 @@
 	<!-- SQL : INSERT -->
 	<insert id="addFund"	parameterType="fund" >
 	 	INSERT
-		 INTO fund VALUES ( seq_fund_fund_no.nextval,'${fundTitle}','${fundImage}' ,'${fundCenter}' ,'${fundPhone}' ,'${fundTerm}' , 0,0,'0',0,'${fundContent}',SYSDATE,0 )
+		 INTO fund VALUES ( seq_fund_fund_no.nextval,'${fundTitle}','${fundImage}' ,'${fundCenter}' ,'${fundPhone}' ,'${fundTerm}' , 0,0,'0',0,'aaaa',SYSDATE,0,'${fundContent}' )
 												
 	 </insert>
 	 
@@ -155,7 +155,7 @@
 									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0
 									<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+										 				and fund_Title Like '%'||#{search.searchKeyword}||'%' 
 													</if>
 													
 								    </if> 
@@ -167,7 +167,7 @@
 									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0
 									<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-										 				fund_Title Like '%'||#{search.searchKeyword}||'%' and
+										 				and fund_Title Like '%'||#{search.searchKeyword}||'%'
 													</if>
 													
 								    </if> 
@@ -227,7 +227,7 @@
 									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and point=0
 									<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-										 				f.fund_Title Like '%'||#{search.searchKeyword}||'%' and
+										 				and f.fund_Title Like '%'||#{search.searchKeyword}||'%' 
 													</if>
 													
 								    </if> 
@@ -239,7 +239,7 @@
 									fi.user_Id=#{user.userId} and fi.fund_no=f.fund_no and fi.fund_my_price_No(+)=p.fund_my_price_no and use_point=0
 									<if test="search.searchCondition != null">
 													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-										 				f.fund_Title Like '%'||#{search.searchKeyword}||'%' and
+										 				and f.fund_Title Like '%'||#{search.searchKeyword}||'%' 
 													</if>
 													
 								    </if> 

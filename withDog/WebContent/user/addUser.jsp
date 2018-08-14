@@ -18,6 +18,7 @@
 	  	<link rel="stylesheet" href="/resources/demos/style.css">
 	  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	  	<!-- 제이쿼리 달력 :: 크롬에서 년도 안에 글씨 작게 -->
 		<style type="text/css">
 		.ui-datepicker .ui-datepicker-title select {
@@ -208,7 +209,7 @@
 					var email1 = $("#email1").val();
 					var email =email1+email2;
 					$("#email").val(email);
-					alert("email"+email)
+					//alert("email"+email)
 					//$("#email2 option:selected").val(email2);
 				}
 			
@@ -233,7 +234,7 @@
 		var name=$("input[name='userName']").val();
 		var birth=$("input[name='birth']").val();
 		var dogNo =$("#combobox option:selected").val();
-		alert("dogNo"+dogNo);
+		//alert("dogNo"+dogNo);
 		var phone=$("input[name='phone']").val();
 		var emailCheck= $("#tempNo").val();
 		
@@ -319,7 +320,7 @@
 			//유효성 검사
 			var email1= $("#email1").val();
 			
-			alert(email1+"email1");
+			//alert(email1+"email1");
 			var email2= '@'+$("#email2").val();
 			var email = email1 + email2 ;
 			
@@ -373,21 +374,24 @@
 	$(document).on("click","#checkTextNum",function() {
 		//숨겨놓은 발송 숫자
 		var textNum = $("#tempNo").val();
-		alert("textNum"+textNum);
+	
 		//고객이 입력한 값
 		var userTextNum = $("#userTextNum").val();
-		alert("userTextNum"+userTextNum);
+		//alert("userTextNum"+userTextNum);
 		if(textNum!=userTextNum){
 			alert("인증번호를 잘못 입력하였습니다.");
 			$(".changeDiv1").remove();
 			$(".changeDiv2").remove();
 			
 		}else{
-			alert("이메일 인증이 완료되었습니다.");
+			swal("이메일 인증이 완료되었습니다.", {
+			      icon: "success",
+			    });
 			//이메일 인증완료시  
 			var textNum = $("#tempNo").val(100);
 			$(".changeDiv1").remove();
 			$(".changeDiv2").remove();
+ 			$(".spanChange").text("이메일 :");
 			$("#checkEmail").val("재인증");
 			$(".spanChange").append("<span style=\"color:red;\">인증완료</span>");
 		}//end of if

@@ -164,7 +164,7 @@ public class FundDAOImpl implements FundDAO{
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("search",search);
 		map.put("user", user);
-		System.out.println(456);		
+		System.out.println(map.toString());		
 		return sqlSession.selectList("FundMapper.getMyFundList",map);
 	}
 

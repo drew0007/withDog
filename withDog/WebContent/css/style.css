@@ -504,8 +504,17 @@ nav .container{ display: table-cell; vertical-align: middle; height: 80px; posit
 .navbar-nav li a.active { border-bottom:2px solid #000}
 .nav-white-bg { background-color:#fff !important;}
 .black-bg { background: rgba(0,0,0,0.65)}
-.nav-white.sticky-nav .navbar-nav li a { color: #fff}
+.nav-white.sticky-nav .navbar-nav li a { color: #fff; font-weight:600;}
 .nav-white.shrink-nav .navbar-nav li a { color: #000}
+
+.nav-white.sticky-nav .navbar-sm li a { color: #fff}
+.nav-white.shrink-nav .navbar-sm li a { color: #000}
+
+.nav-white.sticky-nav .navbar-sm li a i { color: #fff}
+.nav-white.shrink-nav .navbar-sm li a i{ color: #000}
+nav .accordion-menu ul .mme{pa}
+
+
 .nav-white.sticky-nav .navbar-nav li a:hover, .nav-white.sticky-nav .navbar-nav > .open > a  { border-bottom-color: #fff}
 .nav-white.shrink-nav .navbar-nav li a:hover, .nav-white.shrink-nav .navbar-nav > .open > a { border-bottom-color: #000}
 .nav-dark.shrink-nav .navbar-nav li a:hover, .nav-dark.shrink-nav .navbar-nav > .open > a { border-bottom-color: #fff !important}
@@ -2026,7 +2035,7 @@ ul.list-line li span {min-width:130px; display:inline-block}
 .text-block:hover { background:#000;}
 .text-block:hover .text-block-inner { border:2px solid rgba(255,255,255,1); background: #fff; }
 .text-block .btn {font-family: 'Open Sans', sans-serif; }
-.onsale { background:#cb0606; bottom: 16%; color: #fff; font-size: 10px; left: 50%; margin-left: -21px; line-height: 20px; padding: 0 9px; position: absolute; text-transform: uppercase; }
+.onsale { background:#cb0606; bottom: 20%; color: #fff; font-size: 10px; left: 50%; margin-left: -21px; line-height: 20px; padding: 0 9px; position: absolute; text-transform: uppercase; }
 .new { background: #f1a004; bottom: 16%; color: #fff; font-size: 10px; left: 50%; margin-left: -21px; line-height: 20px; padding: 0 9px; position: absolute; text-transform: uppercase; }
 
 /* shop listing */

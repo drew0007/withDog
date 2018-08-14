@@ -13,7 +13,6 @@
 	//pageNavigation
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		alert(currentPage)
 		self.location = "/inquiry/getInquiryListAdmin";
 	}
 	
@@ -41,7 +40,7 @@
 	</script>
 	
 	
-<title>Admin page</title>
+<title>회원 문의내역</title>
 
 
 </head>
@@ -78,6 +77,8 @@
 			
 			<!-- content  -->
 			<div class="col-md-9 col-sm-9 col-md-offset-1 ">
+					
+					<h1 align="center" style="margin-bottom:30px;">회원 문의내역</h1>
 			
 					<!-- accordion -->
                         <div class="panel-group accordion-style3" id="accordion-three">

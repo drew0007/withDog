@@ -176,8 +176,8 @@ hs(function(){
 		                                        <li><a href="/dogBreedDic/getDogBreed">견종백과</a></li>
 		                                        <li><a href="/dogInfo/listDogInfo">애견상식</a></li>
 		                                        <li><a href="/afterAsh/listAfterAsh">동물교감치유후기</a></li>
-		                                        <li><a href="../community/listOutSideSNS.jsp">SNS게시판</a></li>
-		                                        <li><a href="../community/listChatRoom.jsp">채팅방</a></li>
+<!-- 		                                        <li><a href="../community/listOutSideSNS.jsp">SNS게시판</a></li> -->
+<!-- 		                                        <li><a href="../community/listChatRoom.jsp">채팅방</a></li> -->
 		                                    </ul>
                                             <!-- end sub menu item  -->
                                     <!-- end sub menu -->

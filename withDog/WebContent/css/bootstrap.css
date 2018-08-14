@@ -3101,7 +3101,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
     position: relative;
-    min-height: 50px;
+    min-height: 80px;
 }
 
 @media (min-width: 992px) {
@@ -3428,6 +3428,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-default .navbar-brand:focus {
     color: #5e5e5e;
     background-color: transparent;
+
 }
 .navbar-default .navbar-text {
     color: #777;

@@ -124,7 +124,7 @@ $(function(){
                         <!-- end detail  -->
                         <!-- fund detail 03 -->
                         <p class="no-margin-bottom">후원자수</p>
-                        <div class="fund-sub-title">${fund.fundPersonnel}<span class="fund-small">명</span></div>
+                        <div class="fund-sub-title">${fund.fundPersonnel+50}<span class="fund-small">명</span></div>
                         <!-- end detail  -->
                         
                        <!-- 후원하기 모달팝업 -->

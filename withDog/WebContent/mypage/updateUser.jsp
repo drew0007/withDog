@@ -402,21 +402,40 @@
 
 <body>
 
-	<jsp:include page="../layout/header2.jsp" /> 
+	<jsp:include page="../layout/header.jsp" /> 
 	
+<!-- 	<!-- head section --> 
+<!-- 	 <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog"> -->
+<!-- 	   <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" /> -->
+<!-- 	   <div class="container"> -->
+<!-- 	       <div class="row"> -->
+<!-- 	           <div class="col-md-12 col-sm-12 text-center wow fadeInUp"> -->
+<!-- 	                <h1 class="white-text">회원정보 수정</h1> -->
+<!-- 	               <span class="white-text xs-display-none">Register and modify user information.</span> -->
+<!-- 	            </div> -->
+<!-- 	        </div> -->
+<!-- 	    </div> -->
+<!-- 	</section>  -->
+<!-- 	<!-- end head section -->	 
+
 	<!-- head section -->
-	 <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-	   <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" />
-	   <div class="container">
-	       <div class="row">
-	           <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
-	                <h1 class="white-text">회원정보 수정</h1>
-	               <span class="white-text xs-display-none">Register and modify user information.</span>
-	            </div>
-	        </div>
-	    </div>
-	</section> 
-	<!-- end head section -->	
+	<section class="page-title parallax3 parallax-fix page-title-blog">
+	<img class="parallax-background-img" src="../images/sub/304_bg.jpg"
+		alt="" />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+				<div class="no-margin-top margin-one"></div>
+				<!-- page title -->
+				<h1 class="white-text tit_png">
+					<img src="../images/sub/myPage_tit.png">
+				</h1>
+				<!-- end page title -->
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- end head section -->
 	
         <!-- form option #2 -->  
         <section class="wow fadeIn" >
@@ -552,7 +571,7 @@
 		                           		<div class="col-xs-4 col-md-4"><img src ="../images/login/n_icon.png">네이버</div>
 		                           		<div class="col-xs-8 col-md-8">
 		                           			<c:choose>
-		                           				<c:when test="${user.snsNaverId==null}">연결된 정보가 없습니다.<a href="#"><img src ="../images/login/naver.png" id="naver"></a></c:when>
+		                           				<c:when test="${user.snsNaverId==null}">연결된 정보가 없습니다.<a href="#"><img src ="../images/login/naver1.png" id="naver"></a></c:when>
 		                           				<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>		
 		                           			</c:choose>
 	                         			</div>
@@ -566,7 +585,7 @@
 		                           		<div class="col-xs-4 col-md-4"><img src ="../images/login/k_icon.png">카카오</div>
 		                           		<div class="col-xs-8 col-md-8">
 			                 				<c:choose>
-												<c:when test="${user.snsKakaoId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/kakao.png"/ id="imgKakao"></a></c:when>
+												<c:when test="${user.snsKakaoId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/kakao1.png"/ id="imgKakao"></a></c:when>
 										  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>	
 								  			</c:choose>
 	                         			</div>
@@ -580,7 +599,7 @@
 		                           		<div class="col-xs-4 col-md-4"><img src ="../images/login/g_icon.png">구글</div>
 		                           		<div class="col-xs-8 col-md-8">
 			                 				<c:choose>
-												<c:when test="${user.snsGoogleId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/google.png"/ id="google"></a></c:when>
+												<c:when test="${user.snsGoogleId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/google1.png"/ id="google"></a></c:when>
 										  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>		
 								  			</c:choose>
 	                         			</div>
@@ -594,7 +613,7 @@
 		                           		<div class="col-xs-4 col-md-4"><img src ="../images/login/f_icon.png">페이스북</div>
 		                           		<div class="col-xs-8 col-md-8">
 			                            	<c:choose>
-												<c:when test="${user.snsFacebookId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/facebook.png"/ id="facebook"></a></c:when>
+												<c:when test="${user.snsFacebookId==null}">연결된 정보가 없습니다.&nbsp;&nbsp;<a href="#"><img src="../images/login/facebook1.png"/ id="facebook"></a></c:when>
 										  		<c:otherwise><span style="color:#6682bb;">연동완료</span></c:otherwise>		
 								  			</c:choose>
 	                         			</div>

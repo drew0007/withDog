@@ -298,7 +298,7 @@
 
                         <p class="center-col width-90">BIT CAMP</p>
 
-                        <span class="text-p black-text">김영진 선생님</span>
+                        <span class="text-p black-text">김영진 강사님</span>
 
                         <i class="fa fa-quote-left small-icon blue-text display-block margin-five no-margin-bottom"></i>
 
@@ -314,7 +314,7 @@
 
                         <p class="center-col width-90"> Team Leader</p>
 
-                        <span class="text-p black-text"> 왕고  </span>
+                        <span class="text-p black-text"> 박소현 -왕고  </span>
 
                         <i class="fa fa-quote-left small-icon blue-text display-block margin-five no-margin-bottom"></i>
 
@@ -330,7 +330,7 @@
 
                         <p class="center-col width-90">Team member</p>
 
-                        <span class="text-p black-text">서주연</span>
+                        <span class="text-p black-text">서주연- 슬픔이</span>
 
                         <i class="fa fa-quote-left small-icon blue-text display-block margin-five no-margin-bottom"></i>
 
@@ -346,7 +346,7 @@
 
                         <p class="center-col width-90">Team member</p>
 
-                        <span class="name black-text">이성희 - 뼈다귀님</span>
+                        <span class="text-p black-text">이성희- 뼈다귀</span>
 
                         <i class="fa fa-quote-left small-icon blue-text display-block margin-five no-margin-bottom"></i>
 
@@ -362,7 +362,7 @@
 
                   		<p class="center-col width-90">Team member</p>
 
-                        <span class="name black-text">이장원 - Dog Doctor</span>
+                        <span class="text-p black-text">이장원 - Dog Doctor</span>
 
                         <i class="fa fa-quote-left small-icon blue-text display-block margin-five no-margin-bottom"></i>
 
@@ -378,7 +378,7 @@
 
                        	<p class="center-col width-90">Team member</p>
                        	
-                        <span class="name black-text">남민우 - Namdroid</span>
+                        <span class="text-p black-text">남민우 - Namdroid</span>
 
                         <i class="fa fa-quote-left small-icon blue-text display-block margin-five no-margin-bottom"></i>
 

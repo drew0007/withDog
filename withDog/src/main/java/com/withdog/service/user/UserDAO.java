@@ -74,4 +74,7 @@ public interface UserDAO {
 
 	// 회원가입시 이메일 중복 확인
 	public User checkUserEmail(String email) throws Exception;
+	
+	//유저 이메일 주소 가져오기
+	public List<User> getUsersEmail() throws Exception;
 }

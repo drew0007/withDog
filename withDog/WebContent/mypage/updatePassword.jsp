@@ -118,21 +118,38 @@
 		
 		<jsp:include page="../layout/header.jsp" /> 
 		
-		<!-- head section -->
-        <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/603_bg.jpg" alt="" />
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
-                        <h1 class="white-text">Change Password</h1>
-                        <span class="white-text xs-display-none">고객님의 소중한 개인정보 보호를 위해 비밀번호를 변경해주세요</span>
-                    </div>
-                </div>
-            </div>
-        </section> 
-        <!-- end head section -->
+<!-- 		<!-- head section --> 
+<!--         <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog"> -->
+<!--             <img class="parallax-background-img" src="../images/sub/603_bg.jpg" alt="" /> -->
+<!--             <div class="container"> -->
+<!--                 <div class="row"> -->
+<!--                     <div class="col-md-12 col-sm-12 text-center wow fadeInUp"> -->
+<!--                         <h1 class="white-text">Change Password</h1> -->
+<!--                         <span class="white-text xs-display-none">고객님의 소중한 개인정보 보호를 위해 비밀번호를 변경해주세요</span> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </section>  -->
+<!--         end head section -->
         
-        
+        	<!-- head section -->
+	<section class="page-title parallax3 parallax-fix page-title-blog">
+	<img class="parallax-background-img" src="../images/sub/304_bg.jpg"
+		alt="" />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+				<div class="no-margin-top margin-one"></div>
+				<!-- page title -->
+				<h1 class="white-text tit_png">
+					<img src="../images/sub/myPage_tit.png">
+				</h1>
+				<!-- end page title -->
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- end head section -->
         <!-- content section -->
         <section>
             <div class="container clearfix"><!-- container1 -->

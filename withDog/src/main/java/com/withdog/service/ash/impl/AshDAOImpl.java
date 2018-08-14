@@ -39,6 +39,10 @@ public class AshDAOImpl implements AshDAO {
 	public HealingDog getHealingDog(int healingDogNo) throws Exception {
 		return sqlSession.selectOne("ASHMapper.getHealingDog",healingDogNo);
 	}
+	@Override
+	public HealingDog getHealingDog2(int healingDogNo) throws Exception {
+		return sqlSession.selectOne("ASHMapper.getHealingDog2",healingDogNo);
+	}
 
 	@Override
 	public void updateHealingDog(HealingDog healingDog) throws Exception {

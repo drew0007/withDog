@@ -63,7 +63,7 @@ public class InquiryController {
 		System.out.println("삭제할 문의번호 : "+inquiryNo);
 		//inquiryService.deleteInquiry(inquiryNo);
 		
-		return "forward:/store/addProductAdmin.jsp";
+		return "forward:/inquiry/getMyInquiryList";
 	}
 	
 	@RequestMapping(value="updateInquiryReplyAdmin")
@@ -104,7 +104,7 @@ public class InquiryController {
 		model.addAttribute("search", search);
 
 		
-		return "forward:/store/addProductAdmin.jsp";
+		return "forward:/inquiry/getMyInquiryList";
 	}
 	
 	

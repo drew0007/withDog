@@ -513,7 +513,8 @@
   height: 100%;
   overflow: hidden;
   position: relative;
-   border-radius: 5%;
+/*    border-radius: 5%; */
+   border-radius: 20px;
 }
 @media screen and (max-width: 735px) {  /* 미디어일경우 적용(화면작아질떄) */
   #frame .content {
@@ -531,10 +532,10 @@
   width: 100%;
   height: 110px;
   line-height: 60px;
-  background: #E0A33C;
+  background: #0e4425;
 }
 #frame .content .contact-profile .logo {  /* 이미지 로고 */
-  width: 50px;
+  width: 15%;
 /*   border-radius: 50%; */
   float: left;
   vertical-align:middle;
@@ -609,7 +610,7 @@ font-family: malgun;
   margin: 6px 8px 0 0;
 }
 #frame .content .messages ul li.sent p {
-  background: #eef1f4;
+  background: #eef4f3;
   color: #516378;
   word-wrap : break-word;
 }
@@ -624,7 +625,7 @@ font-family: malgun;
   word-wrap : break-word;
 }
 #frame .content .messages ul li img {
-  width: 22px;
+  width: 30px;
   border-radius: 50%;
   float: left;
 }
@@ -656,7 +657,7 @@ font-family: malgun;
   float: left;
   border: none;
   width: calc(100% - 50px);
-  padding: 11px 32px 10px 8px;
+  padding: 11px 32px 10px 28px;
   font-size: 0.8em;
   color: #32465a;
 }
@@ -690,12 +691,13 @@ font-family: malgun;
 #frame .content .message-input .wrap button {
   float: right;
   border: none;
-  width: 50px;
+  width: 40px;
   padding: 12px 0;
   cursor: pointer;
-  background: #32465a;
-  color: #f5f5f5;
-  border-radius: 20px;
+  background: #0e4425;
+  position:absolute;
+  right:15px;
+  border-radius: 50%;
 }
 @media screen and (max-width: 735px) {
   #frame .content .message-input .wrap button {

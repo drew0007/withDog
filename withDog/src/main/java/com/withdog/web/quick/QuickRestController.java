@@ -617,7 +617,7 @@ public class QuickRestController {
 			chatBot.setConnectAble("1");
 		}
 		if(state==2 || state==4) { //상담사 연결 가능상태라면
-			answer = "아래 링크를 통해 접속해 주십시요. 응답시간은 10분 내외입니다.<button id=\"start\">상담시작</button>";
+			answer = "아래 링크를 통해 접속해 주십시요. 응답시간은 10분 내외입니다.<button class=\"sty\" id=\"start\">상담시작</button>";
 			chatBot = quickService.getCurrentChatBot();
 			chatBot.setAnswer(answer);
 			chatBot.setDeleteFlag("0");

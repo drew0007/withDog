@@ -134,8 +134,8 @@ hs(function(){
                                             <!-- sub menu item  -->
                                             <ul>
                                                 <li class="dropdown-header">유기견 입양</li>
-                                                <li><a href="../adopt/getAbandDogInfo.jsp">유기견 입양 안내</a></li>
-                                                <li><a href="/abandDog/getAbandDogList">유기견 분양 공고</a></li>
+                                               <li><a href="/abandDog/getAbandDogInfo">유기견 입양 안내</a></li>
+                                                <li><a href="/abandDog/getAbandDogList">유기견 분양 공고<span class="menu-new">new</span></a></li>
                                             </ul>
                                             <!-- end sub menu item  -->
                                         </li>

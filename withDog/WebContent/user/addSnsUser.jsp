@@ -146,7 +146,7 @@
 
 <body>
 
-	<jsp:include page="../layout/common-header2.jsp" />
+	<jsp:include page="../layout/common-header.jsp" />
 
 
 		

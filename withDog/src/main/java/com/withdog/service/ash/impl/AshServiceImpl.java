@@ -37,6 +37,10 @@ public class AshServiceImpl implements AshService {
 	public HealingDog getHealingDog(int healingDogNo) throws Exception {
 		return ashDAO.getHealingDog(healingDogNo);
 	}
+	@Override
+	public HealingDog getHealingDog2(int healingDogNo) throws Exception {
+		return ashDAO.getHealingDog2(healingDogNo);
+	}
 
 	@Override
 	public void updateHealingDog(HealingDog healingDog) throws Exception {

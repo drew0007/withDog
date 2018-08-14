@@ -71,6 +71,14 @@
 	 </select>
 	 
 	 
+	 <!-- 광고성 이메일 전송  SQL : SELECT ONE -->
+	 <select id="getUsersEmail" resultMap="userSelectMap">
+		SELECT
+		*
+		FROM users 
+		WHERE user_condition ='1'
+	 </select>
+	 
 	<!-- 아이디 찾기 SQL : SELECT ONE -->
 	 <select 	id="findUserId"	parameterType="user"	resultMap="userSelectMap">
 		SELECT

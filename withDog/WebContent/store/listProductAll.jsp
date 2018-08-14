@@ -70,7 +70,7 @@ function fncGetList(currentPage) {
 <body>
 
 
-	<jsp:include page="/layout/store-main-header.jsp" />
+	<jsp:include page="/layout/common-header.jsp" />
 
 		<!-- head section -->
 			<section class="page-title parallax3 parallax-fix page-title-blog">
@@ -94,6 +94,11 @@ function fncGetList(currentPage) {
 
 	<!-- content section -->
         <section>
+        
+       	 <!-- 검색버튼 -->
+ 		 <jsp:include page="/layout/search-quick.jsp" />
+		 <!-- 검색버튼 -->
+		
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">

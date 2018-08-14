@@ -129,11 +129,11 @@ $(function(){
 //구매후기쓰기 버튼 클릭 시
 $(function(){
 	$("a[name='review']").on("click", function(){
-		alert(111)
+		//alert(111)
 		var index = $("a[name='review']").index(this);
 		var purchaseNo = $($("input[name='purchaseNo']")[index]).val();
 		
-		alert(purchaseNo)
+		//alert(purchaseNo)
 		$("input[name='indexNo']").val(index);
 		var newIndex = $("input[name='indexNo']").val();
 		

@@ -59,10 +59,6 @@
 				  //dangerMode: true,
 				}).then(function(value){
 					if(value){
-						swal("영상상담 신청을 하였습니다.", {
-						      icon: "success",
-						    });
-
 						var selectDog = $('input[name="selectDog"]').val();
 						var healingDogNo = $($('input[name="healingDogNo"]')[selectDog]).val();
 						$.ajax({
@@ -75,6 +71,7 @@
 							},
 							success : function (data) {		
 								popWin = window.open("https://withdog.herokuapp.com/gettoken/${user.userId}/token", "popWin", "left=300, top=200, width=590, height=370, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+								$(self.location).attr("href","/ash/getMyConsultingList");
 							}
 						}); //end of ajax
 					}

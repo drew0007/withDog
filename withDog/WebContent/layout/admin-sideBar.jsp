@@ -51,7 +51,7 @@
 			$(self.location).attr("href","/user/getRateAllUserCon");
  		});
 	 	
-	 	$( "a:contains('휴면회원리스트')" ).on("click" , function() {
+	 	$( "a:contains('최근5일 통계')" ).on("click" , function() {
 			$(self.location).attr("href","/user/getUserConListAdmin");
  		});
 	 	
@@ -112,7 +112,7 @@
              <ul class="category-list">
                  <li><a href="#">회원관리</a></li>
                  <li><a href="#">회원전체통계</a></li>
-                 <li><a href="#">휴면회원리스트</a></li>
+                 <li><a href="#">최근5일 통계</a></li>
              </ul>
          </div>
      </div>

@@ -128,6 +128,7 @@ $(function () {
 				answer : $("#addAnswer").val()
 			}),
 			success : function (data) {
+				console.log(data)
 				$("#content").append('<input type="hidden" id="questionNo" class="questionNo" value="'+data.chatBot.questionNo+'"></input>');
 				$("#content").append('<tr><td>'+no+'<br>(공개)</td><td><a class="question">'+data.chatBot.question+'</a></td><td><a class="answer">'+data.chatBot.answer+'</a></td><td><a style="cursor: pointer;" class="updateButton">수정</a></td></tr>');
 				$("#addQuestion").val('')

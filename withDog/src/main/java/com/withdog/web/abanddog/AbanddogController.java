@@ -43,6 +43,13 @@ public class AbanddogController {
 	@Value("#{commonProperties['abandDogPageSize']}")
 	int pageSize;
 	
+	@RequestMapping(value = "getAbandDogInfo", method = RequestMethod.GET)
+	public String addAfterAsh() throws Exception {
+		System.out.println("/getAbandDogInfo : GET");
+
+		return "forward:/abandDog/getAbandDogInfo.jsp";
+	}
+	
 
 	@RequestMapping(value="getAbandDogList")
 	public String getAbandDogList(@ModelAttribute("Search") Search search, Model model) throws Exception{ 

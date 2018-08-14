@@ -11,6 +11,18 @@
 /*   #closeButton{ */
 /*   z-index: 9999; */
 /*   } */
+	.another{
+	
+	font-weight:bold; 
+	}
+
+	.sty{
+	background-color: #0e4425;
+	color: white;
+	border-radius: 10px;
+	}
+
+
   .animated{
     -webkit-animation-duration: 0.55s;
   animation-duration: 0.55s;
@@ -80,7 +92,7 @@
 	$("#inputMessage").attr("readonly",false);
 	$("#inputMessage").attr("placeholder","질문을 입력하세요.")
 	
-	serverIP = "ws://"+"192.168.0.39"+":8080/chat";
+	serverIP = "ws://"+"192.168.0.34"+":8080/chat";
 	webSocket = new WebSocket(serverIP);
 	webSocket.onopen = function(event) {
 		onOpen(event)
@@ -149,14 +161,14 @@ function newMessage(message, role) {
 		if(role=='user'){
 			$('<li class="replies"><img src="/images/chatbotuser.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
 		}else{
-			$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
+			$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
 			if(message.indexOf("종료")!=-1) {
 				$("#inputMessage").attr("readonly",true);
 			}
 		}
 	}else if("${user.role}"=='admin'){
 		if(role=='admin'){
-			$('<li class="replies"><img src="/images/whiteLogo.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
+			$('<li class="replies"><img src="/images/chat_icon.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
 		}
 		else{
 			$('<li class="sent"><img src="/images/chatbotuser.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
@@ -165,7 +177,7 @@ function newMessage(message, role) {
 		if(role=='user'){
 			$('<li class="replies"><img src="/images/chatbotuser.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
 		}else{
-			$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
+			$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
 			if(message.indexOf("종료")!=-1) {
 				$("#inputMessage").attr("readonly",true);
 			}
@@ -213,7 +225,7 @@ function abc(message) {
 			}
 // 			console.log(message);
 			
-			$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
+			$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
 		 	$(".messages").animate({ scrollTop: $(".messages")[0].scrollHeight }, 500);
 // 			$(".messages").scrollTop($(".messages")[0].scrollHeight,"slow");
 		}
@@ -225,9 +237,9 @@ $(function () { // 상담시작 버튼을 눌렀을 경우 실행
 		
 		var role = "${user.role}" 
 		if(role=="" || role=='user'){
-				$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>상담사와 연결합니다.</p></li>').appendTo($('.messages ul'));
+				$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>상담사와 연결합니다.</p></li>').appendTo($('.messages ul'));
 		}else{
-			$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>고객과 연결합니다.</p></li>').appendTo($('.messages ul'));
+			$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>고객과 연결합니다.</p></li>').appendTo($('.messages ul'));
 		}
 		$(".messages").animate({ scrollTop: $(".messages")[0].scrollHeight }, 500);
 		
@@ -262,7 +274,7 @@ $(function () { // 상담시작 버튼을 눌렀을 경우 실행
 				var message = data.chatBot.question
 				var answer = data.chatBot.answer
 				$('<li class="replies"><img src="/images/chatbotuser.png" alt="" /><p style="font-weight: bold;">' + message + '</p></li>').appendTo($('.messages ul'));
-				$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>' + answer + '<br><span class="another">다른 질문이 있으신가요?<span></p></li>').appendTo($('.messages ul'));
+				$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>' + answer + '<br><span class="another">* 다른 질문이 있으신가요?<span></p></li>').appendTo($('.messages ul'));
 				
 				
 				$(".messages").animate({ scrollTop: $(".messages")[0].scrollHeight }, 500);
@@ -302,7 +314,7 @@ $(function () { //상담상태 변경
 				 document.getElementById("inputMessage").value="상담을 종료합니다.";
 				send();
 				$("#changState option:eq(2)").prop("selected", true);
-				$('<li class="sent"><img src="/images/whiteLogo.png" alt="" /><p>아래 링크를 통해 접속해 주십시요. 응답시간은 10분 내외입니다.<button id=\"start\">상담시작</button></p></li>').appendTo($('.messages ul'));
+				$('<li class="sent"><img src="/images/chat_icon.png" alt="" /><p>아래 링크를 통해 접속해 주십시요. 응답시간은 10분 내외입니다.<button class="sty" id=\"start\">상담시작</button></p></li>').appendTo($('.messages ul'));
 				$(".messages").scrollTop($(".messages")[0].scrollHeight);
 				webSocket.close();
 				
@@ -420,15 +432,15 @@ $(function () { // 버튼 클릭시 내비게이션
         
 <!--   챗봇 -->
 	      
-     	<img id="clickChatBot" class="top animated zoomIn" style="width: 145px; height: 60px;z-index:99;  cursor: pointer;" src="/images/oneone.png"/>
+     	<img id="clickChatBot" class="top animated zoomIn" style="width: 175px; height: 60px;z-index:99;  cursor: pointer;" src="/images/oneone.png"/>
     
     
 
 <div id="frame" class="animated zoomIn fast" style="display: none;">
 	<div class="content">
 		<div class="contact-profile">
-			<img class="logo" src="/images/whiteLogo.png" alt="" />
-			<p class="one" style="color: white">1:1 빠른상담</p><img id="closeButton" src="/images/close-button.png"  ><br>
+			<img class="logo" src="/images/chat_icon.png" alt="" />
+			<p class="one" style="color: white;">1:1 빠른상담</p><img id="closeButton" src="/images/close-button.png"  ><br>
 			<c:if test="${!empty user&& user.role=='admin'}">
 		        <select id="changState" style="text-align-last:center;  width: 112px;height: 39px; position: fixed; margin-left: -230px;border-radius: 20px">
 			        <option value="0">상담상태</option>

@@ -76,6 +76,12 @@
 		FROM healing_dog hd, dog_breed_dic dd
 		WHERE hd.DOG_NO = dd.DOG_NO AND healing_dog_no= #{value}
 	</select>
+	<!-- 	치유견 가져오기 -->
+	<select id="getHealingDog2" parameterType="int" resultMap="healingDogSelectMap">
+		SELECT hd.healing_dog_no, hd.dog_no , hd.healing_dog_name, hd.healing_dog_birth, hd.healing_dog_image, hd.healing_dog_char, hd.healing_dog_gender, hd.healing_dog_healer, dd.dog_breed_KO, dd.dog_no
+		FROM healing_dog hd, dog_breed_dic dd
+		WHERE hd.DOG_NO = dd.DOG_NO AND healing_dog_no= #{value}
+	</select>
 	
 		<!-- 	치유견 추가 -->
 	<insert id="addHealingDog" parameterType="healingDog">

@@ -96,6 +96,7 @@
 		WHERE
 		i.prod_no = p.prod_no
 		AND i.user_id = #{userId}
+		AND i.delete_flag = '0'
 		ORDER BY inquiry_no DESC
 		<include refid="select-rownum-end"/>
 	 </select>
@@ -122,6 +123,7 @@
 			reg_date, secret, reply_condition, inquiry_reply, delete_flag
 		FROM inquiry
 		WHERE user_id = #{userId}
+		AND delete_flag = '0'
 		ORDER BY inquiry_no DESC
 		<include refid="select-count-end"/>
 	</select>	 

@@ -85,4 +85,7 @@ public interface UserService {
 	// 회원가입시 이메일 중복 확인
 	public User checkUserEmail(String email) throws Exception;
 	
+	//광고 이메일
+	public void sendAdvEmail() throws Exception;
+	
 }

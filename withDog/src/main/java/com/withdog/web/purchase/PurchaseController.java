@@ -457,7 +457,7 @@ public class PurchaseController {
 							"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">예약내역정보 </p>\r\n" + 
 							"			<ul style=\"font-size:17px;\">\r\n" + 
 							"				<li>구매번호: "+purchase.getPurchaseNo()+"</li>\r\n" + 
-							"				<li>구매일시:"+ today+"</li>\r\n" + 
+							"				<li>구매일시:"+ toDay+"</li>\r\n" + 
 							"				<li>배송지:"+purchase.getReceiverAddr1()+purchase.getReceiverAddr2()+"</li>\r\n" +
 							"				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
 							"			</ul>\r\n" + 
@@ -465,7 +465,7 @@ public class PurchaseController {
 							"	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n" + 
 							"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">결제정보</p>\r\n" + 
 							"			<ul style=\"font-size:17px;\">\r\n" + 
-							"				<li>결제금액: "+purchase.getPurchasePrice()+"</li>\r\n" + 
+							"				<li>결제금액: "+purchase.getPurchasePrice()+"원</li>\r\n" + 
 							"				<li>결제수단: 카카오페이</li>\r\n" + 
 							"			</ul>\r\n" + 
 							"	</div>\r\n" + 
@@ -483,17 +483,6 @@ public class PurchaseController {
 					/////////////예약완료 이메일 보내기 끝////////////////////
 				   	
 				   	
-					// 상품을 구매한 유저 ID로 Token 찾기
-					List<String> pushToken = commonService.getPushToken(purchase.getUser().getUserId());
-					System.out.println("푸시 토큰 : "+pushToken);
-					if(pushToken != null) {
-						// token으로 push 메세지 보내기
-						for(int i=0; i<pushToken.size(); i++) {
-							String result = sendPushNotification(pushToken.get(i), purchase, list.size());
-							System.out.println("푸시 결과 : "+result);
-						}
-					}
-					
 //					// 상품을 구매한 유저 ID로 Token 찾기
 //					List<String> pushToken = commonService.getPushToken(purchase.getUser().getUserId());
 //					System.out.println("푸시 토큰 : "+pushToken);
@@ -503,22 +492,39 @@ public class PurchaseController {
 //							String result = sendPushNotification(pushToken.get(i), purchase, list.size());
 //							System.out.println("푸시 결과 : "+result);
 //						}
-//					}else {
-//						//토큰이 없다면 문자발송
-//					String userPhoneNo  =purchase.getReceiverPhone();
-//					int a = purchase.getPurchaseNo();
-//					int b= purchase.getPurchasePrice();
-//					 //달력가져오기
-//					 today = new Date();   
-//					 
-//					 //오늘
-//					 date = new SimpleDateFormat("yyyy-MM-dd"); 
-//					  toDay = date.format(today);
-//					 
-//					String conText ="[함께할개]에서 구매가 완료되었습니다. 구매번호:"+a+" 결제금액:"+b+"원 "+"결제일시:"+toDay;
-//					 Boolean ok = userService.sendText(userPhoneNo, conText);
-//						
 //					}
+					
+					// 상품을 구매한 유저 ID로 Token 찾기
+					List<String> pushToken = commonService.getPushToken(purchase.getUser().getUserId());
+					System.out.println("푸시 토큰 : "+pushToken);
+					if(pushToken != null) {
+						
+						// token으로 push 메세지 보내기
+						for(int i=0; i<pushToken.size(); i++) {
+							String result = sendPushNotification(pushToken.get(i), purchase, list.size());
+							System.out.println("푸시 결과 : "+result);
+						}
+						
+						//토큰 사이즈가 0이라면 문자발송
+						
+							//토큰이 없다면 문자발송
+							String userPhoneNo  =purchase.getReceiverPhone();
+							int a = purchase.getPurchaseNo();
+							int b= purchase.getPurchasePrice();
+							 //달력가져오기
+							 today = new Date();   
+							 
+							 //오늘
+							 date = new SimpleDateFormat("yyyy-MM-dd"); 
+							 toDay = date.format(today);
+							 
+							 System.out.println("문자 보내기전!!!!!!!!!!");
+							 System.out.println("문자 보내는 번호"+userPhoneNo);
+							 
+							String conText ="[함께할개]에서 구매가 완료되었습니다. 구매번호:"+a+" 결제금액:"+b+"원 "+"결제일시:"+toDay;
+							 Boolean ok = userService.sendText(userPhoneNo, conText);
+								
+					}
 					
 					
 				}
@@ -709,7 +715,7 @@ public class PurchaseController {
 	    info.put("title", "상품 구매가 완료되었습니다."); // Notification title
 	    info.put("body", " - 결제일 : "+toDay+"\n - 상품명 : "+prodName+"\n - 금액 : "+purchase.getPurchasePrice()+"원"); // Notification
 	                                                            // body
-	    info.put("icon", "/images/icon/ic_launcher_round.png");
+	    info.put("icon", "http://192.168.0.34:8080/images/icon/ic_launcher_round.png");
 
 	    json.put("notification", info);
 	    try {

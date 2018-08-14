@@ -7,107 +7,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
 	
-<%-- 	<jsp:include page="../common/css.jsp" /> --%>
+	<jsp:include page="../common/css.jsp" />
 	
 	<title>로그인</title>
-	
-	<!-- 디자인 -->
-	<link rel="stylesheet" href="../css/vegas.min.css" />
-	<script src="http://zeptojs.com/zepto.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-	
- 	<script src="../js/jquery-2.2.4.min.js"></script>
-	<script src="../js/vegas.min.js" /></script>
-
-		<style>
-		.form-signin {
-		  width: 100%;
-		  max-width: 300px;
-		  padding-top: 105px;
-		  margin: auto;
-		}
-
-		.form-signin .form-control {
-		  position: relative;
-		  box-sizing: border-box;
-		  height: auto;
-		  padding: 10px;
-		  font-size: 16px;
-		}
-		.form-signin .form-control:focus {
-		  z-index: 2;
-		}
-		.mg-t-30{
-			margin-top:30px; 
-		}
-
-		.mg-r-30{
-			margin-right: 30px;
-		}
-		.mg-b-10{
-			margin-bottom: 10px;
-		}
-		.btn-none{
-			border-color: #000;
-			background-color: none;
-		}
-		.white{
-			color: #fff;
-		}
-		.black{
-			color: #000;
-		}
-		.btn-black{
-			color: #fff;
-			background-color: #000;
-		}
-	.input-fa{
-	padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1;
-    color: #222;
-    text-align: center;
-    border: 1px solid #ccc;
-    width: 1%;
-    white-space: nowrap;
-    vertical-align: middle;
-    display: table-cell;
-    border-radius: 4px 0 0 4px;
-    background-color: rgba(247, 247, 247, 0.5098039215686274);
-	}
-	.input-fa:first-child
-	{
-	 border-right:0;
-	}
-
-	.login-a:hover{
-	color:#fff;
-	background-color:#D86D39;
-	}
-	
-	.join-a:hover{
-	color:#D86D39;
-	border-color:#D86D39;
-	}
-	.find-user-a:hover{
-	color:#000;
-	}
-	
-	.login-bg{  
-	  background-image: url("../images/login/jamie-street-712602-unsplash.jpg");  
-	background-repeat: no-repeat;
-	  background-size: cover;
-	  height:100vh;
-	}
-
-	</style>
-	
-
-	
-	
 	
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -123,14 +25,7 @@
 	
 		$( function() {
 			
-			
 			$("#userId").focus();
-			
-			//로고클릭시 메인으로
-			$(".mb-4").on("click" , function() {
-				
-				self.location.href="/common/mainPage"
-			});
 			
 			//회원가입 연결
 			$("#join").on("click" , function() {
@@ -189,12 +84,8 @@
 									self.location = "/common/mainPage";
 								}else if(userConCheck=='0'){
 									//휴면회원
-									//alert("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다.");
-									swal("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 \n전환되었습니다.").then(function(value){
-										if(value){
-											self.location = "/user/changeUserCon";
-										}
-									});
+									alert("아이디로 1년 이상 로그인 되지 않아 휴면 상태로 전환되었습니다.");
+									self.location = "/user/changeUserCon";
 								}else{
 									//탈퇴한 회원 로그인시도시, 또는  비번  블일치
 									$(".spanClass").html("**아이디 또는 비밀번호가 일치하지 않습니다.").css('color','red');	
@@ -306,7 +197,7 @@
 							},
 							success : function(JSONData , status) {
 								
-								popWin = window.open("https:\/\/nid.naver.com\/oauth2.0\/authorize?response_type=code&client_id=FCLaJ11V_c1179DGKDU1&redirect_uri=http%3A%2F%2F192.168.0.34%3A8080%2Fuser%2FloginWithNaver&state=725686096104573705842676333917167259918", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+								popWin = window.open("https:\/\/nid.naver.com\/oauth2.0\/authorize?response_type=code&client_id=FCLaJ11V_c1179DGKDU1&redirect_uri=http%3A%2F%2F192.168.0.34%3A8080%2Fuser%2FloginWithNaver&state=1195036747457242073069113635870824381246", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 							}
 						});//end ajax
 						
@@ -358,18 +249,15 @@
 	<!-- 페이스북 로그인 1-->	
 	<script type="text/javascript">
 	
-			$("#facebook").on("click",function(){
-				 $('.fb-login-button').trigger('click');
-			});
-	
 		  // This is called with the results from from FB.getLoginStatus().
 		  function statusChangeCallback(response) {
 		    console.log('statusChangeCallback');
 		    console.log(response);
 		    if (response.status === 'connected') {
+		   
 		      testAPI();
-		      
 		    } else {
+		   
 		      document.getElementById('status').innerHTML = 'Please log ' +
 		        'into this app.';
 		    }
@@ -417,7 +305,7 @@
 		    //SNS 아이디 체크 
 		    function checkUserId(userId,snsType){
 		    	
-		    	//alert(userId+"userId");
+		    	alert(userId+"userId");
 		    	
 		    	$.ajax({
 						url : "/user/json/checkSnsUserId",
@@ -451,7 +339,7 @@
 	<!-- 페이스북 로그인 2 -->
 	
 	<script type="text/javascript">
-	
+	/*
 	(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
@@ -459,59 +347,116 @@
 		  js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.0&appId=207057253249778&autoLogAppEvents=1';
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk')); 
-	
+	*/
 	
 	</script>	
 
 </head>
 
-<body class="text-center login-bg">
+<body>
 
-    <form class="form-signin">
-      <a style="cursor: pointer;"><img class="mb-4 mg-t-30" src="../images/login/logo-light.png" alt="" width="60%"></a>
-
-      <div class="form-group mg-t-30">
-        	<div class="input-group">
-                <span class="input-fa"><i class="fas fa-user"></i></span>
-                <input type="userId" name="userId" id="userId" class="form-control" placeholder="아이디" required="required">
-	        </div>
-        </div>
-
-      <div class="form-group">
-        	<div class="input-group">
-                <span class="input-fa"><i class="fas fa-lock"></i></span>
-                <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호" required="required">
-           </div>
-           <span class="spanClass"></span>  
-        </div>
-
-      <a class="btn btn-lg btn-black btn-block mg-b-10 login-a" type="submit" id="loginBtn" value="Login"/>로그인</a>
-      <a class="btn btn-lg btn-none btn-block black join-a" type="submit" id ="join">회원가입</a>
-
-      <div class="mt-5 mb-3 mg-t-30"> <a class="white find-user-a" href="#" id="findUser">아이디 찾기 | 비밀번호 찾기</a></div>
-
-      <div class="mg-t-30">
-      	<!-- 카카오 로그인 -->
-		<a class="mg-r-30" href="#">
-			<img src="../images/login/kakao.png" id="imgKakao">
-		</a>
-		<!-- 네이버 로그인 -->
-		<a class="mg-r-30" href="#">
-			<img src="../images/login/naver.png" id="naver">
-		</a>
-		<!-- 페이스북 로그인 -->
-		<a class="mg-r-30" href="#">
-			<img src="../images/login/facebook.png" id="facebook">
-			<div style="display:none;" class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
-		</a>
-		<!-- 구글 로그인 -->
-		<a href="#">
-			<img src="../images/login/google.png" id="google">
-		</a>
-	  </div>
-
-    </form>
-
+	<jsp:include page="/layout/common-header.jsp" />
+		
+	 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/login_bg.jpg" alt="" />
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
+                        <!-- page title -->
+                        <h1 class="white-text tit_png"><img src="../images/sub/login_tit.png"></h1>
+                        <!-- end page title -->
+                        <!-- page title tagline -->
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
+                        <!-- end title tagline -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end head section -->
         
+      	<!-- content section -->
+        <section class="wow fadeIn">
+            <div class="container">
+                <div class="row">
+                
+                    <div class="col-md-5 col-sm-8 col-xs-11 center-col xs-no-padding">
+                    	
+                    	<div>
+<!-- 	                    	<form> -->
+		                        <div class="col-md-12 no-padding">
+		                            <label>ID</label>
+		                            <input type="userId" name="userId" id="userId" placeholder="아이디">
+		                              <span class="spanId"></span>
+		                        </div>
+		                        
+		                        <div class="col-md-12 no-padding">
+		                            <label>Password</label>
+		                            <input type="password" name="password" id="password" placeholder="비밀번호">
+		                        	<span class="spanClass"></span>  
+		                        </div>
+		                        
+<!-- 	                         </form>  -->
+	                         
+                          </div>   
+                          
+                          <div>
+	                          <div class="col-md-12 col-xs-11 no-padding xs-center-col">
+	                           <input type="button"  class="btn highlight-button-dark btn-medium btn-round margin-five no-margin-right" type="submit" id="loginBtn" value="Login"/>             
+	                          </div>
+	                          
+	                          <div class="col-md-12 col-xs-11 no-padding xs-center-col">
+	                         	<a class="highlight-button btn btn-medium button text-center col-md-12 col-xs-12" href="#" id ="join">회 원 가 입</a>
+	                          </div>	
+	                         	
+	                         <div class="col-md-12 col-xs-11 no-padding margin-ten">
+	                         	<a href="#" class="display-block text-uppercase" id="findUser" style="width:460px;"> 아이디 찾기 | 비밀번호 찾기</a> 
+	                         </div>	
+                         </div>
+                         
+                   		  <!-- sns 로그인 -->           
+            		      <div class="col-md-12 col-xs-11">
+            		      
+            		      	<div class="row">
+            		      	 <!-- 카카오 --> 
+	                          <div class="col-md-6 col-xs-11 no-padding">  
+	                        	<a href="#"><img src="../images/login/kakao.png"/ id="imgKakao"></a>
+							  </div>
+	                                 
+	                          	<!-- 구글 -->
+								<div class="col-md-6" style="margin-left: -15px;">
+									<a href="#"><img src="../images/login/google.png" id="google" /></a>
+								</div>    
+	                          </div>
+	                          
+                             <div class="row margin-two">        
+						    	<!-- 네이버--> 
+						    	<div class="col-md-6" style="margin-left: -15px;">
+									<a href="#"><img src="../images/login/naver.png" id="naver" /></a>
+								</div>	
+
+								<!-- 페이스북 임시--> 
+						    	<div class="col-md-6" style="margin-left: -15px;">
+									<a href="#"><img src="../images/login/facebook.png"  /></a>
+								</div>	
+
+								<!-- 페이스북 -->
+								<div class="col-md-6">
+									<div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
+								</div>
+								
+							 </div>		
+						</div>
+					</div>
+	         </div>
+	     </div>
+	 </section>
+        <!-- end content section -->
+        
+<jsp:include page="../layout/footer3.jsp" />
+
+<jsp:include page="../common/js.jsp" />
 </body>
 </html>

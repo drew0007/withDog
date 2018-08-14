@@ -27,6 +27,14 @@
 	<script src="../js/datepicker.js"></script>
 	<!-- end 제이쿼리 달력 -->
 	
+	<style type="text/css">
+
+	
+	#head_section{
+	padding : 120px 0px 40px 0px !important;
+	}
+	</style>
+	
 	<script type="text/javascript">
 	
 	$( function() {
@@ -173,26 +181,30 @@
 </head>
 <body>
 		
-		<jsp:include page="../layout/header2.jsp" />
+		<jsp:include page="/layout/common-header.jsp" />
 		
-		<!-- head section -->
-         <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/603_bg.jpg" alt="" />
+		
+		 <!-- head section -->
+         <section class="page-title parallax3 parallax-fix page-title-blog" id="head_section">
+            <!-- 딤효과 <div class="opacity-medium bg-black"></div>-->
+            <img class="parallax-background-img" src="../images/sub/findUser_bg.jpg" alt="" />
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
+                    <div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+                        <div class="no-margin-top margin-one"></div>
                         <!-- page title -->
-                        <h1 class="white-text">아이디 / 비밀번호 찾기</h1>
+                        <h2 class="white-text tit_png"><img src="../images/sub/findUser_tit.png">
+                         	<p style ="margin-top: 10px;">가입시 입력했던 정보를 입력해주세요.</p>
+                        </h2>
                         <!-- end page title -->
                         <!-- page title tagline -->
-                        <span class="white-text xs-display-none">가입시 입력했던 정보를 입력해주세요.</span>
+                        <!-- 서브타이틀 <span class="white-text">1234</span>-->
                         <!-- end title tagline -->
                     </div>
                 </div>
             </div>
         </section>
-        <!-- end head section -->
-        
+        <!-- end head section -->        
         
         <!-- content section -->
         <section>

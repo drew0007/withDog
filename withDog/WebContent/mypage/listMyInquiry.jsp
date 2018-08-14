@@ -10,23 +10,37 @@
 <jsp:include page="../common/css.jsp" />
 <script type="text/javascript">
 
+	//pageNavigation
+	function fncGetList(currentPage) {
+		$("#currentPage").val(currentPage)
+		$("form").attr("method", "POST").attr("action", 	"/inquiry/getMyInquiryList").submit();
+	}
+
 	//문의수정
 	$(function() {
 		$("a[name='updateInquiry']").on("click", function() {
 				var index = $("a[name='updateInquiry']").index(this);
-				alert(index + "index찍기")
 				var inquiryNo = $(	$("input[name='inquiryNo']")[index]).val();
 				var content = $($("textarea[name='inquiryContent']")[index]).val();
-				alert(content);
-				alert(inquiryNo);
 
 				self.location = "/inquiry/updateInquiry?inquiryNo=" + inquiryNo + "&inquiryContent=" + content;
+		});
+	});
+	
+	//문의삭제
+	$(function() {
+		$("a[name='deleteInquiry']").on("click", function() {
+				alert
+				var index = $("a[name='deleteInquiry']").index(this);
+				var inquiryNo = $(	$("input[name='inquiryNo']")[index]).val();
+
+// 				self.location = "/inquiry/deleteInquiry?inquiryNo=" + inquiryNo;
 		});
 	});
 </script>
 
 
-<title>User page</title>
+<title>나의 문의내역</title>
 
 
 </head>
@@ -96,11 +110,17 @@
 
 			<!-- content  -->
 			<div class="col-md-9 col-sm-9 col-md-offset-1 ">
+			
+				<h1 align="center" style="margin-bottom:30px;">나의 문의내역</h1>
+				
 
 				<!-- accordion -->
 				<div class="panel-group accordion-style3" id="accordion-three">
 					<!-- accordion item -->
 					<form>
+					<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+					<input type="hidden" id="currentPage" name="currentPage" value=""/>
+					
 						<c:set var="i" value="0" />
 						<c:forEach var="inquiry" items="${list}">
 							<c:set var="i" value="${i+1}" />
@@ -163,6 +183,12 @@
 					<!-- accordion item -->
 				</div>
 				<!-- end accordion -->
+				
+				<div class="col-md-12 col-sm-12 col-xs-12 wow fadeInUp" align="center">
+					<!-- pagination -->
+					<jsp:include page="../common/pageNavigator_new.jsp"></jsp:include>
+					<!-- end pagination -->
+				</div>
 
 
 

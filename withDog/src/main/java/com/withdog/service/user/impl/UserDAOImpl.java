@@ -284,4 +284,10 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne("UserMapper.checkUserEmail", email);
 	}
 	
+	@Override
+	public List<User> getUsersEmail() throws Exception {
+		List<User> list =  sqlSession.selectList("UserMapper.getUsersEmail");
+		return list;
+		
+	}
 }//end of class

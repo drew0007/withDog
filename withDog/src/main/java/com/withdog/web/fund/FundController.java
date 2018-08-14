@@ -75,6 +75,7 @@ import com.withdog.service.domain.Purchase;
 import com.withdog.service.domain.User;
 import com.withdog.service.fund.FundService;
 import com.withdog.service.sns.SnsService;
+import com.withdog.service.user.UserService;
 
 
 
@@ -101,6 +102,10 @@ public class FundController {
 	@Autowired
 	@Qualifier("snsServiceImpl")
 	private SnsService snsService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	//setter Method 구현 않음
 		
@@ -525,6 +530,32 @@ public class FundController {
 							String result = sendPushNotification(pushToken.get(i), fund);
 							System.out.println("푸시 결과 : "+result);
 						}
+						
+						//토큰 사이즈가 0이라면 문자발송
+						 //달력가져오기
+						 Date today = new Date();   
+						 
+						 //오늘
+						 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+						 String toDay = date.format(today);
+						
+						//토큰이 없다면 문자발송
+						String userPhoneNo  = point.getUser().getPhone();
+						int a = point.getFund().getFundNo();
+						int b= point.getFund().getFundMyPrice();
+						 //달력가져오기
+						 today = new Date();   
+						 
+						 //오늘
+						 date = new SimpleDateFormat("yyyy-MM-dd"); 
+						 toDay = date.format(today);
+						 
+						 System.out.println("문자 보내기전!!!!!!!!!!");
+						 System.out.println("문자 보내는 번호"+userPhoneNo);
+						 
+						String conText ="[함께할개]에서 크라우드 펀딩이 완료되었습니다. 결제번호:"+a+" 후원금액:"+b+"원 "+"결제일시:"+toDay;
+						 Boolean ok = userService.sendText(userPhoneNo, conText);
+						
 					}
 				}
 				
@@ -541,6 +572,57 @@ public class FundController {
 		session.removeAttribute("fundpurchase");
 		
 		request.setAttribute("fundpurchase", point);
+		
+		/////////////펀딩완료 이메일 보내기 시작////////////////////
+		//메일주소
+		String userEmail ="withdog0817@naver.com" ;
+		
+		 //달력가져오기
+		 Date today = new Date();   
+		 
+		 //오늘
+		 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+		 String toDay = date.format(today);
+		
+		// 메일 내용 작성 ::  이메일주소, 메일제목 , 내용
+		String title ="[함께할개]크라우드 펀딩이 완료되었습니다.";    
+		String url ="http://192.168.0.34:8080/";
+		String htmlText ="<body style=\"box-sizing: border-box; line-height: 24px; font-family: '맑은고딕', 'malgun gothic', 'dotum', sans-serif;\">\r\n" + 
+				"	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://192.168.0.41:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n" + 
+				"		<div style=\"font-size: 30px; text-align:center; margin-bottom: 60px; margin-top: 44px; color: #fff;\">\r\n" + 
+				"			<p style=\"padding-top:78px; margin-bottom: 13px;\">"+point.getUser().getUserName()+"고객님</p> 크라우드 펀딩이 완료되었습니다. \r\n" + 
+				"		</div>\r\n" + 
+				"	</div>\r\n" + 
+				"	<div style=\"width:640px; padding:20px 0; margin:0 auto; margin-top:50px\">\r\n" + 
+				"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">예약내역정보 </p>\r\n" + 
+				"			<ul style=\"font-size:17px;\">\r\n" + 
+				"				<li>결제 번호: "+point.getFund().getFundMyPriceNo()+"</li>\r\n" + 
+				"				<li>결제 일시:"+ today+"</li>\r\n" + 
+				"				<li>후원한 펀딩 :"+point.getFund().getFundTitle()+"</li>\r\n" +
+				"				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
+				"			</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n" + 
+				"		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">결제정보</p>\r\n" + 
+				"			<ul style=\"font-size:17px;\">\r\n" + 
+				"				<li>후원금액: "+point.getFund().getFundMyPrice()+"원</li>\r\n" + 
+				"				<li>결제수단: 카카오페이</li>\r\n" + 
+				"			</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"	<div style=\"background-color: #eee; margin:0 auto; width: 750px\">\r\n" + 
+				"		<ul style=\"font-size:13px; padding: 30px 0 30px 36px; color: #868686; list-style: none;\">\r\n" + 
+				"			<li>1. 본 메일은 함께할개 서비스 운영 상 공지 목적으로 발송되는 발신 전용 메일입니다.</li>\r\n" + 
+				"			<li>2. 문의사항은 함께할개 홈페이지 내 고객센터를 이용해주세요.</li>\r\n" + 
+				"			<li>COPYRIGHT 2018. WITH DOG INC. ALL RIGHTS RESERVED</li>\r\n" + 
+				"		</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"</body>";
+
+		//이메일 보내기 메서드
+		boolean sendOk =userService.sendConfirmEmail(userEmail, htmlText, title);
+		/////////////예약완료 이메일 보내기 끝////////////////////
+		
+		
 		
 		return "forward:/fund/fundReceipt.jsp";
 	}
@@ -685,11 +767,18 @@ public class FundController {
 		
 		System.out.println(file.getOriginalFilename());
 		
-		String host = "smtp.naver.com";
-		String adminMail = "nmw369";
-		String password = "itgkqrur77&";
+		String path2 = "C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\newReq\\";
+		//String path2 = "C:\\Users\\Bit\\Desktop\\";
+		File fileSave = new File(path2+file.getOriginalFilename());
+		file.transferTo(fileSave);
+		/*BufferedWriter fw = new BufferedWriter(new FileWriter(path2+file.getOriginalFilename(),true));*/
 		
-		String to ="nmw369@naver.com";
+		
+		String host = "smtp.naver.com";
+		String adminMail = "withdog0817";
+		String password = "0817withdog!";
+		
+		String to ="withdog0817@naver.com";
 		
 		String emailHtml="<HTML>" +
 			    "<HEAD><TITLE></TITLE></HEAD>" +
@@ -706,7 +795,7 @@ public class FundController {
 		  props.put("mail.smtp.auth", "true");
 		
 		  
-		  
+		  System.out.println(1);
 		  
 		  Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			  protected PasswordAuthentication getPasswordAuthentication() {
@@ -726,18 +815,25 @@ public class FundController {
 		   // Subject
 		   message.setSubject("크라우드펀딩 신청서가 도착했습니다.");
 		  		  
-		   String path="C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\fundreq\\";
+		   //String path="C:\\Users\\Bit\\git\\withDog\\withDog\\WebContent\\fund\\fundreq\\";
 		   String fileName=file.getOriginalFilename();
+		   System.out.println(fileName);
+		   
+		   
 			  MimeBodyPart mdp = new MimeBodyPart();
-			  FileDataSource fds = new FileDataSource(path+fileName);
-			  
+			  FileDataSource fds = new FileDataSource(path2+fileName);
+			  System.out.println(1);  
 			  mdp.setDataHandler(new DataHandler(fds));
+			  System.out.println(2);
 			  mdp.setFileName(MimeUtility.encodeText(fds.getName(),"KSC5601","B"));
+			  System.out.println(3);
 			  
 			  Multipart mp = new MimeMultipart();
 			  mp.addBodyPart(mdp);
+			  System.out.println(4);
 		   
 		   message.setContent(mp);
+		   System.out.println(5);
 		   		   
 		   /*message.setContent(emailHtml	, "text/html; charset=euc-kr");*/
 		  

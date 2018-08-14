@@ -13,6 +13,8 @@ public interface AshDAO {
 	public void addHealingDog(HealingDog healingDog) throws Exception;
 
 	public HealingDog getHealingDog(int healingDogNo) throws Exception;
+	
+	public HealingDog getHealingDog2(int healingDogNo) throws Exception;
 
 	public void updateHealingDog(HealingDog healingDog) throws Exception;
 

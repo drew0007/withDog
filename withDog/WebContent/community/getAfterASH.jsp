@@ -244,7 +244,7 @@ $(function () {
 	                        </div>
 	                    </div>
 	                </div>
-	            </section>    
+	            </section>    --%>
                 <!-- end 내용  4  -->
                 <div class="text-center">
 					<a href="/afterAsh/listAfterAsh"><span class="highlight-button btn btn-medium pull-right">목록으로</span></a>
@@ -268,7 +268,6 @@ $(function () {
 													  </div>
 												</amp-video> -->
             
-         --%>
         </section> 
         <!-- end 내용 영역  -->
     <!-- 1. 삭제여부 모달 -->

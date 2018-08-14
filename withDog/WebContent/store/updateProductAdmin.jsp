@@ -49,7 +49,7 @@
 </head>
 <body>
 
-		<jsp:include page="/layout/store-sub-header.jsp" />
+		<jsp:include page="/layout/header.jsp" />
 		
 		<!-- head section -->
          <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">

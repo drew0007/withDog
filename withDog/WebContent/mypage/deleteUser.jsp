@@ -76,21 +76,42 @@
 <body>
 
 	 <jsp:include page="../layout/header.jsp" />
+<!-- 	<!-- head section --> 
+<!--           <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog"> -->
+<!--             <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" /> -->
+<!--             <div class="container"> -->
+<!--                 <div class="row"> -->
+<!--                     <div class="col-md-12 col-sm-12 text-center wow fadeInUp"> -->
+<!--                         <h1 class="white-text">회원탈퇴</h1> -->
+<!--                         <span class="white-text xs-display-none">with Dog</span> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </section>  -->
+<!--         end head section -->
+
 	<!-- head section -->
-          <section class="content-top-margin page-title parallax3 parallax-fix page-title-blog">
-            <img class="parallax-background-img" src="../images/sub/300_bg.jpg" alt="" />
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 text-center wow fadeInUp">
-                        <h1 class="white-text">회원탈퇴</h1>
-                        <span class="white-text xs-display-none">with Dog</span>
-                    </div>
-                </div>
-            </div>
-        </section> 
-        <!-- end head section -->
+	<section class="page-title parallax3 parallax-fix page-title-blog">
+	<img class="parallax-background-img" src="../images/sub/304_bg.jpg"
+		alt="" />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 text-center animated fadeInUp">
+				<div class="no-margin-top margin-one"></div>
+				<!-- page title -->
+				<h1 class="white-text tit_png">
+					<img src="../images/sub/myPage_tit.png">
+				</h1>
+				<!-- end page title -->
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- end head section -->
+
+
         
-      	<!-- content section /// careers.htm /// form.html-->
+           	<!-- content section /// careers.htm /// form.html-->
         <section class="wow fadeIn">
             <div class="container"><!-- container -->
             		<div class="col-md-2 col-sm-3 sidebar">
@@ -121,20 +142,22 @@
 		                        </form>
 		                        <!-- end form -->
 	                    	</div>
+						              	        
+	              	        <!-- button  -->
+	       					<div class="col-md-8 col-sm-6 text-center">
+								<button class="highlight-button btn post-search" id="delete">회원탈퇴</button>
+	                		</div>
+	                		<!-- end button  -->
+
 
               	         </div>
 	                	<!-- 내용 -->  
-              	        
-              	        <!-- button  -->
-       					<div class="text-center">
-							<button class="highlight-button btn post-search" id="delete">회원탈퇴</button>
-                		</div>
-                		<!-- end button  -->
+
 
             </div><!-- container -->
          
         </section>
-        <!-- end content section -->       
+        <!-- end content section -->    
         
 <jsp:include page="../layout/footer.jsp" /> 
 

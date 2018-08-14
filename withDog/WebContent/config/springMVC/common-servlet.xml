@@ -82,7 +82,7 @@
 			</props>
 		</property>
 		
-		<property name="defaultErrorView"	value="/common/error.jsp" />
+<!-- 		<property name="defaultErrorView"	value="/common/error.jsp" /> -->
 		
 	</bean>
 	

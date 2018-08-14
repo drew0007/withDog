@@ -514,5 +514,94 @@ public class UserServiceImpl implements UserService {
 		return userDAO.checkUserEmail(email);
 	}
 
+	/////////////////////////////////////////////////////////////
+	//쿼츠 스케줄러 매주 월요일 아침마다 광고 이메일 전송
+	//교감치유서비스 완료, 펀드 완료, 상품구매완료시 메일전송
+	@Override
+	public void sendAdvEmail( ) throws Exception {
+	
+	System.out.println("이메일 테스트 이메일 테스트");
+	String host     = "smtp.gmail.com";
+	String fromEmail   = "withdog0817@gmail.com"; //보내는 사람 이메일 주소
+	String password  = "0817withdog!"; //보내는 사람 비밀번호
+	// String toEmail     =   userEmail ;//받는사람 이메일 주소
+	List<User> usersEmail = userDAO.getUsersEmail();
+	
+	System.out.println("유저 이메일 확인"+usersEmail);
+	
+	String title ="8월 둘째주 함께할개 신상품 입고!! 안내메일입니다";
+	//String htmlText ="<img src=\"http://192.168.0.41:8080/images/email/email8_2.jpg\" />";
+	String htmlText ="<img src = \"http://192.168.0.34:8080/images/email/email8_2.jpg\" usemap=\"#usermap\"/>\r\n" + 
+	"<map name=\"usermap\">\r\n" + 
+	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10086\" shape=\"rect\" coords=\"122,849,473,1317\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10088\" shape=\"rect\" coords=\"488,848,839,1316\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10085\" shape=\"rect\" coords=\"123,1518,474,1986\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10084\" shape=\"rect\" coords=\"486,1520,837,1988\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+	"</map>";
+	
+	// System.out.println(toEmail);
+	
+	// Get the session object
+	
+	Properties props = new Properties();
+	props.put("mail.smtp.starttls.enable", "true");
+	props.put("mail.smtp.host", host);
+	props.put("mail.smtp.port", 587);
+	props.put("mail.smtp.auth", "true");
+	
+	Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+	protected PasswordAuthentication getPasswordAuthentication() {
+	return new PasswordAuthentication(fromEmail, password);
+	}
+	
+	});
+	
+	// Compose the message
+	try {
+	MimeMessage message = new MimeMessage(session);
+	
+	message.setFrom(new InternetAddress(fromEmail));
+	//message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+	
+	int emailNo = usersEmail.size();
+
+	//메일을 동시에 여러명을 보내고 싶을때는 배열로 이메일 주소를 작성한다.
+	InternetAddress[] address1 = new InternetAddress[emailNo];
+	System.out.println("확인 메일 몇개"+emailNo);
+	for(int i=0 ; i<emailNo;i++) {
+	String userEmail = usersEmail.get(i).getEmail();
+	System.out.println("메일확인"+userEmail);
+	address1[i] = new InternetAddress(userEmail);
+	
+	}
+	//
+	//{ new InternetAddress (to) };
+	
+	//보내기전 확인
+	System.out.println("address1"+address1[0]);
+	System.out.println("address1"+address1[1]);
+	message.setRecipients (Message. RecipientType.TO , address1);
+	
+	message.setSubject (title); //제목
+	
+	message.setSentDate (new java.util.Date());//보내는날짜
+	
+	// message.setContent (getMailString(), "text/html;charset=euc-kr" ); //본문내용 보내기
+	message.setContent (htmlText, "text/html;charset=euc-kr" ); //본문내용 보내기
+	Transport.send (message); //만들어진 이메일 전송실행
+	
+	} catch (MessagingException ex) {
+	
+	ex.printStackTrace();
+	
+	} catch (Exception e) {
+	
+	e.printStackTrace();
+	
+	}
+	
+	
+
+}//end of sendAdvEmail
 
 }//end of class
