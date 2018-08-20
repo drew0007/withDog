@@ -124,7 +124,7 @@ public class DogBreedDicRestController {
 		if(req.getParameter("uri") != "") {
 			jsonObject.put("uri", detectLabelsGcs(req.getParameter("uri"), req.getParameter("type")));
 		}else {
-			jsonObject.put("uri", "http://192.168.0.46:8080/images/noresult_image.png");
+			jsonObject.put("uri", "http://localhost:8080/images/noresult_image.png");
 		}
 		System.out.println(jsonObject);
 		return jsonObject;
@@ -188,7 +188,7 @@ public class DogBreedDicRestController {
 			if(responses.toString().indexOf("dog") != -1) {
 				return gcsPath;
 			}else {
-				return "http://192.168.0.46:8080/images/noresult_image.png";
+				return "http://localhost:8080/images/noresult_image.png";
 			}
 		}
 	}

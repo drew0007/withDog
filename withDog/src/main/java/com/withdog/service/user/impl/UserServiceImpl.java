@@ -531,13 +531,20 @@ public class UserServiceImpl implements UserService {
 	
 	String title ="8월 둘째주 함께할개 신상품 입고!! 안내메일입니다";
 	//String htmlText ="<img src=\"http://192.168.0.41:8080/images/email/email8_2.jpg\" />";
-	String htmlText ="<img src = \"http://192.168.0.34:8080/images/email/email8_2.jpg\" usemap=\"#usermap\"/>\r\n" + 
+	/*String htmlText ="<img src = \"http://192.168.0.34:8080/images/email/email8_2.jpg\" usemap=\"#usermap\"/>\r\n" + 
 	"<map name=\"usermap\">\r\n" + 
 	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10086\" shape=\"rect\" coords=\"122,849,473,1317\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
 	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10088\" shape=\"rect\" coords=\"488,848,839,1316\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
 	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10085\" shape=\"rect\" coords=\"123,1518,474,1986\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
 	"<area  alt=\"\" title=\"\" href=\"http://192.168.0.34:8080/product/getProduct?prodNo=10084\" shape=\"rect\" coords=\"486,1520,837,1988\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
-	"</map>";
+	"</map>";*/
+	String htmlText ="<img src = \"http://localhost:8080/images/email/email8_2.jpg\" usemap=\"#usermap\"/>\r\n" + 
+			"<map name=\"usermap\">\r\n" + 
+			"<area  alt=\"\" title=\"\" href=\"http://localhost:8080/product/getProduct?prodNo=10086\" shape=\"rect\" coords=\"122,849,473,1317\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+			"<area  alt=\"\" title=\"\" href=\"http://localhost:8080/product/getProduct?prodNo=10088\" shape=\"rect\" coords=\"488,848,839,1316\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+			"<area  alt=\"\" title=\"\" href=\"http://localhost:8080/product/getProduct?prodNo=10085\" shape=\"rect\" coords=\"123,1518,474,1986\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+			"<area  alt=\"\" title=\"\" href=\"http://localhost:8080/product/getProduct?prodNo=10084\" shape=\"rect\" coords=\"486,1520,837,1988\" style=\"outline:none;\" target=\"_self\"     />\r\n" + 
+			"</map>";
 	
 	// System.out.println(toEmail);
 	

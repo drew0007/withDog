@@ -287,10 +287,10 @@ public class UserRestController {
 			// 이메일 보내기 매서드에 보낼 이메일 주소와 , 임시 비밀번호 보낵기
 			// String htmlText = " <h2>안녕하세요</h2><img src=\\\"cid:my-image\\\">";
 			// String htmlText = " <h2>안녕하세요</h2><img src=\"cid:my-image\"> ";
-			String url = "http://192.168.0.41:8080/user/loginUser";
+			String url = "http://localhost:8080/user/loginUser";
 			String htmlText = " <h2>안녕하세요</h2><img src=\"cid:my-image\"><h3>고객님의 요청으로  <span style=\"color:red;\">임시비밀번호</span>가 발급되었습니다.<br> 임시비밀번호 &nbsp;"
 					+ tempNo + " 입니다. </h3>" + "<br><h3>로그인 후 비밀번호를 변경해주세요. </h3>" + "<br><a href=" + url
-					+ " target=\"_blank\"><img src=\"http://192.168.0.41:8080/images/icon/withdog.jpg\" /></a>";
+					+ " target=\"_blank\"><img src=\"http://localhost:8080/images/icon/withdog.jpg\" /></a>";
 
 			String userEmail = emilDB;
 
@@ -575,7 +575,7 @@ public class UserRestController {
 	@RequestMapping(value = "json/loginWithNaver", method = RequestMethod.GET)
 	public JSONObject loginWithNaver() throws Exception {
 		String clientId = "FCLaJ11V_c1179DGKDU1";// 애플리케이션 클라이언트 아이디값";
-		String redirectURI = URLEncoder.encode("http://192.168.0.34:8080/user/loginWithNaver", "UTF-8");
+		String redirectURI = URLEncoder.encode("http://localhost:8080/user/loginWithNaver", "UTF-8");
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();
 		String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -805,9 +805,9 @@ public class UserRestController {
 
 			// 1.2 메일 내용 작성 :: 이메일주소, 메일제목 , 내용
 			String title = "[함께할개]메일 인증을 위한 인증코드를 안내해드립니다.";
-			String url = "http://192.168.0.34:8080/";
+			String url = "http://localhost:8080/";
 			String htmlText = "<body style=\"box-sizing: border-box; line-height: 24px; font-family: '맑은고딕', 'malgun gothic', 'dotum', sans-serif;\">\r\n"
-					+ "	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://192.168.0.41:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n"
+					+ "	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://localhost:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n"
 					+ "		<div style=\"font-size: 30px; text-align:center; margin-bottom: 60px; margin-top: 44px; color: #fff;\">\r\n"
 					+ "			<p style=\"padding-top:78px; margin-bottom: 13px;\">이메일 인증 코드를 알려드려요!</p> \r\n"
 					+ "		</div>\r\n" + "	</div>\r\n"
@@ -815,7 +815,7 @@ public class UserRestController {
 					+ "		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">인증코드 입력란에 아래 인증코드를 입력하세요!  </p>\r\n"
 					+ "			<ul style=\"font-size:17px;\">\r\n" + "				<li>인증코드: " + tempNo + "</li>\r\n"
 					+ "				<li>발송일시:" + toDay + "</li>\r\n"
-					+ "				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n"
+					+ "				<li><a href=\"http://localhost:8080\">함께할개 사이트 바로가기</a></li>\r\n"
 					+ "			</ul>\r\n" + "	</div>\r\n"
 					+ "	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n"
 					+ "		<p style=\"border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 18px; font-weight: 700;\">메일인증이 왜 필요한가요?</p>\r\n"

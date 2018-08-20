@@ -74,9 +74,9 @@ public class FundRestController {
 	    params.add("quantity", "1");//수량
 	    params.add("total_amount", new String(fund.getFundMyPrice()+"").trim());
 	    params.add("tax_free_amount", "0");//세금
-	    params.add("approval_url", "http://192.168.0.42:8080/fund/getFundList");
-	    params.add("cancel_url", "http://127.0.0.1:8080/purchase/json/paycancel");
-	    params.add("fail_url", "http://127.0.0.1:8080/purchase/json/fail");
+	    params.add("approval_url", "http://localhost:8080/fund/getFundList");
+	    params.add("cancel_url", "http://localhost:8080/purchase/json/paycancel");
+	    params.add("fail_url", "http://localhost:8080/purchase/json/fail");
 	
 	    // 서버로 요청할 Header
 	    HttpHeaders headers = new HttpHeaders();

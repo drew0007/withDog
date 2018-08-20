@@ -193,7 +193,7 @@
 	$("#inputMessage").attr("readonly",false);
 	$("#inputMessage").attr("placeholder","질문을 입력하세요.")
 	
-	serverIP = "ws://"+"192.168.0.42"+":8080/chat";
+	serverIP = "ws://"+"localhost"+":8080/chat";
 	webSocket = new WebSocket(serverIP);
 	webSocket.onopen = function(event) {
 		onOpen(event)

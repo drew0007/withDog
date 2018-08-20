@@ -12,7 +12,7 @@
 
 <script>
 function nearmap(){
-	popWin = window.open("https://192.168.0.42:8443/quick/ARMap","popWin", "left=300,width=1060,height=790,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
+	popWin = window.open("/quick/ARMap","popWin", "left=300,width=1060,height=790,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
 }
 
 </script>

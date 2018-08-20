@@ -55,8 +55,10 @@ public class SnsServiceImpl implements SnsService{
 	    params.add("total_amount", new String(point.getAsh().getAshReservationPrice()+"").trim());
 	    params.add("tax_free_amount", "0");//¼¼±Ý
 	    params.add("approval_url", uri+"0");
-	    params.add("cancel_url", "http://192.168.0.34:8080/ash/addReservationASHViewAndroid?state=1");
-	    params.add("fail_url", "http://192.168.0.34:8080/ash/addReservationASHViewAndroid?state=2");
+	    /*params.add("cancel_url", "http://192.168.0.34:8080/ash/addReservationASHViewAndroid?state=1");
+	    params.add("fail_url", "http://192.168.0.34:8080/ash/addReservationASHViewAndroid?state=2");*/
+	    params.add("cancel_url", "http://localhost:8080/ash/addReservationASHViewAndroid?state=1");
+	    params.add("fail_url", "http://localhost:8080/ash/addReservationASHViewAndroid?state=2");
 		
 		return snsDAO.kakaoPay(point,params);
 	}

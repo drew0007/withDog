@@ -324,7 +324,7 @@ public class PurchaseController {
 		}
 		
 		if (pointPurchase.getPurchaseList().get(0).getPurchasePrice() != 0) { // 결제 시 사용금액이 0이 아니라면?
-			String uri = "http://192.168.0.34:8080/purchase/addPurchaseDone?state=";
+			String uri = "http://localhost:8080/purchase/addPurchaseDone?state=";
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
 			JSONObject jobj = snsService.PurchaseKakaoPay(pointPurchase, uri); // 카카오페이 다녀와서 데이터를 받는 객체
@@ -446,9 +446,9 @@ public class PurchaseController {
 					
 					// 메일 내용 작성 ::  이메일주소, 메일제목 , 내용
 					String title ="[함께할개]상품구매가 완료되었습니다.";    
-					String url ="http://192.168.0.34:8080/";
+					String url ="http://localhost:8080/";
 					String htmlText ="<body style=\"box-sizing: border-box; line-height: 24px; font-family: '맑은고딕', 'malgun gothic', 'dotum', sans-serif;\">\r\n" + 
-							"	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://192.168.0.41:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n" + 
+							"	<div style=\"margin:0 auto; width: 750px; height:195px; font-size: 16px; background:url(http://localhost:8080/images/icon/mail_bg.jpg) no-repeat;\">\r\n" + 
 							"		<div style=\"font-size: 30px; text-align:center; margin-bottom: 60px; margin-top: 44px; color: #fff;\">\r\n" + 
 							"			<p style=\"padding-top:78px; margin-bottom: 13px;\">"+purchase.getUser().getUserName()+"고객님</p> 상품구매가 완료되었습니다. \r\n" + 
 							"		</div>\r\n" + 
@@ -459,7 +459,7 @@ public class PurchaseController {
 							"				<li>구매번호: "+purchase.getPurchaseNo()+"</li>\r\n" + 
 							"				<li>구매일시:"+ toDay+"</li>\r\n" + 
 							"				<li>배송지:"+purchase.getReceiverAddr1()+purchase.getReceiverAddr2()+"</li>\r\n" +
-							"				<li><a href=\"http://192.168.0.34:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
+							"				<li><a href=\"http://localhost:8080\">함께할개 사이트 바로가기</a></li>\r\n" + 
 							"			</ul>\r\n" + 
 							"	</div>\r\n" + 
 							"	<div style=\"width:640px; padding:20px 0; margin:0 auto;\">\r\n" + 
@@ -715,7 +715,7 @@ public class PurchaseController {
 	    info.put("title", "상품 구매가 완료되었습니다."); // Notification title
 	    info.put("body", " - 결제일 : "+toDay+"\n - 상품명 : "+prodName+"\n - 금액 : "+purchase.getPurchasePrice()+"원"); // Notification
 	                                                            // body
-	    info.put("icon", "http://192.168.0.34:8080/images/icon/ic_launcher_round.png");
+	    info.put("icon", "http://localhost:8080/images/icon/ic_launcher_round.png");
 
 	    json.put("notification", info);
 	    try {

@@ -88,7 +88,7 @@ public class QuickChatBot {
 	    	System.out.println(bytes.length+":::---");
 	    	
 	    	try {
-	    	DataOutputStream copyfile = new DataOutputStream(new FileOutputStream("\\\\192.168.0.39\\Users\\Bit\\Desktop\\chatTing.jpg",true));
+	    	DataOutputStream copyfile = new DataOutputStream(new FileOutputStream("\\\\localhost\\Users\\Bit\\Desktop\\chatTing.jpg",true));
 	    	
 	    	//IP의 공유 폴더를 통해 전송할 수 있다.
 	    	copyfile.write(bytes);

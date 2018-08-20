@@ -306,7 +306,7 @@
 							},
 							success : function(JSONData , status) {
 								
-								popWin = window.open("https:\/\/nid.naver.com\/oauth2.0\/authorize?response_type=code&client_id=FCLaJ11V_c1179DGKDU1&redirect_uri=http%3A%2F%2F192.168.0.34%3A8080%2Fuser%2FloginWithNaver&state=725686096104573705842676333917167259918", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+								popWin = window.open("https:\/\/nid.naver.com\/oauth2.0\/authorize?response_type=code&client_id=FCLaJ11V_c1179DGKDU1&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fuser%2FloginWithNaver&state=725686096104573705842676333917167259918", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 							}
 						});//end ajax
 						
